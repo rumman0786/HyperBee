@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 /**
  * @author bashir
+ * @author zoha
  * @since 11/21/16
  */
 @Entity
@@ -16,14 +17,19 @@ public class Buzz implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(length = 160)
     private String message;
 
+    @Column(name = "buzz_time", nullable = false)
     private DateTime buzzTime;
 
+    @Column(nullable = false)
     private int active;
 
+    @Column(nullable = false)
     private int pinned;
 
     @ManyToOne
