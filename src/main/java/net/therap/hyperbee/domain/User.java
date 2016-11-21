@@ -2,48 +2,65 @@ package net.therap.hyperbee.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;/**
- * @author rumman
+import java.util.List;
+
+/**
+ * @author bashir
  * @since 11/21/16
  */
 @Entity
-@Table(name = "auth_user")
+@Table(name = "user")
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1;
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username")
     private String username;
 
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    private int active;
 
-    @Column(name = "is_superuser")
-    private boolean isSuperuser;
+    @OneToOne
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 
-    @Column(name = "last_login")
-    private String lastLogin;
+    @OneToMany(mappedBy = "user")
+    private List<Activity> activityList;
 
-    public User() {
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Note> noteList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> postList;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
+    )
+    private List<Role> roleList;
+
+    @ManyToMany(mappedBy = "userList")
+    private List<Hive> hiveList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Notice> noticeList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Buzz> buzzList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservationList;
 
     public int getId() {
         return id;
@@ -89,59 +106,87 @@ public class User implements Serializable {
         return password;
     }
 
-    public static String makePassword(String password) {
-
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-            md.update(password.getBytes());
-            byte byteData[] = md.digest();
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < byteData.length; i++) {
-                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            password = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public int getActive() {
+        return active;
     }
 
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(int active) {
+        this.active = active;
     }
 
-    public boolean getIsSuperuser() {
-        return isSuperuser;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setSuperuser(boolean isSuperuser) {
-        this.isSuperuser = isSuperuser;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
-    public String getLastLogin() {
-        return lastLogin;
+    public List<Activity> getActivityList() {
+        return activityList;
     }
 
-    public void setLastLogin(String lastLogin) {
-        this.lastLogin = lastLogin;
+    public void setActivityList(List<Activity> activityList) {
+        this.activityList = activityList;
     }
 
-    @Override
-    public String toString() {
+    public List<Note> getNoteList() {
+        return noteList;
+    }
 
-        return "User[" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ']';
+    public void setNoteList(List<Note> noteList) {
+        this.noteList = noteList;
+    }
+
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+    public List<Hive> getHiveList() {
+        return hiveList;
+    }
+
+    public void setHiveList(List<Hive> hiveList) {
+        this.hiveList = hiveList;
+    }
+
+    public List<Notice> getNoticeList() {
+        return noticeList;
+    }
+
+    public void setNoticeList(List<Notice> noticeList) {
+        this.noticeList = noticeList;
+    }
+
+    public List<Buzz> getBuzzList() {
+        return buzzList;
+    }
+
+    public void setBuzzList(List<Buzz> buzzList) {
+        this.buzzList = buzzList;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 }
