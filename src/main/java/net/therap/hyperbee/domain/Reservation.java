@@ -1,9 +1,12 @@
 package net.therap.hyperbee.domain;
 
+import net.therap.hyperbee.domain.enums.ReservationStatus;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+
+import static net.therap.hyperbee.domain.DomainConstant.RES_STATUS_ENUM;
 
 /**
  * @author bashir
@@ -21,7 +24,9 @@ public class Reservation implements Serializable {
     @Id
     private int id;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "res_status", columnDefinition = RES_STATUS_ENUM)
+    private ReservationStatus reservationStatus;
 
     private DateTime reservationFrom;
 
@@ -43,12 +48,12 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public String getStatus() {
-        return status;
+    public ReservationStatus getReservationStatus() {
+        return reservationStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setReservationStatus(ReservationStatus reservationStatus) {
+        this.reservationStatus = reservationStatus;
     }
 
     public DateTime getReservationFrom() {

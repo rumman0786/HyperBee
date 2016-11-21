@@ -12,4 +12,8 @@ public interface DomainConstant {
     String USER = "USER";
     String DISPLAY_STATUS_ENUM = "ENUM('ACTIVE,INACTIVE')";
     String DISPLAY_STATUS_FIELD = "display_status";
+    String APPROVED = "APPROVED";
+    String REJECTED = "REJECTED";
+    String PENDING = "PENDING";
+    String RES_STATUS_ENUM = "ENUM('APPROVED','REJECTED', 'PENDING')";
 }
