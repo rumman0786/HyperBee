@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 /**
  * @author bashir
+ * @author rumman
  * @since 11/21/16
  */
 @Entity
