@@ -10,6 +10,7 @@ import java.io.Serializable;
 /**
  * @author bashir
  * @author rayed
+ * @author duity
  * @since 11/21/16
  */
 @Entity
