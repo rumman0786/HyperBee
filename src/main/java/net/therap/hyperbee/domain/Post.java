@@ -5,6 +5,8 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 
+import static net.therap.hyperbee.domain.DomainConstant.DATE_TIME_FIELD;
+
 /**
  * @author bashir
  * @author rayed
@@ -22,6 +24,7 @@ public class Post implements Serializable {
 
     private String description;
 
+    @Column(columnDefinition = DATE_TIME_FIELD)
     private DateTime dateCreated;
 
     @ManyToOne

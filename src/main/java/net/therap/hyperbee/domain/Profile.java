@@ -2,10 +2,13 @@ package net.therap.hyperbee.domain;
 
 import org.joda.time.DateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+
+import static net.therap.hyperbee.domain.DomainConstant.DATE_TIME_FIELD;
 
 /**
  * @author bashir
@@ -23,6 +26,7 @@ public class Profile implements Serializable {
     @Id
     private int id;
 
+    @Column(columnDefinition = DATE_TIME_FIELD)
     private DateTime dateOfBirth;
 
     private String address;

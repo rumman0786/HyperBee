@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 
+import static net.therap.hyperbee.domain.DomainConstant.DATE_TIME_FIELD;
 import static net.therap.hyperbee.domain.DomainConstant.RES_STATUS_ENUM;
 
 /**
@@ -28,8 +29,10 @@ public class Reservation implements Serializable {
     @Column(name = "res_status", columnDefinition = RES_STATUS_ENUM)
     private ReservationStatus reservationStatus;
 
+    @Column(columnDefinition = DATE_TIME_FIELD)
     private DateTime reservationFrom;
 
+    @Column(columnDefinition = DATE_TIME_FIELD)
     private DateTime reservationTo;
 
     @ManyToOne

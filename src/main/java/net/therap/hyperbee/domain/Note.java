@@ -6,8 +6,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_ENUM;
-import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_FIELD;
+import static net.therap.hyperbee.domain.DomainConstant.*;
 
 /**
  * @author bashir
@@ -30,8 +29,10 @@ public class Note implements Serializable {
 
     private String description;
 
+    @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
     private DateTime dateCreated;
 
+    @Column(name = "date_remind", columnDefinition = DATE_TIME_FIELD)
     private DateTime dateRemind;
 
     private String priority;

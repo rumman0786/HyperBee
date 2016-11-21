@@ -5,6 +5,8 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 
+import static net.therap.hyperbee.domain.DomainConstant.DATE_TIME_FIELD;
+
 /**
  * @author bashir
  * @author rayed
@@ -21,6 +23,7 @@ public class Activity implements Serializable {
     @Id
     private int id;
 
+    @Column(columnDefinition = DATE_TIME_FIELD)
     private DateTime activity_time;
 
     private String summary;

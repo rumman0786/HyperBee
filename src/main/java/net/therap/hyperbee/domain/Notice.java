@@ -7,8 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_ENUM;
-import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_FIELD;
+import static net.therap.hyperbee.domain.DomainConstant.*;
 
 /**
  * @author bashir
@@ -30,8 +29,10 @@ public class Notice implements Serializable {
 
     private String description;
 
+    @Column(columnDefinition = DATE_TIME_FIELD)
     private DateTime dateCreated;
 
+    @Column(columnDefinition = DATE_TIME_FIELD)
     private DateTime dateExpired;
 
     @Enumerated(EnumType.STRING)

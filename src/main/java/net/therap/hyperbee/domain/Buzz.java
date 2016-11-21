@@ -6,8 +6,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_ENUM;
-import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_FIELD;
+import static net.therap.hyperbee.domain.DomainConstant.*;
 
 /**
  * @author bashir
@@ -30,7 +29,7 @@ public class Buzz implements Serializable {
     @Column(length = 160)
     private String message;
 
-    @Column(name = "buzz_time", nullable = false)
+    @Column(name = "buzz_time", columnDefinition = DATE_TIME_FIELD, nullable = false)
     private DateTime buzzTime;
 
     @Enumerated(EnumType.STRING)

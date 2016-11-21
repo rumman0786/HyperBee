@@ -16,4 +16,5 @@ public interface DomainConstant {
     String REJECTED = "REJECTED";
     String PENDING = "PENDING";
     String RES_STATUS_ENUM = "ENUM('APPROVED','REJECTED', 'PENDING')";
+    String DATE_TIME_FIELD = "DATETIME";
 }
