@@ -1,9 +1,13 @@
 package net.therap.hyperbee.domain;
 
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+
+import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_ENUM;
+import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_FIELD;
 
 /**
  * @author bashir
@@ -29,8 +33,9 @@ public class Buzz implements Serializable {
     @Column(name = "buzz_time", nullable = false)
     private DateTime buzzTime;
 
-    @Column(nullable = false)
-    private int active;
+    @Enumerated(EnumType.STRING)
+    @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM, nullable = false)
+    private DisplayStatus displayStatus;
 
     @Column(nullable = false)
     private int pinned;
@@ -63,12 +68,12 @@ public class Buzz implements Serializable {
         this.buzzTime = buzzTime;
     }
 
-    public int getActive() {
-        return active;
+    public DisplayStatus getDisplayStatus() {
+        return displayStatus;
     }
 
-    public void setActive(int active) {
-        this.active = active;
+    public void setDisplayStatus(DisplayStatus displayStatus) {
+        this.displayStatus = displayStatus;
     }
 
     public int getPinned() {

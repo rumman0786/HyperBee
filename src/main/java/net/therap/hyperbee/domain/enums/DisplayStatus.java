@@ -8,7 +8,7 @@ import net.therap.hyperbee.domain.DomainConstant;
  */
 public enum DisplayStatus {
 
-    INACTIVE(DomainConstant.INACTIVE), ACTIVE(DomainConstant.ACTIVE);
+    INACTIVE(DomainConstant.ACTIVE), ACTIVE(DomainConstant.INACTIVE);
 
     private String status;
 

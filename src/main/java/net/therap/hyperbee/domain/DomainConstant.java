@@ -6,10 +6,10 @@ package net.therap.hyperbee.domain;
  */
 public interface DomainConstant {
 
-    String ACTIV = "ACTIVE";
-    String INACTIV = "INACTIVE";
-    String ADM = "ADMIN";
-    String USR = "USER";
+    String ACTIVE = "ACTIVE";
+    String INACTIVE = "INACTIVE";
+    String ADMIN = "ADMIN";
+    String USER = "USER";
     String DISPLAY_STATUS_ENUM = "ENUM('ACTIVE,INACTIVE')";
     String DISPLAY_STATUS_FIELD = "display_status";
 }

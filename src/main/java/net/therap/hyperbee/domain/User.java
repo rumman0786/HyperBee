@@ -1,10 +1,13 @@
 package net.therap.hyperbee.domain;
 
-import net.therap.hyperbee.domain.enums.ActivityStatus;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+
+import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_ENUM;
+import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_FIELD;
 
 /**
  * @author bashir
@@ -32,8 +35,9 @@ public class User implements Serializable {
 
     private String password;
 
-    @Enumerated(EnumType.ORDINAL)
-    private ActivityStatus activityStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM)
+    private DisplayStatus displayStatus;
 
     @OneToOne
     @JoinColumn(name = "profile_id")
@@ -116,12 +120,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public ActivityStatus getActivityStatus() {
-        return activityStatus;
+    public DisplayStatus getDisplayStatus() {
+        return displayStatus;
     }
 
-    public void setActivityStatus(ActivityStatus activityStatus) {
-        this.activityStatus = activityStatus;
+    public void setDisplayStatus(DisplayStatus displayStatus) {
+        this.displayStatus = displayStatus;
     }
 
     public Profile getProfile() {

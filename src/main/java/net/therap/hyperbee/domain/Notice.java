@@ -1,10 +1,14 @@
 package net.therap.hyperbee.domain;
 
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+
+import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_ENUM;
+import static net.therap.hyperbee.domain.DomainConstant.DISPLAY_STATUS_FIELD;
 
 /**
  * @author bashir
@@ -30,7 +34,9 @@ public class Notice implements Serializable {
 
     private DateTime dateExpired;
 
-    private int active;
+    @Enumerated(EnumType.STRING)
+    @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM)
+    private DisplayStatus displayStatus;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -79,12 +85,12 @@ public class Notice implements Serializable {
         this.dateExpired = dateExpired;
     }
 
-    public int getActive() {
-        return active;
+    public DisplayStatus getDisplayStatus() {
+        return displayStatus;
     }
 
-    public void setActive(int active) {
-        this.active = active;
+    public void setDisplayStatus(DisplayStatus displayStatus) {
+        this.displayStatus = displayStatus;
     }
 
     public User getUser() {
