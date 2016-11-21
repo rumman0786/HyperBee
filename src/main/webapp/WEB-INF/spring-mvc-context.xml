@@ -46,6 +46,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="showSql" value="false"/>
+                <property name="generateDdl" value="true"/>
             </bean>
         </property>
     </bean>
@@ -59,8 +60,6 @@
     <bean id="myBeansValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
-
-    <bean id="userCommandValidator" class="net.therap.hyperbee.web.validator.UserCommandValidator"/>
 
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
