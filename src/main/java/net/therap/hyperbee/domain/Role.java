@@ -1,5 +1,7 @@
 package net.therap.hyperbee.domain;
 
+import net.therap.hyperbee.domain.enums.RoleType;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -22,7 +24,7 @@ public class Role implements Serializable {
     @Id
     private int id;
 
-    private String roleType;
+    private RoleType roleType;
 
     @ManyToMany(mappedBy = "roleList")
     private List<User> userList;
@@ -35,11 +37,11 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getRoleType() {
+    public RoleType getRoleType() {
         return roleType;
     }
 
-    public void setRoleType(String roleType) {
+    public void setRoleType(RoleType roleType) {
         this.roleType = roleType;
     }
 
