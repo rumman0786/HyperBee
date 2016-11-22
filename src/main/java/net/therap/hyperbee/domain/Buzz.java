@@ -34,10 +34,10 @@ public class Buzz implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM, nullable = false)
-    private DisplayStatus displayStatus;
+    private DisplayStatus displayStatus = DisplayStatus.ACTIVE;
 
     @Column(columnDefinition = "BIT(1)", nullable = false)
-    private boolean pinned;
+    private boolean pinned = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
