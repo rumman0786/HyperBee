@@ -5,4 +5,5 @@ package net.therap.hyperbee.service;
  * @since 11/22/16.
  */
 public interface ProfileService {
+
 }
