@@ -1,6 +1,7 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.NotePriority;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -35,7 +36,9 @@ public class Note implements Serializable {
     @Column(name = "date_remind", columnDefinition = DATE_TIME_FIELD)
     private DateTime dateRemind;
 
-    private String priority;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = PRIORITY_ENUM)
+    private NotePriority priority;
 
     @Enumerated
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM)
@@ -93,11 +96,11 @@ public class Note implements Serializable {
         this.dateRemind = dateRemind;
     }
 
-    public String getPriority() {
+    public NotePriority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(NotePriority priority) {
         this.priority = priority;
     }
 

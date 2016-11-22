@@ -17,4 +17,8 @@ public interface DomainConstant {
     String PENDING = "PENDING";
     String RES_STATUS_ENUM = "ENUM('APPROVED','REJECTED', 'PENDING')";
     String DATE_TIME_FIELD = "DATETIME";
+    String HIGH_PRIORITY = "HIGH";
+    String LOW_PRIORITY = "LOW";
+    String MEDIUM_PRIORITY = "MEDIUM";
+    String PRIORITY_ENUM = "enum('HIGH','LOW', 'MEDIUM')";
 }
