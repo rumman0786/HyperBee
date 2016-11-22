@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.DISPLAY_STATUS_ENUM;
-import static net.therap.hyperbee.domain.constant.DomainConstant.DISPLAY_STATUS_FIELD;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_STATUS_ENUM;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_STATUS_FIELD;
 
 /**
  * @author bashir
