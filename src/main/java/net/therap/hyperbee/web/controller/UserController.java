@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author rayed
@@ -20,6 +21,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    private static Scanner scanner = new Scanner(System.in);
 
     @GetMapping("/")
     public String welcome() {
@@ -44,5 +47,14 @@ public class UserController {
         System.out.println(userList);
         model.addAttribute("userList", userList);
         return "readUserPage";
+    }
+
+    @GetMapping("/user/readUserByName")
+    public String readUserByName() {
+        System.out.println("Enter name");
+        String name = scanner.nextLine();
+        User user = userService.findByUsername(name);
+        System.out.println(user);
+        return "welcome";
     }
 }
