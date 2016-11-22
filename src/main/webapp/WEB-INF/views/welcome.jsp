@@ -1,17 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rayed
-  Date: 11/22/16
-  Time: 11:07 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title></title>
 </head>
 <body>
-    <a href="/user/createUserPage">Create New User</a>
-    <a href="/user/readUsers">Display User</a>
+    <a href="/user/createUserPage">Create new user</a>
+    <a href="/user/readUsers">Display all users</a>
+    <a href="/user/readUserByName">Search for user</a>
 </body>
 </html>
