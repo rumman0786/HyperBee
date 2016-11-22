@@ -8,8 +8,8 @@ public interface DomainConstant {
 
     String ACTIVE = "ACTIVE";
     String INACTIVE = "INACTIVE";
-    String ADMIN = "ADMIN";
-    String USER = "USER";
+    String ADMIN_ROLE = "ADMIN";
+    String USER_ROLE = "USER";
     String DISPLAY_STATUS_ENUM = "ENUM('ACTIVE,INACTIVE')";
     String DISPLAY_STATUS_FIELD = "display_status";
     String APPROVED = "APPROVED";

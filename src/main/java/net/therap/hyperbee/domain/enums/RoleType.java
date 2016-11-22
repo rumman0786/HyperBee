@@ -2,13 +2,15 @@ package net.therap.hyperbee.domain.enums;
 
 import net.therap.hyperbee.domain.DomainConstant;
 
+import static net.therap.hyperbee.domain.DomainConstant.ADMIN_ROLE;
+
 /**
  * @author bashir
  * @since 11/21/16
  */
 public enum RoleType {
 
-    USER(DomainConstant.USER), ADMIN(DomainConstant.ADMIN);
+    USER(DomainConstant.USER_ROLE), ADMIN(ADMIN_ROLE);
 
     private String role;
 
