@@ -1,7 +1,6 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -45,7 +44,7 @@ public class Buzz implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Buzz(String message, DateTime buzzTime, DisplayStatus displayStatus, boolean pinned) {
+    public Buzz(String message, DisplayStatus displayStatus, boolean pinned) {
         this.message = message;
         this.buzzTime = new GregorianCalendar();
         this.displayStatus = displayStatus;
