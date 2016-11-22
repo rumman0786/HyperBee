@@ -4,3 +4,4 @@ out/
 .gradle/**
 build/
 classes/
+resources/log4j2.xml
