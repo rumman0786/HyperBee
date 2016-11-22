@@ -6,8 +6,10 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
 /**
  * @author bashir
@@ -31,10 +33,10 @@ public class Note implements Serializable {
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
-    private DateTime dateCreated;
+    private Calendar dateCreated;
 
     @Column(name = "date_remind", columnDefinition = DATE_TIME_FIELD)
-    private DateTime dateRemind;
+    private Calendar dateRemind;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = PRIORITY_ENUM)
@@ -47,6 +49,11 @@ public class Note implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Note() {
+        this.dateCreated = new GregorianCalendar();
+        this.dateRemind = new GregorianCalendar();
+    }
 
     public int getId() {
         return id;
@@ -80,19 +87,19 @@ public class Note implements Serializable {
         this.description = description;
     }
 
-    public DateTime getDateCreated() {
+    public Calendar getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(DateTime dateCreated) {
+    public void setDateCreated(Calendar dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public DateTime getDateRemind() {
+    public Calendar getDateRemind() {
         return dateRemind;
     }
 
-    public void setDateRemind(DateTime dateRemind) {
+    public void setDateRemind(Calendar dateRemind) {
         this.dateRemind = dateRemind;
     }
 

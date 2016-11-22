@@ -5,9 +5,11 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.DATE_TIME_FIELD;
-import static net.therap.hyperbee.domain.constant.DomainConstant.RES_STATUS_ENUM;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.utils.constant.DomainConstant.RES_STATUS_ENUM;
 
 /**
  * @author bashir
@@ -30,10 +32,10 @@ public class Reservation implements Serializable {
     private ReservationStatus reservationStatus;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    private DateTime reservationFrom;
+    private Calendar reservationFrom;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    private DateTime reservationTo;
+    private Calendar reservationTo;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -42,6 +44,11 @@ public class Reservation implements Serializable {
     @ManyToOne
     @JoinColumn(name = "conf_id")
     private ConferenceRoom conferenceRoom;
+
+    public Reservation() {
+        this.reservationFrom = new GregorianCalendar();
+        this.reservationTo = new GregorianCalendar();
+    }
 
     public int getId() {
         return id;
@@ -59,19 +66,19 @@ public class Reservation implements Serializable {
         this.reservationStatus = reservationStatus;
     }
 
-    public DateTime getReservationFrom() {
+    public Calendar getReservationFrom() {
         return reservationFrom;
     }
 
-    public void setReservationFrom(DateTime reservationFrom) {
+    public void setReservationFrom(Calendar reservationFrom) {
         this.reservationFrom = reservationFrom;
     }
 
-    public DateTime getReservationTo() {
+    public Calendar getReservationTo() {
         return reservationTo;
     }
 
-    public void setReservationTo(DateTime reservationTo) {
+    public void setReservationTo(Calendar reservationTo) {
         this.reservationTo = reservationTo;
     }
 

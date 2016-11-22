@@ -10,7 +10,7 @@ public interface DomainConstant {
     String DISPLAY_INACTIVE = "INACTIVE";
     String ADMIN_ROLE = "ADMIN";
     String USER_ROLE = "USER";
-    String DISPLAY_STATUS_ENUM = "ENUM('ACTIVE,INACTIVE')";
+    String DISPLAY_STATUS_ENUM = "ENUM('ACTIVE', 'INACTIVE')";
     String DISPLAY_STATUS_FIELD = "display_status";
     String APPROVED = "APPROVED";
     String REJECTED = "REJECTED";
