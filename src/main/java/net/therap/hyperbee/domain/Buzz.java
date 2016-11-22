@@ -36,8 +36,8 @@ public class Buzz implements Serializable {
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM, nullable = false)
     private DisplayStatus displayStatus;
 
-    @Column(nullable = false)
-    private int pinned;
+    @Column(columnDefinition = "BIT(1)", nullable = false)
+    private boolean pinned;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -75,11 +75,11 @@ public class Buzz implements Serializable {
         this.displayStatus = displayStatus;
     }
 
-    public int getPinned() {
+    public boolean isPinned() {
         return pinned;
     }
 
-    public void setPinned(int pinned) {
+    public void setPinned(boolean pinned) {
         this.pinned = pinned;
     }
 
