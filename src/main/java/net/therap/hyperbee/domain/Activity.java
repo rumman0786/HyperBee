@@ -4,8 +4,10 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DATE_TIME_FIELD;
 
 /**
  * @author bashir
@@ -24,13 +26,17 @@ public class Activity implements Serializable {
     private int id;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    private DateTime activity_time;
+    private Calendar activity_time;
 
     private String summary;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Activity() {
+        this.activity_time = new GregorianCalendar();
+    }
 
     public int getId() {
         return id;
@@ -40,11 +46,11 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
-    public DateTime getActivity_time() {
+    public Calendar getActivity_time() {
         return activity_time;
     }
 
-    public void setActivity_time(DateTime activity_time) {
+    public void setActivity_time(Calendar activity_time) {
         this.activity_time = activity_time;
     }
 

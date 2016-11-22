@@ -2,7 +2,7 @@
 <Configuration status="debug" strict="true" name="XMLConfigTest"
                packages="org.apache.logging.log4j.test">
     <Properties>
-        <Property name="filename">/home/bashir/Applications/apache-tomcat-8.5.6/logs/mealplannerweb.log</Property>
+        <Property name="filename">/usr/local/apache-tomcat-8.5.6/logs/hyperbee.log</Property>
     </Properties>
     <Filter type="ThresholdFilter" level="trace"/>
 
@@ -47,5 +47,4 @@
             <AppenderRef ref="List"/>
         </Root>
     </Loggers>
-
 </Configuration>

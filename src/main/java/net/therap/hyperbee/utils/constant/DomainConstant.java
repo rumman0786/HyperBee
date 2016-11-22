@@ -1,4 +1,4 @@
-package net.therap.hyperbee.domain.constant;
+package net.therap.hyperbee.utils.constant;
 
 /**
  * @author bashir
@@ -10,13 +10,14 @@ public interface DomainConstant {
     String DISPLAY_INACTIVE = "INACTIVE";
     String ADMIN_ROLE = "ADMIN";
     String USER_ROLE = "USER";
-    String DISPLAY_STATUS_ENUM = "ENUM('ACTIVE,INACTIVE')";
+    String DISPLAY_STATUS_ENUM = "ENUM('ACTIVE', 'INACTIVE')";
     String DISPLAY_STATUS_FIELD = "display_status";
     String APPROVED = "APPROVED";
     String REJECTED = "REJECTED";
     String PENDING = "PENDING";
     String RES_STATUS_ENUM = "ENUM('APPROVED','REJECTED', 'PENDING')";
     String DATE_TIME_FIELD = "DATETIME";
+    String TEXT_FIELD = "TEXT";
     String HIGH_PRIORITY = "HIGH";
     String LOW_PRIORITY = "LOW";
     String MEDIUM_PRIORITY = "MEDIUM";
