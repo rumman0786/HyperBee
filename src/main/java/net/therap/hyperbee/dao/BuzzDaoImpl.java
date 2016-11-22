@@ -30,14 +30,13 @@ public class BuzzDaoImpl implements BuzzDao {
     }
 
     @Override
-    @Transactional
-    public Buzz delete(Buzz buzzToDelete) {
-        return entityManager.merge(buzzToDelete);
-    }
-
-    @Override
     public List<Buzz> retrieveAll() {
-        return entityManager.createQuery("FROM Buzz").getResultList();
+        String queryString = "SELECT b FROM Buzz b WHERE b.display_status = :displayStatus";
+
+        Query retrievalQuery = entityManager.createQuery(queryString);
+        retrievalQuery.setParameter("displayStatus", DisplayStatus.ACTIVE);
+
+        return retrievalQuery.getResultList();
     }
 
     @Override
@@ -67,14 +66,22 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> retrieveLatest(int range) {
-        String queryString = "SELECT b FROM Buzz b ORDER BY b.id DESC";
+        String queryString = "SELECT b FROM Buzz b WHERE b.display_status = :displayStatus ORDER BY b.id DESC";
+
         Query retrievalQuery = entityManager.createQuery(queryString);
+        retrievalQuery.setParameter("displayStatus", DisplayStatus.ACTIVE);
 
         return retrievalQuery.setMaxResults(range).getResultList();
     }
 
     @Override
-    public Buzz updateBuzz(Buzz buzzToUpdate) {
+    public Buzz update(Buzz buzzToUpdate) {
         return entityManager.merge(buzzToUpdate);
+    }
+
+    @Override
+    @Transactional
+    public Buzz delete(Buzz buzzToDelete) {
+        return entityManager.merge(buzzToDelete);
     }
 }

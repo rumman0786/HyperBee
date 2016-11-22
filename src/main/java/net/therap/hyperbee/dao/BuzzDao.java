@@ -26,5 +26,5 @@ public interface BuzzDao {
 
     public List<Buzz> retrieveLatest(int range);
 
-    public Buzz updateBuzz(Buzz buzzToUpdate);
+    public Buzz update(Buzz buzzToUpdate);
 }
