@@ -5,6 +5,7 @@ import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author bashir
@@ -17,7 +18,9 @@ public class NoteService implements StickyNoteService {
     NoteDao noteDao;
 
     @Override
+    @Transactional
     public void createStickyNote(User user, Note note) {
 
+        noteDao.createNoteAndUser(note, user);
     }
 }

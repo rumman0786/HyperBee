@@ -2,6 +2,7 @@ package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceContext;
  * @author bashir
  * @since 11/22/16
  */
+@Repository
 public class NoteDaoImpl implements NoteDao {
 
     @PersistenceContext
@@ -39,5 +41,6 @@ public class NoteDaoImpl implements NoteDao {
     public void createNoteAndUser(Note note, User user) {
         user.getNoteList().add(note);
         entityManager.persist(user);
+        entityManager.flush();
     }
 }
