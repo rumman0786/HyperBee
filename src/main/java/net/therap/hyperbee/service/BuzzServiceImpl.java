@@ -13,7 +13,7 @@ import java.util.List;
  * @author zoha
  * @since 11/22/16
  */
-public class BuzzServiceImpl {
+public class BuzzServiceImpl implements BuzzService {
 
     @Autowired
     BuzzDao buzzDao;
@@ -26,12 +26,14 @@ public class BuzzServiceImpl {
         return new DateTime(System.currentTimeMillis());
     }
 
+    @Override
     public boolean createBuzz(Buzz newBuzz) {
         newBuzz.setBuzzTime(currentDate());
 
         return buzzDao.create(newBuzz);
     }
 
+    @Override
     public boolean createPinnedBuzz(Buzz newBuzz) {
         newBuzz.setBuzzTime(currentDate());
         newBuzz.setPinned(true);
@@ -39,23 +41,36 @@ public class BuzzServiceImpl {
         return buzzDao.create(newBuzz);
     }
 
-    public List<Buzz> retrieveAll() {
+    @Override
+    public List<Buzz> retrieveAllBuzz() {
         return buzzDao.retrieveAll();
     }
 
-    public Buzz retrieveById(int buzzId) {
+    @Override
+    public Buzz retrieveBuzzById(int buzzId) {
         return buzzDao.retrieveById(buzzId);
     }
 
-
+    @Override
     //TODO upon receiving UserDao
-    public List<Buzz> retrieveByUser(String username) {
+    public List<Buzz> retrieveBuzzByUser(String username) {
         //userDao.retrieveByName();
         int userId = -1;
         return buzzDao.retrieveByUser(userId);
     }
 
-    public List<Buzz> retrieveByDisplayStatus(DisplayStatus displayStatus) {
-        return buzzDao.retrieveByDisplayStatus()
+    @Override
+    public List<Buzz> retrieveBuzzByStatus(DisplayStatus displayStatus) {
+        return buzzDao.retrieveByDisplayStatus(displayStatus);
+    }
+
+    @Override
+    public Buzz updateBuzz(Buzz buzzToUpdate) {
+        return buzzDao.update(buzzToUpdate);
+    }
+
+    @Override
+    public Buzz deleteBuzz(Buzz buzzToDelete) {
+        return buzzDao.delete(buzzToDelete);
     }
 }

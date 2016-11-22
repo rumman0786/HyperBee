@@ -1,4 +1,4 @@
-package net.therap.hyperbee.domain.constant;
+package net.therap.hyperbee.utils.constant;
 
 /**
  * @author bashir
