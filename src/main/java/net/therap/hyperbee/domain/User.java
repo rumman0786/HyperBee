@@ -4,6 +4,7 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_STATUS_ENUM;
@@ -24,6 +25,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String username;
@@ -72,6 +74,18 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservationList;
+
+    public User() {
+        displayStatus = DisplayStatus.ACTIVE;
+        activityList = new ArrayList<Activity>();
+        noteList = new ArrayList<Note>();
+        postList = new ArrayList<Post>();
+        roleList = new ArrayList<Role>();
+        hiveList = new ArrayList<Hive>();
+        noticeList = new ArrayList<Notice>();
+        buzzList = new ArrayList<Buzz>();
+        reservationList = new ArrayList<Reservation>();
+    }
 
     public int getId() {
         return id;
@@ -199,5 +213,13 @@ public class User implements Serializable {
 
     public void setReservationList(List<Reservation> reservationList) {
         this.reservationList = reservationList;
+    }
+
+    @Override
+    public String toString() {
+        return "Username: " + username + "\nFist Name: " + firstName +
+                "\nLast Name: " + lastName + "\nEmail: " + email +
+                "\nPassword: " + password;
+
     }
 }
