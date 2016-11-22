@@ -28,6 +28,7 @@ public class BuzzServiceImpl implements BuzzService {
 
     @Override
     public boolean createBuzz(Buzz newBuzz) {
+        System.out.println(utils.getCurrentTimeMills());
         newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
 
         return buzzDao.create(newBuzz);

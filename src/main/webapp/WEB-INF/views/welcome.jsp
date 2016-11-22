@@ -8,5 +8,8 @@
     <a href="/user/createUserPage">Create new user</a>
     <a href="/user/readUsers">Display all users</a>
     <a href="/user/readUserByName">Search for user</a>
+
+    <a href="/sendBuzz">Send Buzz</a>
+    <a href="/readBuzz">Read All Buzz</a>
 </body>
 </html>

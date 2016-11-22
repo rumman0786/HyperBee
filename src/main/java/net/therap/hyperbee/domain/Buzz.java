@@ -44,6 +44,10 @@ public class Buzz implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public Buzz() {
+        this.buzzTime = new GregorianCalendar();
+    }
+
     public Buzz(String message, DisplayStatus displayStatus, boolean pinned) {
         this.message = message;
         this.buzzTime = new GregorianCalendar();

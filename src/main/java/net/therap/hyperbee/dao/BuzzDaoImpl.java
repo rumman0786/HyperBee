@@ -29,7 +29,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> retrieveAll() {
-        String queryString = "SELECT b FROM Buzz b WHERE b.display_status = :displayStatus";
+        String queryString = "SELECT b FROM Buzz b WHERE b.displayStatus = :displayStatus";
 
         Query retrievalQuery = entityManager.createQuery(queryString);
         retrievalQuery.setParameter("displayStatus", DisplayStatus.ACTIVE);
