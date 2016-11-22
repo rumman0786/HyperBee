@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: duity
@@ -12,6 +13,7 @@
     <title>Profile</title>
 </head>
 <body>
+<h1>Profile</h1>
 <form:form action="/profile" method="post" commandName="profile">
     <table>
         <tr>
@@ -28,7 +30,7 @@
         </tr>
         <tr>
             <th>Joining Date :</th>
-            <td><form:input path="joiningDate" type="text"/></td>
+            <td><form:input path="joiningDate"/></td>
         </tr>
         <tr>
             <th><h2>Education :</h2></th>
@@ -54,7 +56,7 @@
         </tr>
         <tr>
             <th>Date Of Birth :</th>
-            <td><form:input path="dateOfBirth" type="text"/></td>
+            <td><form:input path="dateOfBirth"/></td>
         </tr>
         <tr>
             <th>Skills :</th>

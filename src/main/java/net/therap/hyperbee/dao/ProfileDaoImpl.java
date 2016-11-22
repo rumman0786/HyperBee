@@ -19,6 +19,10 @@ public class ProfileDaoImpl implements ProfileDao {
 
     @Transactional
     public Profile save(Profile profile) {
+/*        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar profileDateOfBirth= profile.getDateOfBirth();
+        Calendar profileJoiningDate= profile.getJoiningDate();
+        profile.setDateOfBirth(sdf.format(profileDateOfBirth);*/
         entityManager.persist(profile);
 
         return profile;
