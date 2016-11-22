@@ -47,5 +47,4 @@
             <AppenderRef ref="List"/>
         </Root>
     </Loggers>
-
 </Configuration>
