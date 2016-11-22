@@ -1,7 +1,6 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.ReservationStatus;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +15,7 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.RES_STATUS_ENUM;
  * @author rumman
  * @author rayed
  * @author azim
+ * @author zoha
  * @since 11/21/16
  */
 @Entity

@@ -1,7 +1,5 @@
 package net.therap.hyperbee.domain;
 
-import org.joda.time.DateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,6 +15,7 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.DATE_TIME_FIELD;
  * @author rayed
  * @author duity
  * @author azim
+ * @author zoha
  * @since 11/21/16
  */
 @Entity

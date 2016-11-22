@@ -1,11 +1,12 @@
 package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.dao.BuzzDao;
+import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Buzz;
-import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import org.joda.time.DateTime;
+import net.therap.hyperbee.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,29 +14,28 @@ import java.util.List;
  * @author zoha
  * @since 11/22/16
  */
+@Service
 public class BuzzServiceImpl implements BuzzService {
 
     @Autowired
     BuzzDao buzzDao;
 
     @Autowired
-    User userDao;
+    UserDao userDao;
 
-    //TODO Move to CommonUtils
-    public DateTime currentDate() {
-        return new DateTime(System.currentTimeMillis());
-    }
+    @Autowired
+    CommonUtils utils;
 
     @Override
     public boolean createBuzz(Buzz newBuzz) {
-        newBuzz.setBuzzTime(currentDate());
+        newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
 
         return buzzDao.create(newBuzz);
     }
 
     @Override
     public boolean createPinnedBuzz(Buzz newBuzz) {
-        newBuzz.setBuzzTime(currentDate());
+        newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
         newBuzz.setPinned(true);
 
         return buzzDao.create(newBuzz);
@@ -52,10 +52,9 @@ public class BuzzServiceImpl implements BuzzService {
     }
 
     @Override
-    //TODO upon receiving UserDao
     public List<Buzz> retrieveBuzzByUser(String username) {
-        //userDao.retrieveByName();
-        int userId = -1;
+        int userId = userDao.findByUsername(username).getId();
+
         return buzzDao.retrieveByUser(userId);
     }
 

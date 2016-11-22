@@ -15,6 +15,7 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_STATUS_F
  * @author rayed
  * @author duity
  * @author azim
+ * @author zoha
  * @since 11/21/16
  */
 @Entity
