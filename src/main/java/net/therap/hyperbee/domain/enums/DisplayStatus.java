@@ -1,6 +1,7 @@
 package net.therap.hyperbee.domain.enums;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_ACTIVE;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_INACTIVE;
 
 /**
  * @author bashir

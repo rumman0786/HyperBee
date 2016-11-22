@@ -4,7 +4,7 @@ import net.therap.hyperbee.dao.BuzzDao;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import org.joda.time.DateTime;
+import net.therap.hyperbee.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -21,21 +21,16 @@ public class BuzzServiceImpl implements BuzzService {
     @Autowired
     User userDao;
 
-    //TODO Move to CommonUtils
-    public DateTime currentDate() {
-        return new DateTime(System.currentTimeMillis());
-    }
-
     @Override
     public boolean createBuzz(Buzz newBuzz) {
-        newBuzz.setBuzzTime(currentDate());
+        newBuzz.getBuzzTime().setTimeInMillis(CommonUtils.getCurrentTimeMills());
 
         return buzzDao.create(newBuzz);
     }
 
     @Override
     public boolean createPinnedBuzz(Buzz newBuzz) {
-        newBuzz.setBuzzTime(currentDate());
+        newBuzz.getBuzzTime().setTimeInMillis(CommonUtils.getCurrentTimeMills());
         newBuzz.setPinned(true);
 
         return buzzDao.create(newBuzz);

@@ -6,7 +6,7 @@ package net.therap.hyperbee.utils;
  */
 public class CommonUtils {
 
-    public long getCurrentTimeMills() {
+    public static long getCurrentTimeMills() {
         return System.currentTimeMillis();
     }
 }
