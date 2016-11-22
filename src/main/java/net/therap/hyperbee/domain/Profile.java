@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DATE_TIME_FIELD;
 
 /**
  * @author bashir
@@ -27,7 +29,7 @@ public class Profile implements Serializable {
     private int id;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    private DateTime dateOfBirth;
+    private Calendar dateOfBirth;
 
     private String address;
 
@@ -47,11 +49,16 @@ public class Profile implements Serializable {
 
     private int jobExperienceYears;
 
-    private DateTime joiningDate;
+    private Calendar joiningDate;
 
     private String gender;
 
     private String imagePath;
+
+    public Profile() {
+        this.dateOfBirth = new GregorianCalendar();
+        this.joiningDate = new GregorianCalendar();
+    }
 
     public int getId() {
         return id;
@@ -61,11 +68,11 @@ public class Profile implements Serializable {
         this.id = id;
     }
 
-    public DateTime getDateOfBirth() {
+    public Calendar getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(DateTime dateOfBirth) {
+    public void setDateOfBirth(Calendar dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -133,11 +140,11 @@ public class Profile implements Serializable {
         this.jobExperienceYears = jobExperienceYears;
     }
 
-    public DateTime getJoiningDate() {
+    public Calendar getJoiningDate() {
         return joiningDate;
     }
 
-    public void setJoiningDate(DateTime joiningDate) {
+    public void setJoiningDate(Calendar joiningDate) {
         this.joiningDate = joiningDate;
     }
 
