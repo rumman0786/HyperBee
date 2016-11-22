@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
-import static net.therap.hyperbee.domain.DomainConstant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.domain.constant.DomainConstant.DATE_TIME_FIELD;
 
 /**
  * @author bashir

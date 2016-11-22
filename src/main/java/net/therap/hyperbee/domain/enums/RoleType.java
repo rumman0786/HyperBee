@@ -1,8 +1,8 @@
 package net.therap.hyperbee.domain.enums;
 
-import net.therap.hyperbee.domain.DomainConstant;
+import net.therap.hyperbee.domain.constant.DomainConstant;
 
-import static net.therap.hyperbee.domain.DomainConstant.ADMIN_ROLE;
+import static net.therap.hyperbee.domain.constant.DomainConstant.ADMIN_ROLE;
 
 /**
  * @author bashir

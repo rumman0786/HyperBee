@@ -1,6 +1,6 @@
 package net.therap.hyperbee.domain.enums;
 
-import net.therap.hyperbee.domain.DomainConstant;
+import static net.therap.hyperbee.domain.constant.DomainConstant.*;
 
 /**
  * @author bashir
@@ -8,7 +8,7 @@ import net.therap.hyperbee.domain.DomainConstant;
  */
 public enum DisplayStatus {
 
-    INACTIVE(DomainConstant.ACTIVE), ACTIVE(DomainConstant.INACTIVE);
+    INACTIVE(DISPLAY_INACTIVE), ACTIVE(DISPLAY_ACTIVE);
 
     private String status;
 

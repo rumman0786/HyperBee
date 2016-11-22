@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import static net.therap.hyperbee.domain.DomainConstant.*;
+import static net.therap.hyperbee.domain.constant.DomainConstant.*;
 
 /**
  * @author bashir

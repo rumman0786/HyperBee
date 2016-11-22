@@ -6,8 +6,8 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import static net.therap.hyperbee.domain.DomainConstant.DATE_TIME_FIELD;
-import static net.therap.hyperbee.domain.DomainConstant.RES_STATUS_ENUM;
+import static net.therap.hyperbee.domain.constant.DomainConstant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.domain.constant.DomainConstant.RES_STATUS_ENUM;
 
 /**
  * @author bashir

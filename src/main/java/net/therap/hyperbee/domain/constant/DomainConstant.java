@@ -1,4 +1,4 @@
-package net.therap.hyperbee.domain;
+package net.therap.hyperbee.domain.constant;
 
 /**
  * @author bashir
@@ -6,8 +6,8 @@ package net.therap.hyperbee.domain;
  */
 public interface DomainConstant {
 
-    String ACTIVE = "ACTIVE";
-    String INACTIVE = "INACTIVE";
+    String DISPLAY_ACTIVE = "ACTIVE";
+    String DISPLAY_INACTIVE = "INACTIVE";
     String ADMIN_ROLE = "ADMIN";
     String USER_ROLE = "USER";
     String DISPLAY_STATUS_ENUM = "ENUM('ACTIVE,INACTIVE')";
