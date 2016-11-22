@@ -6,6 +6,7 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.StickyNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Calendar;
@@ -20,7 +21,7 @@ public class NoteTestController {
     @Autowired
     private StickyNoteService noteService;
 
-    @GetMapping("/note/save")
+    @GetMapping("/user/note/save")
     public String saveNote() {
 
         User user = new User();
@@ -42,5 +43,17 @@ public class NoteTestController {
 
         noteService.createStickyNote(user, note);
         return "welcome";
+    }
+
+    @GetMapping("/user/notes")
+    public String viewNotes() {
+        return "notes";
+    }
+
+    @GetMapping("/user/note/add")
+    public String addNotes(Model model) {
+
+        model.addAttribute("noteCommand", new Note());
+        return "noteForm";
     }
 }

@@ -3,6 +3,7 @@ package net.therap.hyperbee.dao;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,6 +39,7 @@ public class NoteDaoImpl implements NoteDao {
     }
 
     @Override
+    @Transactional
     public void createNoteAndUser(Note note, User user) {
         user.getNoteList().add(note);
         entityManager.persist(user);
