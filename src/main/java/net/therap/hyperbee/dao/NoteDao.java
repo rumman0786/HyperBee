@@ -2,11 +2,13 @@ package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author bashir
  * @since 11/22/16
  */
+@Repository
 public interface NoteDao {
 
     public void create(Note note);
