@@ -50,7 +50,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Activity> activityList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Note> noteList;
 
     @OneToMany(mappedBy = "user")
