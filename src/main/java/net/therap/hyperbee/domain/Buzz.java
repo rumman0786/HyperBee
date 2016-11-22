@@ -40,8 +40,15 @@ public class Buzz implements Serializable {
     private boolean pinned;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Buzz(String message, DateTime buzzTime, DisplayStatus displayStatus, boolean pinned) {
+        this.message = message;
+        this.buzzTime = buzzTime;
+        this.displayStatus = displayStatus;
+        this.pinned = pinned;
+    }
 
     public int getId() {
         return id;
