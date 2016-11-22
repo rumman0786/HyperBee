@@ -40,7 +40,7 @@
 
 
 
-            <form:form class="form-signin" method="post" action="${pageContext.request.contextPath}/notice/add" modelAttribute="notice">
+            <form:form class="form-signin" method="post" action="${pageContext.request.contextPath}${action}" modelAttribute="notice">
                 <h2 class="form-signin-heading">Add a Dish</h2>
 
                 <form:hidden path="id"/>
@@ -59,7 +59,15 @@
                     <%--<form:errors path="calories" cssClass="error" />--%>
                 </div>
 
-
+                <div class="form-group">
+                    <label for="displayStatus" class="sr-only">Display Status</label>
+                    <form:select path="displayStatus" id="displayStatus">
+                        <form:options items="${displayStatusOptions}" itemValue="status" itemLabel="status" />
+                    </form:select>
+                    <%--<form:input type="text" id="displayStatus" class="form-control" name="displayStatus" placeholder="Display Status"--%>
+                                <%--path="displayStatus" required="required"/>--%>
+                        <%--<form:errors path="calories" cssClass="error" />--%>
+                </div>
 
                 <div class="form-group">
                     <input class="btn btn-lg btn-primary btn-block" value="Save" type="submit"/>

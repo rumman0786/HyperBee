@@ -31,7 +31,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public Notice findNoticeById(Long noticeId) {
+    public Notice findNoticeById(int noticeId) {
         return noticeDao.findById(noticeId);
     }
 
@@ -48,7 +48,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     @Transactional
-    public void delete(Long noticeId) {
+    public void delete(int noticeId) {
         noticeDao.delete(noticeId);
     }
 }

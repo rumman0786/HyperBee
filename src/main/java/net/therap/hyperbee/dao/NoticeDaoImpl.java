@@ -28,7 +28,7 @@ public class NoticeDaoImpl implements NoticeDao {
     }
 
     @Override
-    public Notice findById(Long noticeId) {
+    public Notice findById(int noticeId) {
         return entityManager.find(Notice.class, noticeId);
     }
 
@@ -40,11 +40,11 @@ public class NoticeDaoImpl implements NoticeDao {
 
     @Override
     public void delete(Notice notice) {
-        delete((long) notice.getId());
+        delete(notice.getId());
     }
 
     @Override
-    public void delete(Long noticeId) {
+    public void delete(int noticeId) {
         Notice attachedDish = entityManager.getReference(Notice.class, noticeId);
         entityManager.remove(attachedDish);
     }

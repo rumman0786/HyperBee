@@ -28,7 +28,7 @@ public interface NoticeDao {
      *
      * @param noticeId Notice to save.
      */
-    Notice findById(Long noticeId);
+    Notice findById(int noticeId);
 
     /**
      * Find list of all existing notice
@@ -47,6 +47,6 @@ public interface NoticeDao {
      *
      * @param noticeId Id of the Notice to delete
      */
-    void delete(Long noticeId);
+    void delete(int noticeId);
 
 }

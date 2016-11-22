@@ -28,7 +28,7 @@ public interface NoticeService {
      *
      * @param noticeId Notice to save.
      */
-    Notice findNoticeById(Long noticeId);
+    Notice findNoticeById(int noticeId);
 
     /**
      * Find list of all existing notice
@@ -47,6 +47,6 @@ public interface NoticeService {
      *
      * @param noticeId Id of the Notice to delete
      */
-    void delete(Long noticeId);
+    void delete(int noticeId);
 
 }

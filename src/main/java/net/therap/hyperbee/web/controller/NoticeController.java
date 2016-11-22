@@ -2,7 +2,9 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.dao.NoticeDao;
 import net.therap.hyperbee.domain.Notice;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.NoticeService;
+import net.therap.hyperbee.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +25,9 @@ public class NoticeController {
 
     @Autowired
     private NoticeService noticeService;
+
+    @Autowired
+    private UserService userService;
 //
 //    @Autowired
 //    @Qualifier("dishCommandValidator")
@@ -45,8 +50,12 @@ public class NoticeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAddNotice(ModelMap modelMap) {
+        Notice notice = new Notice();
+
         modelMap.addAttribute("page", "notice")
-                .addAttribute("notice", new Notice());
+                .addAttribute("notice", notice)
+                .addAttribute("action", "/notice/add")
+                .addAttribute("displayStatusOptions", DisplayStatus.values());
 
         return "notice/form_notice";
     }
@@ -56,6 +65,8 @@ public class NoticeController {
     public String handleAddNotice(@ModelAttribute("notice") Notice notice//,
 //                                      BindingResult bindingResult,
     ) {
+        //TODO after rayd is done insert logged in user
+        notice.setUser(userService.findById(1));
 
 //        if (bindingResult.hasErrors()) {
 //            return new ModelAndView("dish/add-dish");
@@ -66,7 +77,7 @@ public class NoticeController {
 //        dish.setCalories(dishCommand.getCalories());
         noticeService.saveNotice(notice);
 
-        String redirectUrl = "/dish-list";
+        String redirectUrl = "notice/list";
 //        if (status) {
 //            redirectUrl += "?success=success";
 //        } else {
@@ -77,8 +88,9 @@ public class NoticeController {
     }
 
     @RequestMapping(value = "/{id}/**", method = RequestMethod.GET)
-    public String showEditNoice(@PathVariable("id") long id, ModelMap modelMap) {
+    public String showEditNoice(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", "notice")
+                .addAttribute("action", "/notice/update")
                 .addAttribute("notice", noticeDao.findById(id));
 
         return "notice/form_notice";
@@ -106,7 +118,8 @@ public class NoticeController {
     public String handleEditNotice(@ModelAttribute("notice") Notice notice//, @Validated
                                    //BindingResult bindingResult,Model model
     ) {
-
+        //TODO after rayd is done insert logged in user
+        notice.setUser(userService.findById(1));
 //        if (bindingResult.hasErrors()) {
 //            return new ModelAndView("dish/edit-dish");
 //        }
@@ -128,9 +141,8 @@ public class NoticeController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteDish(@RequestParam("id") String dishId) {
-        long id = Long.parseLong(dishId);
-        noticeService.findNoticeById(id);
+    public String deleteDish(@RequestParam("id") int dishId) {
+        noticeService.findNoticeById(dishId);
 
         return "redirect:/notice/list";
     }
