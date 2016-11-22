@@ -5,8 +5,8 @@
     <title></title>
 </head>
 <body>
-    <a href="/user/createUserPage">Create new user</a>
-    <a href="/user/readUsers">Display all users</a>
-    <a href="/user/readUserByName">Search for user</a>
+    <a href="/user/displayCreateUserPage">Create new user</a>
+    <a href="/user/findAll">Display all users</a>
+    <a href="/user/findUserByName">Search for user</a>
 </body>
 </html>

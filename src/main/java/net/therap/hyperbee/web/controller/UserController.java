@@ -29,7 +29,7 @@ public class UserController {
         return "welcome";
     }
 
-    @GetMapping("/user/createUserPage")
+    @GetMapping("/user/displayCreateUserPage")
     public String createUserPage(Model model) {
         model.addAttribute("user", new User());
         return "createUserPage";
@@ -41,20 +41,17 @@ public class UserController {
         return "welcome";
     }
 
-    @GetMapping("/user/readUsers")
+    @GetMapping("/user/findAll")
     public String readUsers(Model model) {
         List<User> userList = userService.findAll();
-        System.out.println(userList);
         model.addAttribute("userList", userList);
         return "readUserPage";
     }
 
-    @GetMapping("/user/readUserByName")
+    @GetMapping("/user/findUserByName")
     public String readUserByName() {
-        System.out.println("Enter name");
         String name = scanner.nextLine();
         User user = userService.findByUsername(name);
-        System.out.println(user);
         return "welcome";
     }
 }
