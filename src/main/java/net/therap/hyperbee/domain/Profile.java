@@ -1,17 +1,22 @@
 package net.therap.hyperbee.domain;
 
-import org.joda.time.DateTime;
-
 import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DATE_TIME_FIELD;
 
 /**
  * @author bashir
  * @author rayed
  * @author duity
  * @author azim
+ * @author zoha
  * @since 11/21/16
  */
 @Entity
@@ -25,7 +30,8 @@ public class Profile implements Serializable {
     private int id;
 
     @Column(columnDefinition = DATE_TIME_FIELD, name = "date_of_birth")
-    private DateTime dateOfBirth;
+    private Calendar dateOfBirth;
+
 
     private String address;
 
@@ -48,13 +54,18 @@ public class Profile implements Serializable {
     @Column(name = "job_experience_years")
     private int jobExperienceYears;
 
-    @Column(columnDefinition = DATE_TIME_FIELD, name = "joining_date")
-    private DateTime joiningDate;
+    @Column(name = "joining_date")
+    private Calendar joiningDate;
 
     private String gender;
 
     @Column(name = "image")
     private String imagePath;
+
+    public Profile() {
+        this.dateOfBirth = new GregorianCalendar();
+        this.joiningDate = new GregorianCalendar();
+    }
 
     public int getId() {
         return id;
@@ -64,11 +75,11 @@ public class Profile implements Serializable {
         this.id = id;
     }
 
-    public DateTime getDateOfBirth() {
+    public Calendar getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(DateTime dateOfBirth) {
+    public void setDateOfBirth(Calendar dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -136,11 +147,11 @@ public class Profile implements Serializable {
         this.jobExperienceYears = jobExperienceYears;
     }
 
-    public DateTime getJoiningDate() {
+    public Calendar getJoiningDate() {
         return joiningDate;
     }
 
-    public void setJoiningDate(DateTime joiningDate) {
+    public void setJoiningDate(Calendar joiningDate) {
         this.joiningDate = joiningDate;
     }
 

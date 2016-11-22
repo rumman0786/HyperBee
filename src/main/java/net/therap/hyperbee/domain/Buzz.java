@@ -1,12 +1,13 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
 /**
  * @author bashir
@@ -26,22 +27,29 @@ public class Buzz implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 160)
+    @Column(columnDefinition = TEXT_FIELD, nullable = false)
     private String message;
 
     @Column(name = "buzz_time", columnDefinition = DATE_TIME_FIELD, nullable = false)
-    private DateTime buzzTime;
+    private Calendar buzzTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM, nullable = false)
-    private DisplayStatus displayStatus;
+    private DisplayStatus displayStatus = DisplayStatus.ACTIVE;
 
     @Column(columnDefinition = "BIT(1)", nullable = false)
-    private boolean pinned;
+    private boolean pinned = false;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Buzz(String message, DisplayStatus displayStatus, boolean pinned) {
+        this.message = message;
+        this.buzzTime = new GregorianCalendar();
+        this.displayStatus = displayStatus;
+        this.pinned = pinned;
+    }
 
     public int getId() {
         return id;
@@ -59,11 +67,11 @@ public class Buzz implements Serializable {
         this.message = message;
     }
 
-    public DateTime getBuzzTime() {
+    public Calendar getBuzzTime() {
         return buzzTime;
     }
 
-    public void setBuzzTime(DateTime buzzTime) {
+    public void setBuzzTime(Calendar buzzTime) {
         this.buzzTime = buzzTime;
     }
 

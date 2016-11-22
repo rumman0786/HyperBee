@@ -1,16 +1,17 @@
 package net.therap.hyperbee.domain;
 
-import org.joda.time.DateTime;
-
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.utils.constant.DomainConstant.DATE_TIME_FIELD;
 
 /**
  * @author bashir
  * @author rayed
  * @author azim
+ * @author zoha
  * @since 11/21/16
  */
 @Entity
@@ -25,7 +26,7 @@ public class Post implements Serializable {
     private String description;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    private DateTime dateCreated;
+    private Calendar dateCreated;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -34,6 +35,10 @@ public class Post implements Serializable {
     @ManyToOne
     @JoinColumn(name = "hive_id")
     private Hive hive;
+
+    public Post() {
+        this.dateCreated = new GregorianCalendar();
+    }
 
     public int getId() {
         return id;
@@ -51,11 +56,11 @@ public class Post implements Serializable {
         this.description = description;
     }
 
-    public DateTime getDateCreated() {
+    public Calendar getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(DateTime dateCreated) {
+    public void setDateCreated(Calendar dateCreated) {
         this.dateCreated = dateCreated;
     }
 
