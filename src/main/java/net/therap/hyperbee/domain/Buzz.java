@@ -26,7 +26,7 @@ public class Buzz implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 160)
+    @Column(columnDefinition = TEXT_FIELD, nullable = false)
     private String message;
 
     @Column(name = "buzz_time", columnDefinition = DATE_TIME_FIELD, nullable = false)
