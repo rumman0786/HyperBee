@@ -64,7 +64,8 @@
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
           p:basename="/WEB-INF/classes/ValidationMessages"/>
 
-    <mvc:resources mapping="/statics/**" location="/statics/"/>
+    <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
     <mvc:annotation-driven validator="myBeansValidator"/>
     <mvc:annotation-driven/>
 </beans>

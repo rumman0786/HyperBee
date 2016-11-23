@@ -3,7 +3,7 @@
 <%@ include file="header.jsp" %>
 <div class="container">
     <div class="page-header">
-        <h1></h1>
+        <h1>Please Sign Up</h1>
     </div>
     <form class="form-signin" action="/auth/login" method="POST">
         <h2 class="form-signin-heading">Please sign up</h2>
