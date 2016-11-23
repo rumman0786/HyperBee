@@ -3,7 +3,6 @@ package net.therap.hyperbee.service;
 import net.therap.hyperbee.dao.BuzzDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Buzz;
-import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +52,9 @@ public class BuzzServiceImpl implements BuzzService {
     }
 
     @Override
-    //TODO upon receiving UserDao
     public List<Buzz> retrieveBuzzByUser(String username) {
-        //userDao.retrieveByName();
-        int userId = -1;
+        int userId = userDao.findByUsername(username).getId();
+
         return buzzDao.retrieveByUser(userId);
     }
 
