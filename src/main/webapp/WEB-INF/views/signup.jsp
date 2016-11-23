@@ -5,7 +5,7 @@
     <div class="page-header">
         <h1>Please Sign Up</h1>
     </div>
-    <form class="form-signin" action="/auth/login" method="POST">
+    <form class="form-signin" action="/signup" method="POST">
         <h2 class="form-signin-heading">Please sign up</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required

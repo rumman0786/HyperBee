@@ -25,40 +25,43 @@ public class UserController {
 
     @GetMapping("/")
     public String entry() {
-        return "redirect:/user/login";
+        return "redirect:/login";
     }
 
-    @GetMapping("/user/login")
+    @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
         return "login";
     }
 
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public String loginUser(User user, HttpSession session) {
         AuthUser authUser;
         authUser = userService.findByUsernameAndPassword(user);
 
         if (authUser != null) {
             session.setAttribute("authUser", authUser);
-            return "redirect:/user/welcome";
+            return "redirect:/user/dashboard";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
-    @GetMapping("/user/welcome")
+    @GetMapping("/user/dashboard")
     public String welcome() {
-        return "welcome";
+        return "dashboard";
     }
 
-    @GetMapping("/user/signup")
+    @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("user", new User());
         return "signup";
     }
 
-
+    @PostMapping("/signup")
+    public String signupDash(User user) {
+        return "redirect:/user/dashboard";
+    }
 
     @GetMapping("/user/create")
     public String createUserPage(Model model) {
@@ -75,7 +78,7 @@ public class UserController {
     @PostMapping("/user/create")
     public String createUser(User user) {
         userService.createUser(user);
-        return "welcome";
+        return "dashboard";
     }
 
     @GetMapping("/user/all")

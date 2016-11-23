@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>Welcome to Meal Planner</h1>
     </div>
-    <form:form class="form-signin" action="/user/login" method="POST" modelAttribute="user">
+    <form:form class="form-signin" action="/login" method="POST" modelAttribute="user">
         <h2 class="form-signin-heading">Please log in</h2>
         <form:errors path="*" element="div" cssClass="alert alert-danger fade in"/>
         <label for="inputEmail" class="sr-only">Username</label>
@@ -24,7 +24,7 @@
         <br>
 
         <div class="center-block">
-            <a href="/user/signup">Sign up?</a>
+            <a href="/signup">Sign up?</a>
         </div>
     </form:form>
 </div>
