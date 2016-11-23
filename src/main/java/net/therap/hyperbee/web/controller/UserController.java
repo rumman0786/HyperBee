@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/user/createUser")
     public String createUser(User user) {
         userService.createUser(user);
-        return "welcome";
+        return "createUserPage";
     }
 
     @GetMapping("/user/readUsers")
