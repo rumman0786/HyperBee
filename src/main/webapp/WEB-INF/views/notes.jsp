@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: bashir
@@ -11,7 +12,14 @@
     <title>All Notes</title>
 </head>
 <body>
-<a href="/user/readUserByName">Search for user</a>
-<a href="/user/notes">Notes</a>
+<a href="/user/note/add">Add Note</a>
+
+<p/>
+<c:forEach items="${noteList}" var="item">
+    <c:out value="${item.getTitle()}"/><br>
+    <c:out value="${item.getDescription()}"/>
+    <br>
+    <br>
+</c:forEach>
 </body>
 </html>
