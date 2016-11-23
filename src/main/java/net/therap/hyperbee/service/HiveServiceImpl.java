@@ -18,6 +18,6 @@ public class HiveServiceImpl implements HiveService {
 
     @Transactional
     public void insertHive(Hive hive){
-        hiveDao.insertHive(hive);
+        hiveDao.saveHive(hive);
     }
 }

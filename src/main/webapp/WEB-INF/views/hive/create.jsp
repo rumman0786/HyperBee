@@ -20,13 +20,17 @@
 </head>
 <body>
 <div>
-    <form:form action="/hive/post" method="post" commandName="hive" enctype="multipart/form-data">
+    <form:form action="/HyperBee/hive/post" method="post" commandName="hive" enctype="multipart/form-data">
         <h2>Create Hive</h2>
         <form:input path="name" type="text" name="hiveName" placeholder="Hive Name"/>
         <form:input path="description" type="text" placeholder="Hive Description"/>
         <input path="imagePath" type="file" name="fileUpload" size="50"/>
         <button type="submit" value="Upload">Create</button>
     </form:form>
+</div>
+
+<div>
+    <img src=${imagePath} width="48" height="48">
 </div>
 </body>
 </html>

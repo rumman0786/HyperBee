@@ -14,10 +14,10 @@ import javax.persistence.PersistenceContext;
 public class HiveDaoImpl implements HiveDao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
-    public void insertHive(Hive hive) {
-        entityManager.persist(hive);
-        entityManager.flush();
+    public void saveHive(Hive hive) {
+        em.persist(hive);
+        em.flush();
     }
 }

@@ -8,5 +8,5 @@ import net.therap.hyperbee.domain.Hive;
  */
 public interface HiveDao {
 
-    public void insertHive(Hive hive);
+    public void saveHive(Hive hive);
 }

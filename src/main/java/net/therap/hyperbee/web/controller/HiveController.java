@@ -2,6 +2,7 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.service.HiveService;
+import net.therap.hyperbee.web.helper.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * @author azim
@@ -28,6 +28,11 @@ public class HiveController {
     @Autowired
     private HiveService hiveService;
 
+
+
+    @Autowired
+    UploadedFile uploadedFile;
+
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String showHiveForm(ModelMap model) {
         model.put("hive", new Hive());
@@ -35,40 +40,24 @@ public class HiveController {
         model.addAttribute("description", new String());
         model.addAttribute("imagePath", new String());
 
-        return HIVE;
+       return HIVE;
     }
 
     @RequestMapping(value = "/post", method = RequestMethod.POST)
-    public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam CommonsMultipartFile fileUpload, Model model) {
+    public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam CommonsMultipartFile fileUpload, Model model) throws IOException {
 
-        String filename = fileUpload.getOriginalFilename();
-
-        filename = "/home/azim/apache-tomcat-8.5.6/webapps/data/" + hive.getName() + filename;
-        try {
-            byte barr[] = fileUpload.getBytes();
-
-            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(filename));
-            bout.write(barr);
-            bout.flush();
-            bout.close();
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        String filename = uploadedFile.uploadFile(fileUpload,hive.getName());
 
         hive.setImagePath(filename);
         model.addAttribute("hive", hive);
         model.addAttribute("name", hive.getName());
         model.addAttribute("description", hive.getDescription());
-        model.addAttribute("imagePath", filename);
-
-        System.out.println("name " + hive.getName());
-
-        System.out.println("description " + hive.getDescription());
-
-        System.out.println("imagePath " + filename);
+        model.addAttribute("imagePath", System.getProperty("catalina.home") + "/webapps/upload/" + filename);
 
         hiveService.insertHive(hive);
+
         return "hive/show";
     }
+
+
 }
