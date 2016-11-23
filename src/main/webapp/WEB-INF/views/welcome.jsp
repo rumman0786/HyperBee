@@ -10,7 +10,7 @@
 
     <%
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
-        response.getWriter().println(authUser.getUsername() + " " + authUser.getUserRole());
+        response.getWriter().println(authUser.getUsername() + " " + authUser.getRole());
     %>
 
 

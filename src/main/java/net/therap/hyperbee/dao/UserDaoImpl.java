@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -32,20 +33,33 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User findByUsername(String username) {
-        return em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+        User user = null;
+
+        try {
+            user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
                     .setParameter("username", username)
                     .getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+
+        return user;
     }
 
     @Override
     public User findByUsernameAndPassword(User user) {
-        System.out.println("reached name and pass doa");
-        User singleResult = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
-                                .setParameter("username", user.getUsername())
-                                .setParameter("password", user.getPassword())
-                                .getSingleResult();
-        System.out.println(singleResult);
-        return singleResult;
+        User retrievedUser = null;
+
+        try {
+            retrievedUser = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+                    .setParameter("username", user.getUsername())
+                    .setParameter("password", user.getPassword())
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+
+        return retrievedUser;
     }
 
     @Override

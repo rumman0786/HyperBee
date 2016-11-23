@@ -1,8 +1,9 @@
 package net.therap.hyperbee.web.security;
 
-import net.therap.hyperbee.domain.enums.RoleType;
+import net.therap.hyperbee.domain.Role;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author rayed
@@ -14,33 +15,33 @@ public class AuthUser implements Serializable{
 
     private static final long serialVersionUID = 1;
 
-    private int userId;
+    private int id;
     private String username;
-    private RoleType userRole;
+    private List<Role> roleList;
 
-    public AuthUser(int userId, RoleType role, String username) {
-        this.userId = userId;
+    public AuthUser(int id, String username, List<Role> roleList) {
+        this.id = id;
         this.username = username;
-        this.userRole = role;
+        this.roleList = roleList;
     }
 
     public AuthUser() {
     }
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public RoleType getUserRole() {
-        return userRole;
+    public List<Role> getRoleList() {
+        return this.roleList;
     }
 
-    public void setUserRole(RoleType userRole) {
-        this.userRole = userRole;
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     public String getUsername() {

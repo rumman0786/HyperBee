@@ -1,7 +1,6 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.domain.enums.RoleType;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * @author rayed
@@ -25,10 +23,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private static Scanner scanner = new Scanner(System.in);
-
     @GetMapping("/")
-    public String entrance() {
+    public String entry() {
         return "redirect:/user/login";
     }
 
@@ -40,20 +36,11 @@ public class UserController {
 
     @PostMapping("/user/login")
     public String loginUser(User user, HttpSession session) {
-        System.out.println(user);
+        AuthUser authUser;
+        authUser = userService.findByUsernameAndPassword(user);
 
-        User retrievedUser;
-        retrievedUser = userService.findByUsernameAndPassword(user);
-
-        System.out.println(retrievedUser);
-
-        if (retrievedUser != null) {
-            AuthUser authUser = new AuthUser();
-            authUser.setUsername(user.getUsername());
-            authUser.setUserRole(RoleType.USER);
-
+        if (authUser != null) {
             session.setAttribute("authUser", authUser);
-
             return "redirect:/user/welcome";
         }
 
@@ -88,12 +75,5 @@ public class UserController {
         List<User> userList = userService.findAll();
         model.addAttribute("userList", userList);
         return "findUserPage";
-    }
-
-    @GetMapping("/user/findByUsername")
-    public String readUserByName() {
-        String name = scanner.nextLine();
-        User user = userService.findByUsername(name);
-        return "welcome";
     }
 }
