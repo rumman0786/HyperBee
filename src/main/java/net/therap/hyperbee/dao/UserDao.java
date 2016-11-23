@@ -17,6 +17,8 @@ public interface UserDao {
 
     public User findByUsername(String username);
 
+    public User findByUsernameAndPassword(User user);
+
     public List<User> findAll();
 
     public void updateUser(User user);

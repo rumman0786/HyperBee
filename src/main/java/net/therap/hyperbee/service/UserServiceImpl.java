@@ -36,16 +36,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User findByUsernameAndPassword(User user) {
+        return userDao.findByUsernameAndPassword(user);
+    }
+
+    @Override
     public List<User> findAll() {
         return userDao.findAll();
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
 
     }
 
     @Override
+    @Transactional
     public void deleteUser(int id) {
 
     }

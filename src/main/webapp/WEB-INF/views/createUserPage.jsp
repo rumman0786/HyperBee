@@ -6,7 +6,7 @@
     <title></title>
 </head>
 <body>
-    <spring:form action="/user/createUser" method="post" modelAttribute="user">
+    <spring:form action="/user/create" method="post" modelAttribute="user">
         <label for="username">Username</label><br>
         <spring:input path="username" id="username"/><br>
         <label for="firstName">First Name</label><br>
