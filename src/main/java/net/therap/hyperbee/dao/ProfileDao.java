@@ -8,5 +8,6 @@ import net.therap.hyperbee.domain.Profile;
  */
 public interface ProfileDao {
 
-    public Profile save(Profile profile);
+    public String save(Profile profile);
+
 }
