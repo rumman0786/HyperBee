@@ -52,6 +52,14 @@ public class UserController {
         return "welcome";
     }
 
+    @GetMapping("/user/signup")
+    public String signup(Model model) {
+        model.addAttribute("user", new User());
+        return "signup";
+    }
+
+    
+
     @GetMapping("/user/create")
     public String createUserPage(Model model) {
         model.addAttribute("user", new User());
