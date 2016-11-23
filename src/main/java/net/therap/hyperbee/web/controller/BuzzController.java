@@ -42,7 +42,7 @@ public class BuzzController {
 
     @GetMapping("/readBuzz")
     public String readBuzz(Model model) {
-        model.addAttribute("buzzList", buzzService.retrieveAllBuzz());
+        model.addAttribute("buzzList", buzzService.retrieveLatestBuzz());
         return "readBuzz";
     }
 }
