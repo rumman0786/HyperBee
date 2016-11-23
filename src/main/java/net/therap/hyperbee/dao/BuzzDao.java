@@ -11,19 +11,19 @@ import java.util.List;
  */
 public interface BuzzDao {
 
-    public boolean create(Buzz newBuzz);
+    public boolean save(Buzz newBuzz);
 
     public Buzz delete(Buzz buzzToDelete);
 
-    public List<Buzz> retrieveAll();
+    public List<Buzz> getAll();
 
-    public Buzz retrieveById(int buzzId);
+    public Buzz getById(int buzzId);
 
-    public List<Buzz> retrieveByUser(int userId);
+    public List<Buzz> getByUser(int userId);
 
-    public List<Buzz> retrieveByDisplayStatus(DisplayStatus displayStatus);
+    public List<Buzz> getByDisplayStatus(DisplayStatus displayStatus);
 
-    public List<Buzz> retrieveLatest(int range);
+    public List<Buzz> getLatest(int range);
 
-    public Buzz update(Buzz buzzToUpdate);
+    public Buzz modify(Buzz buzzToUpdate);
 }

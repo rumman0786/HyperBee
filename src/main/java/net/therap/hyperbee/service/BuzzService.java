@@ -23,6 +23,8 @@ public interface BuzzService {
 
     public List<Buzz> retrieveBuzzByStatus(DisplayStatus displayStatus);
 
+    List<Buzz> retrieveLatestBuzz();
+
     public Buzz updateBuzz(Buzz buzzToUpdate);
 
     public Buzz deleteBuzz(Buzz buzzToDelete);
