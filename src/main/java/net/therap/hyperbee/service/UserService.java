@@ -1,6 +1,7 @@
 package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.web.security.AuthUser;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface UserService {
     public User findById(int id);
 
     public User findByUsername(String username);
+
+    public AuthUser findByUsernameAndPassword(User user);
 
     public List<User> findAll();
 

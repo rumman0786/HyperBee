@@ -2,14 +2,14 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
-import java.util.Scanner;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author rayed
@@ -22,39 +22,43 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private static Scanner scanner = new Scanner(System.in);
-
     @GetMapping("/")
-    public String welcome() {
-        return "welcome";
+    public String entry() {
+        return "redirect:/login";
     }
 
-    @GetMapping("/user/createUserPage")
-    public String createUserPage(Model model) {
+    @GetMapping("/login")
+    public String login(Model model) {
         model.addAttribute("user", new User());
-        return "createUserPage";
+        return "login";
     }
 
-    @PostMapping("/user/createUser")
-    public String createUser(User user) {
-        userService.createUser(user);
-        return "createUserPage";
+    @PostMapping("/login")
+    public String loginUser(User user, HttpSession session) {
+        AuthUser authUser;
+        authUser = userService.findByUsernameAndPassword(user);
+
+        if (authUser != null) {
+            session.setAttribute("authUser", authUser);
+            return "redirect:/user/dashboard";
+        }
+
+        return "redirect:/login";
     }
 
-    @GetMapping("/user/readUsers")
-    public String readUsers(Model model) {
-        List<User> userList = userService.findAll();
-        System.out.println(userList);
-        model.addAttribute("userList", userList);
-        return "readUserPage";
+    @GetMapping("/signup")
+    public String signup(Model model) {
+        model.addAttribute("user", new User());
+        return "signup";
     }
 
-    @GetMapping("/user/readUserByName")
-    public String readUserByName() {
-        System.out.println("Enter name");
-        String name = scanner.nextLine();
-        User user = userService.findByUsername(name);
-        System.out.println(user);
-        return "welcome";
+    @PostMapping("/signup")
+    public String signupDash(User user) {
+        return "redirect:/user/dashboard";
+    }
+
+    @GetMapping("/user/dashboard")
+    public String welcome() {
+        return "dashboard";
     }
 }

@@ -18,15 +18,18 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.*;
  * @since 11/21/16
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Note.findNoteByUserId",
+                query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus")
+})
 @Table(name = "note")
 public class Note implements Serializable {
 
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String type;
 
     private String title;
 
@@ -42,17 +45,20 @@ public class Note implements Serializable {
     @Column(columnDefinition = PRIORITY_ENUM)
     private NotePriority priority;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM)
     private DisplayStatus displayStatus;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 
     public Note() {
         this.dateCreated = new GregorianCalendar();
         this.dateRemind = new GregorianCalendar();
+
+        priority = NotePriority.LOW;
+        displayStatus = displayStatus.ACTIVE;
     }
 
     public int getId() {
@@ -61,14 +67,6 @@ public class Note implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getTitle() {
@@ -125,5 +123,10 @@ public class Note implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String toString(){
+
+        return "Title: "+getTitle() +"\n Description: "+getDescription();
     }
 }

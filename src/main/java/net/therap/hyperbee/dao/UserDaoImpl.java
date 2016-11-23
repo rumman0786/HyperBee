@@ -2,8 +2,10 @@ package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.User;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -13,40 +15,66 @@ import java.util.List;
  */
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Override
+    @Transactional
     public void createUser(User user) {
-        entityManager.persist(user);
+        em.persist(user);
     }
 
     @Override
     public User findById(int id) {
-        return entityManager.find(User.class, id);
+        return em.find(User.class, id);
     }
 
     @Override
     public User findByUsername(String username) {
-        List<User> resultList = (List<User>) entityManager.createQuery("select u from User u where u.username like :username")
-                .setParameter("username", username)
-                .getResultList();
-        return resultList.get(0);
+        User user = null;
+
+        try {
+            user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    @Override
+    public User findByUsernameAndPassword(User user) {
+        User retrievedUser = null;
+
+        try {
+            retrievedUser = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+                    .setParameter("username", user.getUsername())
+                    .setParameter("password", user.getPassword())
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+
+        return retrievedUser;
     }
 
     @Override
     public List<User> findAll() {
-        return (List<User>) entityManager.createQuery("select u from User u").getResultList();
+        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
 
     }
 
     @Override
+    @Transactional
     public void deleteUser(int id) {
 
     }
