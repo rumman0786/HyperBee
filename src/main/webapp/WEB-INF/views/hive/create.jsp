@@ -1,3 +1,9 @@
+<%@ page import="org.apache.commons.fileupload.FileItem" %>
+<%@ page import="org.apache.commons.fileupload.disk.DiskFileItemFactory" %>
+<%@ page import="org.apache.commons.fileupload.servlet.ServletFileUpload" %>
+<%@ page import="java.io.File" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -14,12 +20,12 @@
 </head>
 <body>
 <div>
-    <form:form action="/hive/post" method="post" commandName="hive">
+    <form:form action="/hive/post" method="post" commandName="hive" enctype="multipart/form-data">
         <h2>Create Hive</h2>
-        <form:input path="name" type="text" placeholder="Hive Name"/>
+        <form:input path="name" type="text" name="hiveName" placeholder="Hive Name"/>
         <form:input path="description" type="text" placeholder="Hive Description"/>
-        <form:input path="imagePath" type="file" width="48" height="48"/>
-        <button type="submit">Create</button>
+        <input path="imagePath" type="file" name="fileUpload" size="50"/>
+        <button type="submit" value="Upload">Create</button>
     </form:form>
 </div>
 </body>

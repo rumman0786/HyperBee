@@ -11,6 +11,8 @@
     <title></title>
 </head>
 <body>
-
+<div>
+<img src="${imagePath}" width="48" height="48">
+</div>
 </body>
 </html>
