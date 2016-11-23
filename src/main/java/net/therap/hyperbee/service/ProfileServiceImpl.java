@@ -1,6 +1,5 @@
 package net.therap.hyperbee.service;
 
-import net.therap.hyperbee.domain.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -14,5 +13,5 @@ import javax.persistence.PersistenceContext;
 public class ProfileServiceImpl implements ProfileService {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 }

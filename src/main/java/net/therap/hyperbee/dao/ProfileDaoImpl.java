@@ -15,11 +15,11 @@ import javax.persistence.PersistenceContext;
 public class ProfileDaoImpl implements ProfileDao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Transactional
     public Profile save(Profile profile) {
-        entityManager.persist(profile);
+        em.persist(profile);
 
         return profile;
     }
