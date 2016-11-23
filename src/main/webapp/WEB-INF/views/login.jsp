@@ -4,15 +4,13 @@
 <%@ include file="header.jsp" %>
 <div class="container">
     <div class="page-header">
-        <h1>Welcome to Meal Planner</h1>
+        <h1 class="text-center">Welcome back Beeee!!!</h1>
     </div>
     <form:form class="form-signin" action="/login" method="POST" modelAttribute="user">
         <h2 class="form-signin-heading">Please log in</h2>
         <form:errors path="*" element="div" cssClass="alert alert-danger fade in"/>
-        <label for="inputEmail" class="sr-only">Username</label>
-        <form:input type="text" id="inputEmail" name="email" class="form-control" placeholder="Email address"
+        <form:input type="text" id="inputEmail" name="email" class="form-control" placeholder="Username"
                     path="username"/>
-        <label for="inputPassword" class="sr-only">Password</label>
         <form:input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password"
                     path="password"/>
         <div class="checkbox">
