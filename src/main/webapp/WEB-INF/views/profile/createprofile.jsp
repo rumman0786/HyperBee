@@ -1,12 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: duity
-  Date: 11/22/16
-  Time: 11:14 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -70,11 +63,18 @@
             <td><form:input path="jobExperienceYears" type="text"/></td>
         </tr>
         <tr>
+            <th>Work History :</th>
+            <td><form:input path="workHistory" type="text"/></td>
+        </tr>
+        <tr>
             <th>Image :</th>
             <td><form:input path="imagePath" type="text"/></td>
         </tr>
         <tr>
             <td colspan="2" align="left"><input type="submit" value="Create Profile"></td>
+        </tr>
+        <tr>
+            <td>${message}</td>
         </tr>
     </table>
 </form:form>
