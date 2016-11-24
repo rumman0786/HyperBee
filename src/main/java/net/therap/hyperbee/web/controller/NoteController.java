@@ -43,6 +43,8 @@ public class NoteController {
         log.debug("NOTE LIST USER:: "+ Arrays.deepToString(noteList.toArray()));
 
         model.addAttribute("noteList", noteList);
+        model.addAttribute("noteCommand", new Note());
+
         return NOTE_VIEW_ALL;
     }
 
