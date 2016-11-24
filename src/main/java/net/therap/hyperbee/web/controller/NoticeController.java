@@ -5,6 +5,9 @@ import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.NoticeService;
 import net.therap.hyperbee.service.UserService;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,10 +55,10 @@ public class NoticeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAddNotice(ModelMap modelMap) {
-        Notice notice = new Notice();
 
         modelMap.addAttribute("page", "notice")
-                .addAttribute("notice", notice)
+                .addAttribute("notice", new Notice())
+                .addAttribute("noticeHeader", "Add Notice")
                 .addAttribute("action", "/notice/add")
                 .addAttribute("displayStatusOptions", DisplayStatus.values());
 
@@ -64,9 +67,14 @@ public class NoticeController {
 
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String handleAddNotice(@ModelAttribute("notice") Notice notice//,
+    public String handleAddNotice(@ModelAttribute("notice") Notice notice
+//                                  @RequestParam("dateExpired") String dateExpired
 //                                      BindingResult bindingResult,
     ) {
+//        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyyy-mm-dd hh:mm:ss");
+//
+//        DateTime dt = formatter.parseDateTime(dateExpired);
+//        notice.setDateExpired(dt.toGregorianCalendar());
         //TODO after rayd is done insert logged in user
         notice.setUser(userService.findById(1));
 
@@ -78,6 +86,15 @@ public class NoticeController {
 //        dish.setName(dishCommand.getName());
 //        dish.setCalories(dishCommand.getCalories());
         noticeService.saveNotice(notice);
+//        DateFormat df = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
+//        Date date = null;
+//        try {
+//            date = df.parse(dateExpired);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+////        }
+//        Calendar calendar = new GregorianCalendar();
+//        calendar.setTime(dt);
 
         String redirectUrl = "/notice/list";
 //        if (status) {
@@ -93,6 +110,7 @@ public class NoticeController {
     public String showEditNoice(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", "notice")
                 .addAttribute("action", "/notice/update")
+                .addAttribute("noticeHeader", "Edit Notice")
                 .addAttribute("notice", noticeDao.findById(id));
 
         return "notice/form_notice";
