@@ -39,9 +39,9 @@ public class BuzzController {
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);
 
-
         model.addAttribute("newBuzz", new Buzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
+
         return "redirect:/user/dashboard";
     }
 
@@ -49,6 +49,7 @@ public class BuzzController {
     public String flagBuzz() {
         List<Buzz> buzzList = buzzService.getLatestBuzz();
         buzzService.flagBuzz(buzzList.get(0));
+
         return "redirect:/user/dashboard";
     }
 
@@ -56,6 +57,7 @@ public class BuzzController {
     public String deactivateBuzz() {
         List<Buzz> buzzList = buzzService.getLatestBuzz();
         buzzService.deactivateBuzz(buzzList.get(0));
+
         return "redirect:/user/dashboard";
     }
 }
