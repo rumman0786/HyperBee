@@ -12,4 +12,9 @@ import java.util.List;
 public interface StickyNoteService {
 
     public void createStickyNote(User user, Note note);
+
+    public List<Note> findActiveNotesForUser(int userId);
+
+    public void saveNoteForUser(Note note, int userId);
+
 }

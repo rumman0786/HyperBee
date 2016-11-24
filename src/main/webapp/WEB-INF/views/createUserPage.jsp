@@ -19,5 +19,6 @@
         <spring:input path="password" id="password"/><br>
         <button type="submit">Submit</button>
     </spring:form>
+    <a href="/profile">Create Profile</a>
 </body>
 </html>

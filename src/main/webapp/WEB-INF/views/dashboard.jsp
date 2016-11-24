@@ -7,17 +7,10 @@
     <title></title>
 </head>
 <body>
-
-    <%
-        AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
-        response.getWriter().println(authUser.getUsername() + " " + authUser.getUserRole());
-    %>
-
-
-
     <a href="/user/create">Create new user</a>
     <a href="/user/all">Display all users</a>
     <a href="/user/find">Search for user</a>
-
+    <a href="/user/notes">Notes</a>
+    <a href="/buzz">Buzz!</a>
 </body>
 </html>

@@ -2,6 +2,7 @@ package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
@@ -36,8 +37,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByUsernameAndPassword(User user) {
-        return userDao.findByUsernameAndPassword(user);
+    public AuthUser findByUsernameAndPassword(User user) {
+        AuthUser authUser = null;
+
+        User retrievedUser = userDao.findByUsernameAndPassword(user);
+
+        if (retrievedUser != null) {
+            authUser = new AuthUser();
+            authUser.setId(retrievedUser.getId());
+            authUser.setUsername(retrievedUser.getUsername());
+            authUser.setRoleList(retrievedUser.getRoleList());
+        }
+
+        return authUser;
     }
 
     @Override
