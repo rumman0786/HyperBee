@@ -8,7 +8,6 @@ import java.util.List;
  * @author rayed
  * @since 11/22/16 10:44 AM
  */
-
 public interface UserService {
 
     public User createUser(User user);

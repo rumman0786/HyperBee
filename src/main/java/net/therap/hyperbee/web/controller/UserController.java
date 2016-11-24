@@ -19,7 +19,6 @@ import static net.therap.hyperbee.utils.constant.Url.*;
  * @author rayed
  * @since 11/22/16 10:59 AM
  */
-
 @Controller
 public class UserController {
 
@@ -34,6 +33,7 @@ public class UserController {
 
     @GetMapping(ROOT_URL)
     public String entry() {
+
         return "redirect:" + LOGIN_URL;
     }
 
