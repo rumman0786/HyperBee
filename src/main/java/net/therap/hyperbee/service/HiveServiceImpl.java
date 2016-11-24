@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author azim
  * @since 11/22/16
@@ -19,5 +21,11 @@ public class HiveServiceImpl implements HiveService {
     @Transactional
     public void insertHive(Hive hive){
         hiveDao.saveHive(hive);
+    }
+
+    @Transactional
+    public List<Hive> retrieveHive(){
+
+        return hiveDao.retrieveHive();
     }
 }

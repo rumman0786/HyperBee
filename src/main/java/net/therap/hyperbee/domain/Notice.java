@@ -1,19 +1,21 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
 /**
  * @author bashir
  * @author rumman
  * @author rayed
  * @author azim
+ * @author zoha
  * @since 11/21/16
  */
 @Entity
@@ -23,6 +25,7 @@ public class Notice implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String title;
@@ -30,10 +33,10 @@ public class Notice implements Serializable {
     private String description;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    private DateTime dateCreated;
+    private Calendar dateCreated;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    private DateTime dateExpired;
+    private Calendar dateExpired;
 
     @Enumerated(EnumType.STRING)
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM)
@@ -45,6 +48,11 @@ public class Notice implements Serializable {
 
     @ManyToMany(mappedBy = "noticeList")
     private List<Hive> hiveList;
+
+    public Notice() {
+        this.dateCreated = new GregorianCalendar();
+        this.dateExpired = new GregorianCalendar();
+    }
 
     public int getId() {
         return id;
@@ -70,19 +78,11 @@ public class Notice implements Serializable {
         this.description = description;
     }
 
-    public DateTime getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(DateTime dateCreated) {
+    public void setDateCreated(Calendar dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public DateTime getDateExpired() {
-        return dateExpired;
-    }
-
-    public void setDateExpired(DateTime dateExpired) {
+    public void setDateExpired(Calendar dateExpired) {
         this.dateExpired = dateExpired;
     }
 

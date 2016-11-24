@@ -1,0 +1,28 @@
+package net.therap.hyperbee.service;
+
+import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.web.security.AuthUser;
+
+import java.util.List;
+
+/**
+ * @author rayed
+ * @since 11/22/16 10:44 AM
+ */
+
+public interface UserService {
+
+    public void createUser(User user);
+
+    public User findById(int id);
+
+    public User findByUsername(String username);
+
+    public AuthUser findByUsernameAndPassword(User user);
+
+    public List<User> findAll();
+
+    public void updateUser(User user);
+
+    public void deleteUser(int id);
+}

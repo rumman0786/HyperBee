@@ -2,51 +2,64 @@ package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.NotePriority;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.domain.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
 /**
  * @author bashir
  * @author rayed
  * @author azim
+ * @author zoha
  * @since 11/21/16
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Note.findNoteByUserId",
+                query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus")
+})
 @Table(name = "note")
 public class Note implements Serializable {
 
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String type;
 
     private String title;
 
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
-    private DateTime dateCreated;
+    private Calendar dateCreated;
 
     @Column(name = "date_remind", columnDefinition = DATE_TIME_FIELD)
-    private DateTime dateRemind;
+    private Calendar dateRemind;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = PRIORITY_ENUM)
     private NotePriority priority;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM)
     private DisplayStatus displayStatus;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Note() {
+        this.dateCreated = new GregorianCalendar();
+        this.dateRemind = new GregorianCalendar();
+
+        priority = NotePriority.LOW;
+        displayStatus = displayStatus.ACTIVE;
+    }
 
     public int getId() {
         return id;
@@ -54,14 +67,6 @@ public class Note implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getTitle() {
@@ -80,19 +85,19 @@ public class Note implements Serializable {
         this.description = description;
     }
 
-    public DateTime getDateCreated() {
+    public Calendar getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(DateTime dateCreated) {
+    public void setDateCreated(Calendar dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public DateTime getDateRemind() {
+    public Calendar getDateRemind() {
         return dateRemind;
     }
 
-    public void setDateRemind(DateTime dateRemind) {
+    public void setDateRemind(Calendar dateRemind) {
         this.dateRemind = dateRemind;
     }
 
@@ -118,5 +123,10 @@ public class Note implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String toString(){
+
+        return "Title: "+getTitle() +"\n Description: "+getDescription();
     }
 }
