@@ -20,7 +20,7 @@
     <title>Meal Planner | Therap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/statics/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <%--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">--%>
@@ -123,7 +123,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="<%= request.getContextPath() %>/statics/js/bootstrap.min.js"></script>
+<script src="<%= request.getContextPath() %>/js/bootstrap.min.js"></script>
 
 <script>
     $('.delete-user-item').on('click', function (e) {
