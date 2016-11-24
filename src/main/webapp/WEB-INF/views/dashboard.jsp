@@ -8,8 +8,6 @@
 </head>
 <body>
     <a href="/user/create">Create new user</a>
-    <a href="/user/all">Display all users</a>
-    <a href="/user/find">Search for user</a>
     <a href="/user/notes">Notes</a>
     <a href="/buzz">Buzz!</a>
 </body>
