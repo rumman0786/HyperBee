@@ -27,14 +27,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void createUser(User user) {
+    public User createUser(User user) {
         Role role = roleDao.findRole(2);
 
         List<Role> roleList = new ArrayList<Role>();
         roleList.add(role);
 
         user.setRoleList(roleList);
-        userDao.createUser(user);
+
+        return userDao.createUser(user);
     }
 
     @Override
