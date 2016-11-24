@@ -27,5 +27,5 @@ public interface BuzzService {
 
     public Buzz flagBuzz(Buzz buzzToFlag);
 
-    public Buzz deactivateBuzz(Buzz buzzToDeactive);
+    public Buzz deactivateBuzz(Buzz buzzToDeactivate);
 }

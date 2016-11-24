@@ -30,13 +30,6 @@ public class BuzzController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/buzz")
-    public String sendBuzzForm(Model model) {
-        model.addAttribute("buzzList", buzzService.getLatestBuzz());
-        model.addAttribute("newBuzz", new Buzz());
-        return "buzz";
-    }
-
     @PostMapping("/buzz")
     public String sendBuzz(@ModelAttribute Buzz newBuzz, HttpServletRequest request, Model model) {
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
@@ -47,20 +40,20 @@ public class BuzzController {
 
         model.addAttribute("newBuzz", new Buzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
-        return "redirect:/buzz";
+        return "redirect:/user/dashboard";
     }
 
     @GetMapping("/buzz/flagBuzz")
     public String flagBuzz() {
         List<Buzz> buzzList = buzzService.getLatestBuzz();
         buzzService.flagBuzz(buzzList.get(0));
-        return "redirect:/buzz";
+        return "redirect:/user/dashboard";
     }
 
     @GetMapping("/buzz/deactivateBuzz")
     public String deactivateBuzz() {
         List<Buzz> buzzList = buzzService.getLatestBuzz();
         buzzService.deactivateBuzz(buzzList.get(0));
-        return "redirect:/buzz";
+        return "redirect:/user/dashboard";
     }
 }

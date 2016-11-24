@@ -2,6 +2,7 @@ package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import org.intellij.lang.annotations.Language;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -30,7 +30,6 @@ public class BuzzServiceImpl implements BuzzService {
     @Override
     @Transactional
     public boolean saveBuzz(Buzz newBuzz) {
-        System.out.println(utils.getCurrentTimeMills());
         newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
 
         return buzzDao.save(newBuzz);
@@ -69,22 +68,22 @@ public class BuzzServiceImpl implements BuzzService {
 
     @Override
     public List<Buzz> getLatestBuzz() {
-        return buzzDao.getLatest(5);
+        return buzzDao.getLatest(15);
     }
 
     @Override
     @Transactional
     public Buzz flagBuzz(Buzz buzzToFlag) {
-        buzzToFlag.setMessage("The message has been flagged due to its content");
+        buzzToFlag.setFlagged(true);
 
         return buzzDao.modify(buzzToFlag);
     }
 
     @Override
     @Transactional
-    public Buzz deactivateBuzz(Buzz buzzToDeactive) {
-        buzzToDeactive.setDisplayStatus(DisplayStatus.INACTIVE);
+    public Buzz deactivateBuzz(Buzz buzzToDeactivate) {
+        buzzToDeactivate.setDisplayStatus(DisplayStatus.INACTIVE);
 
-        return buzzDao.delete(buzzToDeactive);
+        return buzzDao.delete(buzzToDeactivate);
     }
 }
