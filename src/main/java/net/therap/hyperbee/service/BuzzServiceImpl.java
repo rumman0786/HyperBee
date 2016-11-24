@@ -7,6 +7,7 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,15 +28,16 @@ public class BuzzServiceImpl implements BuzzService {
     private CommonUtils utils;
 
     @Override
-    public boolean createBuzz(Buzz newBuzz) {
-        System.out.println(utils.getCurrentTimeMills());
+    @Transactional
+    public boolean saveBuzz(Buzz newBuzz) {
         newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
 
         return buzzDao.save(newBuzz);
     }
 
     @Override
-    public boolean createPinnedBuzz(Buzz newBuzz) {
+    @Transactional
+    public boolean savePinnedBuzz(Buzz newBuzz) {
         newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
         newBuzz.setPinned(true);
 
@@ -43,39 +45,45 @@ public class BuzzServiceImpl implements BuzzService {
     }
 
     @Override
-    public List<Buzz> retrieveAllBuzz() {
+    public List<Buzz> getAllBuzz() {
         return buzzDao.getAll();
     }
 
     @Override
-    public Buzz retrieveBuzzById(int buzzId) {
+    public Buzz getBuzzById(int buzzId) {
         return buzzDao.getById(buzzId);
     }
 
     @Override
-    public List<Buzz> retrieveBuzzByUser(String username) {
+    public List<Buzz> getBuzzByUser(String username) {
         int userId = userDao.findByUsername(username).getId();
 
         return buzzDao.getByUser(userId);
     }
 
     @Override
-    public List<Buzz> retrieveBuzzByStatus(DisplayStatus displayStatus) {
+    public List<Buzz> getBuzzByStatus(DisplayStatus displayStatus) {
         return buzzDao.getByDisplayStatus(displayStatus);
     }
 
     @Override
-    public List<Buzz> retrieveLatestBuzz() {
+    public List<Buzz> getLatestBuzz() {
         return buzzDao.getLatest(5);
     }
 
     @Override
-    public Buzz updateBuzz(Buzz buzzToUpdate) {
-        return buzzDao.modify(buzzToUpdate);
+    @Transactional
+    public Buzz flagBuzz(Buzz buzzToFlag) {
+        buzzToFlag.setFlagged(true);
+
+        return buzzDao.modify(buzzToFlag);
     }
 
     @Override
-    public Buzz deleteBuzz(Buzz buzzToDelete) {
-        return buzzDao.delete(buzzToDelete);
+    @Transactional
+    public Buzz deactivateBuzz(Buzz buzzToDeactivate) {
+        buzzToDeactivate.setDisplayStatus(DisplayStatus.INACTIVE);
+
+        return buzzDao.delete(buzzToDeactivate);
     }
 }

@@ -21,7 +21,7 @@
 <body>
 
 <div>
-    <form:form action="/hive/create" method="post" commandName="hive" enctype="multipart/form-data">
+    <form:form action="/user/hive/create" method="post" commandName="hive" enctype="multipart/form-data">
         <h2>Create Hive</h2>
         <form:input path="name" type="text" name="hiveName" placeholder="Hive Name"/>
         <form:input path="description" type="text" placeholder="Hive Description"/>

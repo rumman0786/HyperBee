@@ -18,7 +18,7 @@
 <p>Description : ${hive.description}</p>
 
 <p>Add people</p>
-<form:form method="POST" action="/hive/insertuser/${hiveId}" commandName="userIdInfo">
+<form:form method="POST" action="/user/hive/insertuser/${hiveId}" commandName="userIdInfo">
     <table border="1">
         <thead>
         <tr>

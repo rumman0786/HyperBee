@@ -1,8 +1,10 @@
 package net.therap.hyperbee.web.controller;
 
+import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.web.security.AuthUser;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+
+import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author rayed
@@ -20,45 +24,66 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     @Autowired
+    BuzzService buzzService;
+
+    @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @Autowired
+    private SessionHelper sessionHelper;
+
+    @GetMapping(ROOT_URL)
     public String entry() {
-        return "redirect:/login";
+        return "redirect:" + LOGIN_URL;
     }
 
-    @GetMapping("/login")
+    @GetMapping(LOGIN_URL)
     public String login(Model model) {
         model.addAttribute("user", new User());
+
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping(LOGIN_URL)
     public String loginUser(User user, HttpSession session) {
-        AuthUser authUser;
-        authUser = userService.findByUsernameAndPassword(user);
+        User retrievedUser = userService.findByUsernameAndPassword(user);
 
-        if (authUser != null) {
-            session.setAttribute("authUser", authUser);
-            return "redirect:/user/dashboard";
+        if (retrievedUser != null) {
+            sessionHelper.persistInSession(retrievedUser, session);
+
+            return "redirect:" + USER_DASHBOARD_URL;
         }
 
-        return "redirect:/login";
+        return "redirect:" + LOGIN_URL;
     }
 
-    @GetMapping("/signup")
+    @GetMapping(SIGN_UP_URL)
     public String signup(Model model) {
         model.addAttribute("user", new User());
+
         return "signup";
     }
 
-    @PostMapping("/signup")
-    public String signupDash(User user) {
-        return "redirect:/user/dashboard";
+    @PostMapping(SIGN_UP_URL)
+    public String signupDash(User user, HttpSession session) {
+        User retrievedUser = userService.createUser(user);
+        sessionHelper.persistInSession(retrievedUser, session);
+
+        return "redirect:" + USER_DASHBOARD_URL;
     }
 
-    @GetMapping("/user/dashboard")
-    public String welcome() {
+    @GetMapping(LOGOUT_URL)
+    public String logout(HttpSession session) {
+        sessionHelper.invalidateSession(session);
+
+        return "redirect:" + LOGIN_URL;
+    }
+
+    @GetMapping(USER_DASHBOARD_URL)
+    public String welcome(Model model) {
+        model.addAttribute("newBuzz", new Buzz());
+        model.addAttribute("buzzList", buzzService.getLatestBuzz());
+
         return "dashboard";
     }
 }

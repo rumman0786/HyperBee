@@ -3,10 +3,11 @@
 
 <html>
 <head>
+
     <title></title>
 </head>
 <body>
-<form:form action="/user/note/save" method="post" modelAttribute="noteCommand">
+<form:form action="/user/note/save" method="post" commandName="noteCommand">
     <label for="title">Title</label><br>
     <form:input path="title" id="title"/><br>
     <label for="description">Description</label><br>

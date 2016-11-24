@@ -1,8 +1,6 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Note;
-import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.StickyNoteService;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
@@ -13,12 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author bashir
@@ -32,54 +33,34 @@ public class NoteController {
     @Autowired
     private StickyNoteService noteService;
 
-    @GetMapping("/user/note/save")
-    public String saveNote() {
-
-        User user = new User();
-        user.setDisplayStatus(DisplayStatus.ACTIVE);
-        user.setUsername("rakib2");
-        user.setFirstName("BASHIR1");
-        user.setEmail("asd23");
-
-        Note note = new Note();
-        note.setDisplayStatus(DisplayStatus.ACTIVE);
-        note.setDescription("Test description of Note");
-        note.setTitle("Title for Note");
-
-        Calendar calendar = note.getDateCreated();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-
-        Calendar calendar1 = note.getDateRemind();
-        calendar1.setTimeInMillis(System.currentTimeMillis());
-
-        noteService.createStickyNote(user, note);
-        return "welcome";
-    }
-
-    @GetMapping("/user/notes")
+    @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
+
         int userId = getUserIdFromSession(session);
 
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
-        log.debug("NOTE LIST USER:: "+ Arrays.deepToString(noteList.toArray()));
+        log.debug("NOTE LIST USER:: " + Arrays.deepToString(noteList.toArray()));
 
         model.addAttribute("noteList", noteList);
-        return "notes";
+        model.addAttribute("noteCommand", new Note());
+
+        return NOTE_VIEW_ALL;
     }
 
-    @GetMapping("/user/note/add")
+    @GetMapping(NOTE_ADD_URL)
     public String addNotes(Model model) {
 
         model.addAttribute("noteCommand", new Note());
-        return "noteForm";
+
+        return NOTE_ADD_VIEW;
     }
 
-    @PostMapping("/user/note/save")
+    @PostMapping(NOTE_SAVE_URL)
     public String saveNote(@ModelAttribute("noteCommand")
-                               Note note, Model model, HttpSession session) {
+                           Note note, Model model, HttpSession session) {
 
-        int userId= getUserIdFromSession(session);
-        log.debug("AuthUser ID: "+userId);
+        int userId = getUserIdFromSession(session);
+        log.debug("AuthUser ID: " + userId);
         Calendar createdDate = note.getDateCreated();
         createdDate.setTimeInMillis(System.currentTimeMillis());
         Calendar remindDate = note.getDateRemind();
@@ -89,11 +70,22 @@ public class NoteController {
 
         model.addAttribute("message", "Note saved");
 
-        return "success";
+        return SUCCESS_VIEW;
+    }
+
+    @PostMapping(NOTE_DELETE_URL)
+    public String noteDelete(@PathVariable("id") int noteId, HttpSession session,
+                             @ModelAttribute("noteCommand") Note note) {
+
+        log.debug("SELECTED NOTE ID FOR DELETE: " + noteId);
+        noteService.markNoteAsInactiveForUser(getUserIdFromSession(session), noteId);
+
+        return "redirect:" + NOTE_VIEW_URL;
     }
 
     private int getUserIdFromSession(HttpSession session) {
+
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
-        return  authUser.getId();
+        return authUser.getId();
     }
 }

@@ -38,8 +38,15 @@ public class NoteDaoImpl implements NoteDao {
     }
 
     @Override
-    public void deleteById(int noteId) {
+    @Transactional
+    public void markNoteAsInactiveForUser(int userId, int noteId) {
 
+        em.createNamedQuery("Note.updateDisplayStatusForUser")
+                .setParameter("userId", userId)
+                .setParameter("noteId", noteId)
+                .setParameter("displayStatus", DisplayStatus.INACTIVE)
+                .executeUpdate();
+        em.flush();
     }
 
     @Override
@@ -60,6 +67,7 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     public List<Note> findActiveNoteListByUserId(int userId) {
+
         return em.createNamedQuery("Note.findNoteByUserId", Note.class)
                 .setParameter("userId", userId)
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)

@@ -24,10 +24,14 @@ import java.util.List;
  * @since 11/22/16
  */
 @Controller
-@RequestMapping("/hive")
+@RequestMapping("/user/hive")
 public class HiveController {
 
-    private String HIVE = "hive/create";
+    private String CREATE_HIVE = "hive/hiveForm";
+
+    private String SHOW_HIVE = "hive/showHive";
+
+    private String HIVE = "hive/hive";
 
     @Autowired
     private HiveService hiveService;
@@ -43,7 +47,7 @@ public class HiveController {
         int userId = getUserIdFromSession(session);
         model.put("hiveList", hiveService.getHiveListByUserId(userId));
 
-        return "hive/hive";
+        return HIVE;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -51,7 +55,7 @@ public class HiveController {
 
         model.addAttribute("hive", new Hive());
 
-        return "hive/hiveForm";
+        return CREATE_HIVE;
     }
 
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
@@ -61,7 +65,7 @@ public class HiveController {
         model.addAttribute("userList", userService.findAll());
         model.addAttribute("userIdInfo", new UserIdInfo());
 
-        return "hive/showHive";
+        return SHOW_HIVE;
     }
 
     @RequestMapping(value = "/insertuser/{hiveId}", method = RequestMethod.POST)
@@ -70,7 +74,7 @@ public class HiveController {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.insertUsersToHive(hiveId, userIdInfo.getUserIdList());
 
-        return "redirect:/hive/show/"+hiveId;
+        return "redirect:/user/hive/show/"+hiveId;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -86,7 +90,7 @@ public class HiveController {
         hive.setImagePath(filename);
         hiveService.insertHive(hive);
 
-        return "hive/showHive";
+        return SHOW_HIVE;
     }
 
     private int getUserIdFromSession(HttpSession session) {

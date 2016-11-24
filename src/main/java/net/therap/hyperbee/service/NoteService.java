@@ -48,4 +48,11 @@ public class NoteService implements StickyNoteService {
         note.setUser(user);
         noteDao.create(note);
     }
+
+    @Override
+    @Transactional
+    public void markNoteAsInactiveForUser(int userId, int noteId) {
+
+        noteDao.markNoteAsInactiveForUser(userId, noteId);
+    }
 }

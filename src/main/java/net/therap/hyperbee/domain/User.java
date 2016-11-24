@@ -31,8 +31,10 @@ public class User implements Serializable {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "last_name")
     private String lastName;
 
     private String email;
@@ -105,6 +107,7 @@ public class User implements Serializable {
     }
 
     public String getFirstName() {
+
         return firstName;
     }
 
@@ -113,6 +116,7 @@ public class User implements Serializable {
     }
 
     public String getLastName() {
+
         return lastName;
     }
 
@@ -121,6 +125,7 @@ public class User implements Serializable {
     }
 
     public String getEmail() {
+
         return email;
     }
 
@@ -129,6 +134,7 @@ public class User implements Serializable {
     }
 
     public String getPassword() {
+
         return password;
     }
 
@@ -137,6 +143,7 @@ public class User implements Serializable {
     }
 
     public DisplayStatus getDisplayStatus() {
+
         return displayStatus;
     }
 
@@ -145,6 +152,7 @@ public class User implements Serializable {
     }
 
     public Profile getProfile() {
+
         return profile;
     }
 
@@ -153,6 +161,7 @@ public class User implements Serializable {
     }
 
     public List<Activity> getActivityList() {
+
         return activityList;
     }
 
@@ -161,6 +170,7 @@ public class User implements Serializable {
     }
 
     public List<Note> getNoteList() {
+
         return noteList;
     }
 
@@ -169,6 +179,7 @@ public class User implements Serializable {
     }
 
     public List<Post> getPostList() {
+
         return postList;
     }
 
@@ -177,6 +188,7 @@ public class User implements Serializable {
     }
 
     public List<Role> getRoleList() {
+
         return roleList;
     }
 
@@ -185,6 +197,7 @@ public class User implements Serializable {
     }
 
     public List<Hive> getHiveList() {
+
         return hiveList;
     }
 
@@ -193,6 +206,7 @@ public class User implements Serializable {
     }
 
     public List<Notice> getNoticeList() {
+
         return noticeList;
     }
 
@@ -201,6 +215,7 @@ public class User implements Serializable {
     }
 
     public List<Buzz> getBuzzList() {
+
         return buzzList;
     }
 
@@ -209,6 +224,7 @@ public class User implements Serializable {
     }
 
     public List<Reservation> getReservationList() {
+
         return reservationList;
     }
 
@@ -218,6 +234,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
+        
         return "Username: " + username + "\nFist Name: " + firstName +
                 "\nLast Name: " + lastName + "\nEmail: " + email +
                 "\nPassword: " + password;

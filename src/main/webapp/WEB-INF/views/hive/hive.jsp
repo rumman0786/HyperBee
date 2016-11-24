@@ -14,7 +14,7 @@
 <body>
 <p>Hive List</p>
 <c:forEach items="${hiveList}" var="item">
-    <a href="/hive/show/${item.id}"> <c:out value="${item.name}"/></a><br>
+    <a href="/user/hive/show/${item.id}"> <c:out value="${item.name}"/></a><br>
     <br>
     <br>
 </c:forEach>

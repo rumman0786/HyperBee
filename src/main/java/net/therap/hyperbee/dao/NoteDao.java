@@ -19,7 +19,7 @@ public interface NoteDao {
 
     public void update(Note note);
 
-    public void deleteById(int noteId);
+    public void markNoteAsInactiveForUser(int userId, int noteId);
 
     public void createNoteAndUser(Note note, User user);
 
