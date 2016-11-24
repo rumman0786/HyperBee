@@ -43,7 +43,9 @@ public class NoticeController {
         List<Notice> noticeList = noticeDao.findAll();
 
         modelMap.addAttribute("page", "notice")
-                .addAttribute("noticeList", noticeList);
+                .addAttribute("noticeList", noticeList)
+                .addAttribute("noticeAddUrl", "/notice")
+                .addAttribute("deleteUrl", "/notice/delete");
 
         return "notice/list_notice";
     }
@@ -77,7 +79,7 @@ public class NoticeController {
 //        dish.setCalories(dishCommand.getCalories());
         noticeService.saveNotice(notice);
 
-        String redirectUrl = "notice/list";
+        String redirectUrl = "/notice/list";
 //        if (status) {
 //            redirectUrl += "?success=success";
 //        } else {
@@ -142,8 +144,7 @@ public class NoticeController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteDish(@RequestParam("id") int dishId) {
-        noticeService.findNoticeById(dishId);
-
+        noticeService.delete(dishId);
         return "redirect:/notice/list";
     }
 }

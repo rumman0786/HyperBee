@@ -14,28 +14,30 @@ import java.util.List;
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
 
+    private static final String NOTICE_ALL_QUERY = "FROM Notice";
+
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Override
     public void save(Notice notice) {
-        entityManager.persist(notice);
+        em.persist(notice);
     }
 
     @Override
     public void update(Notice notice) {
-        entityManager.merge(notice);
+        em.merge(notice);
     }
 
     @Override
     public Notice findById(int noticeId) {
-        return entityManager.find(Notice.class, noticeId);
+        return em.find(Notice.class, noticeId);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Notice> findAll() {
-        return entityManager.createQuery("from Notice").getResultList();
+        return em.createQuery(NOTICE_ALL_QUERY).getResultList();
     }
 
     @Override
@@ -45,7 +47,7 @@ public class NoticeDaoImpl implements NoticeDao {
 
     @Override
     public void delete(int noticeId) {
-        Notice attachedDish = entityManager.getReference(Notice.class, noticeId);
-        entityManager.remove(attachedDish);
+        Notice attachedDish = em.getReference(Notice.class, noticeId);
+        em.remove(attachedDish);
     }
 }
