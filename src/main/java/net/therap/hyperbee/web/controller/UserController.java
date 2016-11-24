@@ -29,6 +29,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SessionHelper sessionHelper;
+
     @GetMapping(ROOT_URL)
     public String entry() {
         return "redirect:" + LOGIN_URL;
@@ -46,7 +49,7 @@ public class UserController {
         User retrievedUser = userService.findByUsernameAndPassword(user);
 
         if (retrievedUser != null) {
-            SessionHelper.persistInSession(user, session);
+            sessionHelper.persistInSession(retrievedUser, session);
 
             return "redirect:" + USER_DASHBOARD_URL;
         }
@@ -63,15 +66,15 @@ public class UserController {
 
     @PostMapping(SIGN_UP_URL)
     public String signupDash(User user, HttpSession session) {
-        userService.createUser(user);
-        SessionHelper.persistInSession(user, session);
+        User retrievedUser = userService.createUser(user);
+        sessionHelper.persistInSession(retrievedUser, session);
 
         return "redirect:" + USER_DASHBOARD_URL;
     }
 
     @GetMapping(LOGOUT_URL)
     public String logout(HttpSession session) {
-        SessionHelper.invalidateSession(session);
+        sessionHelper.invalidateSession(session);
 
         return "redirect:" + LOGIN_URL;
     }
