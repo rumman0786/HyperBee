@@ -1,10 +1,7 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Note;
-import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.StickyNoteService;
-import net.therap.hyperbee.utils.constant.Url;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
@@ -37,10 +35,11 @@ public class NoteController {
 
     @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
+
         int userId = getUserIdFromSession(session);
 
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
-        log.debug("NOTE LIST USER:: "+ Arrays.deepToString(noteList.toArray()));
+        log.debug("NOTE LIST USER:: " + Arrays.deepToString(noteList.toArray()));
 
         model.addAttribute("noteList", noteList);
         model.addAttribute("noteCommand", new Note());
@@ -52,15 +51,16 @@ public class NoteController {
     public String addNotes(Model model) {
 
         model.addAttribute("noteCommand", new Note());
+
         return NOTE_ADD_VIEW;
     }
 
     @PostMapping(NOTE_SAVE_URL)
     public String saveNote(@ModelAttribute("noteCommand")
-                               Note note, Model model, HttpSession session) {
+                           Note note, Model model, HttpSession session) {
 
-        int userId= getUserIdFromSession(session);
-        log.debug("AuthUser ID: "+userId);
+        int userId = getUserIdFromSession(session);
+        log.debug("AuthUser ID: " + userId);
         Calendar createdDate = note.getDateCreated();
         createdDate.setTimeInMillis(System.currentTimeMillis());
         Calendar remindDate = note.getDateRemind();
@@ -73,8 +73,19 @@ public class NoteController {
         return SUCCESS_VIEW;
     }
 
+    @PostMapping(NOTE_DELETE_URL)
+    public String noteDelete(@PathVariable("id") int noteId, HttpSession session,
+                             @ModelAttribute("noteCommand") Note note) {
+
+        log.debug("SELECTED NOTE ID FOR DELETE: " + noteId);
+        noteService.markNoteAsInactiveForUser(getUserIdFromSession(session), noteId);
+
+        return "redirect:" + NOTE_VIEW_URL;
+    }
+
     private int getUserIdFromSession(HttpSession session) {
+
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
-        return  authUser.getId();
+        return authUser.getId();
     }
 }

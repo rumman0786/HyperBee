@@ -17,4 +17,6 @@ public interface StickyNoteService {
 
     public void saveNoteForUser(Note note, int userId);
 
+    public void markNoteAsInactiveForUser(int userId, int noteId);
+
 }

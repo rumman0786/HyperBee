@@ -30,16 +30,19 @@
 
     <c:forEach items="${noteList}" var="item">
 
+        <form:form action="/note/delete/${item.id}" method="post">
         <div class="panel panel-warning">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title pull-left" style="padding-top: 7.5px;">${item.getTitle()}</h4>
+                <h4 class="panel-title pull-left" style="padding-top: 7.5px;">${item.title}</h4>
 
                 <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-default btn-sm">Delete</a>
+                    <button class="btn btn-default btn-sm" type="submit">Delete</button>
                 </div>
             </div>
-            <div class="panel-body">${item.getDescription()}</div>
+            <div class="panel-body">${item.description}</div>
         </div>
+        </form:form>
+
     </c:forEach>
 </div>
 <body>
