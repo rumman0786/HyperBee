@@ -31,12 +31,15 @@ public class ProfileController {
 
     @GetMapping(value = PROFILE_URL)
     public String getProfile(Model model, HttpSession session) {
-        model.addAttribute("profile", new Profile());
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
         int id = authUser.getId();
         User user = userService.findById(id);
-        Profile profile = user.getProfile();
-        model.addAttribute("profile", profile);
+        if(user.getProfile()==null){
+            model.addAttribute("profile", new Profile());
+        }else{
+            Profile profile = user.getProfile();
+            model.addAttribute("profile", profile);
+        }
 
         return CREATE_PROFILE_URL;
     }

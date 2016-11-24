@@ -32,10 +32,15 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public String saveProfileForUser(Profile profile, int userId) {
         User user=userDao.findById(userId);
-        em.persist(profile);
-        user.setProfile(profile);
-        em.persist(user);
-        em.flush();
+        if(user.getProfile()==null){
+            user.setProfile(profile);
+            em.persist(user);
+            em.flush();
+        }else{
+            user.setProfile(profile);
+            em.merge(user);
+            em.flush();
+        }
 
         return "profile is saved in user";
     }
