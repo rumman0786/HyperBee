@@ -40,6 +40,7 @@ public class UserController {
 
         if (authUser != null) {
             session.setAttribute("authUser", authUser);
+
             return "redirect:/user/dashboard";
         }
 

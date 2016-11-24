@@ -12,5 +12,6 @@
     <a href="/user/find">Search for user</a>
     <a href="/user/notes">Notes</a>
     <a href="/buzz">Buzz!</a>
+    <a href="/user/profile">Profile</a>
 </body>
 </html>

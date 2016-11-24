@@ -78,5 +78,12 @@
         </tr>
     </table>
 </form:form>
+<form:form action="/user/profile" method="get">
+    <table>
+        <tr>
+            <td><input type="submit" value="Back To Profile"/></td>
+        </tr>
+    </table>
+</form:form>
 </body>
 </html>
