@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author zoha
@@ -31,7 +32,7 @@ public class BuzzController {
 
     @GetMapping("/buzz")
     public String sendBuzzForm(Model model) {
-        model.addAttribute("buzzList", buzzService.retrieveLatestBuzz());
+        model.addAttribute("buzzList", buzzService.getLatestBuzz());
         model.addAttribute("newBuzz", new Buzz());
         return "buzz";
     }
@@ -41,11 +42,25 @@ public class BuzzController {
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
 
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
-        buzzService.createBuzz(newBuzz);
+        buzzService.saveBuzz(newBuzz);
 
 
         model.addAttribute("newBuzz", new Buzz());
-        model.addAttribute("buzzList", buzzService.retrieveLatestBuzz());
+        model.addAttribute("buzzList", buzzService.getLatestBuzz());
+        return "redirect:/buzz";
+    }
+
+    @GetMapping("/buzz/flagBuzz")
+    public String flagBuzz() {
+        List<Buzz> buzzList = buzzService.getLatestBuzz();
+        buzzService.flagBuzz(buzzList.get(0));
+        return "redirect:/buzz";
+    }
+
+    @GetMapping("/buzz/deactivateBuzz")
+    public String deactivateBuzz() {
+        List<Buzz> buzzList = buzzService.getLatestBuzz();
+        buzzService.deactivateBuzz(buzzList.get(0));
         return "redirect:/buzz";
     }
 }

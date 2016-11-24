@@ -15,5 +15,8 @@
         <form:input path="message"/>
         <input type="submit" value="Send"/>
     </form:form>
+
+    <p><a href="/buzz/flagBuzz">Flag latest buzz</a></p>
+    <p><a href="/buzz/deactivateBuzz">Delete latest buzz</a></p>
 </body>
 </html>
