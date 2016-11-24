@@ -94,7 +94,7 @@
         <div class="col-sm-2 sidenav">
             <ul class="sidebar">
                 <li><a href="/buzz">Buzz</a></li>
-                <li><a href="#">Link</a></li>
+                <li><a href="/user/notes">Note</a></li>
                 <li><a href="#">Link</a></li>
             </ul>
         </div>
