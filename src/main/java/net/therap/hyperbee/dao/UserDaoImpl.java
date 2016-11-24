@@ -25,8 +25,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public void createUser(User user) {
+    public User createUser(User user) {
         em.persist(user);
+        em.flush();
+        return user;
     }
 
     @Override
