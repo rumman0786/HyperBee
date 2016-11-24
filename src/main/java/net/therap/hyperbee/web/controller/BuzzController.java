@@ -29,9 +29,12 @@ public class BuzzController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    private SessionHelper sessionHelper;
+
     @PostMapping("/buzz")
     public String sendBuzz(@ModelAttribute Buzz newBuzz, HttpSession session, Model model) {
-        AuthUser authUser = SessionHelper.retrieveAuthUserFromSession(session);
+        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession(session);
 
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);
