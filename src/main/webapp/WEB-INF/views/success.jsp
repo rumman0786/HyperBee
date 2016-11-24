@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>Success</title>
+    <meta http-equiv="Refresh" content="1;url=/user/notes">
+
 </head>
 <body>
     <c:out value="${message}"/>
