@@ -18,19 +18,20 @@ import java.util.List;
 public class BuzzServiceImpl implements BuzzService {
 
     @Autowired
-    BuzzDao buzzDao;
+    private BuzzDao buzzDao;
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @Autowired
-    CommonUtils utils;
+    private CommonUtils utils;
 
     @Override
     public boolean createBuzz(Buzz newBuzz) {
+        System.out.println(utils.getCurrentTimeMills());
         newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
 
-        return buzzDao.create(newBuzz);
+        return buzzDao.save(newBuzz);
     }
 
     @Override
@@ -38,34 +39,39 @@ public class BuzzServiceImpl implements BuzzService {
         newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
         newBuzz.setPinned(true);
 
-        return buzzDao.create(newBuzz);
+        return buzzDao.save(newBuzz);
     }
 
     @Override
     public List<Buzz> retrieveAllBuzz() {
-        return buzzDao.retrieveAll();
+        return buzzDao.getAll();
     }
 
     @Override
     public Buzz retrieveBuzzById(int buzzId) {
-        return buzzDao.retrieveById(buzzId);
+        return buzzDao.getById(buzzId);
     }
 
     @Override
     public List<Buzz> retrieveBuzzByUser(String username) {
         int userId = userDao.findByUsername(username).getId();
 
-        return buzzDao.retrieveByUser(userId);
+        return buzzDao.getByUser(userId);
     }
 
     @Override
     public List<Buzz> retrieveBuzzByStatus(DisplayStatus displayStatus) {
-        return buzzDao.retrieveByDisplayStatus(displayStatus);
+        return buzzDao.getByDisplayStatus(displayStatus);
+    }
+
+    @Override
+    public List<Buzz> retrieveLatestBuzz() {
+        return buzzDao.getLatest(5);
     }
 
     @Override
     public Buzz updateBuzz(Buzz buzzToUpdate) {
-        return buzzDao.update(buzzToUpdate);
+        return buzzDao.modify(buzzToUpdate);
     }
 
     @Override
