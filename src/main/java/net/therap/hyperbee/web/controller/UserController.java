@@ -44,7 +44,7 @@ public class UserController {
         User retrievedUser = userService.findByUsernameAndPassword(user);
 
         if (retrievedUser != null) {
-            SessionHelper.persistInSession(user, session);
+            SessionHelper.persistInSession(retrievedUser, session);
             return "redirect:/user/dashboard";
         }
 

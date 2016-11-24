@@ -32,8 +32,8 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public String saveProfileForUser(Profile profile, int userId) {
         User user=userDao.findById(userId);
-        user.setProfile(profile);
         em.persist(profile);
+        user.setProfile(profile);
         em.persist(user);
         em.flush();
 

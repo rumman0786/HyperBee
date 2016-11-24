@@ -64,12 +64,7 @@
     </style>
 </head>
 <body>
-    <a href="/user/create">Create new user</a>
-    <a href="/user/all">Display all users</a>
-    <a href="/user/find">Search for user</a>
-    <a href="/user/notes">Notes</a>
-    <a href="/buzz">Buzz!</a>
-    <a href="/user/profile">Profile</a>
+
 
 
 <nav class="navbar navbar-inverse">
@@ -88,6 +83,7 @@
                 <li><a href="#">About</a></li>
                 <li><a href="#">Projects</a></li>
                 <li><a href="#">Contact</a></li>
+                <li><a href="/user/profile">Profile</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>

@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 
-import static net.therap.hyperbee.utils.constant.Url.CREATE_PROFILE_URL;
-import static net.therap.hyperbee.utils.constant.Url.PROFILE_URL;
+import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author duity
@@ -31,41 +30,46 @@ public class ProfileController {
     private UserService userService;
 
     @GetMapping(value = PROFILE_URL)
-    public String getProfile(Model model){
+    public String getProfile(Model model, HttpSession session) {
         model.addAttribute("profile", new Profile());
+        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+        int id = authUser.getId();
+        User user = userService.findById(id);
+        Profile profile = user.getProfile();
+        model.addAttribute("profile", profile);
 
         return CREATE_PROFILE_URL;
     }
 
     @PostMapping(value = PROFILE_URL)
-    public String postProfile(@ModelAttribute Profile profile, Model model, HttpSession session){
-        AuthUser authUser= (AuthUser)session.getAttribute("authUser");
-        int userId=authUser.getId();
-        String message=profileService.saveProfileForUser(profile, userId);
+    public String postProfile(@ModelAttribute Profile profile, Model model, HttpSession session) {
+        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+        int userId = authUser.getId();
+        String message = profileService.saveProfileForUser(profile, userId);
         model.addAttribute("message", message);
 
         return CREATE_PROFILE_URL;
     }
 
-    @GetMapping(value = "/user/profile")
-    public String getViewProfile(HttpSession session, Model model){
-        AuthUser authUser= (AuthUser) session.getAttribute("authUser");
-        String username=authUser.getUsername();
-        User user= userService.findByUsername(username);
-        Profile profile= user.getProfile();
+    @GetMapping(value = USER_PROFILE_URL)
+    public String getViewProfile(HttpSession session, Model model) {
+        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+        String username = authUser.getUsername();
+        User user = userService.findByUsername(username);
+        Profile profile = user.getProfile();
         model.addAttribute("profile", profile);
 
-        return "profile/viewprofile";
+        return VIEW_PROFILE_URL;
     }
 
-    @PostMapping(value = "/user/profile")
-    public String viewProfile(HttpSession session, Model model){
-        AuthUser authUser= (AuthUser) session.getAttribute("authUser");
-        String username=authUser.getUsername();
-        User user= userService.findByUsername(username);
-        Profile profile= user.getProfile();
+    @PostMapping(value = USER_PROFILE_URL)
+    public String viewProfile(HttpSession session, Model model) {
+        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+        String username = authUser.getUsername();
+        User user = userService.findByUsername(username);
+        Profile profile = user.getProfile();
         model.addAttribute("profile", profile);
 
-        return "profile/viewprofile";
+        return VIEW_PROFILE_URL;
     }
 }

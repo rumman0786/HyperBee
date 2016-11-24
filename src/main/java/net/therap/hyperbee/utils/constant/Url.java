@@ -7,4 +7,6 @@ package net.therap.hyperbee.utils.constant;
 public interface Url {
     String PROFILE_URL = "/profile";
     String CREATE_PROFILE_URL = "profile/createprofile";
+    String USER_PROFILE_URL = "/user/profile";
+    String VIEW_PROFILE_URL = "profile/viewprofile";
 }

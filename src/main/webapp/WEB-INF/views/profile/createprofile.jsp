@@ -3,10 +3,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Profile</title>
+    <title>HyperBEE</title>
 </head>
 <body>
-<h1>Profile</h1>
+<h1>${authUser.username}::Profile</h1>
 <form:form action="/profile" method="post" commandName="profile">
     <table>
         <tr>

@@ -3,8 +3,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title></title>
-    <h1>Profile</h1>
+    <title>HyperBEE</title>
+
+    <h1>${authUser.username}::Profile</h1>
 </head>
 <body>
 <form action="/profile" method="get">
