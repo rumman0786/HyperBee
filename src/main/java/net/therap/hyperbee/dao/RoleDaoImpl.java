@@ -19,6 +19,7 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public Role findRole(int id) {
+
         return em.find(Role.class, id);
     }
 }

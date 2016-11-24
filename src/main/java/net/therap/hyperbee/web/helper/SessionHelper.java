@@ -22,6 +22,7 @@ public class SessionHelper {
     }
 
     public static AuthUser retrieveAuthUserFromSession(HttpSession session) {
+
         return (AuthUser) session.getAttribute("authUser");
     }
 
