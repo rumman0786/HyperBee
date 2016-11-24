@@ -1,5 +1,8 @@
 package net.therap.hyperbee.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,17 +28,22 @@ public class Profile implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(columnDefinition = DATE_TIME_FIELD)
+    @Column(columnDefinition = DATE_TIME_FIELD, name = "date_of_birth")
+    @DateTimeFormat(pattern = "dd-MM-yy")
     private Calendar dateOfBirth;
+
 
     private String address;
 
+    @Column(name = "contact_no")
     private String contactNo;
 
     private String skills;
 
+    @Column(name = "work_history")
     private String workHistory;
 
     private String designation;
@@ -46,12 +54,16 @@ public class Profile implements Serializable {
 
     private String university;
 
+    @Column(name = "job_experience_years")
     private int jobExperienceYears;
 
+    @Column(columnDefinition = DATE_TIME_FIELD, name = "joining_date")
+    @DateTimeFormat(pattern = "dd-MM-yy")
     private Calendar joiningDate;
 
     private String gender;
 
+    @Column(name = "image")
     private String imagePath;
 
     public Profile() {
