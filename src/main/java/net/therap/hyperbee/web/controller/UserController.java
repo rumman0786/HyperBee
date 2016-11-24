@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -37,6 +35,7 @@ public class UserController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
+
         return "login";
     }
 
@@ -46,6 +45,7 @@ public class UserController {
 
         if (retrievedUser != null) {
             SessionHelper.persistInSession(user, session);
+
             return "redirect:/user/dashboard";
         }
 
@@ -55,6 +55,7 @@ public class UserController {
     @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("user", new User());
+
         return "signup";
     }
 
@@ -62,12 +63,13 @@ public class UserController {
     public String signupDash(User user, HttpSession session) {
         userService.createUser(user);
         SessionHelper.persistInSession(user, session);
+
         return "redirect:/user/dashboard";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate();
+        SessionHelper.invalidateSession(session);
 
         return "redirect:/login";
     }

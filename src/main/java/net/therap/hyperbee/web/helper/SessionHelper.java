@@ -24,4 +24,8 @@ public class SessionHelper {
     public static AuthUser retrieveAuthUserFromSession(HttpSession session) {
         return (AuthUser) session.getAttribute("authUser");
     }
+
+    public static void invalidateSession(HttpSession session) {
+        session.invalidate();
+    }
 }
