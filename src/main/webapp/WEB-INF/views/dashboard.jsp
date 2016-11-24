@@ -15,7 +15,7 @@
         }
 
         /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-        .row.content {height: 450px}
+        .row.content {height: 1500px}
 
         /* Set gray background color and 100% height */
         .sidenav {
@@ -28,6 +28,7 @@
             list-style-type: none;
             margin: 0;
             padding: 0;
+            position:fixed;
             overflow: hidden;
             font-family: sans-serif;
         }
@@ -44,7 +45,6 @@
         .sidebar > li > a:hover {
             background-color: #c0c0c0;
         }
-
 
         /* Set black background color, white text and some padding */
         footer {
@@ -83,7 +83,7 @@
                 <li><a href="#">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>
@@ -107,7 +107,7 @@
         </div>
         <div class="col-sm-2 sidenav">
             <div class="well">
-                <p>ADS</p>
+                <p><jsp:include page="buzz.jsp"/></p>
             </div>
             <div class="well">
                 <p>ADS</p>

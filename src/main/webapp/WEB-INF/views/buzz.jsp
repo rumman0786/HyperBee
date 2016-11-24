@@ -7,11 +7,18 @@
 </head>
 <body>
     <c:forEach items="${buzzList}" var="buzz">
-        <p><c:out value="${buzz.user.username}[${buzz.buzzTime.getTime()}]: ${buzz.message}"/></p>
+        <c:choose>
+            <c:when test="${buzz.isFlagged()}">
+                <p><c:out value="The message has been flagged for it's content."/></p>
+            </c:when>
+            <c:otherwise>
+                <p><c:out value="${buzz.user.username}[${buzz.buzzTime.getTime()}]: ${buzz.message}"/></p>
+            </c:otherwise>
+        </c:choose>
     </c:forEach>
 
     <form:form action="/buzz" method="POST" modelAttribute="newBuzz">
-        <form:label path="message">"Enter your message:</form:label>
+        <form:label path="message">Enter your message:</form:label>
         <form:input path="message"/>
         <input type="submit" value="Send"/>
     </form:form>
