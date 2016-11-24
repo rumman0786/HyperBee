@@ -68,7 +68,7 @@ public class BuzzServiceImpl implements BuzzService {
 
     @Override
     public List<Buzz> getLatestBuzz() {
-        return buzzDao.getLatest(15);
+        return buzzDao.getLatest(5);
     }
 
     @Override
