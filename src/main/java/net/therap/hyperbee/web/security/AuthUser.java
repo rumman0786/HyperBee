@@ -36,6 +36,7 @@ public class AuthUser implements Serializable{
     }
 
     public List<Role> getRoleList() {
+
         return this.roleList;
     }
 
@@ -44,6 +45,7 @@ public class AuthUser implements Serializable{
     }
 
     public String getUsername() {
+
         return username;
     }
 
