@@ -5,10 +5,12 @@
 <div class="container">
     <form:form class="form-signin" action="/signup" method="POST" modelAttribute="user">
         <h2 class="form-signin-heading">Please sign up</h2>
+        <form:input type="text" class="form-control" path="firstName" placeholder="First Name"/>
+        <form:input type="text" class="form-control" path="lastName" placeholder="Last Name"/>
         <form:input type="text" class="form-control" path="username" placeholder="Username"/>
         <form:input type="email" class="form-control" path="email" placeholder="Email"/>
         <form:input type="password" class="form-control"  path="password" placeholder="Password"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        <form:button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</form:button>
     </form:form>
 </div>
 <%@ include file="footer.jsp" %>

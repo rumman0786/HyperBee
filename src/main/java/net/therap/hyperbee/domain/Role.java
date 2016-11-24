@@ -2,12 +2,11 @@ package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.RoleType;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+
+import static net.therap.hyperbee.utils.constant.DomainConstant.USER_STATUS_ENUM;
 
 /**
  * @author bashir
@@ -23,12 +22,18 @@ public class Role implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "type", columnDefinition = USER_STATUS_ENUM)
+    @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
     @ManyToMany(mappedBy = "roleList")
     private List<User> userList;
+
+    public Role() {
+    }
 
     public int getId() {
         return id;

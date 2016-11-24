@@ -31,8 +31,10 @@ public class User implements Serializable {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "last_name")
     private String lastName;
 
     private String email;

@@ -2,7 +2,7 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.web.security.AuthUser;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,11 +35,10 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(User user, HttpSession session) {
-        AuthUser authUser;
-        authUser = userService.findByUsernameAndPassword(user);
+        User retrievedUser = userService.findByUsernameAndPassword(user);
 
-        if (authUser != null) {
-            session.setAttribute("authUser", authUser);
+        if (retrievedUser != null) {
+            SessionHelper.persistInSession(user, session);
             return "redirect:/user/dashboard";
         }
 
@@ -53,7 +52,9 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signupDash(User user) {
+    public String signupDash(User user, HttpSession session) {
+        userService.createUser(user);
+        SessionHelper.persistInSession(user, session);
         return "redirect:/user/dashboard";
     }
 
