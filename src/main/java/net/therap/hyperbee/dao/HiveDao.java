@@ -1,6 +1,7 @@
 package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.User;
 
 import java.util.List;
 
@@ -13,4 +14,14 @@ public interface HiveDao {
     public void saveHive(Hive hive);
 
     public List<Hive> retrieveHive();
+
+    public List<User> getUserListById(List<Integer> idList);
+
+    public List<User> getUserList();
+
+    public Hive retrieveHiveById(int id);
+
+    public void insertUsersToHive(Hive hive, List<User> userList);
+
+    public List<Hive> getHiveListByUserId(int userId);
 }
