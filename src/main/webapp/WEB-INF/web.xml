@@ -29,4 +29,14 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <filter>
+        <filter-name>authenticate</filter-name>
+        <filter-class>net.therap.hyperbee.web.filter.UrlFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>authenticate</filter-name>
+        <url-pattern>/user/*</url-pattern>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
 </web-app>

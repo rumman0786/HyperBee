@@ -18,7 +18,6 @@
     <context:component-scan base-package="net.therap.hyperbee.dao"/>
     <context:component-scan base-package="net.therap.hyperbee.service"/>
     <context:component-scan base-package="net.therap.hyperbee.utils"/>
-    <context:component-scan base-package="net.therap.hyperbee.web.validator"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -67,6 +66,7 @@
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
     <mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
     <mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/"/>
+
     <mvc:annotation-driven validator="myBeansValidator"/>
     <mvc:annotation-driven/>
 </beans>
