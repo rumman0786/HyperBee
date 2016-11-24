@@ -1,8 +1,10 @@
 package net.therap.hyperbee.web.controller;
 
+import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.web.security.AuthUser;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,9 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     @Autowired
+    BuzzService buzzService;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping("/")
@@ -30,17 +35,16 @@ public class UserController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
+
         return "login";
     }
 
     @PostMapping("/login")
     public String loginUser(User user, HttpSession session) {
-        AuthUser authUser;
-        authUser = userService.findByUsernameAndPassword(user);
+        User retrievedUser = userService.findByUsernameAndPassword(user);
 
-        if (authUser != null) {
-            session.setAttribute("authUser", authUser);
-
+        if (retrievedUser != null) {
+            SessionHelper.persistInSession(user, session);
             return "redirect:/user/dashboard";
         }
 
@@ -50,16 +54,30 @@ public class UserController {
     @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("user", new User());
+
         return "signup";
     }
 
     @PostMapping("/signup")
-    public String signupDash(User user) {
+    public String signupDash(User user, HttpSession session) {
+        userService.createUser(user);
+        SessionHelper.persistInSession(user, session);
+
         return "redirect:/user/dashboard";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        SessionHelper.invalidateSession(session);
+
+        return "redirect:/login";
+    }
+
     @GetMapping("/user/dashboard")
-    public String welcome() {
+    public String welcome(Model model) {
+        model.addAttribute("newBuzz", new Buzz());
+        model.addAttribute("buzzList", buzzService.getLatestBuzz());
+
         return "dashboard";
     }
 }

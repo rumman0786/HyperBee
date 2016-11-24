@@ -26,7 +26,6 @@ public class BuzzDaoImpl implements BuzzDao {
     private EntityManager em;
 
     @Override
-    @Transactional
     public boolean save(Buzz newBuzz) {
         em.persist(newBuzz);
         return true;
@@ -34,7 +33,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getAll() {
-        return em.createQuery(QUERY_GET_BY_STATUS)
+        return em.createQuery(QUERY_GET_BY_STATUS, Buzz.class)
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)
                 .getResultList();
     }
@@ -46,21 +45,21 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getByUser(int userId) {
-        return em.createQuery(QUERY_GET_BY_USER)
+        return em.createQuery(QUERY_GET_BY_USER, Buzz.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
 
     @Override
     public List<Buzz> getByDisplayStatus(DisplayStatus displayStatus) {
-        return em.createQuery(QUERY_GET_BY_STATUS)
+        return em.createQuery(QUERY_GET_BY_STATUS, Buzz.class)
                 .setParameter("displayStatus", displayStatus.getStatus())
                 .getResultList();
     }
 
     @Override
     public List<Buzz> getLatest(int range) {
-        return em.createQuery(QUERY_GET_LATEST)
+        return em.createQuery(QUERY_GET_LATEST, Buzz.class)
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)
                 .setMaxResults(range)
                 .getResultList();

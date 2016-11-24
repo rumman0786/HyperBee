@@ -11,21 +11,21 @@ import java.util.List;
  */
 public interface BuzzService {
 
-    public boolean createBuzz(Buzz newBuzz);
+    public boolean saveBuzz(Buzz newBuzz);
 
-    public boolean createPinnedBuzz(Buzz newBuzz);
+    public boolean savePinnedBuzz(Buzz newBuzz);
 
-    public List<Buzz> retrieveAllBuzz();
+    public List<Buzz> getAllBuzz();
 
-    public Buzz retrieveBuzzById(int buzzId);
+    public Buzz getBuzzById(int buzzId);
 
-    public List<Buzz> retrieveBuzzByUser(String username);
+    public List<Buzz> getBuzzByUser(String username);
 
-    public List<Buzz> retrieveBuzzByStatus(DisplayStatus displayStatus);
+    public List<Buzz> getBuzzByStatus(DisplayStatus displayStatus);
 
-    List<Buzz> retrieveLatestBuzz();
+    List<Buzz> getLatestBuzz();
 
-    public Buzz updateBuzz(Buzz buzzToUpdate);
+    public Buzz flagBuzz(Buzz buzzToFlag);
 
-    public Buzz deleteBuzz(Buzz buzzToDelete);
+    public Buzz deactivateBuzz(Buzz buzzToDeactivate);
 }

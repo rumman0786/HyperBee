@@ -40,6 +40,9 @@ public class Buzz implements Serializable {
     @Column(columnDefinition = "BIT(1)", nullable = false)
     private boolean pinned = false;
 
+    @Column(columnDefinition = "BIT(1)", nullable = false)
+    private boolean flagged = false;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -101,5 +104,13 @@ public class Buzz implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isFlagged() {
+        return flagged;
+    }
+
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
     }
 }

@@ -10,7 +10,6 @@ import java.util.List;
  * @since 11/23/16 1:56 PM
  */
 
-
 public class AuthUser implements Serializable{
 
     private static final long serialVersionUID = 1;
@@ -37,6 +36,7 @@ public class AuthUser implements Serializable{
     }
 
     public List<Role> getRoleList() {
+
         return this.roleList;
     }
 
@@ -45,6 +45,7 @@ public class AuthUser implements Serializable{
     }
 
     public String getUsername() {
+
         return username;
     }
 
