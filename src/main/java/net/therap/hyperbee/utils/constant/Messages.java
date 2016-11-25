@@ -6,4 +6,7 @@ package net.therap.hyperbee.utils.constant;
  */
 public interface Messages {
     String PROFILE_SAVE_MESSAGE = " The Profile is updated ";
+
+    String NOTE_DELETE_SUCCESS = "Note has been deleted";
+    String NOTE_SAVE_SUCCESS = "Note has been saved";
 }

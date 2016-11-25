@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Success</title>
-    <meta http-equiv="Refresh" content="1;url=/user/notes">
+    <meta http-equiv="Refresh" content="1;url=${redirectUrl}">
 
 </head>
 <body>

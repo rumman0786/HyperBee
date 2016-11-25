@@ -2,6 +2,8 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.service.StickyNoteService;
+import net.therap.hyperbee.utils.constant.Messages;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +21,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -33,10 +36,13 @@ public class NoteController {
     @Autowired
     private StickyNoteService noteService;
 
+    @Autowired
+    private SessionHelper sessionHelper;
+
     @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
 
-        int userId = getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession(session);
 
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
         log.debug("NOTE LIST USER:: " + Arrays.deepToString(noteList.toArray()));
@@ -47,19 +53,11 @@ public class NoteController {
         return NOTE_VIEW_ALL;
     }
 
-    @GetMapping(NOTE_ADD_URL)
-    public String addNotes(Model model) {
-
-        model.addAttribute("noteCommand", new Note());
-
-        return NOTE_ADD_VIEW;
-    }
-
     @PostMapping(NOTE_SAVE_URL)
     public String saveNote(@ModelAttribute("noteCommand")
                            Note note, Model model, HttpSession session) {
 
-        int userId = getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession(session);
         log.debug("AuthUser ID: " + userId);
         Calendar createdDate = note.getDateCreated();
         createdDate.setTimeInMillis(System.currentTimeMillis());
@@ -68,24 +66,24 @@ public class NoteController {
 
         noteService.saveNoteForUser(note, userId);
 
-        model.addAttribute("message", "Note saved");
+        model.addAttribute("message", NOTE_SAVE_SUCCESS);
+        model.addAttribute("redirectUrl", NOTE_VIEW_URL);
 
         return SUCCESS_VIEW;
     }
 
     @PostMapping(NOTE_DELETE_URL)
     public String noteDelete(@PathVariable("id") int noteId, HttpSession session,
-                             @ModelAttribute("noteCommand") Note note) {
+                             @ModelAttribute("noteCommand") Note note, Model model) {
 
-        log.debug("SELECTED NOTE ID FOR DELETE: " + noteId);
-        noteService.markNoteAsInactiveForUser(getUserIdFromSession(session), noteId);
+        noteService.markNoteAsInactiveForUser(sessionHelper.getUserIdFromSession(session), noteId);
+        log.debug("Selected note ID Delete: " + noteId);
 
-        return "redirect:" + NOTE_VIEW_URL;
-    }
 
-    private int getUserIdFromSession(HttpSession session) {
+        model.addAttribute("message", NOTE_DELETE_SUCCESS);
+        model.addAttribute("redirectUrl", NOTE_VIEW_URL);
 
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
-        return authUser.getId();
+
+        return SUCCESS_VIEW;
     }
 }
