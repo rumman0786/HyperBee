@@ -4,22 +4,32 @@
 <html>
 <head>
     <title>All Notes</title>
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../css/bootstrap-datetimepicker.css" rel="stylesheet">
-    <script src="../../js/jquery-3.1.1.js"></script>
-    <script src="../../js/bootstrap.min.js"></script>
-    <script src="../../js/bootstrap-datetimepicker.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+        });
+    </script>
+
 </head>
 
 <body>
-
 <form:form action="/user/note/save" method="post" commandName="noteCommand">
     <div class="panel panel-success">
         <div class="panel-heading clearfix">
             <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Add Note</h4>
-            <div class='pull-right'>
-                Date Time Picker
+
+            <div class='pull-right col-sm-2' style="width: 18.20%">
+
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type="text" class="form-control" placeholder="Remember Me!"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
             </div>
+
         </div>
         <div class="panel-body">
             <form:input id="title" type="text" placeholder="Title" class="form-control"
@@ -34,6 +44,7 @@
         </div>
     </div>
 </form:form>
+
 
 <c:forEach items="${noteList}" var="item">
 
