@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<decorators>
-    <decorator name="decorator" page="/decorators/decorator.jsp">
-        <pattern>/admin/*</pattern>
+<decorators defaultdir="/WEB-INF/decorators/">
+    <excludes>
+        <pattern>/user/note/save</pattern>
+    </excludes>
+    <decorator name="decorator" page="decorator.jsp">
+        <pattern>/user/*</pattern>
     </decorator>
 </decorators>
