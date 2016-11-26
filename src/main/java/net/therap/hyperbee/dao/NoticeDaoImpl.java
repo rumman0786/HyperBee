@@ -21,12 +21,12 @@ public class NoticeDaoImpl implements NoticeDao {
 
     @Override
     public void save(Notice notice) {
-        em.persist(notice);
-    }
 
-    @Override
-    public void update(Notice notice) {
-        em.merge(notice);
+        if (notice.getId() == 0) {
+            em.persist(notice);
+        } else {
+            em.merge(notice);
+        }
     }
 
     @Override
