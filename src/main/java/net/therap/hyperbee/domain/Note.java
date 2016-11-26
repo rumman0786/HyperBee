@@ -21,9 +21,10 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Note.findNoteByUserId",
-                query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus"),
+                query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus " +
+                        " ORDER BY n.dateRemind"),
         @NamedQuery(name = "Note.updateDisplayStatusForUser",
-                 query = "UPDATE Note n SET n.displayStatus = :displayStatus WHERE n.id = :noteId AND n.user.id = :userId")
+                query = "UPDATE Note n SET n.displayStatus = :displayStatus WHERE n.id = :noteId AND n.user.id = :userId"),
 })
 @Table(name = "note")
 public class Note implements Serializable {
@@ -39,9 +40,11 @@ public class Note implements Serializable {
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateCreated;
 
     @Column(name = "date_remind", columnDefinition = DATE_TIME_FIELD)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateRemind;
 
     @Enumerated(EnumType.STRING)
@@ -128,14 +131,14 @@ public class Note implements Serializable {
         this.user = user;
     }
 
-    public String getRemindDateFormatted(){
+    public String getRemindDateFormatted() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         return sdf.format(dateRemind.getTimeInMillis());
     }
 
-    public String toString(){
+    public String toString() {
 
-        return "Title: "+getTitle() +"\n Description: "+getDescription();
+        return "Title: " + getTitle() + "\n Description: " + getDescription();
     }
 }
