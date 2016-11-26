@@ -22,7 +22,8 @@
             <div class='pull-right col-sm-2' style="width: 18.20%">
 
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type="text" class="form-control" placeholder="Remember Me!"/>
+                    <input name="dateRemindString" type="text" class="form-control"
+                           placeholder="Remember Me!"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -58,6 +59,13 @@
                 </div>
             </div>
             <div class="panel-body">${item.description}</div>
+            <div class="panel-footer clearfix">
+                <div class="pull-right">
+                    ${item.getRemindDateFormatted()}
+                </div>
+
+            </div>
+
         </div>
     </form:form>
 

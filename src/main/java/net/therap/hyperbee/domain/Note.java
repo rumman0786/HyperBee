@@ -5,6 +5,7 @@ import net.therap.hyperbee.domain.enums.NotePriority;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -125,6 +126,12 @@ public class Note implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getRemindDateFormatted(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        return sdf.format(dateRemind.getTimeInMillis());
     }
 
     public String toString(){

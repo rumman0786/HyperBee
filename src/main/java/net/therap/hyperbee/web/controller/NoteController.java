@@ -2,26 +2,25 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.service.StickyNoteService;
-import net.therap.hyperbee.utils.constant.Messages;
+import net.therap.hyperbee.web.helper.NoteHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
-import net.therap.hyperbee.web.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static net.therap.hyperbee.utils.constant.Messages.*;
+import static net.therap.hyperbee.utils.constant.Messages.NOTE_DELETE_SUCCESS;
+import static net.therap.hyperbee.utils.constant.Messages.NOTE_SAVE_SUCCESS;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -39,13 +38,14 @@ public class NoteController {
     @Autowired
     private SessionHelper sessionHelper;
 
+    @Autowired
+    private NoteHelper noteHelper;
+
     @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
 
         int userId = sessionHelper.getUserIdFromSession(session);
-
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
-        log.debug("NOTE LIST USER:: " + Arrays.deepToString(noteList.toArray()));
 
         model.addAttribute("noteList", noteList);
         model.addAttribute("noteCommand", new Note());
@@ -54,16 +54,20 @@ public class NoteController {
     }
 
     @PostMapping(NOTE_SAVE_URL)
-    public String saveNote(@ModelAttribute("noteCommand")
-                           Note note, Model model, HttpSession session) {
+    public String saveNote(@ModelAttribute("noteCommand") Note note,
+                           @RequestParam String dateRemindString,
+                           Model model, HttpSession session) {
 
         int userId = sessionHelper.getUserIdFromSession(session);
+
         log.debug("AuthUser ID: " + userId);
+        log.debug("Date Remind: " + dateRemindString);
+
         Calendar createdDate = note.getDateCreated();
         createdDate.setTimeInMillis(System.currentTimeMillis());
-        Calendar remindDate = note.getDateRemind();
-        remindDate.setTimeInMillis(System.currentTimeMillis());
 
+        Calendar remindDate = note.getDateRemind();
+        noteHelper.setCalendarValFromString(remindDate, dateRemindString);
         noteService.saveNoteForUser(note, userId);
 
         model.addAttribute("message", NOTE_SAVE_SUCCESS);
@@ -79,10 +83,8 @@ public class NoteController {
         noteService.markNoteAsInactiveForUser(sessionHelper.getUserIdFromSession(session), noteId);
         log.debug("Selected note ID Delete: " + noteId);
 
-
         model.addAttribute("message", NOTE_DELETE_SUCCESS);
         model.addAttribute("redirectUrl", NOTE_VIEW_URL);
-
 
         return SUCCESS_VIEW;
     }
