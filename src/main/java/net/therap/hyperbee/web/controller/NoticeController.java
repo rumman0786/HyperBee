@@ -5,22 +5,22 @@ import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.NoticeService;
 import net.therap.hyperbee.service.UserService;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
+
+import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author rumman
  * @since 11/22/16
  */
 @Controller
-@RequestMapping(value = "/notice")
+@RequestMapping(value = NOTICE_BASE_URL)
 public class NoticeController {
 
     @Autowired
@@ -31,6 +31,9 @@ public class NoticeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SessionHelper sessionHelper;
 //
 //    @Autowired
 //    @Qualifier("dishCommandValidator")
@@ -41,33 +44,32 @@ public class NoticeController {
 //        binder.setValidator(validator);
 //    }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = NOTICE_LIST_URL, method = RequestMethod.GET)
     public String showNoticeList(ModelMap modelMap) {
-        List<Notice> noticeList = noticeDao.findAll();
 
         modelMap.addAttribute("page", "notice")
-                .addAttribute("noticeList", noticeList)
-                .addAttribute("noticeAddUrl", "/notice")
-                .addAttribute("deleteUrl", "/notice/delete");
+                .addAttribute("noticeList", noticeDao.findAll())
+                .addAttribute("noticeAddUrl", NOTICE_BASE_URL)
+                .addAttribute("deleteUrl", NOTICE_BASE_URL + NOTICE_DELETE_URL);
 
         return "notice/list_notice";
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showAddNotice(ModelMap modelMap) {
+    public String showAddNoticeForm(ModelMap modelMap) {
 
         modelMap.addAttribute("page", "notice")
                 .addAttribute("notice", new Notice())
                 .addAttribute("noticeHeader", "Add Notice")
-                .addAttribute("action", "/notice/add")
+                .addAttribute("action", NOTICE_BASE_URL + NOTICE_ADD_URL)
                 .addAttribute("displayStatusOptions", DisplayStatus.values());
 
         return "notice/form_notice";
     }
 
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String handleAddNotice(@ModelAttribute("notice") Notice notice
+    @RequestMapping(value = NOTICE_ADD_URL, method = RequestMethod.POST)
+    public String addNotice(@ModelAttribute("notice") Notice notice, HttpSession session
 //                                  @RequestParam("dateExpired") String dateExpired
 //                                      BindingResult bindingResult,
     ) {
@@ -75,8 +77,8 @@ public class NoticeController {
 //
 //        DateTime dt = formatter.parseDateTime(dateExpired);
 //        notice.setDateExpired(dt.toGregorianCalendar());
-        //TODO after rayd is done insert logged in user
-        notice.setUser(userService.findById(1));
+        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession(session)).getId();
+        notice.setUser(userService.findById(sessionUserId));
 
 //        if (bindingResult.hasErrors()) {
 //            return new ModelAndView("dish/add-dish");
@@ -96,20 +98,19 @@ public class NoticeController {
 //        Calendar calendar = new GregorianCalendar();
 //        calendar.setTime(dt);
 
-        String redirectUrl = "/notice/list";
 //        if (status) {
 //            redirectUrl += "?success=success";
 //        } else {
 //            redirectUrl += "?failure=failure";
 //        }
 
-        return "redirect:" + redirectUrl;
+        return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }
 
     @RequestMapping(value = "/{id}/**", method = RequestMethod.GET)
-    public String showEditNoice(@PathVariable("id") int id, ModelMap modelMap) {
+    public String showEditNoiceForm(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", "notice")
-                .addAttribute("action", "/notice/update")
+                .addAttribute("action", NOTICE_BASE_URL + NOTICE_UPDATE_URL)
                 .addAttribute("noticeHeader", "Edit Notice")
                 .addAttribute("notice", noticeDao.findById(id));
 
@@ -134,12 +135,13 @@ public class NoticeController {
 //        return model;
 //    }
 //
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String handleEditNotice(@ModelAttribute("notice") Notice notice//, @Validated
-                                   //BindingResult bindingResult,Model model
+    @RequestMapping(value = NOTICE_UPDATE_URL, method = RequestMethod.POST)
+    public String editNotice(@ModelAttribute("notice") Notice notice, HttpSession session//, @Validated
+                             //BindingResult bindingResult,Model model
     ) {
-        //TODO after rayd is done insert logged in user
-        notice.setUser(userService.findById(1));
+        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession(session)).getId();
+        notice.setUser(userService.findById(sessionUserId));
+
 //        if (bindingResult.hasErrors()) {
 //            return new ModelAndView("dish/edit-dish");
 //        }
@@ -149,20 +151,19 @@ public class NoticeController {
 //        dish.setCalories(dishCommand.getCalories());
 //        dish.setId(dishCommand.getId());
 
-        noticeService.updateNotice(notice);
-        String redirectUrl = "/notice/list";
+        noticeService.saveNotice(notice);
 //        if (status) {
 //            redirectUrl += "?success=success";
 //        } else {
 //            redirectUrl += "?failure=failure";
 //        }
 
-        return "redirect:" + redirectUrl;
+        return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = NOTICE_DELETE_URL, method = RequestMethod.POST)
     public String deleteDish(@RequestParam("id") int dishId) {
         noticeService.delete(dishId);
-        return "redirect:/notice/list";
+        return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }
 }
