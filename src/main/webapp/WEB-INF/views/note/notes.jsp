@@ -7,13 +7,16 @@
 
     <script type="text/javascript">
         $(function () {
-            $('#datetimepicker1').datetimepicker();
+            $('#datetimepicker1').datetimepicker({
+                minDate: moment()
+            });
         });
     </script>
 
 </head>
 
 <body>
+
 <form:form action="/user/note/save" method="post" commandName="noteCommand">
     <div class="panel panel-success">
         <div class="panel-heading clearfix">
@@ -48,7 +51,6 @@
 
 
 <c:forEach items="${noteList}" var="item">
-
     <form:form action="/note/delete/${item.id}" method="post">
         <div class="panel panel-warning">
             <div class="panel-heading clearfix">
@@ -61,14 +63,11 @@
             <div class="panel-body">${item.description}</div>
             <div class="panel-footer clearfix">
                 <div class="pull-right">
-                    ${item.getRemindDateFormatted()}
+                        ${item.getRemindDateFormatted()}
                 </div>
-
             </div>
-
         </div>
     </form:form>
-
 </c:forEach>
 </body>
 </html>

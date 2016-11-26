@@ -25,7 +25,7 @@ public class Scheduler {
     @Scheduled(cron = "0 0 0 ? * *")
     public void scheduleNoteExpireJob() {
 
-        log.debug("Scheduler in progress");
+        log.debug("Archiving expired notes....");
         noteDao.markExpiredNoteAsInactive();
     }
 }

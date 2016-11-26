@@ -4,6 +4,8 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.NotePriority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +39,8 @@ public class Note implements Serializable {
 
     private String title;
 
+    @NotNull
+    @Size(min = 1, message = "{email.required}")
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)

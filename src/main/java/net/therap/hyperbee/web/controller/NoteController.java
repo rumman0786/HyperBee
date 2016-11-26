@@ -4,23 +4,23 @@ import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.service.StickyNoteService;
 import net.therap.hyperbee.web.helper.NoteHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
+import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static net.therap.hyperbee.utils.constant.Messages.NOTE_DELETE_SUCCESS;
-import static net.therap.hyperbee.utils.constant.Messages.NOTE_SAVE_SUCCESS;
+import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -41,6 +41,14 @@ public class NoteController {
     @Autowired
     private NoteHelper noteHelper;
 
+    @Autowired
+    private NoteDateTimeValidator noteDateTimeValidator;
+
+    @InitBinder("noteCommand")
+    private void noteInputInitBinder(WebDataBinder binder) {
+        binder.addValidators(noteDateTimeValidator);
+    }
+
     @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
 
@@ -54,9 +62,18 @@ public class NoteController {
     }
 
     @PostMapping(NOTE_SAVE_URL)
-    public String saveNote(@ModelAttribute("noteCommand") Note note,
-                           @RequestParam String dateRemindString,
+    public String saveNote(@Valid @ModelAttribute("noteCommand") Note note,
+                           BindingResult bindingResult, @RequestParam String dateRemindString,
                            Model model, HttpSession session) {
+
+        if (bindingResult.hasErrors()) {
+
+            log.debug("ERROR IN SAVING NOTE");
+            model.addAttribute("message", NOTE_SAVE_FAILURE);
+            model.addAttribute("redirectUrl", NOTE_VIEW_URL);
+            model.addAttribute("messageStyle", "error");
+            return SUCCESS_VIEW;
+        }
 
         int userId = sessionHelper.getUserIdFromSession(session);
 
