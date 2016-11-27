@@ -15,7 +15,6 @@ import java.util.List;
  * @author rayed
  * @since 11/22/16 10:49 AM
  */
-
 @Service
 public class UserServiceImpl implements UserService {
 

@@ -22,21 +22,16 @@ public class UploadedFile {
 
         String filename = fileName + "." + fileUpload.getOriginalFilename();
 
-        try
-
-        {
+        try {
             byte barr[] = fileUpload.getBytes();
             BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(System.getProperty("catalina.home") + "/webapps/upload/" + filename));
             bout.write(barr);
             bout.flush();
             bout.close();
-
-        } catch (
-                Exception e
-                )
-        {
+        } catch (Exception e) {
             System.out.println(e);
         }
-    return filename;
+
+        return filename;
     }
 }
