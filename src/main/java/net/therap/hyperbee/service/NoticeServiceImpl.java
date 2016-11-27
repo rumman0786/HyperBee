@@ -25,12 +25,6 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    @Transactional
-    public void updateNotice(Notice notice) {
-        noticeDao.update(notice);
-    }
-
-    @Override
     public Notice findNoticeById(int noticeId) {
         return noticeDao.findById(noticeId);
     }
