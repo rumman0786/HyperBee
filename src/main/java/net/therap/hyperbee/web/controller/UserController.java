@@ -5,13 +5,20 @@ import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.helper.SignUpUserHelper;
+import net.therap.hyperbee.web.validator.LoginValidator;
+import net.therap.hyperbee.web.validator.SignUpValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,13 +40,21 @@ public class UserController {
     @Autowired
     private SessionHelper sessionHelper;
 
-//    @Autowired
-//    private LoginValidator loginValidator;
-//
-//    @InitBinder
-//    private void loginValidator(WebDataBinder binder) {
-//        binder.addValidators(loginValidator);
-//    }
+    @Autowired
+    private LoginValidator loginValidator;
+
+    @Autowired
+    private SignUpValidator signUpValidator;
+
+    @InitBinder("login")
+    private void loginValidator(WebDataBinder binder) {
+        binder.setValidator(loginValidator);
+    }
+
+    @InitBinder("signUp")
+    private void signUpValidator(WebDataBinder binder) {
+        binder.setValidator(signUpValidator);
+    }
 
     @GetMapping(ROOT_URL)
     public String entry() {
@@ -49,14 +64,16 @@ public class UserController {
 
     @GetMapping(LOGIN_URL)
     public String login(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("login", new User());
 
         return "login";
     }
 
     @PostMapping(LOGIN_URL)
-    public String loginUser(@Validated User user, BindingResult bindingResult, HttpSession session) {
+    public String loginUser(@Validated @ModelAttribute("login") User user, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
+
             return "login";
         }
 
@@ -68,18 +85,30 @@ public class UserController {
             return "redirect:" + USER_DASHBOARD_URL;
         }
 
-        return "redirect:" + LOGIN_URL;
+        return "login";
     }
 
     @GetMapping(SIGN_UP_URL)
-    public String signup(Model model) {
-        model.addAttribute("user", new User());
+    public String signUp(Model model) {
+        model.addAttribute("signUp", new SignUpUserHelper());
 
-        return "signup";
+        return "signUp";
     }
 
     @PostMapping(SIGN_UP_URL)
-    public String signupDash(User user, HttpSession session) {
+    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpUserHelper signUpUserHelper, BindingResult bindingResult, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+
+            return "signUp";
+        }
+
+        User user = new User();
+        user.setFirstName(signUpUserHelper.getFirstName());
+        user.setLastName(signUpUserHelper.getLastName());
+        user.setUsername(signUpUserHelper.getUsername());
+        user.setEmail(signUpUserHelper.getEmail());
+        user.setPassword(signUpUserHelper.getPassword1());
+
         User retrievedUser = userService.createUser(user);
         sessionHelper.persistInSession(retrievedUser, session);
 

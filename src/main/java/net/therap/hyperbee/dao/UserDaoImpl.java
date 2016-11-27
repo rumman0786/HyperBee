@@ -1,15 +1,12 @@
 package net.therap.hyperbee.dao;
 
-import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +43,22 @@ public class UserDaoImpl implements UserDao {
                     .setParameter("username", username)
                     .getSingleResult();
         } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    @Override
+    public User findByUsernameOrEmail(String username, String email) {
+        User user = null;
+
+        try {
+            user = (User) em.createNamedQuery("User.findByUsernameOrEmail")
+                    .setParameter("username", username)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e){
             e.printStackTrace();
         }
 

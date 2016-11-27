@@ -24,6 +24,9 @@ public class AuthUser implements Serializable{
         this.roleList = roleList;
     }
 
+
+    //TODO public boolean isAdmin()
+
     public AuthUser() {
     }
 

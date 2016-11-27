@@ -50,6 +50,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByUsernameOrEmail(String username, String email) {
+
+        return userDao.findByUsernameOrEmail(username, email);
+    }
+
+    @Override
     public User findByUsernameAndPassword(User user) {
 
         return userDao.findByUsernameAndPassword(user);
