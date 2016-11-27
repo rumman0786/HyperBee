@@ -83,7 +83,7 @@ public class NoteController {
         Calendar createdDate = note.getDateCreated();
         createdDate.setTimeInMillis(System.currentTimeMillis());
 
-        noteHelper.setCalendarValFromString(note.getDateRemind(), dateRemindString);
+        noteHelper.setCalendarValFromString(note, dateRemindString);
         noteService.saveNoteForUser(note, userId);
 
         model.addAttribute("message", NOTE_SAVE_SUCCESS);

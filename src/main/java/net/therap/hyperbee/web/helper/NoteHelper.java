@@ -7,6 +7,7 @@ import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +25,14 @@ public class NoteHelper {
         return new Note();
     }
 
-    public void setCalendarValFromString(Calendar calendar, String dateTime) {
+    public void setCalendarValFromString(Note note, String dateTime) {
+
+        if (dateTime.isEmpty()) {
+
+            return;
+        }
+
+        Calendar calendar = new GregorianCalendar();
 
         String regExp = "^([0-9]+)/([0-9]+)/([0-9]+) ([0-9]+):([0-9]+) (AM|PM)$";
         Pattern pattern = Pattern.compile(regExp);
@@ -49,6 +57,9 @@ public class NoteHelper {
 
             calendar.set(Calendar.AM_PM, (matcher.group(6)).equals("AM") ? 0 : 1);
             log.debug("MONTH: " + matcher.group(6));
+            note.setDateRemind(calendar);
+
+            return;
         }
     }
 }
