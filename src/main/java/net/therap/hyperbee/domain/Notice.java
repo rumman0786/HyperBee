@@ -1,6 +1,7 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,10 +33,11 @@ public class Notice implements Serializable {
 
     private String description;
 
-    @Column(columnDefinition = DATE_TIME_FIELD)
+    @Column(columnDefinition = DATE_TIME_FIELD, name = "date_created")
     private Calendar dateCreated;
 
-    @Column(columnDefinition = DATE_TIME_FIELD)
+    @Column(columnDefinition = DATE_TIME_FIELD, name = "date_expired")
+    @DateTimeFormat(pattern = "dd-MM-yy")
     private Calendar dateExpired;
 
     @Enumerated(EnumType.STRING)
@@ -51,7 +53,7 @@ public class Notice implements Serializable {
 
     public Notice() {
         this.dateCreated = new GregorianCalendar();
-        this.dateExpired = new GregorianCalendar();
+//        this.dateExpired = new GregorianCalendar();
     }
 
     public int getId() {
@@ -78,8 +80,16 @@ public class Notice implements Serializable {
         this.description = description;
     }
 
+    public Calendar getDateCreated() {
+        return dateCreated;
+    }
+
     public void setDateCreated(Calendar dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Calendar getDateExpired() {
+        return dateExpired;
     }
 
     public void setDateExpired(Calendar dateExpired) {
