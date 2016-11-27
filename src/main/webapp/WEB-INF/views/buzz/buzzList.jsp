@@ -3,15 +3,21 @@
 
 <html>
 <body>
+<table class="table table-striped table-bordered">
 <c:forEach items="${buzzList}" var="buzz">
     <c:choose>
         <c:when test="${buzz.isFlagged()}">
-            <p><c:out value="The message has been flagged for it's content."/></p>
+            <tr><td>
+                <p><c:out value="The message has been flagged for it's content."/></p>
+            </td></tr>
         </c:when>
         <c:otherwise>
-            <p><c:out value="${buzz.user.username}[${buzz.buzzTime.getTime()}]: ${buzz.message}"/></p>
+            <tr><td>
+                <p><c:out value="${buzz.user.username}[${buzz.buzzTime.getTime()}]: ${buzz.message}"/></p>
+            </td></tr>
         </c:otherwise>
     </c:choose>
 </c:forEach>
+</table>
 </body>
 </html>

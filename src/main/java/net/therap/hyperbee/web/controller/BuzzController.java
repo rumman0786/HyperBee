@@ -4,7 +4,6 @@ import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
-
 import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +46,7 @@ public class BuzzController {
 
         model.addAttribute("newBuzz", new Buzz());
 
-        return "buzz/buzz";
+        return "redirect:/user/dashboard";
     }
 
     @GetMapping("/buzz/flagBuzz")

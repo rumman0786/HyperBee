@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>HyperBee <sitemesh:title/></title>
+    <title>HyperBee::<sitemesh:title/></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -31,7 +31,7 @@
         <div class="col-sm-8 text-left top-padding">
             <sitemesh:body/>
         </div>
-        <%--<jsp:include page="sidebarRight.jsp"/>--%>
+        <jsp:include page="sidebarRight.jsp"/>
     </div>
 </div>
 </body>
