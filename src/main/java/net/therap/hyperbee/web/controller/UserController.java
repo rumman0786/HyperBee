@@ -5,15 +5,12 @@ import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
-import net.therap.hyperbee.web.validator.LoginValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
@@ -36,13 +33,13 @@ public class UserController {
     @Autowired
     private SessionHelper sessionHelper;
 
-    @Autowired
-    private LoginValidator loginValidator;
-
-    @InitBinder
-    private void loginValidator(WebDataBinder binder) {
-        binder.addValidators(loginValidator);
-    }
+//    @Autowired
+//    private LoginValidator loginValidator;
+//
+//    @InitBinder
+//    private void loginValidator(WebDataBinder binder) {
+//        binder.addValidators(loginValidator);
+//    }
 
     @GetMapping(ROOT_URL)
     public String entry() {
