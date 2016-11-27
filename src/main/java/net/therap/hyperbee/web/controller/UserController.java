@@ -124,7 +124,10 @@ public class UserController {
 
     @GetMapping(USER_DASHBOARD_URL)
     public String welcome(Model model) {
-        model.addAttribute("newBuzz", new Buzz());
+        if(!model.containsAttribute("newBuzz")) {
+            model.addAttribute("newBuzz", new Buzz());
+        }
+
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         return "dashboard";
