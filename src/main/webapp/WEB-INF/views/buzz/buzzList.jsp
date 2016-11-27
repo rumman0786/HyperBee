@@ -18,7 +18,7 @@
             <tr><td>
                 <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
                 <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
-                <c:out value="${buzz.user.username}[${buzz.buzzTime.getTime()}]: ${buzz.message}"/>
+                <c:out value="${buzz.user.username} [${buzz.buzzTime.getTime()}]: ${buzz.message}"/>
             </td></tr>
         </c:otherwise>
     </c:choose>
