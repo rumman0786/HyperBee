@@ -33,7 +33,12 @@ public class BuzzController {
     @Autowired
     private SessionHelper sessionHelper;
 
-    @PostMapping("/buzz")
+    @GetMapping("/buzz/buzzList")
+    public void viewLatestBuzz(Model model) {
+        model.addAttribute("buzzList", buzzService.getLatestBuzz());
+    }
+
+    @PostMapping("/buzz/sendBuzz")
     public String sendBuzz(@ModelAttribute Buzz newBuzz, HttpSession session, Model model) {
         AuthUser authUser = sessionHelper.retrieveAuthUserFromSession(session);
 
@@ -41,9 +46,8 @@ public class BuzzController {
         buzzService.saveBuzz(newBuzz);
 
         model.addAttribute("newBuzz", new Buzz());
-        model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
-        return "redirect:/user/dashboard";
+        return "buzz/buzz";
     }
 
     @GetMapping("/buzz/flagBuzz")
