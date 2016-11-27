@@ -13,8 +13,6 @@ public interface HiveDao {
 
     public void saveHive(Hive hive);
 
-    public List<Hive> retrieveHive();
-
     public List<User> getUserListById(List<Integer> idList);
 
     public Hive retrieveHiveById(int id);
@@ -24,4 +22,6 @@ public interface HiveDao {
     public List<Hive> getHiveListByUserId(int userId);
 
     public int getHiveIdByHiveName(String name);
+
+    public List<User> findUserNotInList(List<User> userList);
 }
