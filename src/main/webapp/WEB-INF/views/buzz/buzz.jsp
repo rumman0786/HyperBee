@@ -27,6 +27,7 @@
         });
     </script>
 </head>
+
 <body>
 <div id = "buzzMain" class="panel panel-primary">
     <div class="panel-heading"><h4><b><i>Buzz!</i></b></h4></div>
@@ -38,10 +39,6 @@
                 <form:input path="message" placeholder="Enter your message..."/>
                 <input type="submit" value="Send"/>
             </form:form>
-
-            <p><a href="/buzz/flagBuzz">Flag latest buzz</a></p>
-
-            <p><a href="/buzz/deactivateBuzz">Delete latest buzz</a></p>
         </div>
     </div>
 </div>

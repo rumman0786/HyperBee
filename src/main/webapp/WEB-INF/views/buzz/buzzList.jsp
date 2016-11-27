@@ -4,16 +4,21 @@
 <html>
 <body>
 <table class="table table-striped table-bordered">
+
 <c:forEach items="${buzzList}" var="buzz">
     <c:choose>
         <c:when test="${buzz.isFlagged()}">
             <tr><td>
-                <p><c:out value="The message has been flagged for it's content."/></p>
+                <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
+                <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
+                <c:out value="The message has been flagged for it's content."/>
             </td></tr>
         </c:when>
         <c:otherwise>
             <tr><td>
-                <p><c:out value="${buzz.user.username}[${buzz.buzzTime.getTime()}]: ${buzz.message}"/></p>
+                <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
+                <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
+                <c:out value="${buzz.user.username}[${buzz.buzzTime.getTime()}]: ${buzz.message}"/>
             </td></tr>
         </c:otherwise>
     </c:choose>

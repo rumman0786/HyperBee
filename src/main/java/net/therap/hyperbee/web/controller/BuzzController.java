@@ -50,17 +50,15 @@ public class BuzzController {
     }
 
     @GetMapping("/buzz/flagBuzz")
-    public String flagBuzz() {
-        List<Buzz> buzzList = buzzService.getLatestBuzz();
-        buzzService.flagBuzz(buzzList.get(0));
+    public String flagBuzz(int id) {
+        buzzService.flagBuzz(buzzService.getBuzzById(id));
 
         return "redirect:/user/dashboard";
     }
 
     @GetMapping("/buzz/deactivateBuzz")
-    public String deactivateBuzz() {
-        List<Buzz> buzzList = buzzService.getLatestBuzz();
-        buzzService.deactivateBuzz(buzzList.get(0));
+    public String deactivateBuzz(int id) {
+        buzzService.deactivateBuzz(buzzService.getBuzzById(id));
 
         return "redirect:/user/dashboard";
     }
