@@ -21,6 +21,7 @@ public class Post implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String description;

@@ -2,6 +2,7 @@ package net.therap.hyperbee.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,15 +19,17 @@ public class Hive implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
 
     private String description;
 
+    @Column(name = "image_path")
     private String imagePath;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_hive",
             joinColumns = @JoinColumn(name = "hive_id", nullable = false),
@@ -44,6 +47,10 @@ public class Hive implements Serializable {
 
     @OneToMany(mappedBy = "hive")
     private List<Post> postList;
+
+    public Hive() {
+        this.userList = new ArrayList<User>();
+    }
 
     public int getId() {
         return id;
