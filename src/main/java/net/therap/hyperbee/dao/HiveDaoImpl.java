@@ -22,7 +22,7 @@ public class HiveDaoImpl implements HiveDao {
     private EntityManager em;
 
     public void saveHive(Hive hive) {
-        em.persist(hive);
+        em.persist(em.merge(hive));
         em.flush();
     }
 
@@ -42,17 +42,11 @@ public class HiveDaoImpl implements HiveDao {
 
         return em.createQuery("SELECT u FROM User u WHERE u.id IN :userIdList", User.class)
                 .setParameter("userIdList", idList).getResultList();
-
-    }
-
-    public List<User> getUserList() {
-
-        return em.createQuery(" SELECT u FROM User u", User.class).getResultList();
     }
 
     @Override
     public Hive retrieveHiveById(int id) {
-        return em.find(Hive.class,id);
+        return em.find(Hive.class, id);
     }
 
     @Override
@@ -65,10 +59,17 @@ public class HiveDaoImpl implements HiveDao {
     public List<Hive> getHiveListByUserId(int userId) {
 
         User user = em.find(User.class, userId);
-
         Hibernate.initialize(user.getHiveList());
 
         return user.getHiveList();
     }
+
+
+    public int getHiveIdByHiveName(String name) {
+
+       return em.createQuery("SELECT h.id FROM Hive h WHERE h.name=:hiveName" , Integer.class)
+               .setParameter("hiveName", name).getSingleResult();
+    }
+
 
 }

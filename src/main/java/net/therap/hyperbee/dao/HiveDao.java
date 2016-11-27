@@ -17,11 +17,11 @@ public interface HiveDao {
 
     public List<User> getUserListById(List<Integer> idList);
 
-    public List<User> getUserList();
-
     public Hive retrieveHiveById(int id);
 
     public void insertUsersToHive(Hive hive, List<User> userList);
 
     public List<Hive> getHiveListByUserId(int userId);
+
+    public int getHiveIdByHiveName(String name);
 }

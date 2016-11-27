@@ -34,13 +34,6 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Transactional
-    public List<User> getUserList() {
-        List<User> dishList = hiveDao.getUserList();
-
-        return dishList;
-    }
-
-    @Transactional
     public List<User> getUserListById(List<Integer> idList) {
         List<User> userList = hiveDao.getUserListById(idList);
 
@@ -48,9 +41,16 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Transactional
-    public void addUserToHive(List<Integer> userIdList) {
+    public Hive insertFirstUserToHive(Hive hive, int userId) {
 
-    }
+        List<User> userList = hive.getUserList();
+        User user = userService.findById(userId);
+        userList.add(user);
+
+        hive.setUserList(userList);
+
+        return hive;
+   }
 
     @Override
     public Hive retrieveHiveById(int id) {
@@ -68,7 +68,6 @@ public class HiveServiceImpl implements HiveService {
 
     }
 
-    @Override
     @Transactional
     public List<Hive> retrieveHiveByUserId(int userId) {
 
@@ -81,6 +80,11 @@ public class HiveServiceImpl implements HiveService {
     public List<Hive> getHiveListByUserId(int userId) {
 
         return hiveDao.getHiveListByUserId(userId);
+    }
+
+    @Override
+    public int getHiveIdByHiveName(String name) {
+        return hiveDao.getHiveIdByHiveName(name);
     }
 
 }

@@ -20,7 +20,7 @@
 </c:forEach>
 <br>
 
-<a href="/hive/create">Create Hive</a>
+<a href="/user/hive/create">Create Hive</a>
 
 </body>
 </html>

@@ -33,7 +33,7 @@
             </tr>
         </c:forEach>
     </table>
-    <form:button type="submit">Add User</form:button>
+    <button type="submit">Add User</button>
 </form:form>
 
 </body>
