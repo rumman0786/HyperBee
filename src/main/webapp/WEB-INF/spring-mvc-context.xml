@@ -70,6 +70,7 @@
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
     <mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
     <mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/"/>
+    <mvc:resources mapping="/images/**" location="/WEB-INF/images/"/>
 
     <mvc:annotation-driven validator="myBeansValidator"/>
     <mvc:annotation-driven/>

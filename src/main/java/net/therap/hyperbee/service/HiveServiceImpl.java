@@ -3,6 +3,7 @@ package net.therap.hyperbee.service;
 import net.therap.hyperbee.dao.HiveDao;
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.User;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,19 +29,6 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Transactional
-    public List<Hive> retrieveHive() {
-
-        return hiveDao.retrieveHive();
-    }
-
-    @Transactional
-    public List<User> getUserList() {
-        List<User> dishList = hiveDao.getUserList();
-
-        return dishList;
-    }
-
-    @Transactional
     public List<User> getUserListById(List<Integer> idList) {
         List<User> userList = hiveDao.getUserListById(idList);
 
@@ -48,8 +36,15 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Transactional
-    public void addUserToHive(List<Integer> userIdList) {
+    public Hive insertFirstUserToHive(Hive hive, int userId) {
 
+        List<User> userList = hive.getUserList();
+        User user = userService.findById(userId);
+        userList.add(user);
+
+        hive.setUserList(userList);
+
+        return hive;
     }
 
     @Override
@@ -68,19 +63,23 @@ public class HiveServiceImpl implements HiveService {
 
     }
 
-    @Override
-    @Transactional
-    public List<Hive> retrieveHiveByUserId(int userId) {
-
-        User user = userService.findById(userId);
-
-        return user.getHiveList();
-    }
-
     @Transactional
     public List<Hive> getHiveListByUserId(int userId) {
 
         return hiveDao.getHiveListByUserId(userId);
+    }
+
+    @Override
+    public int getHiveIdByHiveName(String name) {
+        return hiveDao.getHiveIdByHiveName(name);
+    }
+
+    @Transactional
+    public List<User> getUserNotInList(int hiveId) {
+        Hive hive = retrieveHiveById(hiveId);
+        Hibernate.initialize(hive.getUserList());
+        List<User> userList = hive.getUserList();
+        return hiveDao.findUserNotInList(userList);
     }
 
 }
