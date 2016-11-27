@@ -1,5 +1,4 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--<%@ page import="net.therap.mealplanner.entity.Dish" %>--%>
 <%--
   Created by IntelliJ IDEA.
   User: rumman
@@ -8,8 +7,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
-<html lang="en">
-
+<head>
+    <title>| Conference Room</title>
+</head>
 <body>
 
 <div class="container-fluid">
@@ -45,4 +45,3 @@
 </div>
 <!-- /container -->
 </body>
-</html>
