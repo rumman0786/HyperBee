@@ -73,4 +73,13 @@ public class NoteDaoImpl implements NoteDao {
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)
                 .getResultList();
     }
+
+    @Override
+    @Transactional
+    public void markExpiredNoteAsInactive() {
+
+        String nativeQuery = "UPDATE note n SET n.display_status = 'INACTIVE' WHERE n.date_remind < curdate(); ";
+
+        em.createNativeQuery(nativeQuery).executeUpdate();
+    }
 }
