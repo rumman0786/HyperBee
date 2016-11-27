@@ -8,19 +8,19 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <title>| Notice Board</title>
+    <title>| Conference Room</title>
 </head>
+
 <body>
 <%--<c:if test="${user.isSuperuser}">--%>
-    <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right">Add Notice</a>
+    <a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference Room</a>
 <%--</c:if>--%>
 <div class="table-responsive">
     <table class="table table-striped" border="1">
         <thead>
         <tr>
             <th>Title</th>
-            <th>Description</th>
-            <th>Creator</th>
+            <th>Capacity</th>
 
             <%--<c:if test="${user.isSuperuser}">--%>
             <th>Edit</th>
@@ -31,16 +31,15 @@
         </thead>
         <tbody>
 
-        <c:forEach var="notice" items="${noticeList}">
+        <c:forEach var="conferenceRoom" items="${conferenceRoomList}">
             <tr>
-                <td>${notice.title}</td>
-                <td>${notice.description}</td>
-                <td>${notice.user.username}</td>
+                <td>${conferenceRoom.title}</td>
+                <td>${conferenceRoom.capacity}</td>
 
                     <%--<c:if test="${user.isSuperuser}">--%>
-                <td><a href="${pageContext.request.contextPath}/notice/${notice.id}/"><span
+                <td><a href="${pageContext.request.contextPath}/conference/${conferenceRoom.id}/"><span
                         class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#" data-id="${notice.id}"
+                <td><a href="#" data-id="${conferenceRoom.id}"
                        data-toggle="modal" data-target="#confirm-delete"
                        class="delete-user-item"><span
                         class="glyphicon glyphicon-trash"></span></a></td>
@@ -53,7 +52,7 @@
     </table>
 </div>
 
-<!--Modal Start -->
+<!--Modal start -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -65,7 +64,7 @@
             </div>
 
             <div class="modal-body">
-                <p>You are about to delete a Notice, this procedure is irreversible.</p>
+                <p>You are about to delete a Conference Room, this procedure is irreversible.</p>
 
                 <p>Do you want to proceed?</p>
 
@@ -83,7 +82,7 @@
         </div>
     </div>
 </div>
-<!--Modal END -->
+<!--Modal end -->
 
 <script>
     $('.delete-user-item').on('click', function (e) {

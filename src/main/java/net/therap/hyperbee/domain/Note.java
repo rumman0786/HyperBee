@@ -40,7 +40,7 @@ public class Note implements Serializable {
     private String title;
 
     @NotNull
-    @Size(min = 1, message = "{email.required}")
+    @Size(min = 1, message = "{note.description.required}")
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
@@ -65,7 +65,6 @@ public class Note implements Serializable {
 
     public Note() {
         this.dateCreated = new GregorianCalendar();
-        this.dateRemind = new GregorianCalendar();
 
         priority = NotePriority.LOW;
         displayStatus = displayStatus.ACTIVE;
@@ -136,6 +135,11 @@ public class Note implements Serializable {
     }
 
     public String getRemindDateFormatted() {
+
+        if (null == dateRemind) {
+
+            return "";
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         return sdf.format(dateRemind.getTimeInMillis());

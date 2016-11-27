@@ -109,6 +109,7 @@ public class NoticeController {
 
     @RequestMapping(value = "/{id}/**", method = RequestMethod.GET)
     public String showEditNoiceForm(@PathVariable("id") int id, ModelMap modelMap) {
+
         modelMap.addAttribute("page", "notice")
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_UPDATE_URL)
                 .addAttribute("noticeHeader", "Edit Notice")

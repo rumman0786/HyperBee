@@ -38,4 +38,11 @@ public interface Url {
     String NOTICE_ADD_URL = "/add";
     String NOTICE_UPDATE_URL = "/update";
     String NOTICE_DELETE_URL = "/delete";
+
+    // Notice Constants
+    String CONFERENCE_ROOM_BASE_URL= "/conference";
+    String CONFERENCE_ROOM_LIST_URL= "/list";
+    String CONFERENCE_ROOM_ADD_URL = "/add";
+    String CONFERENCE_ROOM_UPDATE_URL = "/update";
+    String CONFERENCE_ROOM_DELETE_URL = "/delete";
 }
