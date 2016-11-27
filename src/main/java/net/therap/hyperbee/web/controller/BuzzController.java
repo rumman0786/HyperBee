@@ -4,6 +4,7 @@ import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
+
 import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,9 +40,9 @@ public class BuzzController {
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);
 
-
         model.addAttribute("newBuzz", new Buzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
+
         return "redirect:/user/dashboard";
     }
 
@@ -49,6 +50,7 @@ public class BuzzController {
     public String flagBuzz() {
         List<Buzz> buzzList = buzzService.getLatestBuzz();
         buzzService.flagBuzz(buzzList.get(0));
+
         return "redirect:/user/dashboard";
     }
 
@@ -56,6 +58,7 @@ public class BuzzController {
     public String deactivateBuzz() {
         List<Buzz> buzzList = buzzService.getLatestBuzz();
         buzzService.deactivateBuzz(buzzList.get(0));
+
         return "redirect:/user/dashboard";
     }
 }
