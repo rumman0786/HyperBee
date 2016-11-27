@@ -1,9 +1,6 @@
 package net.therap.hyperbee.web.filter;
 
 import net.therap.hyperbee.web.security.AuthUser;
-import org.apache.commons.logging.impl.SimpleLog;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +13,6 @@ import java.io.IOException;
  * @since 11/24/16 1:29 PM
  */
 public class UrlFilter implements Filter {
-
-    private static final Logger log = LogManager.getLogger(SimpleLog.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
