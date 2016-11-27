@@ -24,6 +24,12 @@ public interface Url {
     String USER_PROFILE_URL = "/user/profile";
     String VIEW_PROFILE_URL = "profile/viewprofile";
 
+    //Stalk Therap Constant
+    String SEARCH_URL = "/search";
+    String PROFILE_SEARCH_URL = "profile/searchprofile";
+    String STALK_PROFILE_URL = "/stalk/profile/{username}";
+    String PROFILE_STALK_URL = "profile/stalkprofile";
+
     //Notes Constant
     String NOTE_VIEW_URL = "/user/notes";
     String NOTE_ADD_URL = "/user/note/add";

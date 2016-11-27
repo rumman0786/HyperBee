@@ -8,9 +8,7 @@ import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -34,9 +32,9 @@ public class ProfileController {
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
         int id = authUser.getId();
         User user = userService.findById(id);
-        if(user.getProfile()==null){
+        if (user.getProfile() == null) {
             model.addAttribute("profile", new Profile());
-        }else{
+        } else {
             Profile profile = user.getProfile();
             model.addAttribute("profile", profile);
         }
@@ -74,5 +72,35 @@ public class ProfileController {
         model.addAttribute("profile", profile);
 
         return VIEW_PROFILE_URL;
+    }
+
+    @GetMapping(value = SEARCH_URL)
+    public String searchProfilePage() {
+        return PROFILE_SEARCH_URL;
+    }
+
+    @PostMapping(value = SEARCH_URL)
+    public String searchProfile(@RequestParam("search") String username, Model model) {
+        User user = userService.findByUsername(username);
+
+        if (user == null) {
+            model.addAttribute("message", "No user Found with This username.");
+        } else {
+            Profile profile = user.getProfile();
+            model.addAttribute("profile", profile);
+            model.addAttribute("user", user);
+        }
+
+        return PROFILE_SEARCH_URL;
+    }
+
+    @GetMapping(value = STALK_PROFILE_URL)
+    public String stalkProfile(Model model, @PathVariable String username) {
+        User user = userService.findByUsername(username);
+        Profile profile = user.getProfile();
+        model.addAttribute("profile", profile);
+        model.addAttribute("user", user);
+
+        return PROFILE_STALK_URL;
     }
 }
