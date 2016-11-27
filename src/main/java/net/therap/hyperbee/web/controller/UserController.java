@@ -66,7 +66,7 @@ public class UserController {
     public String login(Model model) {
         model.addAttribute("login", new User());
 
-        return "login";
+        return "user/login";
     }
 
     @PostMapping(LOGIN_URL)
@@ -74,7 +74,7 @@ public class UserController {
                             RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
 
-            return "login";
+            return "user/login";
         }
 
         User retrievedUser = userService.findByUsernameAndPassword(user);
@@ -85,21 +85,21 @@ public class UserController {
             return "redirect:" + USER_DASHBOARD_URL;
         }
 
-        return "login";
+        return "user/login";
     }
 
     @GetMapping(SIGN_UP_URL)
     public String signUp(Model model) {
         model.addAttribute("signUp", new SignUpUserHelper());
 
-        return "signUp";
+        return "user/signUp";
     }
 
     @PostMapping(SIGN_UP_URL)
     public String signUpDash(@Validated @ModelAttribute("signUp") SignUpUserHelper signUpUserHelper, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
 
-            return "signUp";
+            return "user/signUp";
         }
 
         User user = new User();

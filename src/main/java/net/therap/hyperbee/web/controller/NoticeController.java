@@ -67,7 +67,6 @@ public class NoticeController {
         return "notice/form_notice";
     }
 
-
     @RequestMapping(value = NOTICE_ADD_URL, method = RequestMethod.POST)
     public String addNotice(@ModelAttribute("notice") Notice notice, HttpSession session
 //                                  @RequestParam("dateExpired") String dateExpired
