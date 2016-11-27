@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * @author rayed
+ * @author bashir
  * @since 11/24/16 12:12 PM
  */
 
@@ -30,5 +31,13 @@ public class SessionHelper {
 
     public void invalidateSession(HttpSession session) {
         session.invalidate();
+    }
+
+
+    public int getUserIdFromSession(HttpSession session) {
+
+        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+
+        return authUser.getId();
     }
 }

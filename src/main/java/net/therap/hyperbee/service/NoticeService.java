@@ -12,8 +12,6 @@ public interface NoticeService {
 
     void saveNotice(Notice notice);
 
-    void updateNotice(Notice notice);
-
     Notice findNoticeById(int noticeId);
 
     List<Notice> findAllNotice();
