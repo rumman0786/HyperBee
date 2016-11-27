@@ -1,7 +1,9 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.Post;
 import net.therap.hyperbee.service.HiveService;
+import net.therap.hyperbee.service.PostService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.command.UserIdInfo;
 import net.therap.hyperbee.web.helper.UploadedFile;
@@ -24,14 +26,15 @@ import java.io.IOException;
 @RequestMapping("/user/hive")
 public class HiveController {
 
-    private String CREATE_HIVE = "hive/hiveForm";
-
     private String SHOW_HIVE = "hive/showHive";
 
     private String HIVE = "hive/hive";
 
     @Autowired
     private HiveService hiveService;
+
+    @Autowired
+    private PostService postService;
 
     @Autowired
     UploadedFile uploadedFile;
@@ -56,7 +59,8 @@ public class HiveController {
         model.addAttribute("hive", hiveService.retrieveHiveById(id));
         model.addAttribute("userList", hiveService.getUserNotInList(id));
         model.addAttribute("userIdInfo", new UserIdInfo());
-
+        model.addAttribute("post", new Post());
+        model.addAttribute("postList", postService.getPostListByHive(id));
         return SHOW_HIVE;
     }
 
@@ -81,7 +85,17 @@ public class HiveController {
         return "redirect:/user/hive/show/" + hiveId;
     }
 
-    private int getUserIdFromSession(HttpSession session) {
+    @RequestMapping(value = "/post/{hiveId}", method = RequestMethod.POST)
+    public String savePost(@ModelAttribute Post post,Model model, @PathVariable("hiveId") int hiveId, HttpSession session){
+
+        int userId = getUserIdFromSession(session);
+        postService.savePost(userId, hiveId, post);
+        System.out.println("PostDescription " + post.getDescription() + " " + post.getDateCreated());
+
+        return "redirect:/user/hive/show/" + hiveId;
+    }
+
+        private int getUserIdFromSession(HttpSession session) {
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
 
         return authUser.getId();

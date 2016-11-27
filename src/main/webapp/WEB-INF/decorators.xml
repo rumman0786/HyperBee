@@ -5,5 +5,6 @@
     </excludes>
     <decorator name="decorator" page="decorator.jsp">
         <pattern>/user/*</pattern>
+        <pattern>/user/hive/show/*</pattern>
     </decorator>
 </decorators>

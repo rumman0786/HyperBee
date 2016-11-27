@@ -82,4 +82,10 @@ public class HiveServiceImpl implements HiveService {
         return hiveDao.findUserNotInList(userList);
     }
 
+    @Override
+    public Hive findById(int hiveId) {
+
+        return hiveDao.findById(hiveId);
+    }
+
 }
