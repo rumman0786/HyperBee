@@ -12,8 +12,6 @@ public interface NoticeDao {
 
     void save(Notice notice);
 
-    void update(Notice notice);
-
     Notice findById(int noticeId);
 
     List<Notice> findAll();

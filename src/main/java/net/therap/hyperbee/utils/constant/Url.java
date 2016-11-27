@@ -2,6 +2,7 @@ package net.therap.hyperbee.utils.constant;
 
 /**
  * @author duity
+ * @author rumman
  * @since 11/23/16.
  */
 
@@ -31,4 +32,10 @@ public interface Url {
 
     String SUCCESS_VIEW = "success";
 
+    // Notice Constants
+    String NOTICE_BASE_URL= "/notice";
+    String NOTICE_LIST_URL= "/list";
+    String NOTICE_ADD_URL = "/add";
+    String NOTICE_UPDATE_URL = "/update";
+    String NOTICE_DELETE_URL = "/delete";
 }
