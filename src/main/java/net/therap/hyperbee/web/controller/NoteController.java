@@ -52,7 +52,7 @@ public class NoteController {
     @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
 
-        int userId = sessionHelper.getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession();
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
 
         model.addAttribute("noteList", noteList);
@@ -75,7 +75,7 @@ public class NoteController {
             return SUCCESS_VIEW;
         }
 
-        int userId = sessionHelper.getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession();
 
         log.debug("AuthUser ID: " + userId);
         log.debug("Date Remind: " + dateRemindString);
@@ -93,7 +93,7 @@ public class NoteController {
     public String noteDelete(@PathVariable("id") int noteId, HttpSession session,
                              @ModelAttribute("noteCommand") Note note, Model model) {
 
-        noteService.markNoteAsInactiveForUser(sessionHelper.getUserIdFromSession(session), noteId);
+        noteService.markNoteAsInactiveForUser(sessionHelper.getUserIdFromSession(), noteId);
         log.debug("Selected note ID Delete: " + noteId);
 
         model.addAttribute("message", NOTE_DELETE_SUCCESS);

@@ -3,6 +3,8 @@ package net.therap.hyperbee.web.helper;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,27 +16,38 @@ import javax.servlet.http.HttpSession;
 @Component
 public class SessionHelper {
 
-    public void persistInSession(User user, HttpSession session) {
+    public void persistInSession(User user) {
         AuthUser authUser = new AuthUser();
         authUser.setId(user.getId());
         authUser.setUsername(user.getUsername());
         authUser.setRoleList(user.getRoleList());
 
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+        HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.setAttribute("authUser", authUser);
     }
 
-    public AuthUser retrieveAuthUserFromSession(HttpSession session) {
+    public AuthUser retrieveAuthUserFromSession() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+        HttpSession session = servletRequestAttributes.getRequest().getSession();
 
         return (AuthUser) session.getAttribute("authUser");
     }
 
-    public void invalidateSession(HttpSession session) {
+    public void invalidateSession() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+        HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.invalidate();
     }
 
 
-    public int getUserIdFromSession(HttpSession session) {
+    public int getUserIdFromSession() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
+        HttpSession session = servletRequestAttributes.getRequest().getSession();
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
 
         return authUser.getId();
