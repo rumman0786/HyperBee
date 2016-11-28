@@ -2,6 +2,7 @@ package net.therap.hyperbee.utils.constant;
 
 /**
  * @author bashir
+ * @author rayed
  * @since 11/21/16
  */
 public interface DomainConstant {

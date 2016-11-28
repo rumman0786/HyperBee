@@ -3,6 +3,7 @@ package net.therap.hyperbee.utils.constant;
 /**
  * @author duity
  * @author rumman
+ * @author rayed
  * @since 11/23/16.
  */
 
