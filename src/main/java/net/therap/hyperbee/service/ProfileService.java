@@ -8,5 +8,7 @@ import net.therap.hyperbee.domain.Profile;
  */
 public interface ProfileService {
 
-    public Profile getProfile(int id);
+    public Profile findProfileById(int id);
+
+    public String saveProfileForUser(Profile profile, int userId);
 }

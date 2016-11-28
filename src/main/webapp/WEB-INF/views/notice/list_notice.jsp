@@ -7,49 +7,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <%--<link rel="icon" href="../../favicon.ico">--%>
-
-    <title>Meal Planner | Therap</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <%--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">--%>
-
-    <!-- Custom styles for this template -->
-    <%--<link href="/statics/css/dashboard.css" rel="stylesheet">--%>
-
-    <style>
-        .error {
-            color: #ff0000;
-            font-style: italic;
-            font-weight: bold;
-        }
-    </style>
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><!--<script src="../../assets/js/ie8-responsive-file-warning.js"></script>--><![endif]-->
-    <%--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>--%>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <title>| Notice Board</title>
 </head>
 <body>
 <%--<c:if test="${user.isSuperuser}">--%>
-    <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right">Add
-        Dish</a>
+    <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right">Add Notice</a>
 <%--</c:if>--%>
 <div class="table-responsive">
     <table class="table table-striped" border="1">
@@ -76,10 +39,10 @@
 
                     <%--<c:if test="${user.isSuperuser}">--%>
                 <td><a href="${pageContext.request.contextPath}/notice/${notice.id}/"><span
-                        class="glyphicon glyphicon-edit"></span>Edit</a></td>
+                        class="glyphicon glyphicon-edit"></span></a></td>
                 <td><a href="#" data-id="${notice.id}"
                        data-toggle="modal" data-target="#confirm-delete"
-                       class="delete-user-item">Delete<span
+                       class="delete-user-item"><span
                         class="glyphicon glyphicon-trash"></span></a></td>
                     <%--</c:if>--%>
 
@@ -89,8 +52,8 @@
         </tbody>
     </table>
 </div>
-</body>
 
+<!--Modal Start -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -102,7 +65,7 @@
             </div>
 
             <div class="modal-body">
-                <p>You are about to delete a dish, this procedure is irreversible.</p>
+                <p>You are about to delete a Notice, this procedure is irreversible.</p>
 
                 <p>Do you want to proceed?</p>
 
@@ -120,10 +83,7 @@
         </div>
     </div>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="<%= request.getContextPath() %>/js/bootstrap.min.js"></script>
+<!--Modal END -->
 
 <script>
     $('.delete-user-item').on('click', function (e) {
@@ -131,6 +91,4 @@
         $('#delete_id').val(criteria_id);
     });
 </script>
-
-
-</html>
+</body>

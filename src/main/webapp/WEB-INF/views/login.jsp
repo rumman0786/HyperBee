@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1 class="text-center">Welcome back Beeee!!!</h1>
     </div>
-    <form:form class="form-signin" action="/login" method="POST" modelAttribute="user">
+    <form:form class="form-signin" action="/login" method="POST" modelAttribute="login">
         <h2 class="form-signin-heading">Please log in</h2>
         <form:errors path="*" element="div" cssClass="alert alert-danger fade in"/>
         <form:input type="text" id="inputEmail" name="email" class="form-control" placeholder="Username"
