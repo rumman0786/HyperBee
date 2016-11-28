@@ -66,6 +66,9 @@ public class Profile implements Serializable {
     @Column(name = "image")
     private String imagePath;
 
+    @Column(name = "cover_image")
+    private String coverImage;
+
     public Profile() {
         this.dateOfBirth = new GregorianCalendar();
         this.joiningDate = new GregorianCalendar();
@@ -181,5 +184,13 @@ public class Profile implements Serializable {
 
     public void setContactNo(String contactNo) {
         this.contactNo = contactNo;
+    }
+
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
     }
 }

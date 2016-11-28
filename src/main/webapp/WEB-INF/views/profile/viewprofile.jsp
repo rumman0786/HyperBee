@@ -6,74 +6,81 @@
     <title>HyperBEE</title>
 </head>
 <body>
+<div class="container">
+    <img src="/profile/${profile.imagePath}" class="img-circle" alt="Cinque Terre" width="200px" height="200px"/>
+</div>
 <form action="/profile/edit" method="post">
     <table>
         <tr>
-            <th><h1>${authUser.username}::Profile</h1></th>
+            <th class="panel-heading">
+                <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
+                    <b>${user.firstName} ${user.lastName}</b>
+                </h1>
+            </th>
         </tr>
         <tr>
-            <th>Designation :</th>
-            <td>${profile.designation}</td>
+            <th class="panel-heading" style="color: #122b40">Designation :</th>
+            <td class="form-control">${profile.designation}</td>
         </tr>
         <tr>
-            <th>Address :</th>
-            <td>${profile.address}</td>
+            <th class="panel-heading" style="color: #122b40">Address :</th>
+            <td class="form-control">${profile.address}</td>
         </tr>
         <tr>
-            <th>Contact No. :</th>
-            <td>${profile.contactNo}</td>
+            <th class="panel-heading" style="color: #122b40">Contact No. :</th>
+            <td class="form-control">${profile.contactNo}</td>
         </tr>
         <tr>
-            <th>Joining Date :</th>
-            <td><fmt:formatDate type="date" value="${profile.joiningDate.time}" pattern="dd-MM-yy"/></td>
+            <th class="panel-heading" style="color: #122b40">Joining Date :</th>
+            <td class="form-control"><fmt:formatDate type="date" value="${profile.joiningDate.time}" pattern="dd-MM-yy"/></td>
         </tr>
         <tr>
-            <th><h2>Education :</h2></th>
+            <th><h2 class="panel-heading" style="color: #269abc">Education :</h2></th>
         </tr>
         <tr>
-            <th>School :</th>
-            <td>${profile.school}</td>
+            <th class="panel-heading" style="color: #122b40">School :</th>
+            <td class="form-control">${profile.school}</td>
         </tr>
         <tr>
-            <th>College :</th>
-            <td>${profile.college}</td>
+            <th class="panel-heading" style="color: #122b40">College :</th>
+            <td class="form-control">${profile.college}</td>
         </tr>
         <tr>
-            <th>University :</th>
-            <td>${profile.university}</td>
+            <th class="panel-heading" style="color: #122b40">University :</th>
+            <td class="form-control">${profile.university}</td>
         </tr>
         <tr>
-            <th><h2>Basic Information :</h2></th>
+            <th><h2 class="panel-heading" style="color: #269abc">Basic Information :</h2></th>
         </tr>
         <tr>
-            <th>Gender :</th>
-            <td>${profile.gender}</td>
+            <th class="panel-heading" style="color: #122b40">Gender :</th>
+            <td class="form-control">${profile.gender}</td>
         </tr>
         <tr>
-            <th>Date Of Birth :</th>
-            <td><fmt:formatDate type="date" value="${profile.dateOfBirth.time}" pattern="dd-MM-yy"/></td>
+            <th class="panel-heading" style="color: #122b40">Date Of Birth :</th>
+            <td class="form-control"><fmt:formatDate type="date" value="${profile.dateOfBirth.time}" pattern="dd-MM-yy"/></td>
         </tr>
         <tr>
-            <th>Skills :</th>
-            <td>${profile.skills}</td>
+            <th class="panel-heading" style="color: #122b40">Skills :</th>
+            <td class="form-control">${profile.skills}</td>
         </tr>
         <tr>
-            <th><h2>Work Experience :</h2></th>
+            <th><h2 class="panel-heading" style="color: #269abc">Work Experience :</h2></th>
         </tr>
         <tr>
-            <th>Years of Experience :</th>
-            <td>${profile.jobExperienceYears}</td>
+            <th class="panel-heading" style="color: #122b40">Years of Experience :</th>
+            <td class="form-control">${profile.jobExperienceYears}</td>
         </tr>
         <tr>
-            <th>Work History :</th>
-            <td>${profile.workHistory}</td>
+            <th class="panel-heading" style="color: #122b40">Work History :</th>
+            <td class="form-control">${profile.workHistory}</td>
         </tr>
         <tr>
-            <th>Image :</th>
-            <td>${profile.imagePath}</td>
+            <th class="panel-heading" style="color: #122b40">Image :</th>
+            <td class="form-control">${profile.imagePath}</td>
         </tr>
         <tr>
-            <td><input type="submit" value="Edit Profile"/></td>
+            <td><input type="submit" class="btn btn-warning btn-sm" value="Edit Profile"/></td>
         </tr>
     </table>
 </form>
