@@ -72,7 +72,7 @@ public class NoticeController {
                 .addAttribute("notice", new Notice())
                 .addAttribute("noticeHeader", "Add Notice")
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_ADD_URL)
-                .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession(session)))
+                .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession()))
                 .addAttribute("displayStatusOptions", DisplayStatus.values());
 
         return "notice/form_notice";
@@ -82,8 +82,11 @@ public class NoticeController {
     public String addNotice(@ModelAttribute("notice") Notice notice, HttpSession session
 //                                      BindingResult bindingResult,
     ) {
-
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession(session)).getId();
+//        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyyy-mm-dd hh:mm:ss");
+//
+//        DateTime dt = formatter.parseDateTime(dateExpired);
+//        notice.setDateExpired(dt.toGregorianCalendar());
+        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
 //        if (bindingResult.hasErrors()) {
@@ -100,7 +103,7 @@ public class NoticeController {
         modelMap.addAttribute("page", "notice")
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_UPDATE_URL)
                 .addAttribute("noticeHeader", "Edit Notice")
-                .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession(session)))
+                .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession()))
                 .addAttribute("notice", noticeService.findNoticeById(id));
 
         return "notice/form_notice";
@@ -110,7 +113,7 @@ public class NoticeController {
     public String editNotice(@ModelAttribute("notice") Notice notice, HttpSession session//, @Validated
                              //BindingResult bindingResult,Model model
     ) {
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession(session)).getId();
+        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
 //        if (bindingResult.hasErrors()) {

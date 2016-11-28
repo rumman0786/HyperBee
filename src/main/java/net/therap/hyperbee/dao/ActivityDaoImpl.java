@@ -1,13 +1,13 @@
 package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Activity;
-import net.therap.hyperbee.domain.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * @author rayed
@@ -26,22 +26,17 @@ public class ActivityDaoImpl implements ActivityDao {
     }
 
     @Override
-    public Activity findById(int id) {
-        return null;
-    }
-
-    @Override
-    public Activity findByUserId(int userId) {
-        Activity activity = null;
+    public List<Activity> findByUserId(int userId) {
+        List<Activity> activityList = null;
 
         try {
-            activity = em.createQuery("SELECT a FROM Activity a WHERE a.user.id = :userId", Activity.class)
-                            .setParameter("userId", userId)
-                            .getSingleResult();
+            activityList = em.createQuery("SELECT a FROM Activity a WHERE a.user.id = :userId ORDER BY a.activityTime DESC", Activity.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
         } catch (NoResultException e){
             e.printStackTrace();
         }
 
-        return activity;
+        return activityList;
     }
 }

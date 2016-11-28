@@ -15,7 +15,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -46,8 +45,8 @@ public class HiveController {
     SessionHelper sessionHelper;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String viewHive(ModelMap model, HttpSession session) {
-        int userId = sessionHelper.getUserIdFromSession(session);
+    public String viewHive(ModelMap model) {
+        int userId = sessionHelper.getUserIdFromSession();
         model.put("hiveList", hiveService.getHiveListByUserId(userId));
         model.addAttribute("hive", new Hive());
         model.addAttribute("userList", userService.findAll());
@@ -86,13 +85,13 @@ public class HiveController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam CommonsMultipartFile fileUpload, Model model, HttpSession session) throws IOException {
+    public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam CommonsMultipartFile fileUpload, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
 
         String filename = uploadedFile.uploadFile(fileUpload, hive.getName());
         hive.setImagePath(filename);
 
-        int userId = sessionHelper.getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession();
 
         Hive newHive = hiveService.insertFirstUserToHive(hive, userId);
         hiveService.insertHive(newHive);
@@ -102,9 +101,9 @@ public class HiveController {
     }
 
     @RequestMapping(value = "/post/{hiveId}", method = RequestMethod.POST)
-    public String savePost(@ModelAttribute Post post, Model model, @PathVariable("hiveId") int hiveId, HttpSession session) {
+    public String savePost(@ModelAttribute Post post, Model model, @PathVariable("hiveId") int hiveId) {
 
-        int userId = sessionHelper.getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession();
         postService.savePost(userId, hiveId, post);
 
         return "redirect:/user/hive/show/" + hiveId;

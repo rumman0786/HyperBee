@@ -1,9 +1,14 @@
 package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.dao.ActivityDao;
+import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Activity;
+import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author rayed
@@ -15,19 +20,28 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private ActivityDao activityDao;
 
-    @Override
-    public void create(Activity activity) {
-        activityDao.create(activity);
-    }
+    @Autowired
+    private SessionHelper sessionHelper;
+
+    @Autowired
+    private UserDao userDao;
 
     @Override
-    public Activity findById(int id) {
-        return null;
-    }
-
-    @Override
-    public Activity findByUserId(int userId) {
+    public List<Activity> findByUserId(int userId) {
 
         return activityDao.findByUserId(userId);
+    }
+
+    @Override
+    public void archive(String summary) {
+        Activity activity = new Activity();
+
+        int userIdFromSession = sessionHelper.getUserIdFromSession();
+        User user = userDao.findById(userIdFromSession);
+
+        activity.setUser(user);
+        activity.setSummary(summary);
+
+        activityDao.create(activity);
     }
 }

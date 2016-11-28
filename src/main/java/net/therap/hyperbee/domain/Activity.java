@@ -2,6 +2,7 @@ package net.therap.hyperbee.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -25,9 +26,9 @@ public class Activity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(columnDefinition = DATE_TIME_FIELD)
+    @Column(name = "activity_time", columnDefinition = DATE_TIME_FIELD)
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar activity_time;
+    private Calendar activityTime;
 
     private String summary;
 
@@ -36,7 +37,7 @@ public class Activity implements Serializable {
     private User user;
 
     public Activity() {
-        this.activity_time = new GregorianCalendar();
+        this.activityTime = new GregorianCalendar();
     }
 
     public int getId() {
@@ -47,12 +48,12 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
-    public Calendar getActivity_time() {
-        return activity_time;
+    public Calendar getActivityTime() {
+        return activityTime;
     }
 
-    public void setActivity_time(Calendar activity_time) {
-        this.activity_time = activity_time;
+    public void setActivityTime(Calendar activityTime) {
+        this.activityTime = activityTime;
     }
 
     public String getSummary() {
@@ -69,5 +70,11 @@ public class Activity implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getDateAndTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+
+        return sdf.format(activityTime.getTimeInMillis());
     }
 }

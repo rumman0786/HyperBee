@@ -1,14 +1,13 @@
 package net.therap.hyperbee.web.controller;
 
-import net.therap.hyperbee.dao.ActivityDao;
-import net.therap.hyperbee.domain.Activity;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.BuzzService;
+import net.therap.hyperbee.service.StickyNoteService;
 import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.web.helper.ActivityHelper;
-import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.command.SignUpInfo;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private ActivityDao activityDao;
+    private ActivityService activityService;
 
     @Autowired
     private LoginValidator loginValidator;
@@ -49,10 +48,10 @@ public class UserController {
     private SignUpValidator signUpValidator;
 
     @Autowired
-    private SessionHelper sessionHelper;
+    StickyNoteService noteService;
 
     @Autowired
-    private ActivityHelper activityHelper;
+    private SessionHelper sessionHelper;
 
     @InitBinder("login")
     private void loginValidator(WebDataBinder binder) {
@@ -78,7 +77,7 @@ public class UserController {
     }
 
     @PostMapping(LOGIN_URL)
-    public String loginUser(@Validated @ModelAttribute("login") User user, BindingResult bindingResult, HttpSession session) {
+    public String loginUser(@Validated @ModelAttribute("login") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
 
             return LOGIN_VIEW;
@@ -87,10 +86,10 @@ public class UserController {
         User retrievedUser = userService.findByUsernameAndPassword(user);
 
         if (retrievedUser != null) {
-            sessionHelper.persistInSession(retrievedUser, session);
-            Activity activity = activityHelper.createActivity(retrievedUser);
-            activityHelper.setSummary(activity, "Logged In");
-            activityDao.create(activity);
+            sessionHelper.persistInSession(retrievedUser);
+
+            activityService.archive("Logged In");
+
             return "redirect:" + USER_DASHBOARD_URL;
         }
 
@@ -105,7 +104,7 @@ public class UserController {
     }
 
     @PostMapping(SIGN_UP_URL)
-    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpInfo signUpInfo, BindingResult bindingResult, HttpSession session) {
+    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpInfo signUpInfo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
 
             return SIGN_UP_VIEW;
@@ -114,24 +113,28 @@ public class UserController {
         User user = signUpInfo.getUser();
 
         User retrievedUser = userService.createUser(user);
-        sessionHelper.persistInSession(retrievedUser, session);
+        sessionHelper.persistInSession(retrievedUser);
+
+        activityService.archive("Signed Up");
 
         return "redirect:" + USER_DASHBOARD_URL;
     }
 
     @GetMapping(LOGOUT_URL)
-    public String logout(HttpSession session) {
-        sessionHelper.invalidateSession(session);
+    public String logout() {
+        sessionHelper.invalidateSession();
 
         return "redirect:" + LOGIN_URL;
     }
 
     @GetMapping(USER_DASHBOARD_URL)
-    public String welcome(Model model) {
-        if(!model.containsAttribute("newBuzz")) {
+    public String welcome(HttpSession session, Model model) {
+        if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
         }
 
+        model.addAttribute("topStickyNote",
+                noteService.findTopStickyNoteByUser(sessionHelper.getUserIdFromSession()));
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         return USER_DASHBOARD_VIEW;
