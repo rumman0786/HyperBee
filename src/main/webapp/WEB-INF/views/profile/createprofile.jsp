@@ -3,12 +3,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Profile</title>
+    <title>HyperBEE</title>
 </head>
 <body>
-<h1>Profile</h1>
 <form:form action="/profile" method="post" commandName="profile">
     <table>
+        <tr>
+            <th><h1>${authUser.username}::Profile</h1></th>
+        </tr>
         <tr>
             <th>Designation :</th>
             <td><form:input path="designation" type="text"/></td>
@@ -75,6 +77,13 @@
         </tr>
         <tr>
             <td>${message}</td>
+        </tr>
+    </table>
+</form:form>
+<form:form action="/user/profile" method="get">
+    <table>
+        <tr>
+            <td><input type="submit" value="Back To Profile"/></td>
         </tr>
     </table>
 </form:form>

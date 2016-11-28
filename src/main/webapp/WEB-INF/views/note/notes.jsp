@@ -63,7 +63,7 @@
             <div class="panel-body">${item.description}</div>
             <div class="panel-footer clearfix">
                 <div class="pull-right">
-                        ${item.getRemindDateFormatted()}
+                    <small><i><cite>${item.noteType} ${item.getRemindDateFormatted()}</cite></i></small>
                 </div>
             </div>
         </div>

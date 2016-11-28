@@ -2,6 +2,7 @@ package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.NotePriority;
+import net.therap.hyperbee.domain.enums.NoteType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -59,12 +60,15 @@ public class Note implements Serializable {
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM)
     private DisplayStatus displayStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = NOTE_TYPE_ENUM)
+    private NoteType noteType;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 
     public Note() {
-        this.dateCreated = new GregorianCalendar();
 
         priority = NotePriority.LOW;
         displayStatus = displayStatus.ACTIVE;
@@ -132,6 +136,14 @@ public class Note implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public NoteType getNoteType() {
+        return noteType;
+    }
+
+    public void setNoteType(NoteType noteType) {
+        this.noteType = noteType;
     }
 
     public String getRemindDateFormatted() {

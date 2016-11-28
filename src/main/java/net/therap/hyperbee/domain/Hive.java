@@ -37,12 +37,7 @@ public class Hive implements Serializable {
     )
     private List<User> userList;
 
-    @ManyToMany
-    @JoinTable(
-            name = "notice_hive",
-            joinColumns = @JoinColumn(name = "hive_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "notice_id", nullable = false)
-    )
+    @ManyToMany(mappedBy = "hiveList")
     private List<Notice> noticeList;
 
     @OneToMany(mappedBy = "hive")

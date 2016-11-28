@@ -7,6 +7,7 @@
         <li><a href="/user/notes">Note</a></li>
         <li><a href="/user/hive">Hive</a></li>
         <li><a href="/user/activity/log">Activity Log</a></li>
+        <li><a href="/profile/search">Stalk Therap</a></li>
     </ul>
 </div>
 </html>

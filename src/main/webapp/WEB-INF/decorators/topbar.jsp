@@ -20,6 +20,7 @@
                 <li><a href="#">Contact</a></li>
                 <li><a href="/notice/list">Notice</a></li>
                 <li><a href="/conference/list">Conference</a></li>
+                <li><a href="/user/profile">Profile</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>

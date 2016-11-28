@@ -1,15 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: azim
-  Date: 11/24/16
-  Time: 11:33 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title></title>
+    <title>HyperBee-Hive</title>
 </head>
 <body>
 <p>Hive List</p>
@@ -18,9 +12,16 @@
     <br>
     <br>
 </c:forEach>
-<br>
 
-<a href="/hive/create">Create Hive</a>
+<div>
+    <form:form action="/user/hive/create" method="post" commandName="hive" enctype="multipart/form-data">
+        <h2>Create Hive</h2>
+        <form:input path="name" type="text" name="hiveName" placeholder="Hive Name"/>
+        <form:input path="description" type="text" placeholder="Hive Description"/>
+        <input path="imagePath" type="file" name="fileUpload" size="50"/>
+        <button type="submit" value="Upload">Create</button>
+    </form:form>
+</div>
 
 </body>
 </html>

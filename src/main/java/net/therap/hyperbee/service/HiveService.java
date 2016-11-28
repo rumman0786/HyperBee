@@ -13,17 +13,17 @@ public interface HiveService {
 
     public void insertHive(Hive hive);
 
-    public List<Hive> retrieveHive();
-
-    public List<User> getUserListById(List<Integer> idList);
-
-    public void addUserToHive(List<Integer> userIdList);
-
     public Hive retrieveHiveById(int id);
 
     public void insertUsersToHive(int hiveId, List<Integer> userIdList);
 
-    public List<Hive> retrieveHiveByUserId(int userId);
+    public Hive insertFirstUserToHive(Hive hive, int userId);
 
     public List<Hive> getHiveListByUserId(int userId);
+
+    public int getHiveIdByHiveName(String name);
+
+    public List<User> getUserNotInList(int hiveId);
+
+    public Hive findById(int hiveId);
 }
