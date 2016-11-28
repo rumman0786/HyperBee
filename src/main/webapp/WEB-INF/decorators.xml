@@ -13,5 +13,7 @@
         <pattern>/user/*</pattern>
         <pattern>/notice*</pattern>
         <pattern>/conference*</pattern>
+        <pattern>/profile*</pattern>
+
     </decorator>
 </decorators>

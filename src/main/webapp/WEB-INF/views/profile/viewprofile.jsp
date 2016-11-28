@@ -4,12 +4,13 @@
 <html>
 <head>
     <title>HyperBEE</title>
-
-    <h1>${authUser.username}::Profile</h1>
 </head>
 <body>
-<form action="/profile" method="get">
+<form action="/profile/edit" method="post">
     <table>
+        <tr>
+            <th><h1>${authUser.username}::Profile</h1></th>
+        </tr>
         <tr>
             <th>Designation :</th>
             <td>${profile.designation}</td>

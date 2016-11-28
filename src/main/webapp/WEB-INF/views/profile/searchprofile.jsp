@@ -5,11 +5,11 @@
     <title>Stalk Therap</title>
 </head>
 <body>
-<form action="/search" method="post">
-    <input type="text" name="search" value="search">
-    <button type="submit">Search</button>
+<form action="/profile/search" method="post">
+    <input type="text" name="search" placeholder="Enter Username">
+    <button class="btn btn-warning btn-sm" type="submit">Search</button>
     <br>
-    <a href="/stalk/profile/${user.username}"><c:out value="${user.firstName} ${user.lastName}"/>
+    <a href="/profile/stalk/${user.username}"><c:out value="${user.firstName} ${user.lastName}"/>
 </form>
 <br>
 ${message}

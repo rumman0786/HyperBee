@@ -27,7 +27,7 @@ public class ProfileController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = PROFILE_URL)
+    @PostMapping(value = PROFILE_EDIT_URL)
     public String getProfile(Model model, HttpSession session) {
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
         int id = authUser.getId();

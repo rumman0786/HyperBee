@@ -6,9 +6,11 @@
     <title>HyperBEE</title>
 </head>
 <body>
-<h1>${authUser.username}::Profile</h1>
 <form:form action="/profile" method="post" commandName="profile">
     <table>
+        <tr>
+            <th><h1>${authUser.username}::Profile</h1></th>
+        </tr>
         <tr>
             <th>Designation :</th>
             <td><form:input path="designation" type="text"/></td>

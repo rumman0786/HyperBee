@@ -21,14 +21,15 @@ public interface Url {
 
     //Profile Constant
     String PROFILE_URL = "/profile";
+    String PROFILE_EDIT_URL = "/profile/edit";
     String CREATE_PROFILE_URL = "profile/createprofile";
     String USER_PROFILE_URL = "/user/profile";
     String VIEW_PROFILE_URL = "profile/viewprofile";
 
     //Stalk Therap Constant
-    String SEARCH_URL = "/search";
+    String SEARCH_URL = "/profile/search";
     String PROFILE_SEARCH_URL = "profile/searchprofile";
-    String STALK_PROFILE_URL = "/stalk/profile/{username}";
+    String STALK_PROFILE_URL = "/profile/stalk/{username}";
     String PROFILE_STALK_URL = "profile/stalkprofile";
 
     //Notes Constant
@@ -42,15 +43,15 @@ public interface Url {
     String SUCCESS_VIEW = "success";
 
     // Notice Constants
-    String NOTICE_BASE_URL= "/notice";
-    String NOTICE_LIST_URL= "/list";
+    String NOTICE_BASE_URL = "/notice";
+    String NOTICE_LIST_URL = "/list";
     String NOTICE_ADD_URL = "/add";
     String NOTICE_UPDATE_URL = "/update";
     String NOTICE_DELETE_URL = "/delete";
 
     // Notice Constants
-    String CONFERENCE_ROOM_BASE_URL= "/conference";
-    String CONFERENCE_ROOM_LIST_URL= "/list";
+    String CONFERENCE_ROOM_BASE_URL = "/conference";
+    String CONFERENCE_ROOM_LIST_URL = "/list";
     String CONFERENCE_ROOM_ADD_URL = "/add";
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
