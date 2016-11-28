@@ -64,6 +64,7 @@ public class HiveController {
         model.addAttribute("userIdInfo", new UserIdInfo());
         model.addAttribute("post", new Post());
         model.addAttribute("postList", postService.getPostListByHive(id));
+        model.addAttribute("noticeList", hiveService.getNoticeList(id));
 
         return SHOW_HIVE;
     }

@@ -2,6 +2,7 @@ package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.dao.HiveDao;
 import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +101,14 @@ public class HiveServiceImpl implements HiveService {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
         hiveDao.removeUsersFromHive(hive, userList);
+    }
+
+    @Override
+    @Transactional
+    public List<Notice> getNoticeList(int id){
+        Hive hive = retrieveHiveById(id);
+        List<Notice> noticeList = hive.getNoticeList();
+
+        return hiveDao.getLastFiveNotice(noticeList,5);
     }
 }

@@ -18,7 +18,7 @@
     <div>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#post">Discussion</a></li>
-            <li><a data-toggle="tab" href="#">Notice</a></li>
+            <li><a data-toggle="tab" href="#notice">Notice</a></li>
             <li><a data-toggle="tab" href="#member">Member</a></li>
         </ul>
     </div>
@@ -47,6 +47,23 @@
                     <div class="panel-heading clearfix">
                         <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
                             <strong>${item.user.username}</strong></h4>
+                    </div>
+                    <div class="panel-body">${item.description}</div>
+                    <div class="panel-footer clearfix">
+                        <div class="pull-right">
+                            <fmt:formatDate type="date" value="${item.dateCreated.time}" pattern="dd-MM-yy"/>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+
+        <div id="notice" class="tab-pane">
+            <c:forEach items="${noticeList}" var="item">
+                <div class="panel panel-warning">
+                    <div class="panel-heading clearfix">
+                        <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
+                            <strong>${item.title}</strong></h4>
                     </div>
                     <div class="panel-body">${item.description}</div>
                     <div class="panel-footer clearfix">

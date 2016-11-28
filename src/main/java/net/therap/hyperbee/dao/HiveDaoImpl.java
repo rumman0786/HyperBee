@@ -1,6 +1,7 @@
 package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
@@ -74,6 +75,13 @@ public class HiveDaoImpl implements HiveDao {
     public void removeUsersFromHive(Hive hive, List<User> userList) {
         hive.getUserList().removeAll(userList);
         em.flush();
+    }
+
+    @Override
+    public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range) {
+
+        return em.createQuery("SELECT n FROM Notice n WHERE n IN :noticeList ORDER BY n.id DESC", Notice.class)
+                .setParameter("noticeList", noticeList).setMaxResults(range).getResultList();
     }
 
 

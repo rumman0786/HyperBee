@@ -1,6 +1,7 @@
 package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface HiveDao {
     public Hive findById(int hiveId);
 
     public void removeUsersFromHive(Hive hive, List<User> userList);
+
+    public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range);
 }
