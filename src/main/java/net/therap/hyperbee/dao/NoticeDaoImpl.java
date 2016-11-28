@@ -2,6 +2,7 @@ package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Notice;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +21,7 @@ public class NoticeDaoImpl implements NoticeDao {
     private EntityManager em;
 
     @Override
+    @Transactional
     public void save(Notice notice) {
 
         if (notice.getId() == 0) {
@@ -41,11 +43,13 @@ public class NoticeDaoImpl implements NoticeDao {
     }
 
     @Override
+    @Transactional
     public void delete(Notice notice) {
         delete(notice.getId());
     }
 
     @Override
+    @Transactional
     public void delete(int noticeId) {
         Notice attachedDish = em.getReference(Notice.class, noticeId);
         em.remove(attachedDish);
