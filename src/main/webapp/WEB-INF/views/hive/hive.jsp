@@ -6,21 +6,45 @@
     <title>HyperBee-Hive</title>
 </head>
 <body>
-<p>Hive List</p>
-<c:forEach items="${hiveList}" var="item">
-    <a href="/user/hive/show/${item.id}"> <c:out value="${item.name}"/></a><br>
-    <br>
-    <br>
-</c:forEach>
-
-<div>
-    <form:form action="/user/hive/create" method="post" commandName="hive" enctype="multipart/form-data">
-        <h2>Create Hive</h2>
-        <form:input path="name" type="text" name="hiveName" placeholder="Hive Name"/>
-        <form:input path="description" type="text" placeholder="Hive Description"/>
-        <input path="imagePath" type="file" name="fileUpload" size="50"/>
-        <button type="submit" value="Upload">Create</button>
-    </form:form>
+<div class="col-lg-4">
+    <div class="panel panel-info">
+        <div class="panel-heading"><h3> My Hive </h3>
+        </div>
+        <div class="panel-body">
+            <table>
+                <tr>
+                    <td><c:forEach items="${hiveList}" var="item">
+                        <a href="/user/hive/show/${item.id}"> <c:out value="${item.name}"/></a><br>
+                        <br>
+                        <br>
+                    </c:forEach>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-lg-8">
+    <div class="panel panel-success">
+        <div class="panel-heading"><h3> Create New Hive </h3></div>
+        <div class="panel-body">
+            <form:form action="/user/hive/create" method="post" commandName="hive" enctype="multipart/form-data">
+                <div class="form-group">
+                    <form:input path="name" type="text" name="hiveName" class="form-control" placeholder="Hive Name"/>
+                </div>
+                <div class="form-group">
+                    <form:textarea class="form-control" path="description" type="text" row="4"
+                                   placeholder="Hive Description"/>
+                </div>
+                <div class="form-group">
+                    <form:input path="imagePath" type="file" name="fileUpload" size="50"/>
+                </div>
+                <div class="btn-group pull-right">
+                    <button type="submit" class="btn btn-primary" value="Upload">Create</button>
+                </div>
+            </form:form>
+        </div>
+    </div>
 </div>
 
 </body>

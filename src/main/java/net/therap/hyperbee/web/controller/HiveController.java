@@ -6,8 +6,8 @@ import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.PostService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.command.UserIdInfo;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.helper.UploadedFile;
-import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,9 +42,12 @@ public class HiveController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SessionHelper sessionHelper;
+
     @RequestMapping(method = RequestMethod.GET)
     public String viewHive(ModelMap model, HttpSession session) {
-        int userId = getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession(session);
         model.put("hiveList", hiveService.getHiveListByUserId(userId));
         model.addAttribute("hive", new Hive());
         model.addAttribute("userList", userService.findAll());
@@ -61,6 +64,7 @@ public class HiveController {
         model.addAttribute("userIdInfo", new UserIdInfo());
         model.addAttribute("post", new Post());
         model.addAttribute("postList", postService.getPostListByHive(id));
+
         return SHOW_HIVE;
     }
 
@@ -77,7 +81,8 @@ public class HiveController {
         model.addAttribute("hiveName", hive.getName());
         String filename = uploadedFile.uploadFile(fileUpload, hive.getName());
         hive.setImagePath(filename);
-        int userId = getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession(session);
+        System.out.println("userId " + userId);
         Hive newHive = hiveService.insertFirstUserToHive(hive, userId);
         hiveService.insertHive(newHive);
         int hiveId = hiveService.getHiveIdByHiveName(newHive.getName());
@@ -86,19 +91,12 @@ public class HiveController {
     }
 
     @RequestMapping(value = "/post/{hiveId}", method = RequestMethod.POST)
-    public String savePost(@ModelAttribute Post post,Model model, @PathVariable("hiveId") int hiveId, HttpSession session){
+    public String savePost(@ModelAttribute Post post, Model model, @PathVariable("hiveId") int hiveId, HttpSession session) {
 
-        int userId = getUserIdFromSession(session);
+        int userId = sessionHelper.getUserIdFromSession(session);
         postService.savePost(userId, hiveId, post);
         System.out.println("PostDescription " + post.getDescription() + " " + post.getDateCreated());
 
         return "redirect:/user/hive/show/" + hiveId;
     }
-
-        private int getUserIdFromSession(HttpSession session) {
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
-
-        return authUser.getId();
-    }
-
 }
