@@ -3,6 +3,7 @@ package net.therap.hyperbee.web.controller;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.BuzzService;
+import net.therap.hyperbee.service.StickyNoteService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.helper.SignUpUserHelper;
@@ -45,6 +46,9 @@ public class UserController {
 
     @Autowired
     private SignUpValidator signUpValidator;
+
+    @Autowired
+    StickyNoteService noteService;
 
     @InitBinder("login")
     private void loginValidator(WebDataBinder binder) {
@@ -123,11 +127,13 @@ public class UserController {
     }
 
     @GetMapping(USER_DASHBOARD_URL)
-    public String welcome(Model model) {
-        if(!model.containsAttribute("newBuzz")) {
+    public String welcome(HttpSession session, Model model) {
+        if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
         }
 
+        model.addAttribute("topStickyNote",
+                noteService.findTopStickyNoteByUser(sessionHelper.getUserIdFromSession(session)));
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         return "dashboard";
