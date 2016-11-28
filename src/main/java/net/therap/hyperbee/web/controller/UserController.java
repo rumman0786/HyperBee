@@ -1,11 +1,14 @@
 package net.therap.hyperbee.web.controller;
 
+import net.therap.hyperbee.dao.ActivityDao;
+import net.therap.hyperbee.domain.Activity;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.web.helper.ActivityHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
-import net.therap.hyperbee.web.helper.SignUpUserHelper;
+import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +40,19 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private SessionHelper sessionHelper;
+    private ActivityDao activityDao;
 
     @Autowired
     private LoginValidator loginValidator;
 
     @Autowired
     private SignUpValidator signUpValidator;
+
+    @Autowired
+    private SessionHelper sessionHelper;
+
+    @Autowired
+    private ActivityHelper activityHelper;
 
     @InitBinder("login")
     private void loginValidator(WebDataBinder binder) {
@@ -79,7 +88,9 @@ public class UserController {
 
         if (retrievedUser != null) {
             sessionHelper.persistInSession(retrievedUser, session);
-
+            Activity activity = activityHelper.createActivity(retrievedUser);
+            activityHelper.setSummary(activity, "Logged In");
+            activityDao.create(activity);
             return "redirect:" + USER_DASHBOARD_URL;
         }
 
@@ -88,24 +99,19 @@ public class UserController {
 
     @GetMapping(SIGN_UP_URL)
     public String signUp(Model model) {
-        model.addAttribute("signUp", new SignUpUserHelper());
+        model.addAttribute("signUp", new SignUpInfo());
 
         return SIGN_UP_VIEW;
     }
 
     @PostMapping(SIGN_UP_URL)
-    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpUserHelper signUpUserHelper, BindingResult bindingResult, HttpSession session) {
+    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpInfo signUpInfo, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
 
             return SIGN_UP_VIEW;
         }
 
-        User user = new User();
-        user.setFirstName(signUpUserHelper.getFirstName());
-        user.setLastName(signUpUserHelper.getLastName());
-        user.setUsername(signUpUserHelper.getUsername());
-        user.setEmail(signUpUserHelper.getEmail());
-        user.setPassword(signUpUserHelper.getPassword1());
+        User user = signUpInfo.getUser();
 
         User retrievedUser = userService.createUser(user);
         sessionHelper.persistInSession(retrievedUser, session);

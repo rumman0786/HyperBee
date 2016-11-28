@@ -16,6 +16,7 @@ public class LoginValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> loginValidationClass) {
+
         return User.class.isAssignableFrom(loginValidationClass);
     }
 

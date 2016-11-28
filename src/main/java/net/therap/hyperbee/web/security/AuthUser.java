@@ -9,7 +9,6 @@ import java.util.List;
  * @author rayed
  * @since 11/23/16 1:56 PM
  */
-
 public class AuthUser implements Serializable{
 
     private static final long serialVersionUID = 1;
@@ -26,6 +25,7 @@ public class AuthUser implements Serializable{
 
 
     //TODO public boolean isAdmin()
+
 
     public AuthUser() {
     }
