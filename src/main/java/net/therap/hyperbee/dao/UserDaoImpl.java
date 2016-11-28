@@ -13,7 +13,6 @@ import java.util.List;
  * @author rayed
  * @since 11/22/16 10:49 AM
  */
-
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -25,6 +24,7 @@ public class UserDaoImpl implements UserDao {
     public User createUser(User user) {
         em.persist(user);
         em.flush();
+
         return user;
     }
 
@@ -40,8 +40,8 @@ public class UserDaoImpl implements UserDao {
 
         try {
             user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
+                        .setParameter("username", username)
+                        .getSingleResult();
         } catch (NoResultException e) {
             e.printStackTrace();
         }
@@ -54,11 +54,11 @@ public class UserDaoImpl implements UserDao {
         User user = null;
 
         try {
-            user = (User) em.createNamedQuery("User.findByUsernameOrEmail")
-                    .setParameter("username", username)
-                    .setParameter("email", email)
-                    .getSingleResult();
-        } catch (NoResultException e){
+            user = em.createNamedQuery("User.findByUsernameOrEmail", User.class)
+                        .setParameter("username", username)
+                        .setParameter("email", email)
+                        .getSingleResult();
+        } catch (NoResultException e) {
             e.printStackTrace();
         }
 
@@ -71,9 +71,9 @@ public class UserDaoImpl implements UserDao {
 
         try {
             retrievedUser = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
-                    .setParameter("username", user.getUsername())
-                    .setParameter("password", user.getPassword())
-                    .getSingleResult();
+                                .setParameter("username", user.getUsername())
+                                .setParameter("password", user.getPassword())
+                                .getSingleResult();
         } catch (NoResultException e) {
             e.printStackTrace();
         }
