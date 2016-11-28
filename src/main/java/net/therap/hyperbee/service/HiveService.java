@@ -28,4 +28,6 @@ public interface HiveService {
     public Hive findById(int hiveId);
 
     public List<User> getUserInList(int id);
+
+    public void removeUsersFromHive(int hiveId, List<Integer> userIdList);
 }

@@ -77,6 +77,14 @@ public class HiveController {
         return "redirect:/user/hive/show/" + hiveId;
     }
 
+    @RequestMapping(value = "/removeuser/{hiveId}", method = RequestMethod.POST)
+    public String RemoveUserFromHive(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
+        model.addAttribute("userInfoId", userIdInfo);
+        hiveService.removeUsersFromHive(hiveId, userIdInfo.getUserIdList());
+
+        return "redirect:/user/hive/show/" + hiveId;
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam CommonsMultipartFile fileUpload, Model model, HttpSession session) throws IOException {
         model.addAttribute("hiveName", hive.getName());

@@ -56,7 +56,6 @@ public class HiveServiceImpl implements HiveService {
     @Override
     @Transactional
     public void insertUsersToHive(int hiveId, List<Integer> userIdList) {
-
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
         hiveDao.insertUsersToHive(hive, userList);
@@ -95,4 +94,11 @@ public class HiveServiceImpl implements HiveService {
         return hive.getUserList();
     }
 
+    @Override
+    @Transactional
+    public void removeUsersFromHive(int hiveId, List<Integer> userIdList) {
+        Hive hive = retrieveHiveById(hiveId);
+        List<User> userList = getUserListById(userIdList);
+        hiveDao.removeUsersFromHive(hive, userList);
+    }
 }

@@ -70,5 +70,11 @@ public class HiveDaoImpl implements HiveDao {
         return em.find(Hive.class, hiveId);
     }
 
+    @Override
+    public void removeUsersFromHive(Hive hive, List<User> userList) {
+        hive.getUserList().removeAll(userList);
+        em.flush();
+    }
+
 
 }

@@ -26,4 +26,6 @@ public interface HiveDao {
     public List<User> findUserNotInList(List<User> userList);
 
     public Hive findById(int hiveId);
+
+    public void removeUsersFromHive(Hive hive, List<User> userList);
 }
