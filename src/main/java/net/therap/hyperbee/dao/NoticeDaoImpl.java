@@ -23,9 +23,9 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     @Transactional
     public void save(Notice notice) {
-
         if (notice.getId() == 0) {
             em.persist(notice);
+            em.flush();
         } else {
             em.merge(notice);
         }

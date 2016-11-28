@@ -23,9 +23,9 @@ public class ConferenceRoomDaoImpl implements ConferenceRoomDao {
     @Override
     @Transactional
     public void save(ConferenceRoom conferenceRoom) {
-
         if (conferenceRoom.getId() == 0) {
             em.persist(conferenceRoom);
+            em.flush();
         } else {
             em.merge(conferenceRoom);
         }
