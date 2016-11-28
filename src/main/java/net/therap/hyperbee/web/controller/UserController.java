@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -66,15 +65,14 @@ public class UserController {
     public String login(Model model) {
         model.addAttribute("login", new User());
 
-        return "user/login";
+        return LOGIN_VIEW;
     }
 
     @PostMapping(LOGIN_URL)
-    public String loginUser(@Validated @ModelAttribute("login") User user, BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes, HttpSession session) {
+    public String loginUser(@Validated @ModelAttribute("login") User user, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
 
-            return "user/login";
+            return LOGIN_VIEW;
         }
 
         User retrievedUser = userService.findByUsernameAndPassword(user);
@@ -85,21 +83,21 @@ public class UserController {
             return "redirect:" + USER_DASHBOARD_URL;
         }
 
-        return "user/login";
+        return LOGIN_VIEW;
     }
 
     @GetMapping(SIGN_UP_URL)
     public String signUp(Model model) {
         model.addAttribute("signUp", new SignUpUserHelper());
 
-        return "user/signUp";
+        return SIGN_UP_VIEW;
     }
 
     @PostMapping(SIGN_UP_URL)
     public String signUpDash(@Validated @ModelAttribute("signUp") SignUpUserHelper signUpUserHelper, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
 
-            return "user/signUp";
+            return SIGN_UP_VIEW;
         }
 
         User user = new User();
@@ -130,6 +128,6 @@ public class UserController {
 
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
-        return "dashboard";
+        return USER_DASHBOARD_VIEW;
     }
 }
