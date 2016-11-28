@@ -19,6 +19,11 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_STATUS_F
  * @since 11/21/16
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "User.findByUsernameOrEmail",
+                query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email ")
+
+})
 @Table(name = "user")
 public class User implements Serializable {
 
@@ -58,7 +63,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Post> postList;
 
-    @ManyToMany
+    @ManyToMany(cascade =  CascadeType.ALL)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),

@@ -13,15 +13,17 @@ public interface HiveDao {
 
     public void saveHive(Hive hive);
 
-    public List<Hive> retrieveHive();
-
     public List<User> getUserListById(List<Integer> idList);
-
-    public List<User> getUserList();
 
     public Hive retrieveHiveById(int id);
 
     public void insertUsersToHive(Hive hive, List<User> userList);
 
     public List<Hive> getHiveListByUserId(int userId);
+
+    public int getHiveIdByHiveName(String name);
+
+    public List<User> findUserNotInList(List<User> userList);
+
+    public Hive findById(int hiveId);
 }

@@ -8,7 +8,6 @@ import java.util.List;
  * @author rayed
  * @since 11/22/16 10:44 AM
  */
-
 public interface UserService {
 
     public User createUser(User user);
@@ -16,6 +15,8 @@ public interface UserService {
     public User findById(int id);
 
     public User findByUsername(String username);
+
+    public User findByUsernameOrEmail(String username, String email);
 
     public User findByUsernameAndPassword(User user);
 
