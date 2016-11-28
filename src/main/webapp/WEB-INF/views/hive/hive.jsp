@@ -33,11 +33,10 @@
                     <form:input path="name" type="text" name="hiveName" class="form-control" placeholder="Hive Name"/>
                 </div>
                 <div class="form-group">
-                    <form:textarea class="form-control" path="description" type="text" row="4"
-                                   placeholder="Hive Description"/>
+                    <form:textarea class="form-control" path="description" type="text" placeholder="Hive Description"/>
                 </div>
                 <div class="form-group">
-                    <form:input path="imagePath" type="file" name="fileUpload" size="50"/>
+                    <input path="imagePath" type="file" name="fileUpload" size="50"/>
                 </div>
                 <div class="btn-group pull-right">
                     <form:button type="submit" class="btn btn-primary" value="Upload">Create</form:button>

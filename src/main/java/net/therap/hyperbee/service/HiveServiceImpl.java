@@ -60,7 +60,6 @@ public class HiveServiceImpl implements HiveService {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
         hiveDao.insertUsersToHive(hive, userList);
-
     }
 
     @Transactional
@@ -86,6 +85,14 @@ public class HiveServiceImpl implements HiveService {
     public Hive findById(int hiveId) {
 
         return hiveDao.findById(hiveId);
+    }
+
+    @Override
+    public List<User> getUserInList(int id) {
+        Hive hive = retrieveHiveById(id);
+        Hibernate.initialize(hive.getUserList());
+
+        return hive.getUserList();
     }
 
 }

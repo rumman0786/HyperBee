@@ -24,7 +24,7 @@ public class UploadedFile {
 
         try {
             byte barr[] = fileUpload.getBytes();
-            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(System.getProperty("catalina.home") + "/webapps/upload/" + filename));
+            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(System.getProperty("catalina.home") + "/webapps/ROOT/uploads/" + filename));
             bout.write(barr);
             bout.flush();
             bout.close();

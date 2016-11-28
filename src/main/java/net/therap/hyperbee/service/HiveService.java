@@ -26,4 +26,6 @@ public interface HiveService {
     public List<User> getUserNotInList(int hiveId);
 
     public Hive findById(int hiveId);
+
+    public List<User> getUserInList(int id);
 }

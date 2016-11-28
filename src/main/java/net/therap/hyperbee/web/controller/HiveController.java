@@ -61,6 +61,7 @@ public class HiveController {
         model.addAttribute("hiveId", id);
         model.addAttribute("hive", hiveService.retrieveHiveById(id));
         model.addAttribute("userList", hiveService.getUserNotInList(id));
+        model.addAttribute("enlistedUser", hiveService.getUserInList(id));
         model.addAttribute("userIdInfo", new UserIdInfo());
         model.addAttribute("post", new Post());
         model.addAttribute("postList", postService.getPostListByHive(id));
