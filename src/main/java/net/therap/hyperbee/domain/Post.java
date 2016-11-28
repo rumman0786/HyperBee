@@ -26,7 +26,8 @@ public class Post implements Serializable {
 
     private String description;
 
-    @Column(columnDefinition = DATE_TIME_FIELD)
+    @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateCreated;
 
     @ManyToOne
