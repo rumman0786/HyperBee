@@ -11,6 +11,9 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.therap.hyperbee.domain.enums.NoteType.REMINDER;
+import static net.therap.hyperbee.domain.enums.NoteType.STICKY;
+
 /**
  * @author bashir
  * @since 11/23/16
@@ -26,11 +29,6 @@ public class NoteHelper {
     }
 
     public void setCalendarValFromString(Note note, String dateTime) {
-
-        if (dateTime.isEmpty()) {
-
-            return;
-        }
 
         Calendar calendar = new GregorianCalendar();
 
@@ -58,8 +56,20 @@ public class NoteHelper {
             calendar.set(Calendar.AM_PM, (matcher.group(6)).equals("AM") ? 0 : 1);
             log.debug("MONTH: " + matcher.group(6));
             note.setDateRemind(calendar);
+        }
+    }
+
+    public void processNoteForSaving(Note note, String remindDate) {
+
+        note.setDateCreated(new GregorianCalendar());
+
+        if (remindDate.isEmpty()) {
+
+            note.setNoteType(STICKY);
 
             return;
         }
+        setCalendarValFromString(note, remindDate);
+        note.setNoteType(REMINDER);
     }
 }
