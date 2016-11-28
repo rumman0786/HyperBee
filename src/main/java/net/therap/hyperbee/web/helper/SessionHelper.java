@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
  * @author bashir
  * @since 11/24/16 12:12 PM
  */
-
 @Component
 public class SessionHelper {
 

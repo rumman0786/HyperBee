@@ -25,6 +25,4 @@ public class ProfileDaoImpl implements ProfileDao {
 
         return PROFILE_SAVE_MESSAGE ;
     }
-
-
 }

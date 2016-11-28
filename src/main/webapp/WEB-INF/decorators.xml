@@ -2,9 +2,17 @@
 <decorators defaultdir="/WEB-INF/decorators/">
     <excludes>
         <pattern>/user/note/save</pattern>
+        <pattern>/notice/add</pattern>
+        <pattern>/notice/update</pattern>
+        <pattern>/notice/delete</pattern>
+        <pattern>/conference/add</pattern>
+        <pattern>/conference/update</pattern>
+        <pattern>/conference/delete</pattern>
     </excludes>
     <decorator name="decorator" page="decorator.jsp">
         <pattern>/user/*</pattern>
-        <pattern>/user/hive/show/*</pattern>
+        <pattern>/notice*</pattern>
+        <pattern>/conference*</pattern>
+        <pattern>/profile*</pattern>
     </decorator>
 </decorators>
