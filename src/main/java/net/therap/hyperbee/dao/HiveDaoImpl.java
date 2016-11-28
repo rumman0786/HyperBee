@@ -64,5 +64,11 @@ public class HiveDaoImpl implements HiveDao {
                 .setParameter("userList", userList).getResultList();
     }
 
+    @Override
+    public Hive findById(int hiveId) {
+
+        return em.find(Hive.class, hiveId);
+    }
+
 
 }

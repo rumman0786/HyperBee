@@ -24,4 +24,6 @@ public interface HiveService {
     public int getHiveIdByHiveName(String name);
 
     public List<User> getUserNotInList(int hiveId);
+
+    public Hive findById(int hiveId);
 }
