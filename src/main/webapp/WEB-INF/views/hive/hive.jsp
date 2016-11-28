@@ -40,7 +40,7 @@
                     <form:input path="imagePath" type="file" name="fileUpload" size="50"/>
                 </div>
                 <div class="btn-group pull-right">
-                    <button type="submit" class="btn btn-primary" value="Upload">Create</button>
+                    <form:button type="submit" class="btn btn-primary" value="Upload">Create</form:button>
                 </div>
             </form:form>
         </div>

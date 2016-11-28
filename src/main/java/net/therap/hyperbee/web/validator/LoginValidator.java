@@ -21,7 +21,6 @@ public class LoginValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        System.out.println("here at login validation");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "username.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.required");
     }

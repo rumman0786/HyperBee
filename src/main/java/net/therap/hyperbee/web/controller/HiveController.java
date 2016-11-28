@@ -79,10 +79,12 @@ public class HiveController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam CommonsMultipartFile fileUpload, Model model, HttpSession session) throws IOException {
         model.addAttribute("hiveName", hive.getName());
+
         String filename = uploadedFile.uploadFile(fileUpload, hive.getName());
         hive.setImagePath(filename);
+
         int userId = sessionHelper.getUserIdFromSession(session);
-        System.out.println("userId " + userId);
+
         Hive newHive = hiveService.insertFirstUserToHive(hive, userId);
         hiveService.insertHive(newHive);
         int hiveId = hiveService.getHiveIdByHiveName(newHive.getName());
@@ -95,7 +97,6 @@ public class HiveController {
 
         int userId = sessionHelper.getUserIdFromSession(session);
         postService.savePost(userId, hiveId, post);
-        System.out.println("PostDescription " + post.getDescription() + " " + post.getDateCreated());
 
         return "redirect:/user/hive/show/" + hiveId;
     }
