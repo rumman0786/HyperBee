@@ -2,6 +2,8 @@ package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.domain.Activity;
 
+import java.util.List;
+
 /**
  * @author rayed
  * @since 11/28/16 10:23 AM
@@ -9,9 +11,7 @@ import net.therap.hyperbee.domain.Activity;
 
 public interface ActivityService {
 
-    public void create(Activity activity);
+    public List<Activity> findByUserId(int userId);
 
-    public Activity findById(int id);
-
-    public Activity findByUserId(int userId);
+    public void archive(String summary);
 }

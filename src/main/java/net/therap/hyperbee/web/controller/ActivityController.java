@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author rayed
@@ -25,10 +26,11 @@ public class ActivityController {
 
     @GetMapping("/user/activity/log")
     public String viewActivity(Model model, HttpSession session) {
-        int userId = sessionHelper.getUserIdFromSession(session);
-        Activity activity = activityService.findByUserId(userId);
-        System.out.println(activity.getSummary());
-        model.addAttribute("activity", activity);
+        int userId = sessionHelper.getUserIdFromSession();
+
+        List<Activity> activityList = activityService.findByUserId(userId);
+        model.addAttribute("activityList", activityList);
+
         return "activity/log";
     }
 }

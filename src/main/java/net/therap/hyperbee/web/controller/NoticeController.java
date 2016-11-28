@@ -76,7 +76,7 @@ public class NoticeController {
 //
 //        DateTime dt = formatter.parseDateTime(dateExpired);
 //        notice.setDateExpired(dt.toGregorianCalendar());
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession(session)).getId();
+        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
 //        if (bindingResult.hasErrors()) {
@@ -139,7 +139,7 @@ public class NoticeController {
     public String editNotice(@ModelAttribute("notice") Notice notice, HttpSession session//, @Validated
                              //BindingResult bindingResult,Model model
     ) {
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession(session)).getId();
+        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
 //        if (bindingResult.hasErrors()) {
