@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.naming.Binding;
 import javax.servlet.http.HttpSession;
 
 import static net.therap.hyperbee.utils.constant.Url.USER_DASHBOARD_URL;
@@ -63,7 +62,7 @@ public class BuzzController {
             return "redirect:" + USER_DASHBOARD_URL;
         }
 
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession(session);
+        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
 
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);

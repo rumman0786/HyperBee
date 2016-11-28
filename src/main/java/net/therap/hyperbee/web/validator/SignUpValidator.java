@@ -3,7 +3,7 @@ package net.therap.hyperbee.web.validator;
 
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.web.helper.SignUpUserHelper;
+import net.therap.hyperbee.web.command.SignUpInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -22,7 +22,7 @@ public class SignUpValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> signUpValidationClass) {
-        return SignUpUserHelper.class.isAssignableFrom(signUpValidationClass);
+        return SignUpInfo.class.isAssignableFrom(signUpValidationClass);
     }
 
     @Override
@@ -34,19 +34,19 @@ public class SignUpValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password1", "password.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password2", "verifyPassword.required");
 
-        SignUpUserHelper signUpUserHelper = (SignUpUserHelper) target;
+        SignUpInfo signUpInfo = (SignUpInfo) target;
 
-        if (!signUpUserHelper.getPassword1().equals(signUpUserHelper.getPassword2())) {
+        if (!signUpInfo.getPassword1().equals(signUpInfo.getPassword2())) {
             errors.rejectValue("password1", "password.mismatch");
         }
 
-        User user = userService.findByUsernameOrEmail(signUpUserHelper.getUsername(), signUpUserHelper.getEmail());
+        User user = userService.findByUsernameOrEmail(signUpInfo.getUsername(), signUpInfo.getEmail());
 
         if (user != null) {
-            if (user.getUsername().equals(signUpUserHelper.getUsername())) {
+            if (user.getUsername().equals(signUpInfo.getUsername())) {
                 errors.rejectValue("username", "username.unique");
             }
-            if (user.getEmail().equals(signUpUserHelper.getEmail())) {
+            if (user.getEmail().equals(signUpInfo.getEmail())) {
                 errors.rejectValue("email", "email.unique");
             }
         }

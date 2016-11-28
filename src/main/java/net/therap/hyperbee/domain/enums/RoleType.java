@@ -18,6 +18,7 @@ public enum RoleType {
     }
 
     public String getRole() {
+
         return role;
     }
 }

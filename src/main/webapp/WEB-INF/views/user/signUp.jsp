@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 <div class="container">
     <form:form class="form-signin" action="/signup" method="POST" modelAttribute="signUp">
         <h2 class="form-signin-heading">Please sign up</h2>
@@ -15,4 +15,4 @@
         <form:button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</form:button>
     </form:form>
 </div>
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>
