@@ -63,7 +63,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Post> postList;
 
-    @ManyToMany(cascade =  CascadeType.ALL)
+    @ManyToMany(cascade =  CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),
