@@ -10,10 +10,12 @@
         }
 
         $(document).ready(function () {
-            setInterval(refreshList, 500);
+            $("#buzzList").load("/buzz/buzzList")
+            setInterval(refreshList, 5000);
         });
     </script>
 </head>
+
 <body>
 <div class="container-fluid">
     <div id="buzzMain" class="panel panel-primary">
@@ -23,12 +25,13 @@
             <form:form id="buzzMessageForm" action="/buzz/sendBuzz" method="POST" modelAttribute="newBuzz">
                 <form:input path="message" placeholder="Enter your message..." cssStyle="width: 93%"/>
                 <input type="submit" class="btn btn-primary" value="Send"/>
+                <p><form:errors path="message" cssClass="alert-danger"/></p>
             </form:form>
         </div>
     </div>
 
     <c:forEach items="${topStickyNote}" var="item">
-        <div class="panel panel-warning">
+        <div class="panel panel-warning col-lg-3">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><strong>${item.title}</strong></h4>
             </div>
