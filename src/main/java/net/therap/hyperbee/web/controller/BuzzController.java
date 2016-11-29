@@ -1,8 +1,10 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Buzz;
+import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.BuzzValidator;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.Url.USER_DASHBOARD_URL;
 
@@ -42,6 +46,9 @@ public class BuzzController {
     @Autowired
     private BuzzValidator buzzValidator;
 
+    @Autowired
+    ActivityService activityService;
+
     @InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(buzzValidator);
@@ -49,14 +56,14 @@ public class BuzzController {
 
     @GetMapping("/buzz/buzzList")
     public void viewLatestBuzz(Model model) {
+        model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
     }
 
     @PostMapping("/buzz/sendBuzz")
     public String sendBuzz(@ModelAttribute("newBuzz") @Validated Buzz newBuzz, BindingResult result,
                            RedirectAttributes redirectAttributes, HttpSession session, Model model) {
-
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "newBuzz", result);
             redirectAttributes.addFlashAttribute("newBuzz", newBuzz);
             return "redirect:" + USER_DASHBOARD_URL;
@@ -66,6 +73,7 @@ public class BuzzController {
 
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);
+        activityService.archive(Messages.BUZZ_SEND_SUCCESS.replaceAll("<message>", newBuzz.getMessage()));
 
         model.addAttribute("newBuzz", new Buzz());
 
@@ -74,14 +82,24 @@ public class BuzzController {
 
     @GetMapping("/buzz/flagBuzz")
     public String flagBuzz(int id) {
-        buzzService.flagBuzz(buzzService.getBuzzById(id));
+        Buzz tempBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
+        activityService.archive(Messages.BUZZ_FLAG_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
 
         return "redirect:/user/dashboard";
     }
 
     @GetMapping("/buzz/deactivateBuzz")
     public String deactivateBuzz(int id) {
-        buzzService.deactivateBuzz(buzzService.getBuzzById(id));
+        Buzz tempBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
+        activityService.archive(Messages.BUZZ_DELETE_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
+
+        return "redirect:/user/dashboard";
+    }
+
+    @GetMapping("/buzz/pinBuzz")
+    public String pinBuzz(int id) {
+        Buzz tempBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
+        activityService.archive(Messages.BUZZ_PINNED_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
 
         return "redirect:/user/dashboard";
     }

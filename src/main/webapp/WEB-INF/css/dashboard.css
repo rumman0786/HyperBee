@@ -11,6 +11,15 @@
     padding-top: 70px;
 }
 
+.pre-scrollable {
+    overflow-y: auto;
+}
+
+.pre-scrollable-body {
+    max-height: 1500px;
+    overflow-y: auto;
+}
+
 /* Set gray background color and 100% height */
 .sidenav {
     background-color: #f1f1f1;
