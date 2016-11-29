@@ -1,6 +1,7 @@
 package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
@@ -43,7 +44,6 @@ public class HiveDaoImpl implements HiveDao {
 
     @Override
     public List<Hive> getHiveListByUserId(int userId) {
-
         User user = em.find(User.class, userId);
         Hibernate.initialize(user.getHiveList());
 
@@ -53,8 +53,8 @@ public class HiveDaoImpl implements HiveDao {
 
     public int getHiveIdByHiveName(String name) {
 
-       return em.createQuery("SELECT h.id FROM Hive h WHERE h.name=:hiveName" , Integer.class)
-               .setParameter("hiveName", name).getSingleResult();
+        return em.createQuery("SELECT h.id FROM Hive h WHERE h.name=:hiveName", Integer.class)
+                .setParameter("hiveName", name).getSingleResult();
     }
 
     @Override
@@ -68,6 +68,19 @@ public class HiveDaoImpl implements HiveDao {
     public Hive findById(int hiveId) {
 
         return em.find(Hive.class, hiveId);
+    }
+
+    @Override
+    public void removeUsersFromHive(Hive hive, List<User> userList) {
+        hive.getUserList().removeAll(userList);
+        em.flush();
+    }
+
+    @Override
+    public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range) {
+
+        return em.createQuery("SELECT n FROM Notice n WHERE n IN :noticeList ORDER BY n.id DESC", Notice.class)
+                .setParameter("noticeList", noticeList).setMaxResults(range).getResultList();
     }
 
 

@@ -29,6 +29,9 @@ public class Hive implements Serializable {
     @Column(name = "image_path")
     private String imagePath;
 
+    @Column(name = "creator_id")
+    private int creatorId;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_hive",
@@ -77,6 +80,14 @@ public class Hive implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public int getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(int creatorId) {
+        this.creatorId = creatorId;
     }
 
     public List<User> getUserList() {

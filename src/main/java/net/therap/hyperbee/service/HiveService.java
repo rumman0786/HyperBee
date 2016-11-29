@@ -1,6 +1,7 @@
 package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
 
 import java.util.List;
@@ -26,4 +27,12 @@ public interface HiveService {
     public List<User> getUserNotInList(int hiveId);
 
     public Hive findById(int hiveId);
+
+    public List<User> getUserInList(int id);
+
+    public void removeUsersFromHive(int hiveId, List<Integer> userIdList);
+
+    public List<Notice> getNoticeList(int id);
+
+    public List<User> getUserListToRemove(int id);
 }
