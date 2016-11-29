@@ -58,7 +58,6 @@ public class Notice implements Serializable {
 
     public Notice() {
         this.dateCreated = new GregorianCalendar();
-//        this.dateExpired = new GregorianCalendar();
     }
 
     public int getId() {

@@ -47,5 +47,7 @@
     <filter-mapping>
         <filter-name>authenticate</filter-name>
         <url-pattern>/user/*</url-pattern>
+        <url-pattern>/notice</url-pattern>
+        <url-pattern>/notice/*</url-pattern>
     </filter-mapping>
 </web-app>

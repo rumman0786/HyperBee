@@ -11,9 +11,9 @@
     <title>| Notice Board</title>
 </head>
 <body>
-<%--<c:if test="${user.isSuperuser}">--%>
+<c:if test="${isAdmin}">
     <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right">Add Notice</a>
-<%--</c:if>--%>
+</c:if>
 <div class="table-responsive">
     <table class="table table-striped" border="1">
         <thead>
@@ -22,10 +22,10 @@
             <th>Description</th>
             <th>Creator</th>
 
-            <%--<c:if test="${user.isSuperuser}">--%>
-            <th>Edit</th>
-            <th>Delete</th>
-            <%--</c:if>--%>
+            <c:if test="${isAdmin}">
+                <th>Edit</th>
+                <th>Delete</th>
+            </c:if>
 
         </tr>
         </thead>
@@ -37,14 +37,14 @@
                 <td>${notice.description}</td>
                 <td>${notice.user.username}</td>
 
-                    <%--<c:if test="${user.isSuperuser}">--%>
-                <td><a href="${pageContext.request.contextPath}/notice/${notice.id}/"><span
-                        class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#" data-id="${notice.id}"
-                       data-toggle="modal" data-target="#confirm-delete"
-                       class="delete-user-item"><span
-                        class="glyphicon glyphicon-trash"></span></a></td>
-                    <%--</c:if>--%>
+                <c:if test="${isAdmin}">
+                    <td><a href="${pageContext.request.contextPath}/notice/${notice.id}/"><span
+                            class="glyphicon glyphicon-edit"></span></a></td>
+                    <td><a href="#" data-id="${notice.id}"
+                           data-toggle="modal" data-target="#confirm-delete"
+                           class="delete-user-item"><span
+                            class="glyphicon glyphicon-trash"></span></a></td>
+                </c:if>
 
             </tr>
         </c:forEach>

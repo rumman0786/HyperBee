@@ -19,5 +19,4 @@ public interface NoticeDao {
     void delete(Notice notice);
 
     void delete(int noticeId);
-
 }

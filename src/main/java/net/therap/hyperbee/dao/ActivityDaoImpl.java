@@ -16,6 +16,8 @@ import java.util.List;
 @Repository
 public class ActivityDaoImpl implements ActivityDao {
 
+    private static String SELECT_ACTIVITY = "SELECT a FROM Activity a WHERE a.user.id = :userId ORDER BY a.activityTime DESC";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -23,6 +25,7 @@ public class ActivityDaoImpl implements ActivityDao {
     @Transactional
     public void create(Activity activity) {
         em.persist(activity);
+        em.flush();
     }
 
     @Override
@@ -30,7 +33,7 @@ public class ActivityDaoImpl implements ActivityDao {
         List<Activity> activityList = null;
 
         try {
-            activityList = em.createQuery("SELECT a FROM Activity a WHERE a.user.id = :userId ORDER BY a.activityTime DESC", Activity.class)
+            activityList = em.createQuery(SELECT_ACTIVITY, Activity.class)
                     .setParameter("userId", userId)
                     .getResultList();
         } catch (NoResultException e){
