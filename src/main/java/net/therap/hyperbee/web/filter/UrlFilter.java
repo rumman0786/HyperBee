@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static net.therap.hyperbee.utils.constant.Url.LOGIN_URL;
+
 /**
  * @author rayed
  * @since 11/24/16 1:29 PM
@@ -36,7 +38,7 @@ public class UrlFilter implements Filter {
         }
 
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.sendRedirect("/login");
+        httpServletResponse.sendRedirect(LOGIN_URL);
     }
 
     @Override

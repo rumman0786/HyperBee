@@ -3,20 +3,21 @@ package net.therap.hyperbee.utils.constant;
 /**
  * @author duity
  * @author rumman
+ * @author rayed
  * @since 11/23/16.
  */
 
 public interface Url {
 
+    //User constants
     String ROOT_URL = "/";
-
     String LOGIN_URL = "/login";
+    String LOGIN_VIEW = "user/login";
     String LOGOUT_URL = "/logout";
-
     String SIGN_UP_URL = "/signup";
+    String SIGN_UP_VIEW = "user/signUp";
 
-    String USER_URL = "/user";
-
+    String USER_DASHBOARD_VIEW = "dashboard";
     String USER_DASHBOARD_URL = "/user/dashboard";
 
     //Profile Constant

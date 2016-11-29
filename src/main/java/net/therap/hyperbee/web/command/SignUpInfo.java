@@ -1,11 +1,12 @@
-package net.therap.hyperbee.web.helper;
+package net.therap.hyperbee.web.command;
+
+import net.therap.hyperbee.domain.User;
 
 /**
  * @author rayed
  * @since 11/27/16 12:01 PM
  */
-
-public class SignUpUserHelper {
+public class SignUpInfo {
 
     private String firstName;
 
@@ -65,5 +66,17 @@ public class SignUpUserHelper {
 
     public void setPassword2(String password2) {
         this.password2 = password2;
+    }
+
+    public User getUser() {
+        User user = new User();
+
+        user.setFirstName(getFirstName());
+        user.setLastName(getLastName());
+        user.setUsername(getUsername());
+        user.setEmail(getEmail());
+        user.setPassword(getPassword1());
+
+        return user;
     }
 }

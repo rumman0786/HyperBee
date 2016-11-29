@@ -13,9 +13,16 @@ import java.util.List;
  * @author rayed
  * @since 11/22/16 10:49 AM
  */
-
 @Repository
 public class UserDaoImpl implements UserDao {
+
+    private static String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = :username";
+
+    private static String FIND_BY_USERNAME_AND_PASSWORD = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
+
+    private static String FIND_ALL = "SELECT u FROM User u";
+
+    private static String FIND_BY_USRNAME_AND_EMAIL = "User.findByUsernameOrEmail";
 
     @PersistenceContext
     private EntityManager em;
@@ -25,6 +32,7 @@ public class UserDaoImpl implements UserDao {
     public User createUser(User user) {
         em.persist(user);
         em.flush();
+
         return user;
     }
 
@@ -39,9 +47,9 @@ public class UserDaoImpl implements UserDao {
         User user = null;
 
         try {
-            user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
+            user = em.createQuery(FIND_BY_USERNAME, User.class)
+                        .setParameter("username", username)
+                        .getSingleResult();
         } catch (NoResultException e) {
             e.printStackTrace();
         }
@@ -54,11 +62,11 @@ public class UserDaoImpl implements UserDao {
         User user = null;
 
         try {
-            user = (User) em.createNamedQuery("User.findByUsernameOrEmail")
-                    .setParameter("username", username)
-                    .setParameter("email", email)
-                    .getSingleResult();
-        } catch (NoResultException e){
+            user = em.createNamedQuery(FIND_BY_USRNAME_AND_EMAIL, User.class)
+                        .setParameter("username", username)
+                        .setParameter("email", email)
+                        .getSingleResult();
+        } catch (NoResultException e) {
             e.printStackTrace();
         }
 
@@ -70,10 +78,10 @@ public class UserDaoImpl implements UserDao {
         User retrievedUser = null;
 
         try {
-            retrievedUser = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
-                    .setParameter("username", user.getUsername())
-                    .setParameter("password", user.getPassword())
-                    .getSingleResult();
+            retrievedUser = em.createQuery(FIND_BY_USERNAME_AND_PASSWORD, User.class)
+                                .setParameter("username", user.getUsername())
+                                .setParameter("password", user.getPassword())
+                                .getSingleResult();
         } catch (NoResultException e) {
             e.printStackTrace();
         }
@@ -84,7 +92,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findAll() {
 
-        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+        return em.createQuery(FIND_ALL, User.class).getResultList();
     }
 
     @Override

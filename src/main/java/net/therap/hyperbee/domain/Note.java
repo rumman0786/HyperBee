@@ -2,6 +2,7 @@ package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.NotePriority;
+import net.therap.hyperbee.domain.enums.NoteType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,6 +28,9 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.*;
                         " ORDER BY n.dateRemind"),
         @NamedQuery(name = "Note.updateDisplayStatusForUser",
                 query = "UPDATE Note n SET n.displayStatus = :displayStatus WHERE n.id = :noteId AND n.user.id = :userId"),
+        @NamedQuery(name = "Note.findTopStickyNoteByUserId",
+                query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus " +
+                        " AND  n.noteType = :type ORDER BY n.id DESC")
 })
 @Table(name = "note")
 public class Note implements Serializable {
@@ -59,12 +63,15 @@ public class Note implements Serializable {
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM)
     private DisplayStatus displayStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = NOTE_TYPE_ENUM)
+    private NoteType noteType;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 
     public Note() {
-        this.dateCreated = new GregorianCalendar();
 
         priority = NotePriority.LOW;
         displayStatus = displayStatus.ACTIVE;
@@ -132,6 +139,14 @@ public class Note implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public NoteType getNoteType() {
+        return noteType;
+    }
+
+    public void setNoteType(NoteType noteType) {
+        this.noteType = noteType;
     }
 
     public String getRemindDateFormatted() {

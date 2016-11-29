@@ -2,6 +2,7 @@ package net.therap.hyperbee.utils.constant;
 
 /**
  * @author bashir
+ * @author rayed
  * @since 11/21/16
  */
 public interface DomainConstant {
@@ -23,4 +24,9 @@ public interface DomainConstant {
     String LOW_PRIORITY = "LOW";
     String MEDIUM_PRIORITY = "MEDIUM";
     String PRIORITY_ENUM = "enum('HIGH','LOW','MEDIUM')";
+    String NOTE_STICKY ="STICKY";
+    String NOTE_REMINDER = "REMINDER";
+    String NOTE_TYPE_ENUM= "enum('STICKY','REMINDER')";
+
+    int STICKY_NOTE_COUNT_DASHBOARD = 3;
 }

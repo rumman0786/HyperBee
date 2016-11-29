@@ -2,9 +2,14 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.ConferenceRoom;
 import net.therap.hyperbee.service.ConferenceRoomService;
+import net.therap.hyperbee.web.validator.ConferenceRoomValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import static net.therap.hyperbee.utils.constant.Url.*;
@@ -20,15 +25,15 @@ public class ConferenceRoomController {
     @Autowired
     private ConferenceRoomService conferenceRoomService;
 
-//
-//    @Autowired
-//    @Qualifier("dishCommandValidator")
-//    private Validator validator;
-//
-//    @InitBinder
-//    private void initBinder(WebDataBinder binder) {
-//        binder.setValidator(validator);
-//    }
+
+    @Autowired
+    private ConferenceRoomValidator validator;
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(validator);
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
+    }
 
     @RequestMapping(value = CONFERENCE_ROOM_LIST_URL, method = RequestMethod.GET)
     public String showConferenceRoomList(ModelMap modelMap) {
@@ -54,25 +59,14 @@ public class ConferenceRoomController {
 
 
     @RequestMapping(value = CONFERENCE_ROOM_ADD_URL, method = RequestMethod.POST)
-    public String AddConferenceRoom(@ModelAttribute("conferenceRoom") ConferenceRoom conferenceRoom
-//                                      BindingResult bindingResult,
-    ) {
+    public String AddConferenceRoom(@ModelAttribute("conferenceRoom") @Validated ConferenceRoom conferenceRoom,
+                                    BindingResult bindingResult) {
 
+        if (bindingResult.hasErrors()) {
+            return "conference_room/form_conference_room";
+        }
 
-//        if (bindingResult.hasErrors()) {
-//            return new ModelAndView("dish/add-dish");
-//        }
-
-//        Dish dish = new Dish();
-//        dish.setName(dishCommand.getName());
-//        dish.setCalories(dishCommand.getCalories());
         conferenceRoomService.saveConferenceRoom(conferenceRoom);
-//
-//        if (status) {
-//            redirectUrl += "?success=success";
-//        } else {
-//            redirectUrl += "?failure=failure";
-//        }
 
         return "redirect:" + CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_LIST_URL;
     }
@@ -89,24 +83,13 @@ public class ConferenceRoomController {
 
 
     @RequestMapping(value = CONFERENCE_ROOM_UPDATE_URL, method = RequestMethod.POST)
-    public String editAddConferenceRoom(@ModelAttribute("conferenceRoom") ConferenceRoom conferenceRoom
-                                        //BindingResult bindingResult,Model model
-    ) {
-//        if (bindingResult.hasErrors()) {
-//            return new ModelAndView("dish/edit-dish");
-//        }
-
-//        Dish dish = new Dish();
-//        dish.setName(dishCommand.getName());
-//        dish.setCalories(dishCommand.getCalories());
-//        dish.setId(dishCommand.getId());
+    public String editAddConferenceRoom(@ModelAttribute("conferenceRoom") @Validated ConferenceRoom conferenceRoom,
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "conference_room/form_conference_room";
+        }
 
         conferenceRoomService.saveConferenceRoom(conferenceRoom);
-//        if (status) {
-//            redirectUrl += "?success=success";
-//        } else {
-//            redirectUrl += "?failure=failure";
-//        }
 
         return "redirect:" + CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_LIST_URL;
     }
@@ -114,6 +97,7 @@ public class ConferenceRoomController {
     @RequestMapping(value = CONFERENCE_ROOM_DELETE_URL, method = RequestMethod.POST)
     public String deleteConferenceRoom(@RequestParam("id") int conferenceRoomId) {
         conferenceRoomService.delete(conferenceRoomId);
+
         return "redirect:" + CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_LIST_URL;
     }
 }

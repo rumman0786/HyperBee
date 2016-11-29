@@ -17,5 +17,4 @@ public interface ConferenceRoomDao {
     List<ConferenceRoom> findAll();
 
     void delete(int conferenceRoomId);
-
 }

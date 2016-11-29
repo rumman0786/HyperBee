@@ -27,5 +27,7 @@ public interface NoteDao {
 
     List<Note> findActiveNoteListByUserId(int userId);
 
+    List<Note> findTopStickyNoteByUser(int numberOfNotes, int userId);
+
     void markExpiredNoteAsInactive();
 }
