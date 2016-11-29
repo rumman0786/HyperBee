@@ -141,9 +141,19 @@ public class ProfileController {
         return PROFILE_STALK_URL;
     }
 
-    @RequestMapping(value = "/profile/{imagePath}")
+    @RequestMapping(value = "/profile/image/{imagePath}")
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "imagePath") String imageName) throws IOException {
+        imageUploader.createImagesDirIfNeeded();
+        System.out.println(imageName);
+        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName+ ".png");
+
+        return Files.readAllBytes(serverFile.toPath());
+    }
+
+    @RequestMapping(value = "/profile/cover/{coverImage}")
+    @ResponseBody
+    public byte[] getCoverImage(@PathVariable(value = "coverImage") String imageName) throws IOException {
         imageUploader.createImagesDirIfNeeded();
         System.out.println(imageName);
         File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName+ ".png");

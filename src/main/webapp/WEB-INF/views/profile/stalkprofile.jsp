@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container">
-    <img src="/profile/${profile.imagePath}" class="img-circle" alt="Cinque Terre" width="200px" height="200px"/>
+    <img src="/profile/image/${profile.imagePath}" class="img-circle" alt="Cinque Terre" width="200px" height="200px"/>
 </div>
 <table>
     <tr>

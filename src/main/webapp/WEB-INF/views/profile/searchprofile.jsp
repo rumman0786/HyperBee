@@ -10,30 +10,57 @@
     <input type="text" name="search" placeholder="Enter Username">
     <button class="btn btn-warning btn-sm" type="submit">Search</button>
     <br>
-    <a href="/profile/stalk/${user.username}">
-        <h3><b><c:out value="${user.firstName} ${user.lastName}" escapeXml="false"/></b></h3></a>
-    <h5>${profile.designation}</h5>
+
+    <div class="well well-sm">
+        <table>
+            <tr>
+                <td>
+                    <img src="/profile/image/${profile.imagePath}" class="img-circle" alt="Cinque Terre" width="100px"
+                         height="100px"/>
+                </td>
+                <td>
+                    <a href="/profile/stalk/${user.username}">
+                        <h3><b><c:out value="${user.firstName} ${user.lastName}" escapeXml="false"/></b></h3></a>
+                    </a>
+                    <h5>${profile.designation}</h5>
+                </td>
+            </tr>
+        </table>
+    </div>
 </form>
 <br>
 ${message}
-<h2>Users :</h2>
-
 <div class="well well-sm">
-    <table>
-        <c:forEach items="${userList}" var="userList">
-            <tr>
-                <td>
-                    <img src="/profile/${userList.profile.imagePath}" class="img-circle" alt="Cinque Terre" width="100px" height="100px"/>
-                </td>
-                <td>
-                    <a href="/profile/stalk/${userList.username}">
-                        <h3><b><c:out value="${userList.firstName} ${userList.lastName}" escapeXml="false"/></b></h3>
-                    </a>
-                    <h5>${userList.profile.designation}</h5>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3>User</h3>
+        </div>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <c:forEach items="${userList}" var="userList">
+                <li class="list-group-item">
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="/profile/image/${userList.profile.imagePath}" class="img-circle"
+                                     alt="Cinque Terre"
+                                     width="80px" height="80px"/>
+                            </td>
+                            <td>
+                                <a href="/profile/stalk/${userList.username}">
+                                    <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
+                                                  escapeXml="false"/></b></h4>
+                                </a>
+
+                                <p>${userList.profile.designation}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            </c:forEach>
+        </ul>
+    </div>
 </div>
 </body>
 </html>
