@@ -63,6 +63,7 @@ public class NoticeController {
         modelMap.addAttribute("page", "notice")
                 .addAttribute("noticeList", noticeService.findAllNotice())
                 .addAttribute("noticeAddUrl", NOTICE_BASE_URL)
+                .addAttribute("isAdmin", sessionHelper.retrieveAuthUserFromSession().isAdmin())
                 .addAttribute("deleteUrl", NOTICE_BASE_URL + NOTICE_DELETE_URL);
 
         return "notice/list_notice";
