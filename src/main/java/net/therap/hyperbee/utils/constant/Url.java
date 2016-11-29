@@ -56,4 +56,12 @@ public interface Url {
     String CONFERENCE_ROOM_ADD_URL = "/add";
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
+
+    //Hive Constants
+    String HIVE_CREATE_URL = "/create";
+    String HIVE_VIEW_URL = "/show/{id}";
+    String HIVE_ADD_USER_URL = "/insertuser/{hiveId}";
+    String HIVE_REMOVE_USER_URL = "/removeuser/{hiveId}";
+    String HIVE_ADD_POST_URL = "/post/{hiveId}";
+
 }
