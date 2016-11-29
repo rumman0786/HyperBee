@@ -11,6 +11,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.constant.DomainConstant.STICKY_NOTE_COUNT_DASHBOARD;
+
 /**
  * @author bashir
  * @since 11/22/16
@@ -18,24 +20,24 @@ import java.util.List;
 @Repository
 public class NoteDaoImpl implements NoteDao {
 
+    private static final String NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY = "UPDATE note n SET " +
+            " n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() AND n.date_remind IS NOT NULL;";
+
     @PersistenceContext
     EntityManager em;
 
     @Override
-    public void create(Note note) {
+    @Transactional
+    public void save(Note note) {
 
-        em.persist(note);
+        if (note.isNoteNew()) {
+
+            em.persist(note);
+        } else {
+
+            note = em.merge(note);
+        }
         em.flush();
-    }
-
-    @Override
-    public Note readById(int noteId) {
-        return null;
-    }
-
-    @Override
-    public void update(Note note) {
-
     }
 
     @Override
@@ -47,22 +49,6 @@ public class NoteDaoImpl implements NoteDao {
                 .setParameter("noteId", noteId)
                 .setParameter("displayStatus", DisplayStatus.INACTIVE)
                 .executeUpdate();
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void createNoteAndUser(Note note, User user) {
-        user.getNoteList().add(note);
-        em.persist(user);
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void saveNoteForUser(Note note, User user) {
-
-        user.getNoteList().add(note);
         em.flush();
     }
 
@@ -81,7 +67,7 @@ public class NoteDaoImpl implements NoteDao {
                 .setParameter("userId", userId)
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)
                 .setParameter("type", NoteType.STICKY)
-                .setMaxResults(3)
+                .setMaxResults(STICKY_NOTE_COUNT_DASHBOARD)
                 .getResultList();
     }
 
@@ -89,9 +75,6 @@ public class NoteDaoImpl implements NoteDao {
     @Transactional
     public void markExpiredNoteAsInactive() {
 
-        String nativeQuery = "UPDATE note n SET n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() " +
-                " AND n.date_remind IS NOT NULL;";
-
-        em.createNativeQuery(nativeQuery).executeUpdate();
+        em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
     }
 }
