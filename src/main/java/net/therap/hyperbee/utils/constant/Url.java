@@ -8,19 +8,29 @@ package net.therap.hyperbee.utils.constant;
 
 public interface Url {
 
+    //User constants
     String ROOT_URL = "/";
-
     String LOGIN_URL = "/login";
+    String LOGIN_VIEW = "user/login";
     String LOGOUT_URL = "/logout";
-
     String SIGN_UP_URL = "/signup";
+    String SIGN_UP_VIEW = "user/signUp";
 
-    String USER_URL = "/user";
-
+    String USER_DASHBOARD_VIEW = "dashboard";
     String USER_DASHBOARD_URL = "/user/dashboard";
 
+    //Profile Constant
     String PROFILE_URL = "/profile";
+    String PROFILE_EDIT_URL = "/profile/edit";
     String CREATE_PROFILE_URL = "profile/createprofile";
+    String USER_PROFILE_URL = "/user/profile";
+    String VIEW_PROFILE_URL = "profile/viewprofile";
+
+    //Stalk Therap Constant
+    String SEARCH_URL = "/profile/search";
+    String PROFILE_SEARCH_URL = "profile/searchprofile";
+    String STALK_PROFILE_URL = "/profile/stalk/{username}";
+    String PROFILE_STALK_URL = "profile/stalkprofile";
 
     //Notes Constant
     String NOTE_VIEW_URL = "/user/notes";
@@ -33,11 +43,16 @@ public interface Url {
     String SUCCESS_VIEW = "success";
 
     // Notice Constants
-    String NOTICE_BASE_URL= "/notice";
-    String NOTICE_LIST_URL= "/list";
+    String NOTICE_BASE_URL = "/notice";
+    String NOTICE_LIST_URL = "/list";
     String NOTICE_ADD_URL = "/add";
     String NOTICE_UPDATE_URL = "/update";
     String NOTICE_DELETE_URL = "/delete";
 
-    String REDIRECT_TO = "/delete";
+    // Conference Constants
+    String CONFERENCE_ROOM_BASE_URL = "/conference";
+    String CONFERENCE_ROOM_LIST_URL = "/list";
+    String CONFERENCE_ROOM_ADD_URL = "/add";
+    String CONFERENCE_ROOM_UPDATE_URL = "/update";
+    String CONFERENCE_ROOM_DELETE_URL = "/delete";
 }

@@ -2,23 +2,25 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.service.StickyNoteService;
-import net.therap.hyperbee.web.security.AuthUser;
+import net.therap.hyperbee.web.helper.NoteHelper;
+import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
+import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -33,13 +35,25 @@ public class NoteController {
     @Autowired
     private StickyNoteService noteService;
 
+    @Autowired
+    private SessionHelper sessionHelper;
+
+    @Autowired
+    private NoteHelper noteHelper;
+
+    @Autowired
+    private NoteDateTimeValidator noteDateTimeValidator;
+
+    @InitBinder("noteCommand")
+    private void noteInputInitBinder(WebDataBinder binder) {
+        binder.addValidators(noteDateTimeValidator);
+    }
+
     @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
 
-        int userId = getUserIdFromSession(session);
-
+        int userId = sessionHelper.getUserIdFromSession();
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
-        log.debug("NOTE LIST USER:: " + Arrays.deepToString(noteList.toArray()));
 
         model.addAttribute("noteList", noteList);
         model.addAttribute("noteCommand", new Note());
@@ -47,45 +61,44 @@ public class NoteController {
         return NOTE_VIEW_ALL;
     }
 
-    @GetMapping(NOTE_ADD_URL)
-    public String addNotes(Model model) {
-
-        model.addAttribute("noteCommand", new Note());
-
-        return NOTE_ADD_VIEW;
-    }
-
     @PostMapping(NOTE_SAVE_URL)
-    public String saveNote(@ModelAttribute("noteCommand")
-                           Note note, Model model, HttpSession session) {
+    public String saveNote(@Valid @ModelAttribute("noteCommand") Note note,
+                           BindingResult bindingResult, @RequestParam String dateRemindString,
+                           Model model, HttpSession session) {
 
-        int userId = getUserIdFromSession(session);
+        if (bindingResult.hasErrors()) {
+
+            log.debug("ERROR IN SAVING NOTE");
+            model.addAttribute("message", NOTE_SAVE_FAILURE);
+            model.addAttribute("redirectUrl", NOTE_VIEW_URL);
+            model.addAttribute("messageStyle", "error");
+            return SUCCESS_VIEW;
+        }
+
+        int userId = sessionHelper.getUserIdFromSession();
+
         log.debug("AuthUser ID: " + userId);
-        Calendar createdDate = note.getDateCreated();
-        createdDate.setTimeInMillis(System.currentTimeMillis());
-        Calendar remindDate = note.getDateRemind();
-        remindDate.setTimeInMillis(System.currentTimeMillis());
+        log.debug("Date Remind: " + dateRemindString);
 
+        noteHelper.processNoteForSaving(note, dateRemindString);
         noteService.saveNoteForUser(note, userId);
 
-        model.addAttribute("message", "Note saved");
+        model.addAttribute("message", NOTE_SAVE_SUCCESS);
+        model.addAttribute("redirectUrl", NOTE_VIEW_URL);
 
         return SUCCESS_VIEW;
     }
 
     @PostMapping(NOTE_DELETE_URL)
     public String noteDelete(@PathVariable("id") int noteId, HttpSession session,
-                             @ModelAttribute("noteCommand") Note note) {
+                             @ModelAttribute("noteCommand") Note note, Model model) {
 
-        log.debug("SELECTED NOTE ID FOR DELETE: " + noteId);
-        noteService.markNoteAsInactiveForUser(getUserIdFromSession(session), noteId);
+        noteService.markNoteAsInactiveForUser(sessionHelper.getUserIdFromSession(), noteId);
+        log.debug("Selected note ID Delete: " + noteId);
 
-        return "redirect:" + NOTE_VIEW_URL;
-    }
+        model.addAttribute("message", NOTE_DELETE_SUCCESS);
+        model.addAttribute("redirectUrl", NOTE_VIEW_URL);
 
-    private int getUserIdFromSession(HttpSession session) {
-
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
-        return authUser.getId();
+        return SUCCESS_VIEW;
     }
 }

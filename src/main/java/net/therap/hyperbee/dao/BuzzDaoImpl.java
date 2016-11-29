@@ -28,6 +28,7 @@ public class BuzzDaoImpl implements BuzzDao {
     @Override
     public boolean save(Buzz newBuzz) {
         em.persist(newBuzz);
+
         return true;
     }
 

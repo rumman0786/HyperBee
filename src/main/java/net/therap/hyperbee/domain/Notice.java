@@ -48,12 +48,16 @@ public class Notice implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToMany(mappedBy = "noticeList")
+    @ManyToMany
+    @JoinTable(
+            name = "notice_hive",
+            joinColumns = @JoinColumn(name = "notice_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "hive_id", nullable = false)
+    )
     private List<Hive> hiveList;
 
     public Notice() {
         this.dateCreated = new GregorianCalendar();
-//        this.dateExpired = new GregorianCalendar();
     }
 
     public int getId() {

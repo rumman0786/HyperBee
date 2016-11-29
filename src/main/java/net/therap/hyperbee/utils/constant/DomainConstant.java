@@ -23,4 +23,7 @@ public interface DomainConstant {
     String LOW_PRIORITY = "LOW";
     String MEDIUM_PRIORITY = "MEDIUM";
     String PRIORITY_ENUM = "enum('HIGH','LOW','MEDIUM')";
+    String NOTE_STICKY ="STICKY";
+    String NOTE_REMINDER = "REMINDER";
+    String NOTE_TYPE_ENUM= "enum('STICKY','REMINDER')";
 }

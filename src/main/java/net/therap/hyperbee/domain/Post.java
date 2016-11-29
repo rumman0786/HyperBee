@@ -21,11 +21,13 @@ public class Post implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String description;
 
-    @Column(columnDefinition = DATE_TIME_FIELD)
+    @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateCreated;
 
     @ManyToOne

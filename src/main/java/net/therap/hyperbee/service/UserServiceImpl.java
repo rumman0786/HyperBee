@@ -15,7 +15,6 @@ import java.util.List;
  * @author rayed
  * @since 11/22/16 10:49 AM
  */
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -48,6 +47,12 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {
 
         return userDao.findByUsername(username);
+    }
+
+    @Override
+    public User findByUsernameOrEmail(String username, String email) {
+
+        return userDao.findByUsernameOrEmail(username, email);
     }
 
     @Override

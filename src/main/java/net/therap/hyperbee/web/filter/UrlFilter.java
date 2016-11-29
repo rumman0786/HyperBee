@@ -1,8 +1,6 @@
 package net.therap.hyperbee.web.filter;
 
-import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,15 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static net.therap.hyperbee.utils.constant.Url.LOGIN_URL;
+
 /**
  * @author rayed
  * @since 11/24/16 1:29 PM
  */
-
 public class UrlFilter implements Filter {
-
-    @Autowired
-    private SessionHelper sessionHelper;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -30,6 +26,11 @@ public class UrlFilter implements Filter {
         HttpSession session = ((HttpServletRequest) request).getSession();
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
 
+        HttpServletResponse servletResponse = (HttpServletResponse) response;
+        servletResponse.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
+        servletResponse.setHeader("Pragma", "no-cache");
+        servletResponse.setHeader("Expires", "0");
+
         if (authUser != null){
             chain.doFilter(request, response);
 
@@ -37,7 +38,7 @@ public class UrlFilter implements Filter {
         }
 
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.sendRedirect("/login");
+        httpServletResponse.sendRedirect(LOGIN_URL);
     }
 
     @Override

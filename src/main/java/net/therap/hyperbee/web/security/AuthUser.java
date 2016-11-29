@@ -1,6 +1,7 @@
 package net.therap.hyperbee.web.security;
 
 import net.therap.hyperbee.domain.Role;
+import net.therap.hyperbee.domain.enums.RoleType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.List;
  * @author rayed
  * @since 11/23/16 1:56 PM
  */
-
 public class AuthUser implements Serializable{
 
     private static final long serialVersionUID = 1;
@@ -25,9 +25,11 @@ public class AuthUser implements Serializable{
     }
 
     public AuthUser() {
+
     }
 
     public int getId() {
+
         return id;
     }
 
@@ -51,5 +53,16 @@ public class AuthUser implements Serializable{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isAdmin() {
+        for (Role role : roleList) {
+            if (role.getRoleType() == RoleType.ADMIN){
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }
