@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
@@ -147,6 +146,11 @@ public class Note implements Serializable {
 
     public void setNoteType(NoteType noteType) {
         this.noteType = noteType;
+    }
+
+    public boolean isNoteNew() {
+
+        return (id == 0);
     }
 
     public String getRemindDateFormatted() {

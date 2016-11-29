@@ -27,20 +27,17 @@ public class NoteDaoImpl implements NoteDao {
     EntityManager em;
 
     @Override
-    public void create(Note note) {
+    @Transactional
+    public void save(Note note) {
 
-        em.persist(note);
+        if (note.isNoteNew()) {
+
+            em.persist(note);
+        } else {
+
+            note = em.merge(note);
+        }
         em.flush();
-    }
-
-    @Override
-    public Note readById(int noteId) {
-        return null;
-    }
-
-    @Override
-    public void update(Note note) {
-
     }
 
     @Override
@@ -52,22 +49,6 @@ public class NoteDaoImpl implements NoteDao {
                 .setParameter("noteId", noteId)
                 .setParameter("displayStatus", DisplayStatus.INACTIVE)
                 .executeUpdate();
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void createNoteAndUser(Note note, User user) {
-        user.getNoteList().add(note);
-        em.persist(user);
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void saveNoteForUser(Note note, User user) {
-
-        user.getNoteList().add(note);
         em.flush();
     }
 

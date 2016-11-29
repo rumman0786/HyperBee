@@ -28,7 +28,7 @@
     </div>
 
     <c:forEach items="${topStickyNote}" var="item">
-        <div class="panel panel-warning">
+        <div class="panel panel-warning col-lg-3">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><strong>${item.title}</strong></h4>
             </div>
