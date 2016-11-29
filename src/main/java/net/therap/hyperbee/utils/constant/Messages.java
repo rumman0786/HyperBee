@@ -20,8 +20,8 @@ public interface Messages {
     String LOGGED_IN = "Logged In";
     String SIGNED_UP = "Signed Up";
 
-    String BUZZ_SEND_SUCCESS = "Successfully sent buzz: <message>!";
-    String BUZZ_FLAG_SUCCESS = "Successfully flagged buzz: <message>!";
-    String BUZZ_DELETE_SUCCESS = "Successfully removed buzz: <message>!";
-    String BUZZ_PINNED_SUCCESS = "Successfully pinned buzz: <message>!";
+    String BUZZ_SEND_SUCCESS = "Successfully sent buzz: <message>";
+    String BUZZ_FLAG_SUCCESS = "Successfully flagged buzz: <message>";
+    String BUZZ_DELETE_SUCCESS = "Successfully removed buzz: <message>";
+    String BUZZ_PINNED_SUCCESS = "Successfully pinned buzz: <message>";
 }
