@@ -47,8 +47,20 @@
             <c:forEach items="${postList}" var="item">
                 <div class="panel panel-warning">
                     <div class="panel-heading clearfix">
-                        <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
-                            <strong>${item.user.username}</strong></h4>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img src="/profile/image/${item.user.profile.imagePath}" class="img-circle"
+                                         alt="Cinque Terre"
+                                         width="40px" height="40px"/>
+                                </td>
+
+                                <td>
+                                    <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
+                                        <b>${item.user.firstName} ${item.user.lastName}</b></h4>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="panel-body">${item.description}</div>
                     <div class="panel-footer clearfix">
