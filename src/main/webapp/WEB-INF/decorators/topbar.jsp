@@ -15,12 +15,13 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/user/dashboard">Home</a></li>
+                <li><a href="/user/dashboard">Home</a></li>
                 <li><a href="/user/profile">Profile</a></li>
 
                 <c:if test="${authUser.isAdmin()}">
-                <li><a href="/notice/list">Notice</a></li>
+                <li <c:if test="${page == 'notice'}"> class="active" </c:if>><a href="/notice/list">Notice</a></li>
                 </c:if>
+
                 <li><a href="/user/notes">Note</a></li>
                 <li><a href="/conference/list">Conference</a></li>
             </ul>
