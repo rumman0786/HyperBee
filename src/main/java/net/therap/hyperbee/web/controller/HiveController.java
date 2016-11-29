@@ -1,6 +1,7 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.Post;
 import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.PostService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author azim
@@ -64,7 +66,12 @@ public class HiveController {
         model.addAttribute("userIdInfo", new UserIdInfo());
         model.addAttribute("post", new Post());
         model.addAttribute("postList", postService.getPostListByHive(id));
-        model.addAttribute("noticeList", hiveService.getNoticeList(id));
+
+        if (hiveService.retrieveHiveById(id).getNoticeList().isEmpty()) {
+            model.addAttribute("noticeList", new ArrayList<Notice>());
+        } else {
+            model.addAttribute("noticeList", hiveService.getNoticeList(id));
+        }
 
         return SHOW_HIVE;
     }
