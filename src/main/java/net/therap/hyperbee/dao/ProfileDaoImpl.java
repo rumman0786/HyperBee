@@ -23,6 +23,6 @@ public class ProfileDaoImpl implements ProfileDao {
     public String save(Profile profile) {
         em.persist(profile);
 
-        return PROFILE_SAVE_MESSAGE ;
+        return PROFILE_SAVE_MESSAGE;
     }
 }

@@ -4,7 +4,7 @@ import net.therap.hyperbee.dao.BuzzDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import net.therap.hyperbee.utils.CommonUtils;
+import net.therap.hyperbee.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ public class BuzzServiceImpl implements BuzzService {
     private UserDao userDao;
 
     @Autowired
-    private CommonUtils utils;
+    private Utils utils;
 
     @Override
     @Transactional
