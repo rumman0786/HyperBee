@@ -13,6 +13,16 @@
         });
     </script>
 
+
+    <style>
+        .error {
+            color: #ff0000;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -45,6 +55,7 @@
             <div class="btn-group pull-right">
                 <button class="btn btn-warning btn-sm" type="submit">Save</button>
             </div>
+            <form:errors path="description" cssClass="error"/>
         </div>
     </div>
 </form:form>
