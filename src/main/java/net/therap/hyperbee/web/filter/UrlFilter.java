@@ -42,13 +42,13 @@ public class UrlFilter implements Filter {
             return;
         }
 
-        HttpSession session = ((HttpServletRequest) request).getSession();
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
-
         HttpServletResponse servletResponse = (HttpServletResponse) response;
         servletResponse.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
         servletResponse.setHeader("Pragma", "no-cache");
         servletResponse.setHeader("Expires", "0");
+
+        HttpSession session = ((HttpServletRequest) request).getSession();
+        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
 
         if (authUser != null){
             chain.doFilter(request, response);

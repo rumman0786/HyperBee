@@ -101,9 +101,10 @@ public class UserController {
     }
 
     @PostMapping(SIGN_UP_URL)
-    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpInfo signUpInfo, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpInfo signUpInfo,
+                             BindingResult bindingResult) {
 
+        if (bindingResult.hasErrors()) {
             return SIGN_UP_VIEW;
         }
 
