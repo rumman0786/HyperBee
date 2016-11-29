@@ -28,7 +28,7 @@
 
     <div class=" col-sm-8 tab-content">
         <div id="post" class="tab-pane fade in active">
-            <form:form action="/user/hive/post/${hiveId}" method="POST" commandName="post">
+            <form:form action="/user/hive/post/${hive.id}" method="POST" commandName="post">
                 <div class="panel panel-success">
                     <div class="panel-heading clearfix">
                         <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Add Post</h4>
@@ -44,7 +44,7 @@
                 </div>
             </form:form>
 
-            <c:forEach items="${postList}" var="item">
+            <c:forEach items="${hive.postList}" var="item">
                 <div class="panel panel-warning">
                     <div class="panel-heading clearfix">
                         <table>
@@ -73,7 +73,7 @@
         </div>
 
         <div id="notice" class="tab-pane">
-            <c:forEach items="${noticeList}" var="item">
+            <c:forEach items="${hive.noticeList}" var="item">
                 <div class="panel panel-warning">
                     <div class="panel-heading clearfix">
                         <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
@@ -92,14 +92,14 @@
         <div id="member" class="tab-pane">
             <div class="col-sm-4 table-responsive">
                 <div class="panel panel-info">
-                    <div class="panel-heading"><h3>Members ${enlistedUser.size()} </h3>
+                    <div class="panel-heading"><h3>Members ${hive.userList.size()} </h3>
                         <h4>Admin :
                             <small>${creator.username}</small>
                         </h4>
                     </div>
                     <div class="panel-body">
                         <table>
-                            <c:forEach items="${enlistedUser}" var="user">
+                            <c:forEach items="${hive.userList}" var="user">
                                 <tr style="border: 1">
                                     <td><c:out value="${user.username}"/></td>
                                 </tr>
@@ -112,7 +112,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3>Add Members</h3>
                     </div>
-                    <form:form method="POST" action="/user/hive/insertuser/${hiveId}" commandName="userIdInfo">
+                    <form:form method="POST" action="/user/hive/insertuser/${hive.id}" commandName="userIdInfo">
                         <div class="panel-body">
                             <table>
                                 <c:forEach var="user" items="${userList}" varStatus="loop">
@@ -138,7 +138,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3>Remove Members</h3>
                     </div>
-                    <form:form method="POST" action="/user/hive/removeuser/${hiveId}" commandName="userIdInfo">
+                    <form:form method="POST" action="/user/hive/removeuser/${hive.id}" commandName="userIdInfo">
                         <div class="panel-body">
                             <table>
                                 <c:forEach var="user" items="${userListToRemove}" varStatus="loop">

@@ -86,13 +86,6 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Override
-    public List<User> getUserInList(int id) {
-        Hive hive = retrieveHiveById(id);
-
-        return hive.getUserList();
-    }
-
-    @Override
     @Transactional
     public void removeUsersFromHive(int hiveId, List<Integer> userIdList) {
         Hive hive = retrieveHiveById(hiveId);

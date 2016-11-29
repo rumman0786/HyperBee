@@ -1,7 +1,6 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Hive;
-import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.Post;
 import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.PostService;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 
 import static net.therap.hyperbee.utils.constant.Url.*;
 /**
@@ -29,10 +27,6 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 @RequestMapping("/user/hive")
 public class HiveController {
-
-    private String SHOW_HIVE = "hive/showHive";
-
-    private String HIVE = "hive/hive";
 
     @Autowired
     private HiveService hiveService;
@@ -52,7 +46,7 @@ public class HiveController {
     @GetMapping
     public String viewHive(ModelMap model) {
         int userId = sessionHelper.getUserIdFromSession();
-        model.put("hiveList", hiveService.getHiveListByUserId(userId));
+        model.addAttribute("hiveList", hiveService.getHiveListByUserId(userId));
         model.addAttribute("hive", new Hive());
         model.addAttribute("userList", userService.findAll());
         model.addAttribute("userIdInfo", new UserIdInfo());
@@ -62,21 +56,13 @@ public class HiveController {
 
     @GetMapping(value = HIVE_VIEW_URL)
     public String viewHivePage(Model model, @PathVariable("id") int id) {
-        model.addAttribute("hiveId", id);
-        model.addAttribute("hive", hiveService.retrieveHiveById(id));
+        Hive hive = hiveService.retrieveHiveById(id);
+        model.addAttribute("hive", hive);
         model.addAttribute("userList", hiveService.getUserNotInList(id));
-        model.addAttribute("enlistedUser", hiveService.getUserInList(id));
         model.addAttribute("userListToRemove", hiveService.getUserListToRemove(id));
         model.addAttribute("userIdInfo", new UserIdInfo());
         model.addAttribute("post", new Post());
-        model.addAttribute("creator", userService.findById(hiveService.retrieveHiveById(id).getCreatorId()));
-        model.addAttribute("postList", postService.getPostListByHive(id));
-
-        if (hiveService.retrieveHiveById(id).getNoticeList().isEmpty()) {
-            model.addAttribute("noticeList", new ArrayList<Notice>());
-        } else {
-            model.addAttribute("noticeList", hiveService.getNoticeList(id));
-        }
+        model.addAttribute("creator", userService.findById(hive.getCreatorId()));
 
         return SHOW_HIVE;
     }
@@ -86,7 +72,7 @@ public class HiveController {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.insertUsersToHive(hiveId, userIdInfo.getUserIdList());
 
-        return "redirect:/user/hive/show/" + hiveId;
+        return "redirect:" + HIVE_VIEW  + hiveId;
     }
 
     @PostMapping(value = HIVE_REMOVE_USER_URL)
@@ -94,28 +80,29 @@ public class HiveController {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.removeUsersFromHive(hiveId, userIdInfo.getUserIdList());
 
-        return "redirect:/user/hive/show/" + hiveId;
+        return "redirect:" + HIVE_VIEW + hiveId;
     }
 
     @PostMapping(value = HIVE_CREATE_URL)
     public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
-        String filename = hive.getName() + file.getOriginalFilename();
+        String filename = hive.getName().replaceAll(" ","") + file.getOriginalFilename();
         hive.setImagePath(filename);
-
-        if (file.isEmpty()) {
-        } else {
-            imageUploader.createImagesDirIfNeeded();
-            model.addAttribute("message2", imageUploader.createImage(filename, file));
-        }
-
         int userId = sessionHelper.getUserIdFromSession();
         hive.setCreatorId(userId);
         Hive newHive = hiveService.insertFirstUserToHive(hive, userId);
         hiveService.insertHive(newHive);
         int hiveId = hiveService.getHiveIdByHiveName(newHive.getName());
 
-        return "redirect:/user/hive/show/" + hiveId;
+        if (file.isEmpty()) {
+        } else {
+            imageUploader.createImagesDirIfNeeded();
+            model.addAttribute("message", imageUploader.createImage(filename, file));
+        }
+
+
+
+        return "redirect:" + HIVE_VIEW + hiveId;
     }
 
     @PostMapping(value = HIVE_ADD_POST_URL)
@@ -123,14 +110,13 @@ public class HiveController {
         int userId = sessionHelper.getUserIdFromSession();
         postService.savePost(userId, hiveId, post);
 
-        return "redirect:/user/hive/show/" + hiveId;
+        return "redirect:" + HIVE_VIEW + hiveId;
     }
 
-    @RequestMapping(value = "/image/{imagePath}")
+    @RequestMapping(value = HIVE_IMAGE)
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "imagePath") String imageName) throws IOException {
         imageUploader.createImagesDirIfNeeded();
-        System.out.println(imageName);
         File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName + ".png");
 
         return Files.readAllBytes(serverFile.toPath());

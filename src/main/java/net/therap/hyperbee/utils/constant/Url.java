@@ -63,5 +63,9 @@ public interface Url {
     String HIVE_ADD_USER_URL = "/insertuser/{hiveId}";
     String HIVE_REMOVE_USER_URL = "/removeuser/{hiveId}";
     String HIVE_ADD_POST_URL = "/post/{hiveId}";
+    String SHOW_HIVE = "hive/showHive";
+    String HIVE = "hive/hive";
+    String HIVE_VIEW = "/user/hive/show/";
+    String HIVE_IMAGE = "/image/{imagePath}";
 
 }
