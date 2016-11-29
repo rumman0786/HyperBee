@@ -3,7 +3,6 @@ package net.therap.hyperbee.web.controller;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.StickyNoteService;
-import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.helper.NoteHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
@@ -16,10 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Calendar;
 import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.Messages.*;
@@ -61,7 +60,10 @@ public class NoteController {
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
 
         model.addAttribute("noteList", noteList);
-        model.addAttribute("noteCommand", new Note());
+
+        if (!model.containsAttribute("noteCommand")) {
+            model.addAttribute("noteCommand", new Note());
+        }
         activityService.archive(NOTE_PAGE_VIEW_ACTIVITY);
 
         return NOTE_VIEW_ALL;
@@ -70,6 +72,7 @@ public class NoteController {
     @PostMapping(NOTE_SAVE_URL)
     public String saveNote(@Valid @ModelAttribute("noteCommand") Note note,
                            BindingResult bindingResult, @RequestParam String dateRemindString,
+                           RedirectAttributes redirectAttributes,
                            Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
@@ -77,10 +80,11 @@ public class NoteController {
             log.debug("ERROR IN SAVING NOTE");
             model.addAttribute("message", NOTE_SAVE_FAILURE);
             model.addAttribute("redirectUrl", NOTE_VIEW_URL);
-            model.addAttribute("messageStyle", "error");
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "noteCommand", bindingResult);
+            redirectAttributes.addFlashAttribute("noteCommand", note);
             activityService.archive(NOTE_SAVE_FAILED);
 
-            return SUCCESS_VIEW;
+            return "redirect:" + NOTE_VIEW_URL;
         }
 
         int userId = sessionHelper.getUserIdFromSession();
@@ -95,7 +99,7 @@ public class NoteController {
         model.addAttribute("redirectUrl", NOTE_VIEW_URL);
         activityService.archive(NOTE_SAVE_ACTIVITY);
 
-        return SUCCESS_VIEW;
+        return "redirect:" + NOTE_VIEW_URL;
     }
 
     @PostMapping(NOTE_DELETE_URL)
@@ -109,6 +113,6 @@ public class NoteController {
         model.addAttribute("redirectUrl", NOTE_VIEW_URL);
         activityService.archive(NOTE_DELETE_ACTIVITY);
 
-        return SUCCESS_VIEW;
+        return "redirect:" + NOTE_VIEW_URL;
     }
 }

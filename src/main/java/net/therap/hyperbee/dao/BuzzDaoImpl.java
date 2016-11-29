@@ -13,7 +13,6 @@ import java.util.List;
  * @author zoha
  * @since 11/22/16
  */
-
 @Repository
 public class BuzzDaoImpl implements BuzzDao {
 
@@ -24,22 +23,24 @@ public class BuzzDaoImpl implements BuzzDao {
             "ORDER BY b.id DESC";
     private final String QUERY_GET_BY_USER = "SELECT b FROM Buzz b WHERE b.userId = :userId";
 
-
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public boolean save(Buzz newBuzz) {
-        em.persist(newBuzz);
+    @Transactional
+    public Buzz saveOrUpdate(Buzz buzz) {
+        if(buzz.getId() == 0) {
+            em.persist(buzz);
+        } else {
+            return em.merge(buzz);
+        }
 
-        return true;
+        return buzz;
     }
 
     @Override
     public List<Buzz> getAll() {
-        return em.createQuery(QUERY_GET_BY_STATUS, Buzz.class)
-                .setParameter("displayStatus", DisplayStatus.ACTIVE)
-                .getResultList();
+        return em.createQuery("FROM Buzz", Buzz.class).getResultList();
     }
 
     @Override
@@ -76,11 +77,6 @@ public class BuzzDaoImpl implements BuzzDao {
                 .setParameter("pinned", true)
                 .setMaxResults(range)
                 .getResultList();
-    }
-
-    @Override
-    public Buzz modify(Buzz buzzToUpdate) {
-        return em.merge(buzzToUpdate);
     }
 
     @Override

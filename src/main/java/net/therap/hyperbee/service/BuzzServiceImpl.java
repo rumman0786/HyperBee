@@ -29,19 +29,10 @@ public class BuzzServiceImpl implements BuzzService {
 
     @Override
     @Transactional
-    public boolean saveBuzz(Buzz newBuzz) {
+    public Buzz saveBuzz(Buzz newBuzz) {
         newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
 
-        return buzzDao.save(newBuzz);
-    }
-
-    @Override
-    @Transactional
-    public boolean savePinnedBuzz(Buzz newBuzz) {
-        newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
-        newBuzz.setPinned(true);
-
-        return buzzDao.save(newBuzz);
+        return buzzDao.saveOrUpdate(newBuzz);
     }
 
     @Override
@@ -85,7 +76,7 @@ public class BuzzServiceImpl implements BuzzService {
             buzzToFlag.setFlagged(true);
         }
 
-        return buzzDao.modify(buzzToFlag);
+        return buzzDao.saveOrUpdate(buzzToFlag);
     }
 
     @Override
@@ -105,6 +96,6 @@ public class BuzzServiceImpl implements BuzzService {
             buzzToPin.setPinned(true);
         }
 
-        return buzzDao.modify(buzzToPin);
+        return buzzDao.saveOrUpdate(buzzToPin);
     }
 }

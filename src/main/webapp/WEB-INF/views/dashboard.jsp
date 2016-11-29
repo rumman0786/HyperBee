@@ -23,8 +23,11 @@
         <div class="panel-body">
             <div id="buzzList"></div>
             <form:form id="buzzMessageForm" action="/buzz/sendBuzz" method="POST" modelAttribute="newBuzz">
-                <form:input path="message" placeholder="Enter your message..." cssStyle="width: 93%"/>
+                <form:input path="message" placeholder="Enter your message..." cssStyle="width: 94%"/>
                 <input type="submit" class="btn btn-primary" value="Send"/>
+
+                <a href="/buzz/buzzHistory?prev=0&next=20" target="_blank">Show Buzz History</a>
+
                 <p><form:errors path="message" cssClass="alert-danger"/></p>
             </form:form>
         </div>

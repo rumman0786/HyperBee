@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface BuzzDao {
 
-    public boolean save(Buzz newBuzz);
+    public Buzz saveOrUpdate(Buzz newBuzz);
 
     public Buzz delete(Buzz buzzToDelete);
 
@@ -24,8 +24,6 @@ public interface BuzzDao {
     public List<Buzz> getByDisplayStatus(DisplayStatus displayStatus);
 
     public List<Buzz> getLatest(int range);
-
-    public Buzz modify(Buzz buzzToUpdate);
 
     List<Buzz> getPinnedBuzz(int range);
 }

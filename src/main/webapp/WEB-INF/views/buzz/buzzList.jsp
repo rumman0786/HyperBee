@@ -12,7 +12,7 @@
                         <td>
                             <c:if test="${authUser.isAdmin()}">
                                 <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
-                                <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
+                                <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
                             </c:if>
                             <font color="#191970"><i>The message has been flagged for it's content.</i></font>
                         </td>
@@ -23,7 +23,6 @@
                         <td>
                             <c:if test="${authUser.isAdmin()}">
                                 <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
-                                <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
                                 <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
                             </c:if>
                             <i><font color="#191970">[PINNED] </font></i>
