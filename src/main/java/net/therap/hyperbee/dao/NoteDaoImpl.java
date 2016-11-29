@@ -11,12 +11,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.constant.DomainConstant.STICKY_NOTE_COUNT_DASHBOARD;
+
 /**
  * @author bashir
  * @since 11/22/16
  */
 @Repository
 public class NoteDaoImpl implements NoteDao {
+
+    private static final String NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY = "UPDATE note n SET " +
+            " n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() AND n.date_remind IS NOT NULL;";
 
     @PersistenceContext
     EntityManager em;
@@ -81,7 +86,7 @@ public class NoteDaoImpl implements NoteDao {
                 .setParameter("userId", userId)
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)
                 .setParameter("type", NoteType.STICKY)
-                .setMaxResults(3)
+                .setMaxResults(STICKY_NOTE_COUNT_DASHBOARD)
                 .getResultList();
     }
 
@@ -89,9 +94,6 @@ public class NoteDaoImpl implements NoteDao {
     @Transactional
     public void markExpiredNoteAsInactive() {
 
-        String nativeQuery = "UPDATE note n SET n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() " +
-                " AND n.date_remind IS NOT NULL;";
-
-        em.createNativeQuery(nativeQuery).executeUpdate();
+        em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
     }
 }
