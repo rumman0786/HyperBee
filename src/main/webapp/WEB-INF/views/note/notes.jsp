@@ -60,10 +60,9 @@
     </div>
 </form:form>
 
-
 <c:forEach items="${noteList}" var="item">
     <form:form action="/note/delete/${item.id}" method="post">
-        <div class="panel panel-warning col-lg-3">
+        <div class="panel panel-warning">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><strong>${item.title}</strong></h4>
 
