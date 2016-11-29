@@ -56,4 +56,10 @@ public interface Url {
     String CONFERENCE_ROOM_ADD_URL = "/add";
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
+
+    //Resource Constants
+    String RESOURCE_STYLE = "/css/";
+    String RESOURCE_SCRIPT = "/js/";
+    String RESOURCE_FONT = "/fonts/";
+    String RESOURCE_IMAGES = "/images/";
 }

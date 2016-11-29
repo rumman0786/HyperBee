@@ -16,12 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.*;
 
 import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
 import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
@@ -92,7 +87,7 @@ public class UserController {
 
             activityService.archive(LOGGED_IN);
 
-            return "redirect:" + USER_DASHBOARD_URL;
+            return "redirect:/user/dashboard";
         }
 
         return LOGIN_VIEW;
@@ -129,8 +124,8 @@ public class UserController {
         return "redirect:" + LOGIN_URL;
     }
 
-    @GetMapping(USER_DASHBOARD_URL)
-    public String welcome(HttpSession session, Model model) {
+    @GetMapping("/user/dashboard")
+    public String welcome(Model model) {
         if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
         }

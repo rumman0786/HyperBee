@@ -7,12 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-import static net.therap.hyperbee.utils.constant.Url.LOGIN_URL;
+import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author rayed
@@ -21,7 +18,10 @@ import static net.therap.hyperbee.utils.constant.Url.LOGIN_URL;
 public class UrlFilter implements Filter {
 
     private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("", "/login", "/logout", "/signUp")));
+            Arrays.asList("/login", "/logout", "/signUp")));
+
+    private static final Set<String> RESOURCES = Collections.unmodifiableSet(new HashSet<>(
+            Arrays.asList(RESOURCE_STYLE, RESOURCE_SCRIPT, RESOURCE_FONT, RESOURCE_IMAGES)));
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -32,10 +32,11 @@ public class UrlFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String requestURI = httpServletRequest.getRequestURI();
 
-        if (ALLOWED_PATHS.contains(requestURI)){
-            System.out.println("true");
+        String requestURI = httpServletRequest.getRequestURI();
+        String servletPath = httpServletRequest.getServletPath();
+
+        if (ALLOWED_PATHS.contains(requestURI) || containsResource(servletPath)){
             chain.doFilter(request, response);
 
             return;
@@ -57,6 +58,19 @@ public class UrlFilter implements Filter {
 
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.sendRedirect(LOGIN_URL);
+    }
+
+    private boolean containsResource(String servletPath) {
+        Iterator<String> iterator = RESOURCES.iterator();
+
+        while (iterator.hasNext()) {
+            if(servletPath.startsWith(iterator.next())){
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
