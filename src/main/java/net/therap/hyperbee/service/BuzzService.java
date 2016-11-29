@@ -25,7 +25,11 @@ public interface BuzzService {
 
     List<Buzz> getLatestBuzz();
 
+    public List<Buzz> getPinnedBuzz();
+
     public Buzz flagBuzz(Buzz buzzToFlag);
 
     public Buzz deactivateBuzz(Buzz buzzToDeactivate);
+
+    public Buzz pinBuzz(Buzz buzzToPin);
 }

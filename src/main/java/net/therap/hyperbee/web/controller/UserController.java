@@ -135,6 +135,8 @@ public class UserController {
 
         model.addAttribute("topStickyNote",
                 noteService.findTopStickyNoteByUser(sessionHelper.getUserIdFromSession()));
+
+        model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         return USER_DASHBOARD_VIEW;
