@@ -8,12 +8,13 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="jumbotron" style="background: image('/images/image.jpg')">
-        <img src="localhost:8080/Web-INF/images/images.jpg">
-
-        <h3>Welcome to ${hive.name}</h3>
-
-        <p>${hive.description}</p>
+    <div class="container" style="background-image: url(http://localhost:8080/user/hive/image/${hive.imagePath})">
+        <div class="row">
+            <div class="col-lg-4" style="padding-top: 200">
+                <h3>Welcome to ${hive.name}</h3>
+                <p>${hive.description}</p>
+            </div>
+        </div>
     </div>
     <div>
         <ul class="nav nav-tabs">

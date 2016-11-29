@@ -7,16 +7,18 @@ import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.PostService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.command.UserIdInfo;
+import net.therap.hyperbee.web.helper.ImageUploader;
 import net.therap.hyperbee.web.helper.SessionHelper;
-import net.therap.hyperbee.web.helper.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +40,7 @@ public class HiveController {
     private PostService postService;
 
     @Autowired
-    UploadedFile uploadedFile;
+    ImageUploader imageUploader;
 
     @Autowired
     UserService userService;
@@ -93,11 +95,18 @@ public class HiveController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam CommonsMultipartFile fileUpload, Model model) throws IOException {
+    public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
 
-        String filename = uploadedFile.uploadFile(fileUpload, hive.getName());
+        String filename = hive.getName() + file.getOriginalFilename();
         hive.setImagePath(filename);
+
+        if (file.isEmpty()) {
+        } else {
+            imageUploader.createImagesDirIfNeeded();
+            model.addAttribute("message", imageUploader.createImage(filename, file));
+        }
+
 
         int userId = sessionHelper.getUserIdFromSession();
 
@@ -115,5 +124,15 @@ public class HiveController {
         postService.savePost(userId, hiveId, post);
 
         return "redirect:/user/hive/show/" + hiveId;
+    }
+
+    @RequestMapping(value = "/image/{imagePath}")
+    @ResponseBody
+    public byte[] getImage(@PathVariable(value = "imagePath") String imageName) throws IOException {
+        imageUploader.createImagesDirIfNeeded();
+        System.out.println(imageName);
+        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName + ".png");
+
+        return Files.readAllBytes(serverFile.toPath());
     }
 }

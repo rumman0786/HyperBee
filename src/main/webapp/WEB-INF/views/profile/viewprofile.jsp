@@ -6,7 +6,7 @@
     <title>HyperBEE</title>
 </head>
 <body>
-<div class="container" style="background-image: url(http://localhost:8080/profile/cover/${profile.coverImage})">
+<div class="container" style="background-image: url(http://localhost:8080/profile/cover/${hive.imagePath})">
     <div class="row">
         <div class="col-lg-2 container" style="padding-top: 150px">
             <img src="/profile/image/${profile.imagePath}" class="img-thumbnail" alt="Cinque Terre"

@@ -36,13 +36,14 @@
                     <form:textarea class="form-control" path="description" type="text" placeholder="Hive Description"/>
                 </div>
                 <div class="form-group">
-                    <input path="imagePath" type="file" name="fileUpload" size="50"/>
+                    <input path="imagePath" type="file" name="file" size="50"/>
                 </div>
                 <div class="btn-group pull-right">
                     <form:button type="submit" class="btn btn-primary" value="Upload">Create</form:button>
                 </div>
             </form:form>
         </div>
+        <p>${message}</p>
     </div>
 </div>
 
