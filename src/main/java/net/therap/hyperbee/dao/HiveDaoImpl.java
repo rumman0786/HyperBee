@@ -44,7 +44,6 @@ public class HiveDaoImpl implements HiveDao {
 
     @Override
     public List<Hive> getHiveListByUserId(int userId) {
-
         User user = em.find(User.class, userId);
         Hibernate.initialize(user.getHiveList());
 
@@ -54,8 +53,8 @@ public class HiveDaoImpl implements HiveDao {
 
     public int getHiveIdByHiveName(String name) {
 
-       return em.createQuery("SELECT h.id FROM Hive h WHERE h.name=:hiveName" , Integer.class)
-               .setParameter("hiveName", name).getSingleResult();
+        return em.createQuery("SELECT h.id FROM Hive h WHERE h.name=:hiveName", Integer.class)
+                .setParameter("hiveName", name).getSingleResult();
     }
 
     @Override

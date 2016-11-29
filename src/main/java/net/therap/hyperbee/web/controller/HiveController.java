@@ -40,13 +40,13 @@ public class HiveController {
     private PostService postService;
 
     @Autowired
-    ImageUploader imageUploader;
+    private ImageUploader imageUploader;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    SessionHelper sessionHelper;
+    private SessionHelper sessionHelper;
 
     @RequestMapping(method = RequestMethod.GET)
     public String viewHive(ModelMap model) {
@@ -65,8 +65,10 @@ public class HiveController {
         model.addAttribute("hive", hiveService.retrieveHiveById(id));
         model.addAttribute("userList", hiveService.getUserNotInList(id));
         model.addAttribute("enlistedUser", hiveService.getUserInList(id));
+        model.addAttribute("userListToRemove", hiveService.getUserListToRemove(id));
         model.addAttribute("userIdInfo", new UserIdInfo());
         model.addAttribute("post", new Post());
+        model.addAttribute("creator", userService.findById(hiveService.retrieveHiveById(id).getCreatorId()));
         model.addAttribute("postList", postService.getPostListByHive(id));
 
         if (hiveService.retrieveHiveById(id).getNoticeList().isEmpty()) {
@@ -97,19 +99,17 @@ public class HiveController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
-
         String filename = hive.getName() + file.getOriginalFilename();
         hive.setImagePath(filename);
 
         if (file.isEmpty()) {
         } else {
             imageUploader.createImagesDirIfNeeded();
-            model.addAttribute("message", imageUploader.createImage(filename, file));
+            model.addAttribute("message2", imageUploader.createImage(filename, file));
         }
 
-
         int userId = sessionHelper.getUserIdFromSession();
-
+        hive.setCreatorId(userId);
         Hive newHive = hiveService.insertFirstUserToHive(hive, userId);
         hiveService.insertHive(newHive);
         int hiveId = hiveService.getHiveIdByHiveName(newHive.getName());
@@ -119,7 +119,6 @@ public class HiveController {
 
     @RequestMapping(value = "/post/{hiveId}", method = RequestMethod.POST)
     public String savePost(@ModelAttribute Post post, Model model, @PathVariable("hiveId") int hiveId) {
-
         int userId = sessionHelper.getUserIdFromSession();
         postService.savePost(userId, hiveId, post);
 

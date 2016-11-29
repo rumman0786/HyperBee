@@ -12,6 +12,7 @@
         <div class="row">
             <div class="col-lg-4" style="padding-top: 200">
                 <h3>Welcome to ${hive.name}</h3>
+
                 <p>${hive.description}</p>
             </div>
         </div>
@@ -80,6 +81,9 @@
             <div class="col-sm-4 table-responsive">
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3>Members ${enlistedUser.size()} </h3>
+                        <h4>Admin :
+                            <small>${creator.username}</small>
+                        </h4>
                     </div>
                     <div class="panel-body">
                         <table>
@@ -125,7 +129,7 @@
                     <form:form method="POST" action="/user/hive/removeuser/${hiveId}" commandName="userIdInfo">
                         <div class="panel-body">
                             <table>
-                                <c:forEach var="user" items="${enlistedUser}" varStatus="loop">
+                                <c:forEach var="user" items="${userListToRemove}" varStatus="loop">
                                     <tr style="border: 1">
                                         <td>
                                             <form:checkbox path="userIdList" value="${user.id}"

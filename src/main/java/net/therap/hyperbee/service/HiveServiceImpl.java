@@ -4,7 +4,6 @@ import net.therap.hyperbee.dao.HiveDao;
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +37,6 @@ public class HiveServiceImpl implements HiveService {
 
     @Transactional
     public Hive insertFirstUserToHive(Hive hive, int userId) {
-
         List<User> userList = hive.getUserList();
         User user = userService.findById(userId);
         userList.add(user);
@@ -76,8 +74,8 @@ public class HiveServiceImpl implements HiveService {
     @Transactional
     public List<User> getUserNotInList(int hiveId) {
         Hive hive = retrieveHiveById(hiveId);
-        Hibernate.initialize(hive.getUserList());
         List<User> userList = hive.getUserList();
+
         return hiveDao.findUserNotInList(userList);
     }
 
@@ -90,7 +88,6 @@ public class HiveServiceImpl implements HiveService {
     @Override
     public List<User> getUserInList(int id) {
         Hive hive = retrieveHiveById(id);
-        Hibernate.initialize(hive.getUserList());
 
         return hive.getUserList();
     }
@@ -105,10 +102,19 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     @Transactional
-    public List<Notice> getNoticeList(int id){
+    public List<Notice> getNoticeList(int id) {
         Hive hive = retrieveHiveById(id);
         List<Notice> noticeList = hive.getNoticeList();
 
-        return hiveDao.getLastFiveNotice(noticeList,5);
+        return hiveDao.getLastFiveNotice(noticeList, 5);
+    }
+
+    @Override
+    public List<User> getUserListToRemove(int id) {
+        Hive hive = retrieveHiveById(id);
+        List<User> userList = hive.getUserList();
+        userList.remove(userService.findById(hive.getCreatorId()));
+
+        return userList;
     }
 }
