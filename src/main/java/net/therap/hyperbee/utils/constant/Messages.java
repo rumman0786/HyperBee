@@ -10,4 +10,9 @@ public interface Messages {
     String NOTE_DELETE_SUCCESS = "Note has been deleted";
     String NOTE_SAVE_SUCCESS = "Note has been saved";
     String NOTE_SAVE_FAILURE = "Note was not saved. Please Try Again";
+
+    String NOTE_PAGE_VIEW_ACTIVITY = "Visited own notes page";
+    String NOTE_SAVE_ACTIVITY = "Saved a new note";
+    String NOTE_SAVE_FAILED = "Tried to save an invalid note";
+    String NOTE_DELETE_ACTIVITY = "Deleted a note";
 }

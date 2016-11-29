@@ -1,7 +1,9 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Note;
+import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.StickyNoteService;
+import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.helper.NoteHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
@@ -36,6 +38,9 @@ public class NoteController {
     private StickyNoteService noteService;
 
     @Autowired
+    ActivityService activityService;
+
+    @Autowired
     private SessionHelper sessionHelper;
 
     @Autowired
@@ -57,6 +62,7 @@ public class NoteController {
 
         model.addAttribute("noteList", noteList);
         model.addAttribute("noteCommand", new Note());
+        activityService.archive(NOTE_PAGE_VIEW_ACTIVITY);
 
         return NOTE_VIEW_ALL;
     }
@@ -72,6 +78,8 @@ public class NoteController {
             model.addAttribute("message", NOTE_SAVE_FAILURE);
             model.addAttribute("redirectUrl", NOTE_VIEW_URL);
             model.addAttribute("messageStyle", "error");
+            activityService.archive(NOTE_SAVE_FAILED);
+
             return SUCCESS_VIEW;
         }
 
@@ -85,6 +93,7 @@ public class NoteController {
 
         model.addAttribute("message", NOTE_SAVE_SUCCESS);
         model.addAttribute("redirectUrl", NOTE_VIEW_URL);
+        activityService.archive(NOTE_SAVE_ACTIVITY);
 
         return SUCCESS_VIEW;
     }
@@ -98,6 +107,7 @@ public class NoteController {
 
         model.addAttribute("message", NOTE_DELETE_SUCCESS);
         model.addAttribute("redirectUrl", NOTE_VIEW_URL);
+        activityService.archive(NOTE_DELETE_ACTIVITY);
 
         return SUCCESS_VIEW;
     }
