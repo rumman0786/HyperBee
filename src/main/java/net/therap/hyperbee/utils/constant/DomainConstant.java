@@ -26,4 +26,6 @@ public interface DomainConstant {
     String NOTE_STICKY ="STICKY";
     String NOTE_REMINDER = "REMINDER";
     String NOTE_TYPE_ENUM= "enum('STICKY','REMINDER')";
+
+    int STICKY_NOTE_COUNT_DASHBOARD = 3;
 }

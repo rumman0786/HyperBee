@@ -3,6 +3,7 @@ package net.therap.hyperbee.dao;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.NoteType;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +72,16 @@ public class NoteDaoImpl implements NoteDao {
         return em.createNamedQuery("Note.findNoteByUserId", Note.class)
                 .setParameter("userId", userId)
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)
+                .getResultList();
+    }
+
+    @Override
+    public List<Note> findTopStickyNoteByUser(int numberOfNotes, int userId) {
+        return em.createNamedQuery("Note.findTopStickyNoteByUserId", Note.class)
+                .setParameter("userId", userId)
+                .setParameter("displayStatus", DisplayStatus.ACTIVE)
+                .setParameter("type", NoteType.STICKY)
+                .setMaxResults(3)
                 .getResultList();
     }
 
