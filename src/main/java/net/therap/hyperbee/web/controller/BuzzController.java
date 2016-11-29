@@ -14,10 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -30,7 +27,6 @@ import static net.therap.hyperbee.utils.constant.Url.USER_DASHBOARD_URL;
  * @author zoha
  * @since 11/22/16
  */
-
 @Controller
 public class BuzzController {
 
@@ -102,5 +98,22 @@ public class BuzzController {
         activityService.archive(Messages.BUZZ_PINNED_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
 
         return "redirect:/user/dashboard";
+    }
+
+    @GetMapping("/buzz/buzzHistory")
+    public String viewBuzzHistory(@RequestParam("prev") int prev, @RequestParam("next") int next, Model model) {
+        List <Buzz> buzzList = buzzService.getAllBuzz();
+
+        if(next > buzzList.size()) {
+            model.addAttribute("buzzList", buzzList.subList(prev, buzzList.size()));
+            next = buzzList.size();
+        } else {
+            model.addAttribute("buzzList", buzzList.subList(prev, next));
+        }
+
+        model.addAttribute("prev", prev);
+        model.addAttribute("next", next);
+
+        return "/buzz/buzzHistory";
     }
 }

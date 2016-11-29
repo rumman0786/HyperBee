@@ -11,9 +11,7 @@ import java.util.List;
  */
 public interface BuzzService {
 
-    public boolean saveBuzz(Buzz newBuzz);
-
-    public boolean savePinnedBuzz(Buzz newBuzz);
+    public Buzz saveBuzz(Buzz newBuzz);
 
     public List<Buzz> getAllBuzz();
 
