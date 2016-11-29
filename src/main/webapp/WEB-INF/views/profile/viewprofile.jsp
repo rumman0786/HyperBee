@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>HyperBEE</title>
+    <title><fmt:message key="create.profile.title"/></title>
 </head>
 <body>
 <div class="col-lg-10 container"
@@ -33,36 +33,36 @@
     <div class="col-lg-5">
         <div class="panel panel-default" style="padding: 20px">
             <div class="panel-heading">
-                <h3><b>General</b></h3>
+                <h3><b><fmt:message key="profile.show.general"/></b></h3>
             </div>
             <div class="panel-body">
                 <table>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">First Name :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="user.first.name"/></th>
                         <td class="form-control-static">${user.firstName}</td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Last Name :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="user.last.name"/></th>
                         <td class="form-control-static">${user.lastName}</td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Designation :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.designation"/></th>
                         <td class="form-control-static">${profile.designation}</td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Email :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="user.email"/></th>
                         <td class="form-control-static">${user.email}</td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Address :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.address"/></th>
                         <td class="form-control-static">${profile.address}</td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Contact No. :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.contact"/></th>
                         <td class="form-control-static">${profile.contactNo}</td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Joining Date :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.joining.date"/></th>
                         <td class="form-control-static"><fmt:formatDate type="date" value="${profile.joiningDate.time}"
                                                                         pattern="dd-MM-yy"/></td>
                     </tr>
@@ -72,20 +72,20 @@
     </div>
     <div class="col-lg-5 panel panel-default" style="padding: 10px">
         <div class="panel-heading">
-            <h3><b>Education</b></h3>
+            <h3><b><fmt:message key="profile.show.education"/></b></h3>
         </div>
         <div class="panel-body">
             <table>
                 <tr>
-                    <th class="panel-heading" style="color: #269abc">School :</th>
+                    <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.school"/></th>
                     <td class="form-control-static">${profile.school}</td>
                 </tr>
                 <tr>
-                    <th class="panel-heading" style="color: #269abc">College :</th>
+                    <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.college"/></th>
                     <td class="form-control-static">${profile.college}</td>
                 </tr>
                 <tr>
-                    <th class="panel-heading" style="color: #269abc">University :</th>
+                    <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.university"/></th>
                     <td class="form-control-static">${profile.university}</td>
                 </tr>
             </table>
@@ -96,21 +96,21 @@
     <div class="col-lg-5">
         <div class="panel panel-default" style="padding: 10px">
             <div class="panel-heading">
-                <h3><b>Basic Information</b></h3>
+                <h3><b><fmt:message key="profile.show.basic.info"/></b></h3>
             </div>
             <div class="panel-body">
                 <table>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Gender :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.gender"/></th>
                         <td class="form-control-static">${profile.gender}</td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Date Of Birth :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.dateofbirth"/></th>
                         <td class="form-control-static"><fmt:formatDate type="date" value="${profile.dateOfBirth.time}"
                                                                         pattern="dd-MM-yy"/></td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Skills :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.skills"/></th>
                         <td class="form-control-static">${profile.skills}</td>
                     </tr>
 
@@ -121,16 +121,17 @@
     <div class="col-lg-6">
         <div class="panel panel-default" style="padding: 10px">
             <div class="panel-heading">
-                <h3><b>Work Experience</b></h3>
+                <h3><b><fmt:message key="profile.show.workexperience"/></b></h3>
             </div>
             <div class="panel-body">
                 <table>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Years of Experience :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message
+                                key="profile.yearsofexperience"/></th>
                         <td class="form-control-static">${profile.jobExperienceYears}</td>
                     </tr>
                     <tr>
-                        <th class="panel-heading" style="color: #269abc">Work History :</th>
+                        <th class="panel-heading" style="color: #269abc"><fmt:message key="profile.workhistory"/></th>
                         <td class="form-control-static">${profile.workHistory}</td>
                     </tr>
                 </table>
