@@ -37,7 +37,7 @@ public class ProfileController {
     @Autowired
     private ImageUploader imageUploader;
 
-    @PostMapping(value = PROFILE_EDIT_URL)
+    @GetMapping(value = PROFILE_EDIT_URL)
     public String getProfile(Model model, HttpSession session) {
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
         int id = authUser.getId();
