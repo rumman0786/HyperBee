@@ -62,4 +62,8 @@ public class ConferenceRoom implements Serializable {
     public void setReservationList(List<Reservation> reservationList) {
         this.reservationList = reservationList;
     }
+
+    public boolean isNew() {
+        return id == 0;
+    }
 }

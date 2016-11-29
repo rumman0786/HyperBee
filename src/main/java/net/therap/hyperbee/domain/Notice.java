@@ -125,4 +125,8 @@ public class Notice implements Serializable {
     public void setHiveList(List<Hive> hiveList) {
         this.hiveList = hiveList;
     }
+
+    public boolean isNew() {
+        return id == 0;
+    }
 }
