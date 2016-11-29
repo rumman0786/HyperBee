@@ -99,7 +99,7 @@ public class NoteController {
         model.addAttribute("redirectUrl", NOTE_VIEW_URL);
         activityService.archive(NOTE_SAVE_ACTIVITY);
 
-        return "redirect:/" + NOTE_VIEW_URL;
+        return "redirect:" + NOTE_VIEW_URL;
     }
 
     @PostMapping(NOTE_DELETE_URL)
@@ -113,6 +113,6 @@ public class NoteController {
         model.addAttribute("redirectUrl", NOTE_VIEW_URL);
         activityService.archive(NOTE_DELETE_ACTIVITY);
 
-        return SUCCESS_VIEW;
+        return "redirect:" + NOTE_VIEW_URL;
     }
 }
