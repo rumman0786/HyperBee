@@ -100,7 +100,7 @@ public class HiveController {
     @PostMapping(value = HIVE_CREATE_URL)
     public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
-        String filename = hive.getName() + file.getOriginalFilename();
+        String filename = hive.getName().replaceAll(" ","") + file.getOriginalFilename();
         hive.setImagePath(filename);
 
         if (file.isEmpty()) {
