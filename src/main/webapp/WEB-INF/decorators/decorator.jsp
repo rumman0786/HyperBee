@@ -1,5 +1,4 @@
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="sitemesh" %>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>HyperBee::<sitemesh:title/></title>
