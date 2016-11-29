@@ -11,16 +11,19 @@
     <title>| Notice Board</title>
 </head>
 <body>
+
 <c:if test="${isAdmin}">
     <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right">Add Notice</a>
 </c:if>
+
 <div class="table-responsive">
-    <table class="table table-striped" border="1">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th>Title</th>
             <th>Description</th>
             <th>Creator</th>
+            <th>Hives</th>
 
             <c:if test="${isAdmin}">
                 <th>Edit</th>
@@ -36,7 +39,11 @@
                 <td>${notice.title}</td>
                 <td>${notice.description}</td>
                 <td>${notice.user.username}</td>
-
+                <td>
+                    <c:forEach var="hive" items="${notice.hiveList}">
+                        ${hive.name}
+                    </c:forEach>
+                </td>
                 <c:if test="${isAdmin}">
                     <td><a href="${pageContext.request.contextPath}/notice/${notice.id}/"><span
                             class="glyphicon glyphicon-edit"></span></a></td>

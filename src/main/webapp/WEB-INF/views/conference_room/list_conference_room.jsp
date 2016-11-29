@@ -12,20 +12,20 @@
 </head>
 
 <body>
-<%--<c:if test="${user.isSuperuser}">--%>
+<c:if test="${authUser.isAdmin()}">
     <a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference Room</a>
-<%--</c:if>--%>
+</c:if>
 <div class="table-responsive">
-    <table class="table table-striped" border="1">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th>Title</th>
             <th>Capacity</th>
 
-            <%--<c:if test="${user.isSuperuser}">--%>
-            <th>Edit</th>
-            <th>Delete</th>
-            <%--</c:if>--%>
+            <c:if test="${authUser.isAdmin()}">
+                <th>Edit</th>
+                <th>Delete</th>
+            </c:if>
 
         </tr>
         </thead>
@@ -36,14 +36,14 @@
                 <td>${conferenceRoom.title}</td>
                 <td>${conferenceRoom.capacity}</td>
 
-                    <%--<c:if test="${user.isSuperuser}">--%>
-                <td><a href="${pageContext.request.contextPath}/conference/${conferenceRoom.id}/"><span
-                        class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#" data-id="${conferenceRoom.id}"
-                       data-toggle="modal" data-target="#confirm-delete"
-                       class="delete-user-item"><span
-                        class="glyphicon glyphicon-trash"></span></a></td>
-                    <%--</c:if>--%>
+                <c:if test="${authUser.isAdmin()}">
+                    <td><a href="${pageContext.request.contextPath}/conference/${conferenceRoom.id}/"><span
+                            class="glyphicon glyphicon-edit"></span></a></td>
+                    <td><a href="#" data-id="${conferenceRoom.id}"
+                           data-toggle="modal" data-target="#confirm-delete"
+                           class="delete-user-item"><span
+                            class="glyphicon glyphicon-trash"></span></a></td>
+                </c:if>
 
             </tr>
         </c:forEach>

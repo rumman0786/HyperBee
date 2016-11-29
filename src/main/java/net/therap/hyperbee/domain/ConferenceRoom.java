@@ -12,6 +12,8 @@ import java.util.List;
  * @author zoha
  * @since 11/21/16
  */
+@NamedQuery(name = "ConferenceRoom.findAllRoom",
+        query = "SELECT room FROM ConferenceRoom room ORDER BY room.id")
 @Entity
 @Table(name = "conference_room")
 public class ConferenceRoom implements Serializable {

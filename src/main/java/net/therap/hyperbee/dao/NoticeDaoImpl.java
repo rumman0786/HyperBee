@@ -15,8 +15,6 @@ import java.util.List;
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
 
-    private static final String NOTICE_ALL_QUERY = "FROM Notice";
-
     @PersistenceContext
     private EntityManager em;
 
@@ -39,7 +37,8 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Notice> findAll() {
-        return em.createQuery(NOTICE_ALL_QUERY).getResultList();
+        return em.createNamedQuery("Notice.findAllNotice", Notice.class)
+                .getResultList();
     }
 
     @Override
