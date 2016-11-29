@@ -38,8 +38,20 @@
             <div class="panel-body">
                 <table>
                     <tr>
+                        <th class="panel-heading" style="color: #269abc">First Name :</th>
+                        <td class="form-control-static">${user.firstName}</td>
+                    </tr>
+                    <tr>
+                        <th class="panel-heading" style="color: #269abc">Last Name :</th>
+                        <td class="form-control-static">${user.lastName}</td>
+                    </tr>
+                    <tr>
                         <th class="panel-heading" style="color: #269abc">Designation :</th>
                         <td class="form-control-static">${profile.designation}</td>
+                    </tr>
+                    <tr>
+                        <th class="panel-heading" style="color: #269abc">Email :</th>
+                        <td class="form-control-static">${user.email}</td>
                     </tr>
                     <tr>
                         <th class="panel-heading" style="color: #269abc">Address :</th>
