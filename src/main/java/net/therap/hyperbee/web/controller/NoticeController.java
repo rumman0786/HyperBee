@@ -3,9 +3,11 @@ package net.therap.hyperbee.web.controller;
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.NoticeService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.beans.PropertyEditorSupport;
 
+import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -38,6 +42,9 @@ public class NoticeController {
     private HiveService hiveService;
 
     @Autowired
+    private ActivityService activityService;
+
+    @Autowired
     private SessionHelper sessionHelper;
 
     @Autowired
@@ -50,7 +57,7 @@ public class NoticeController {
         binder.registerCustomEditor(Hive.class, "hiveList", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
-                Hive hive = (Hive) hiveService.retrieveHiveById(Integer.parseInt(text));
+                Hive hive = hiveService.retrieveHiveById(Integer.parseInt(text));
                 setValue(hive);
             }
         });
@@ -66,14 +73,20 @@ public class NoticeController {
                 .addAttribute("isAdmin", sessionHelper.retrieveAuthUserFromSession().isAdmin())
                 .addAttribute("deleteUrl", NOTICE_BASE_URL + NOTICE_DELETE_URL);
 
+        activityService.archive(NOTICE_LIST_VIEWED);
+
         return "notice/list_notice";
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAddNoticeForm(ModelMap modelMap) {
 
+        if (!modelMap.containsAttribute("notice")) {
+            modelMap.addAttribute("notice", new Notice());
+        }
+
         modelMap.addAttribute("page", "notice")
-                .addAttribute("notice", new Notice())
+
                 .addAttribute("noticeHeader", "Add Notice")
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_ADD_URL)
                 .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession()))
@@ -84,16 +97,24 @@ public class NoticeController {
 
     @RequestMapping(value = NOTICE_ADD_URL, method = RequestMethod.POST)
     public String addNotice(@ModelAttribute("notice") Notice notice,
-                            BindingResult bindingResult) {
+                            BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
 
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
+        validator.validate(notice, bindingResult);
+
         if (bindingResult.hasErrors()) {
-            return "notice/form_notice";
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "notice", bindingResult);
+            redirectAttributes.addFlashAttribute("notice", notice);
+            return "redirect:/notice";
+
         }
 
         noticeService.saveNotice(notice);
+        activityService.archive(NOTICE_SAVED);
+
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }
 
@@ -110,23 +131,32 @@ public class NoticeController {
     }
 
     @RequestMapping(value = NOTICE_UPDATE_URL, method = RequestMethod.POST)
-    public String editNotice(@ModelAttribute("notice") Notice notice, HttpSession session//, @Validated
-                             //BindingResult bindingResult,Model model
-    ) {
+    public String editNotice(@ModelAttribute("notice") Notice notice,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
-//        if (bindingResult.hasErrors()) {
-//            return new ModelAndView("dish/edit-dish");
-//        }
+        validator.validate(notice, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "notice", bindingResult);
+            redirectAttributes.addFlashAttribute("notice", notice);
+            return "redirect:/notice";
+        }
 
         noticeService.saveNotice(notice);
+        activityService.archive(NOTICE_MODIFIED);
+
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }
 
     @RequestMapping(value = NOTICE_DELETE_URL, method = RequestMethod.POST)
     public String deleteNotice(@RequestParam("id") int noticeId) {
         noticeService.delete(noticeId);
+
+        activityService.archive(NOTICE_DELETED);
+
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }
 }
