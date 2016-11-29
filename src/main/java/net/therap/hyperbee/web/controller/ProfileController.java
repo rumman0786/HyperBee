@@ -25,6 +25,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
  * @since 11/22/16.
  */
 @Controller
+@RequestMapping(value = PROFILE_URL)
 public class ProfileController {
 
     @Autowired
@@ -54,7 +55,7 @@ public class ProfileController {
         return CREATE_PROFILE_URL;
     }
 
-    @PostMapping(value = PROFILE_URL)
+    @PostMapping
     public String postProfile(@ModelAttribute Profile profile, Model model, @RequestParam String imagePath,
                               @RequestParam MultipartFile file,
                               @RequestParam String coverImage,
@@ -62,8 +63,10 @@ public class ProfileController {
                               HttpSession session) {
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
         int userId = authUser.getId();
+
         String message = profileService.saveProfileForUser(profile, userId);
         User user = userService.findById(userId);
+
         model.addAttribute("user", user);
         model.addAttribute("message", message);
 
@@ -88,6 +91,7 @@ public class ProfileController {
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
+
         model.addAttribute("profile", profile);
         model.addAttribute("user", user);
 
@@ -100,6 +104,7 @@ public class ProfileController {
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
+
         model.addAttribute("profile", profile);
         model.addAttribute("user", user);
 
@@ -108,7 +113,8 @@ public class ProfileController {
 
     @GetMapping(value = SEARCH_URL)
     public String searchProfilePage(Model model) {
-        List<User> userList= userService.findAll();
+        List<User> userList = userService.findAll();
+
         model.addAttribute("userList", userList);
 
         return PROFILE_SEARCH_URL;
@@ -117,7 +123,7 @@ public class ProfileController {
     @PostMapping(value = SEARCH_URL)
     public String searchProfile(@RequestParam("search") String username, Model model) {
         User user = userService.findByUsername(username);
-        List<User> userList= userService.findAll();
+        List<User> userList = userService.findAll();
         model.addAttribute("userList", userList);
 
         if (user == null) {
@@ -141,22 +147,20 @@ public class ProfileController {
         return PROFILE_STALK_URL;
     }
 
-    @RequestMapping(value = "/profile/image/{imagePath}")
+    @RequestMapping(value = PROFILE_IMAGE_URL)
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "imagePath") String imageName) throws IOException {
         imageUploader.createImagesDirIfNeeded();
-        System.out.println(imageName);
-        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName+ ".png");
+        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName + ".png");
 
         return Files.readAllBytes(serverFile.toPath());
     }
 
-    @RequestMapping(value = "/profile/cover/{coverImage}")
+    @RequestMapping(value = COVER_IMAGE_URL)
     @ResponseBody
     public byte[] getCoverImage(@PathVariable(value = "coverImage") String imageName) throws IOException {
         imageUploader.createImagesDirIfNeeded();
-        System.out.println(imageName);
-        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName+ ".png");
+        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName + ".png");
 
         return Files.readAllBytes(serverFile.toPath());
     }

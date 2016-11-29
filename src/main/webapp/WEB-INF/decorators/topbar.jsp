@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/user/dashboard">Home</a></li>
-                <li><a href="/user/profile">Profile</a></li>
+                <li><a href="/profile/user">Profile</a></li>
 
                 <c:if test="${authUser.isAdmin()}">
                 <li><a href="/notice/list">Notice</a></li>
