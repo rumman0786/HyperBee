@@ -61,7 +61,7 @@ public class NoteService implements StickyNoteService {
 
         User user = userDao.findById(userId);
         note.setUser(user);
-        noteDao.create(note);
+        noteDao.save(note);
     }
 
     @Override

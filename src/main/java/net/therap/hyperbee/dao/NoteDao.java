@@ -13,11 +13,7 @@ import java.util.List;
 @Repository
 public interface NoteDao {
 
-    void create(Note note);
-
-    Note readById(int noteId);
-
-    void update(Note note);
+    void save(Note note);
 
     void markNoteAsInactiveForUser(int userId, int noteId);
 
