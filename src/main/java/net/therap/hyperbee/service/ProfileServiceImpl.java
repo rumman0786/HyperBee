@@ -31,12 +31,13 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public String saveProfileForUser(Profile profile, int userId) {
-        User user=userDao.findById(userId);
-        if(user.getProfile()==null){
+        User user = userDao.findById(userId);
+
+        if (user.getProfile() == null) {
             user.setProfile(profile);
             em.persist(user);
             em.flush();
-        }else{
+        } else {
             user.setProfile(profile);
             em.merge(user);
             em.flush();

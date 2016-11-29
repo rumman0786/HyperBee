@@ -6,86 +6,96 @@
     <title>HyperBEE</title>
 </head>
 <body>
-<form:form action="/profile" method="post" commandName="profile">
+<form:form action="/profile" method="post" commandName="profile" cssClass=" panel-primary" enctype="multipart/form-data">
     <table>
         <tr>
-            <th><h1>${authUser.username}::Profile</h1></th>
+            <th class="panel-heading">
+                <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
+                    <b>${user.firstName} ${user.lastName}</b>
+                </h1>
+            </th>
         </tr>
         <tr>
-            <th>Designation :</th>
-            <td><form:input path="designation" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">Designation :</th>
+            <td><form:input path="designation" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>Address :</th>
-            <td><form:input path="address" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">Address :</th>
+            <td><form:input path="address" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>Contact No. :</th>
-            <td><form:input path="contactNo" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">Contact No. :</th>
+            <td><form:input path="contactNo" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>Joining Date :</th>
-            <td><form:input path="joiningDate"/></td>
+            <th class="panel-heading" style="color: #122b40">Joining Date :</th>
+            <td><form:input path="joiningDate" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th><h2>Education :</h2></th>
+            <th><h2 class="panel-heading" style="color: #269abc">Education :</h2></th>
         </tr>
         <tr>
-            <th>School :</th>
-            <td><form:input path="school" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">School :</th>
+            <td><form:input path="school" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>College :</th>
-            <td><form:input path="college" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">College :</th>
+            <td><form:input path="college" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>University :</th>
-            <td><form:input path="university" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">University :</th>
+            <td><form:input path="university" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th><h2>Basic Information :</h2></th>
+            <th><h2 class="panel-heading" style="color: #269abc">Basic Information :</h2></th>
         </tr>
         <tr>
-            <th>Gender :</th>
-            <td><form:input path="gender" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">Gender :</th>
+            <td><form:input path="gender" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>Date Of Birth :</th>
-            <td><form:input path="dateOfBirth"/></td>
+            <th class="panel-heading" style="color: #122b40">Date Of Birth :</th>
+            <td><form:input path="dateOfBirth" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>Skills :</th>
-            <td><form:input path="skills" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">Skills :</th>
+            <td><form:input path="skills" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th><h2>Work Experience :</h2></th>
+            <th><h2 class="panel-heading" style="color: #269abc">Work Experience :</h2></th>
         </tr>
         <tr>
-            <th>Years of Experience :</th>
-            <td><form:input path="jobExperienceYears" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">Years of Experience :</th>
+            <td><form:input path="jobExperienceYears" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>Work History :</th>
-            <td><form:input path="workHistory" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">Work History :</th>
+            <td><form:input path="workHistory" type="text" cssClass="form-control"/></td>
         </tr>
         <tr>
-            <th>Image :</th>
-            <td><form:input path="imagePath" type="text"/></td>
+            <th class="panel-heading" style="color: #122b40">Profile Picture :</th>
+            <td><form:input path="imagePath" type="text" cssClass="form-control"/></td>
+            <td><input type="file" name="file"/></td>
         </tr>
         <tr>
-            <td colspan="2" align="left"><input type="submit" value="Create Profile"></td>
+            <th class="panel-heading" style="color: #122b40">Cover Picture :</th>
+            <td><form:input path="coverImage" type="text" cssClass="form-control"/></td>
+            <td><input type="file" name="coverFile"/></td>
         </tr>
         <tr>
-            <td>${message}</td>
+            <td colspan="2" align="left"><input type="submit" class="btn btn-warning btn-sm" value="Edit"></td>
+        </tr>
+        <tr>
+            <td style="color: green">${message}</td>
+        </tr>
+        <tr>
+            <td style="color: green">${message2}</td>
+        </tr>
+        <tr>
+            <td style="color: green">${message3}</td>
         </tr>
     </table>
 </form:form>
-<form:form action="/user/profile" method="get">
-    <table>
-        <tr>
-            <td><input type="submit" value="Back To Profile"/></td>
-        </tr>
-    </table>
-</form:form>
+
 </body>
 </html>
