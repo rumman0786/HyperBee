@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import static net.therap.hyperbee.utils.constant.Url.*;
 /**
  * @author azim
  * @since 11/22/16
@@ -48,7 +49,7 @@ public class HiveController {
     @Autowired
     private SessionHelper sessionHelper;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String viewHive(ModelMap model) {
         int userId = sessionHelper.getUserIdFromSession();
         model.put("hiveList", hiveService.getHiveListByUserId(userId));
@@ -59,7 +60,7 @@ public class HiveController {
         return HIVE;
     }
 
-    @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
+    @GetMapping(value = HIVE_VIEW_URL)
     public String viewHivePage(Model model, @PathVariable("id") int id) {
         model.addAttribute("hiveId", id);
         model.addAttribute("hive", hiveService.retrieveHiveById(id));
@@ -80,7 +81,7 @@ public class HiveController {
         return SHOW_HIVE;
     }
 
-    @RequestMapping(value = "/insertuser/{hiveId}", method = RequestMethod.POST)
+    @PostMapping(value = HIVE_ADD_USER_URL)
     public String addUserToHive(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.insertUsersToHive(hiveId, userIdInfo.getUserIdList());
@@ -88,7 +89,7 @@ public class HiveController {
         return "redirect:/user/hive/show/" + hiveId;
     }
 
-    @RequestMapping(value = "/removeuser/{hiveId}", method = RequestMethod.POST)
+    @PostMapping(value = HIVE_REMOVE_USER_URL)
     public String RemoveUserFromHive(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.removeUsersFromHive(hiveId, userIdInfo.getUserIdList());
@@ -96,7 +97,7 @@ public class HiveController {
         return "redirect:/user/hive/show/" + hiveId;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @PostMapping(value = HIVE_CREATE_URL)
     public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
         String filename = hive.getName() + file.getOriginalFilename();
@@ -117,7 +118,7 @@ public class HiveController {
         return "redirect:/user/hive/show/" + hiveId;
     }
 
-    @RequestMapping(value = "/post/{hiveId}", method = RequestMethod.POST)
+    @PostMapping(value = HIVE_ADD_POST_URL)
     public String savePost(@ModelAttribute Post post, Model model, @PathVariable("hiveId") int hiveId) {
         int userId = sessionHelper.getUserIdFromSession();
         postService.savePost(userId, hiveId, post);
