@@ -5,7 +5,8 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -18,7 +19,9 @@ public class BuzzDaoImpl implements BuzzDao {
 
     private final String QUERY_GET_BY_STATUS = "SELECT b FROM Buzz b WHERE b.displayStatus = :displayStatus";
     private final String QUERY_GET_LATEST = "SELECT b FROM Buzz b WHERE b.displayStatus = :displayStatus " +
-                                                                                          "ORDER BY b.id DESC";
+            "AND b.pinned = :pinned ORDER BY b.id DESC";
+    private final String QUERY_GET_PINNED = "SELECT b FROM Buzz b WHERE b.pinned = :pinned " +
+            "ORDER BY b.id DESC";
     private final String QUERY_GET_BY_USER = "SELECT b FROM Buzz b WHERE b.userId = :userId";
 
 
@@ -62,6 +65,15 @@ public class BuzzDaoImpl implements BuzzDao {
     public List<Buzz> getLatest(int range) {
         return em.createQuery(QUERY_GET_LATEST, Buzz.class)
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)
+                .setParameter("pinned", false)
+                .setMaxResults(range)
+                .getResultList();
+    }
+
+    @Override
+    public List<Buzz> getPinnedBuzz(int range) {
+        return em.createQuery(QUERY_GET_PINNED, Buzz.class)
+                .setParameter("pinned", true)
                 .setMaxResults(range)
                 .getResultList();
     }
