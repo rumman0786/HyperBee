@@ -6,7 +6,6 @@ import net.therap.hyperbee.domain.User;
  * @author rayed
  * @since 11/27/16 12:01 PM
  */
-
 public class SignUpInfo {
 
     private String firstName;

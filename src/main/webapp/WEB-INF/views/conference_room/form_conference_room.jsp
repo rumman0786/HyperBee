@@ -25,14 +25,14 @@
                     <label for="title" class="sr-only">Title</label>
                     <form:input type="text" id="title" class="form-control" placeholder="Conference Room Title" name="title"
                                 path="title" required="required" autofocus="autofocus"/>
-                    <%--<form:errors path="title" cssClass="error" />--%>
+                    <form:errors path="title" cssClass="error" />
                 </div>
 
                 <div class="form-group">
                     <label for="capacity" class="sr-only">Capacity</label>
                     <form:input type="text" id="capacity" class="form-control" name="Capacity" placeholder="Capacity"
                                 path="capacity" required="required"/>
-                    <%--<form:errors path="capacity" cssClass="error" />--%>
+                    <form:errors path="capacity" cssClass="error" />
                 </div>
 
                 <div class="form-group">

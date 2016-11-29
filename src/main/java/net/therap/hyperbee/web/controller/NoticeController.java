@@ -7,9 +7,11 @@ import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.NoticeService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,12 +40,13 @@ public class NoticeController {
     @Autowired
     private SessionHelper sessionHelper;
 
-//    @Autowired
-//    @Qualifier("dishCommandValidator")
-//    private Validator validator;
+    @Autowired
+    private NoticeValidator validator;
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {
+        binder.setValidator(validator);
+
         binder.registerCustomEditor(Hive.class, "hiveList", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
@@ -60,13 +63,14 @@ public class NoticeController {
         modelMap.addAttribute("page", "notice")
                 .addAttribute("noticeList", noticeService.findAllNotice())
                 .addAttribute("noticeAddUrl", NOTICE_BASE_URL)
+                .addAttribute("isAdmin", sessionHelper.retrieveAuthUserFromSession().isAdmin())
                 .addAttribute("deleteUrl", NOTICE_BASE_URL + NOTICE_DELETE_URL);
 
         return "notice/list_notice";
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showAddNoticeForm(ModelMap modelMap, HttpSession session) {
+    public String showAddNoticeForm(ModelMap modelMap) {
 
         modelMap.addAttribute("page", "notice")
                 .addAttribute("notice", new Notice())
@@ -79,19 +83,15 @@ public class NoticeController {
     }
 
     @RequestMapping(value = NOTICE_ADD_URL, method = RequestMethod.POST)
-    public String addNotice(@ModelAttribute("notice") Notice notice, HttpSession session
-//                                      BindingResult bindingResult,
-    ) {
-//        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyyy-mm-dd hh:mm:ss");
-//
-//        DateTime dt = formatter.parseDateTime(dateExpired);
-//        notice.setDateExpired(dt.toGregorianCalendar());
+    public String addNotice(@ModelAttribute("notice") Notice notice,
+                            BindingResult bindingResult) {
+
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
-//        if (bindingResult.hasErrors()) {
-//            return new ModelAndView("dish/add-dish");
-//        }
+        if (bindingResult.hasErrors()) {
+            return "notice/form_notice";
+        }
 
         noticeService.saveNotice(notice);
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
