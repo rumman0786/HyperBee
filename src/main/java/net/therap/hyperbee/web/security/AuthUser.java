@@ -55,10 +55,6 @@ public class AuthUser implements Serializable{
         this.username = username;
     }
 
-
-    //TODO test isAdmin()
-
-
     public boolean isAdmin() {
         for (Role role : roleList) {
             if (role.getRoleType() == RoleType.ADMIN){
