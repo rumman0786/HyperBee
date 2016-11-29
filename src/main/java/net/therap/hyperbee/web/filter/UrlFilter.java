@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static net.therap.hyperbee.utils.constant.Url.LOGIN_URL;
 
@@ -16,6 +20,9 @@ import static net.therap.hyperbee.utils.constant.Url.LOGIN_URL;
  */
 public class UrlFilter implements Filter {
 
+    private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
+            Arrays.asList("", "/login", "/logout", "/signUp")));
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -23,6 +30,17 @@ public class UrlFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String requestURI = httpServletRequest.getRequestURI();
+
+        if (ALLOWED_PATHS.contains(requestURI)){
+            System.out.println("true");
+            chain.doFilter(request, response);
+
+            return;
+        }
+
         HttpSession session = ((HttpServletRequest) request).getSession();
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
 
