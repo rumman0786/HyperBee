@@ -6,7 +6,8 @@
     <title>HyperBEE</title>
 </head>
 <body>
-<form:form action="/profile" method="post" commandName="profile" cssClass=" panel-primary" enctype="multipart/form-data">
+<form:form action="/profile" method="post" commandName="profile" cssClass=" panel-primary"
+           enctype="multipart/form-data">
     <table>
         <tr>
             <th class="panel-heading">
@@ -75,7 +76,7 @@
         <tr>
             <th class="panel-heading" style="color: #122b40">Profile Picture :</th>
             <td><form:input path="imagePath" type="text" cssClass="form-control"/></td>
-            <td><input type="file" name="file"/></td>
+            <td><input type="file" name="file" id="fileName"/></td>
         </tr>
         <tr>
             <th class="panel-heading" style="color: #122b40">Cover Picture :</th>
