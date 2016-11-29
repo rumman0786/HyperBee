@@ -35,13 +35,6 @@ public class NoteService implements StickyNoteService {
     NoteHelper noteHelper;
 
     @Override
-    @Transactional
-    public void createStickyNote(User user, Note note) {
-
-        noteDao.createNoteAndUser(note, user);
-    }
-
-    @Override
     public List<Note> findActiveNotesForUser(int userId) {
 
         return noteDao.findActiveNoteListByUserId(userId);

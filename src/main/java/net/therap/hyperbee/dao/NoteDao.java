@@ -17,10 +17,6 @@ public interface NoteDao {
 
     void markNoteAsInactiveForUser(int userId, int noteId);
 
-    void createNoteAndUser(Note note, User user);
-
-    void saveNoteForUser(Note note, User user);
-
     List<Note> findActiveNoteListByUserId(int userId);
 
     List<Note> findTopStickyNoteByUser(int numberOfNotes, int userId);

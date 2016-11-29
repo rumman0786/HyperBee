@@ -53,22 +53,6 @@ public class NoteDaoImpl implements NoteDao {
     }
 
     @Override
-    @Transactional
-    public void createNoteAndUser(Note note, User user) {
-        user.getNoteList().add(note);
-        em.persist(user);
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void saveNoteForUser(Note note, User user) {
-
-        user.getNoteList().add(note);
-        em.flush();
-    }
-
-    @Override
     public List<Note> findActiveNoteListByUserId(int userId) {
 
         return em.createNamedQuery("Note.findNoteByUserId", Note.class)
