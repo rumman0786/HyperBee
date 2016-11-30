@@ -28,7 +28,7 @@ public class SessionHelper {
         session.setAttribute("authUser", authUser);
     }
 
-    public AuthUser retrieveAuthUserFromSession() {
+    public AuthUser getAuthUserFromSession() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
         HttpSession session = servletRequestAttributes.getRequest().getSession();
