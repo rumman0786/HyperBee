@@ -59,4 +59,11 @@ public interface Url {
 
     //Common Constants
     String ACCESS_DENIED_URL = "/denied";
+
+    //Hive Constants
+    String HIVE_CREATE_URL = "/create";
+    String HIVE_VIEW_URL = "/show/{id}";
+    String HIVE_ADD_USER_URL = "/insertuser/{hiveId}";
+    String HIVE_REMOVE_USER_URL = "/removeuser/{hiveId}";
+    String HIVE_ADD_POST_URL = "/post/{hiveId}";
 }

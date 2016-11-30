@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Meal Planner</title>
+    <title>HyperBee::Login</title>
 
     <spring:url value="/css/bootstrap.min.css" var="bootstrapCss"/>
     <spring:url value="/css/bootstrap-theme.min.css" var="bootstrapThemeCss"/>

@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 
+import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
+import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -92,7 +94,7 @@ public class UserController {
         if (retrievedUser != null) {
             sessionHelper.persistInSession(retrievedUser);
 
-            activityService.archive("Logged In");
+            activityService.archive(LOGGED_IN);
 
             noticeHelper.persistInSession();
 
@@ -121,7 +123,7 @@ public class UserController {
         User retrievedUser = userService.createUser(user);
         sessionHelper.persistInSession(retrievedUser);
 
-        activityService.archive("Signed Up");
+        activityService.archive(SIGNED_UP);
 
         return "redirect:" + USER_DASHBOARD_URL;
     }
@@ -141,6 +143,8 @@ public class UserController {
 
         model.addAttribute("topStickyNote",
                 noteService.findTopStickyNoteByUser(sessionHelper.getUserIdFromSession()));
+
+        model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         return USER_DASHBOARD_VIEW;

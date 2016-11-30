@@ -28,6 +28,7 @@ public class NoticeFilter implements Filter {
 
         if (authUser != null && authUser.isAdmin()) {
             chain.doFilter(request, response);
+            return;
         }
 
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
