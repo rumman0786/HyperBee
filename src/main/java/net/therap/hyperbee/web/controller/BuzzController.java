@@ -4,6 +4,7 @@ import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
@@ -21,12 +22,13 @@ import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.Url.USER_DASHBOARD_URL;
+import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author zoha
  * @since 11/22/16
  */
+@RequestMapping(BUZZ_BASE_URL)
 @Controller
 public class BuzzController {
 
@@ -45,18 +47,21 @@ public class BuzzController {
     @Autowired
     ActivityService activityService;
 
+    @Autowired
+    Utils utils;
+
     @InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(buzzValidator);
     }
 
-    @GetMapping("/buzz/buzzList")
+    @GetMapping(BUZZ_VIEW_URL)
     public void viewLatestBuzz(Model model) {
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
     }
 
-    @PostMapping("/buzz/sendBuzz")
+    @PostMapping(BUZZ_CREATE_URL)
     public String sendBuzz(@ModelAttribute("newBuzz") @Validated Buzz newBuzz, BindingResult result,
                            RedirectAttributes redirectAttributes, HttpSession session, Model model) {
 
@@ -75,37 +80,37 @@ public class BuzzController {
 
         model.addAttribute("newBuzz", new Buzz());
 
-        return "redirect:" + USER_DASHBOARD_URL;
+        return utils.redirectTo(USER_DASHBOARD_URL);
     }
 
-    @GetMapping("/buzz/flagBuzz")
+    @GetMapping(BUZZ_FLAG_URL)
     public String flagBuzz(int id) {
         Buzz tempBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
 
         activityService.archive(Messages.BUZZ_FLAG_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
 
-        return "redirect:/user/dashboard";
+        return utils.redirectTo(USER_DASHBOARD_URL);
     }
 
-    @GetMapping("/buzz/deactivateBuzz")
+    @GetMapping(BUZZ_DEACTIVATE_URL)
     public String deactivateBuzz(int id) {
         Buzz tempBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
 
         activityService.archive(Messages.BUZZ_DELETE_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
 
-        return "redirect:/user/dashboard";
+        return utils.redirectTo(USER_DASHBOARD_URL);
     }
 
-    @GetMapping("/buzz/pinBuzz")
+    @GetMapping(BUZZ_PIN_URL)
     public String pinBuzz(int id) {
         Buzz tempBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
 
         activityService.archive(Messages.BUZZ_PINNED_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
 
-        return "redirect:/user/dashboard";
+        return utils.redirectTo(USER_DASHBOARD_URL);
     }
 
-    @GetMapping("/buzz/buzzHistory")
+    @GetMapping(BUZZ_HISTORY_URL)
     public String viewBuzzHistory(@RequestParam("prev") int prev, @RequestParam("next") int next, Model model) {
         List <Buzz> buzzList = buzzService.getAllBuzz();
 
@@ -119,6 +124,6 @@ public class BuzzController {
         model.addAttribute("prev", prev);
         model.addAttribute("next", next);
 
-        return "/buzz/buzzHistory";
+        return BUZZ_BASE_URL + BUZZ_HISTORY_URL;
     }
 }
