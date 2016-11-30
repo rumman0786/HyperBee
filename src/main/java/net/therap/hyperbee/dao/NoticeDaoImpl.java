@@ -20,7 +20,7 @@ public class NoticeDaoImpl implements NoticeDao {
 
     @Override
     @Transactional
-    public void save(Notice notice) {
+    public void saveOrUpdate(Notice notice) {
         if (notice.isNew()) {
             em.persist(notice);
             em.flush();

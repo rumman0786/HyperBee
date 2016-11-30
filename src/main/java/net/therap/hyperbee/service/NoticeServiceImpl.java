@@ -25,7 +25,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     public void saveNotice(Notice notice) {
-        noticeDao.save(notice);
+        noticeDao.saveOrUpdate(notice);
         noticeHelper.persistInSession();
     }
 
