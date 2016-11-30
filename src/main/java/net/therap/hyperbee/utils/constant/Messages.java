@@ -19,6 +19,10 @@ public interface Messages {
     String NOTE_DELETE_ACTIVITY = "Deleted a note";
 
     //Notice Messages
+    String NOTICE_VIEWED = "Notice Home Page Viewed";
+    String NOTICE_ADD_VIEWED = "Notice Add Page Viewed";
+    String NOTICE_EDIT_VIEWED = "Notice Edit Page Viewed";
+    String NOTICE_SAVE_ERROR = "ERROR:: Notice Could Not be saved";
     String NOTICE_SAVED = "Saved Notice";
     String NOTICE_MODIFIED = "Modified Notice";
     String NOTICE_DELETED = "Deleted Notice";
