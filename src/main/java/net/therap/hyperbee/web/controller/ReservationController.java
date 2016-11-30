@@ -31,7 +31,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
  * @since 11/22/16
  */
 @Controller
-@RequestMapping(value = RERVATION_BASE_URL)
+@RequestMapping(value = RESERVATION_BASE_URL)
 public class ReservationController {
 
     private static final Logger log = LogManager.getLogger(SimpleLogger.class);
@@ -68,13 +68,13 @@ public class ReservationController {
     }
 
 
-    @GetMapping(value = RERVATION_LIST_URL)
+    @GetMapping(value = RESERVATION_LIST_URL)
     public String showReservationList(ModelMap modelMap) {
 
         modelMap.addAttribute("page", "reservation")
                 .addAttribute("reservationList", reservationService.findAllReservation())
-                .addAttribute("actionUrl", RERVATION_BASE_URL)
-                .addAttribute("deleteUrl", RERVATION_BASE_URL + RERVATION_DELETE_URL);
+                .addAttribute("actionUrl", RESERVATION_BASE_URL)
+                .addAttribute("deleteUrl", RESERVATION_BASE_URL + RESERVATION_DELETE_URL);
 
         log.debug(RESERVATION_LIST_VIEWED);
 
@@ -87,7 +87,7 @@ public class ReservationController {
         modelMap.addAttribute("page", "reservation")
                 .addAttribute("reservation", new Reservation())
                 .addAttribute("pageHeader", "Add Reservation")
-                .addAttribute("action", RERVATION_BASE_URL + RERVATION_ADD_URL)
+                .addAttribute("action", RESERVATION_BASE_URL + RESERVATION_ADD_URL)
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
                 .addAttribute("reservationStatusOptions", ReservationStatus.values());
 
@@ -96,7 +96,7 @@ public class ReservationController {
         return "reservation/form_reservation";
     }
 
-    @PostMapping(value = RERVATION_ADD_URL)
+    @PostMapping(value = RESERVATION_ADD_URL)
     public String addReservation(@ModelAttribute("reservation") Reservation reservation,
                             BindingResult bindingResult,
                             @RequestParam("reservationFrom") String reservationFrom,
@@ -114,14 +114,14 @@ public class ReservationController {
         reservationService.saveReservation(reservation);
         log.debug(RESERVATION_SAVED);
 
-        return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
+        return "redirect:" + RESERVATION_BASE_URL + RESERVATION_LIST_URL;
     }
 
     @GetMapping(value = "/{id}/**")
     public String showEditReservationForm(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", "reservation")
                 .addAttribute("pageHeader", "Edit Reservation")
-                .addAttribute("action", RERVATION_BASE_URL + RERVATION_UPDATE_URL)
+                .addAttribute("action", RESERVATION_BASE_URL + RESERVATION_UPDATE_URL)
                 .addAttribute("reservation", reservationService.findReservationById(id))
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
                 .addAttribute("reservationStatusOptions", ReservationStatus.values());
@@ -131,7 +131,7 @@ public class ReservationController {
         return "reservation/form_reservation";
     }
 
-    @PostMapping(value = RERVATION_UPDATE_URL)
+    @PostMapping(value = RESERVATION_UPDATE_URL)
     public String editReservation(@ModelAttribute("reservation") Reservation reservation,
                              BindingResult bindingResult,
                              @RequestParam("reservationFrom") String reservationFrom,
@@ -145,15 +145,15 @@ public class ReservationController {
 
         log.debug(RESERVATION_SAVED);
 
-        return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
+        return "redirect:" + RESERVATION_BASE_URL + RESERVATION_LIST_URL;
     }
 
-    @PostMapping(value = RERVATION_DELETE_URL)
+    @PostMapping(value = RESERVATION_DELETE_URL)
     public String deleteReservation(@RequestParam("id") int reservationId) {
         reservationService.delete(reservationId);
 
         log.debug(RESERVATION_DELETED);
 
-        return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
+        return "redirect:" + RESERVATION_BASE_URL + RESERVATION_LIST_URL;
     }
 }

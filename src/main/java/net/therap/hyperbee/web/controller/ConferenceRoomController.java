@@ -52,7 +52,7 @@ public class ConferenceRoomController {
 
         log.debug(CONFERENCE_LIST_VIEWED);
 
-        return "conference_room/list_conference_room";
+        return CONFERENCE_LIST_VIEW;
     }
 
     @GetMapping
@@ -65,7 +65,7 @@ public class ConferenceRoomController {
 
         log.debug(CONFERENCE_ADD_VIEWED);
 
-        return "conference_room/form_conference_room";
+        return CONFERENCE_FORM_VIEW;
     }
 
 
@@ -76,7 +76,7 @@ public class ConferenceRoomController {
         if (bindingResult.hasErrors()) {
             log.debug(CONFERENCE_SAVE_ERROR);
 
-            return "conference_room/form_conference_room";
+            return CONFERENCE_FORM_VIEW;
         }
 
         conferenceRoomService.saveConferenceRoom(conferenceRoom);
@@ -94,18 +94,18 @@ public class ConferenceRoomController {
 
         log.debug(CONFERENCE_EDIT_VIEWED);
 
-        return "conference_room/form_conference_room";
+        return CONFERENCE_FORM_VIEW;
     }
 
 
     @PostMapping(value = CONFERENCE_ROOM_UPDATE_URL)
     public String editAddConferenceRoom(@ModelAttribute("conferenceRoom") @Validated ConferenceRoom conferenceRoom,
                                         BindingResult bindingResult) {
-        
+
         if (bindingResult.hasErrors()) {
             log.debug(CONFERENCE_SAVE_ERROR);
 
-            return "conference_room/form_conference_room";
+            return CONFERENCE_FORM_VIEW;
         }
 
         conferenceRoomService.saveConferenceRoom(conferenceRoom);

@@ -64,12 +64,18 @@ public interface Url {
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
 
+    String CONFERENCE_LIST_VIEW = "conference_room/list_conference_room";
+    String CONFERENCE_FORM_VIEW = "conference_room/form_conference_room";
+
     // Reservation Constants
-    String RERVATION_BASE_URL = "/reservation";
-    String RERVATION_LIST_URL = "/list";
-    String RERVATION_ADD_URL = "/add";
-    String RERVATION_UPDATE_URL = "/update";
-    String RERVATION_DELETE_URL = "/delete";
+    String RESERVATION_BASE_URL = "/reservation";
+    String RESERVATION_LIST_URL = "/list";
+    String RESERVATION_ADD_URL = "/add";
+    String RESERVATION_UPDATE_URL = "/update";
+    String RESERVATION_DELETE_URL = "/delete";
+
+    String RESERVATION_LIST_VIEW = "notice/list_notice";
+    String RESERVATION_FORM_VIEW = "notice/form_notice";
 
     //Resource Constants
     String RESOURCE_STYLE = "/css/";
