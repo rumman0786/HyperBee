@@ -9,8 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.constant.DomainConstant.REMINDER_NOTE_COUNT_DASHBOARD;
 import static net.therap.hyperbee.utils.constant.DomainConstant.STICKY_NOTE_COUNT_DASHBOARD;
 
 /**
@@ -22,6 +25,9 @@ public class NoteDaoImpl implements NoteDao {
 
     private static final String NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY = "UPDATE note n SET " +
             " n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() AND n.date_remind IS NOT NULL;";
+
+    private static final String NOTE_REMINDER_UPCOMING_NATIVE_QUERY = "SELECT n.* FROM note n " +
+            " WHERE n.date_remind>now() ORDER BY n.date_remind limit "+ REMINDER_NOTE_COUNT_DASHBOARD+",";
 
     @PersistenceContext
     EntityManager em;
@@ -76,5 +82,15 @@ public class NoteDaoImpl implements NoteDao {
     public void markExpiredNoteAsInactive() {
 
         em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
+    }
+
+    @Override
+    public List<Note> findUpcomingReminderNoteByUser(int userId) {
+        return em.createNamedQuery("Note.reminderForUserDash", Note.class)
+                .setParameter("userId", userId)
+                .setParameter("displayStatus", DisplayStatus.ACTIVE)
+                .setParameter("type", NoteType.REMINDER)
+                .setMaxResults(REMINDER_NOTE_COUNT_DASHBOARD)
+                .getResultList();
     }
 }

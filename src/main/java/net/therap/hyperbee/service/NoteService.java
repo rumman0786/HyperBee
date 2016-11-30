@@ -63,4 +63,9 @@ public class NoteService implements StickyNoteService {
 
         noteDao.markNoteAsInactiveForUser(userId, noteId);
     }
+
+    public List<Note> findUpcomingReminderNoteByUser(int userId) {
+
+        return noteDao.findUpcomingReminderNoteByUser(userId);
+    }
 }
