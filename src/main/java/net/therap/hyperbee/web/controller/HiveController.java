@@ -165,7 +165,6 @@ public class HiveController {
             return "redirect:" + HIVE_URL;
         }
 
-
         model.addAttribute("hiveName", hive.getName());
         String filename = hive.getName().replaceAll(" ", "") + file.getOriginalFilename();
         hive.setImagePath(filename);
@@ -173,7 +172,6 @@ public class HiveController {
         hive.setCreatorId(userId);
         Hive newHive = hiveService.insertFirstUserToHive(hive, userId);
         hiveService.insertHive(newHive);
-        int hiveId = hiveService.getHiveIdByHiveName(newHive.getName());
 
         if (file.isEmpty()) {
         } else {
@@ -181,7 +179,7 @@ public class HiveController {
             model.addAttribute("message", imageUploader.createImage(filename, file));
         }
 
-        return "redirect:" + HIVE_VIEW + hiveId;
+        return "redirect:" + HIVE_VIEW + hiveService.getHiveByHiveName(newHive.getName()).getId();
     }
 
     @PostMapping(value = HIVE_ADD_POST_URL)

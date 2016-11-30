@@ -67,8 +67,8 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Override
-    public int getHiveIdByHiveName(String name) {
-        return hiveDao.getHiveIdByHiveName(name);
+    public Hive getHiveByHiveName(String name) {
+        return hiveDao.getHiveByHiveName(name);
     }
 
     @Transactional

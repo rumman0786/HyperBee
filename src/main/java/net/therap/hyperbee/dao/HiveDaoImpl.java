@@ -19,7 +19,7 @@ public class HiveDaoImpl implements HiveDao {
 
     private final String QUERY_GET_USER_BY_ID = "SELECT u FROM User u WHERE u.id IN :userIdList";
 
-    private final String QUERY_GET_HIVEID_BY_HIVENAME = "SELECT h.id FROM Hive h WHERE h.name=:hiveName";
+    private final String QUERY_GET_HIVE_BY_HIVENAME = "SELECT h FROM Hive h WHERE h.name=:hiveName";
 
     private final String QUERY_GET_USER_NOTIN_LIST = "SELECT u FROM User u WHERE u NOT IN :userList";
 
@@ -59,10 +59,10 @@ public class HiveDaoImpl implements HiveDao {
     }
 
 
-    public int getHiveIdByHiveName(String name) {
+    public Hive getHiveByHiveName(String name) {
 
-        return em.createQuery(QUERY_GET_HIVEID_BY_HIVENAME, Integer.class)
-                .setParameter("hiveName", name).getSingleResult();
+        return em.createQuery(QUERY_GET_HIVE_BY_HIVENAME, Hive.class)
+                .setParameter("hiveName", name).getResultList().get(0);
     }
 
     @Override
@@ -95,6 +95,4 @@ public class HiveDaoImpl implements HiveDao {
     public List<Hive> findAll() {
         return em.createQuery("From Hive", Hive.class).getResultList();
     }
-
-
 }

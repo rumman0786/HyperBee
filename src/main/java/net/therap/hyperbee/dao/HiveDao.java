@@ -22,7 +22,7 @@ public interface HiveDao {
 
     public List<Hive> getHiveListByUserId(int userId);
 
-    public int getHiveIdByHiveName(String name);
+    public Hive getHiveByHiveName(String name);
 
     public List<User> findUserNotInList(List<User> userList);
 
