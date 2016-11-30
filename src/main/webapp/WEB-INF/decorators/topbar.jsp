@@ -27,8 +27,13 @@
                 </c:if>
 
                 <li><a href="/user/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
-                <li><a href="/conference/list"><fmt:message key="dashboard.view.topbar.conference"/></a></li>
-                <li><a href="/reservation/list">Reservation</a></li>
+                <li <c:if test="${page == 'conferenceRoom'}"> class="active" </c:if> >
+                    <a href="/conference/list"><fmt:message key="dashboard.view.topbar.conference"/></a>
+                </li>
+
+                <li <c:if test="${page == 'reservation'}"> class="active" </c:if> >
+                    <a href="/reservation/list">Reservation</a>
+                </li>
 
                 <li><a href="/user/hive"><fmt:message key="dashboard.view.topbar.hive"/></a></li>
                 <li><a href="/profile/search"><fmt:message key="dashboard.view.topbar.stalk"/></a></li>
