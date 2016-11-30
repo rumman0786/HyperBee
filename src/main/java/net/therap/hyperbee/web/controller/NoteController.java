@@ -78,8 +78,6 @@ public class NoteController {
         if (bindingResult.hasErrors()) {
 
             log.debug("ERROR IN SAVING NOTE");
-            model.addAttribute("message", NOTE_SAVE_FAILURE);
-            model.addAttribute("redirectUrl", NOTE_VIEW_URL);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "noteCommand", bindingResult);
             redirectAttributes.addFlashAttribute("noteCommand", note);
             activityService.archive(NOTE_SAVE_FAILED);
@@ -95,8 +93,6 @@ public class NoteController {
         noteHelper.processNoteForSaving(note, dateRemindString);
         noteService.saveNoteForUser(note, userId);
 
-        model.addAttribute("message", NOTE_SAVE_SUCCESS);
-        model.addAttribute("redirectUrl", NOTE_VIEW_URL);
         activityService.archive(NOTE_SAVE_ACTIVITY);
 
         return "redirect:" + NOTE_VIEW_URL;
