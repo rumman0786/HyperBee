@@ -79,6 +79,8 @@ public interface Url {
 
     //Common Constants
     String ACCESS_DENIED_URL = "/denied";
+    String DONE_URL= "/done";
+    String DONE_VIEW = "done";
 
     //Hive Constants
     String HIVE_CREATE_URL = "/create";
