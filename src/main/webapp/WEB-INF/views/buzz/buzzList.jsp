@@ -7,6 +7,7 @@
 <div class="pre-scrollable">
     <table class="table table-striped table-bordered">
         <c:forEach items="${pinnedBuzzList}" var="buzz">
+            <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.buzzTime.getTime()}" var="buzzDateTime"/>
             <c:choose>
                 <c:when test="${buzz.isFlagged()}">
                     <tr class="info">
@@ -27,7 +28,7 @@
                                 <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
                             </c:if>
                             <i><font color="#191970"><fmt:message key="buzz.view.label.pinnedTag"/></font></i>
-                            <c:out value="${buzz.user.username} [${buzz.buzzTime.getTime()}]: ${buzz.message}"/>
+                            <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
                         </td>
                     </tr>
                 </c:otherwise>
@@ -35,6 +36,7 @@
         </c:forEach>
 
         <c:forEach items="${buzzList}" var="buzz">
+            <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.buzzTime.getTime()}" var="buzzDateTime"/>
             <c:choose>
                 <c:when test="${buzz.isFlagged()}">
                     <tr>
@@ -55,7 +57,7 @@
                                 <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
                                 <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
                             </c:if>
-                            <c:out value="${buzz.user.username} [${buzz.buzzTime.getTime()}]: ${buzz.message}"/>
+                            <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
                         </td>
                     </tr>
                 </c:otherwise>

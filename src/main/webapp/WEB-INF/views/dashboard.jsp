@@ -21,9 +21,7 @@
 <div class="container-fluid">
     <div id="buzzMain" class="panel panel-primary">
         <div class="panel-heading">
-            <h3>
-                <b><i><fmt:message key="buzz.view.label.title"/></i></b>
-            </h3>
+            <h3><b><i><fmt:message key="buzz.view.label.title"/></i></b></h3>
         </div>
 
         <div class="panel-body">
