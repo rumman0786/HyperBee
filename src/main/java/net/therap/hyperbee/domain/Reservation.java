@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -34,11 +35,11 @@ public class Reservation implements Serializable {
     private ReservationStatus reservationStatus;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm a")
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar reservationFrom;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm a")
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar reservationTo;
 
     @ManyToOne
@@ -50,8 +51,6 @@ public class Reservation implements Serializable {
     private ConferenceRoom conferenceRoom;
 
     public Reservation() {
-//        this.reservationFrom = new GregorianCalendar();
-//        this.reservationTo = new GregorianCalendar();
     }
 
     public int getId() {
@@ -104,5 +103,27 @@ public class Reservation implements Serializable {
 
     public boolean isNew() {
         return id == 0;
+    }
+
+    public String getFormattedFromDate() {
+        if (null == reservationFrom) {
+
+            return "";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+
+        return sdf.format(reservationFrom.getTimeInMillis());
+    }
+
+    public String getFormattedToDate() {
+        if (null == reservationTo) {
+
+            return "";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+
+        return sdf.format(reservationTo.getTimeInMillis());
     }
 }

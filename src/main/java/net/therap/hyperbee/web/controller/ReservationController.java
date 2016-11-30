@@ -7,6 +7,7 @@ import net.therap.hyperbee.domain.Reservation;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.ReservationStatus;
 import net.therap.hyperbee.service.*;
+import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class ReservationController {
 
     @Autowired
     private SessionHelper sessionHelper;
+
+    @Autowired
+    private ReservationHelper reservationHelper;
 
 //    @Autowired
 //    private NoticeValidator validator;
@@ -87,10 +91,11 @@ public class ReservationController {
                             BindingResult bindingResult,
                             @RequestParam("reservationFrom") String reservationFrom,
                             @RequestParam("reservationTo") String reservationTo) {
-        System.out.println(reservationFrom);
-        System.out.println(reservationTo);
+
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
+        reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
+        reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
 
 //        if (bindingResult.hasErrors()) {
 //            return "reservation/form_reservation";
@@ -114,11 +119,14 @@ public class ReservationController {
 
     @PostMapping(value = RERVATION_UPDATE_URL)
     public String editReservation(@ModelAttribute("reservation") Reservation reservation,
-                             BindingResult bindingResult) {
+                             BindingResult bindingResult,
+                             @RequestParam("reservationFrom") String reservationFrom,
+                             @RequestParam("reservationTo") String reservationTo) {
 
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
-
+        reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
+        reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
         reservationService.saveReservation(reservation);
 
         return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;

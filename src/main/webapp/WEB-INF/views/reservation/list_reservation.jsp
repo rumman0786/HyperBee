@@ -35,8 +35,8 @@
             <tr>
                 <td>${reservation.conferenceRoom.title}</td>
                 <td>${reservation.user.username}</td>
-                <td>${reservation.reservationFrom}</td>
-                <td>${reservation.reservationTo}</td>
+                <td>${reservation.getFormattedFromDate()}</td>
+                <td>${reservation.getFormattedToDate()}</td>
                 <td>${reservation.reservationStatus}</td>
 
                     <%--<c:if test="${user.isSuperuser}">--%>

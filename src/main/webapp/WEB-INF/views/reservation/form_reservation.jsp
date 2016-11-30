@@ -27,8 +27,8 @@
 
                 <div class="form-group input-group date" id='datetimepicker1'>
                     <label for="reservationFrom">Reservation From</label>
-                    <form:input type="text" id="reservationFrom" class="form-control" name="reservationFrom" placeholder="dd-MM-yy"
-                          path="reservationFrom" required="required"/>
+                    <form:input type="text" id="reservationFrom" class="form-control" name="reservationFrom"
+                          path="reservationFrom" required="required" value="${reservation.getFormattedFromDate()}"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -37,8 +37,8 @@
 
                 <div class="form-group input-group date" id='datetimepicker2'>
                     <label for="reservationTo">Reservation To</label>
-                    <form:input type="text" id="reservationTo" class="form-control" name="reservationTo" placeholder="dd-MM-yy"
-                                path="reservationTo" required="required"/>
+                    <form:input type="text" id="reservationTo" class="form-control" name="reservationTo"
+                                path="reservationTo" required="required" value="${reservation.getFormattedToDate()}"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -67,12 +67,10 @@
     $(function () {
         $('#datetimepicker1').datetimepicker({
             minDate: moment()
-//            format: 'DD-MM-YY'
         });
 
         $('#datetimepicker2').datetimepicker({
             minDate: moment()
-//            format: 'DD-MM-YY'
         });
     });
 </script>
