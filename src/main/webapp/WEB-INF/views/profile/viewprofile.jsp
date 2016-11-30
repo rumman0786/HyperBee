@@ -11,8 +11,16 @@
      style="background-image: url(http://localhost:8080/profile/cover/${profile.coverImage})">
     <div class="row">
         <div class="col-lg-2 container" style="padding-top: 150px">
-            <img src="/profile/image/${profile.imagePath}" class="img-thumbnail" alt="Cinque Terre"
-                 width="200" height="200"/>
+            <c:choose>
+                <c:when test="${empty profile.imagePath}">
+                    <img src="/images/dummyprofilepic.png" class="img-thumbnail" alt="Cinque Terre"
+                         width="200" height="200"/>
+                </c:when>
+                <c:otherwise>
+                    <img src="/profile/image/${profile.imagePath}" class="img-thumbnail" alt="Cinque Terre"
+                         width="200" height="200"/>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </div>
@@ -24,8 +32,9 @@
                     <b>${user.firstName} ${user.lastName}</b>
                 </h1>
             </td>
-            <td style="padding-left: 700"><a href="/profile/edit" class=" btn navbar-btn"/><fmt:message
-                    key="profile.edit.button"/></td>
+            <td style="padding-left: 650"><a href="/profile/edit" class=" btn navbar-btn"/>
+                <fmt:message key="profile.edit.button"/>
+            </td>
         </tr>
     </table>
 </div>

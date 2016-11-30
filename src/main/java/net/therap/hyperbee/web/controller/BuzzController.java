@@ -32,6 +32,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
  */
 @RequestMapping(BUZZ_BASE_URL)
 @Controller
+
 public class BuzzController {
 
     private static final Logger log = LogManager.getLogger(SimpleLogger.class);
@@ -140,6 +141,8 @@ public class BuzzController {
         model.addAttribute("prev", prev);
         model.addAttribute("next", next);
 
+        model.addAttribute("page", "buzz");
+
         log.debug("Sending buzz list as per requirement for viewing history.");
 
         activityService.archive(Messages.BUZZ_HISTORY_REQUEST);
@@ -147,4 +150,6 @@ public class BuzzController {
 
         return BUZZ_BASE_URL + BUZZ_HISTORY_URL;
     }
+
+
 }
