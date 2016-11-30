@@ -92,6 +92,7 @@ public interface Url {
     String HIVE = "hive/hive";
     String HIVE_VIEW = "/user/hive/show/";
     String HIVE_IMAGE = "/image/{imagePath}";
+    String HIVE_URL = "/user/hive";
 
     //Buzz Constants
     String BUZZ_BASE_URL = "/buzz";

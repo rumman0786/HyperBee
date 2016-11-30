@@ -57,7 +57,7 @@ public class ProfileController {
     @GetMapping(value = PROFILE_EDIT_URL)
     public String getProfile(Model model) {
         model.addAttribute("page", "profile");
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         int id = authUser.getId();
         User user = userService.findById(id);
 
@@ -82,7 +82,7 @@ public class ProfileController {
                               @RequestParam MultipartFile file,
                               @RequestParam MultipartFile coverFile) {
         model.addAttribute("page", "profile");
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         int userId = authUser.getId();
         User user = userService.findById(userId);
         String oldProfileImage = user.getProfile().getImagePath();
@@ -123,7 +123,7 @@ public class ProfileController {
     @GetMapping(value = USER_PROFILE_URL)
     public String getViewProfile(Model model) {
         model.addAttribute("page", "profile");
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
@@ -139,7 +139,7 @@ public class ProfileController {
     @PostMapping(value = USER_PROFILE_URL)
     public String viewProfile(Model model) {
         model.addAttribute("page", "profile");
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
@@ -154,7 +154,7 @@ public class ProfileController {
         model.addAttribute("page", "stalk");
         List<User> userList;
 
-        if (sessionHelper.retrieveAuthUserFromSession().isAdmin()) {
+        if (sessionHelper.getAuthUserFromSession().isAdmin()) {
             userList = userService.findAll();
         } else {
             userList = userService.findActiveUsers();
@@ -168,7 +168,7 @@ public class ProfileController {
     @PostMapping(value = SEARCH_URL)
     public String searchProfile(@RequestParam("search") String username, Model model) {
         model.addAttribute("page", "stalk");
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         User user = userService.findByUsername(username);
         List<User> userList;
 

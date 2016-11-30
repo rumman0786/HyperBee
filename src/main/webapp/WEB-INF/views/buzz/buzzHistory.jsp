@@ -6,11 +6,10 @@
 <html>
 <head>
     <title><fmt:message key="buzzHistory.view.title"/></title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 
 <body>
-<div class="container">
+<div class="container pre-scrollable set-activity-height">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h2><fmt:message key="buzzHistory.view.title"/></h2>
@@ -56,15 +55,19 @@
             <div class="panel-footer">
                 <ul class="pager">
                     <c:if test="${prev > 0}">
-                        <li class="previous">
+                        <li>
                             <a href="/buzz/buzzHistory?prev=${prev-20}&next=${prev}">
                                 <fmt:message key="buzzHistory.view.label.previous"/>
                             </a>
                         </li>
                     </c:if>
 
+                    <li>
+                        <a href="/user/dashboard"><fmt:message key="buzzHistory.view.label.back"/></a>
+                    </li>
+
                     <c:if test="${next == prev+20}">
-                        <li class="next">
+                        <li>
                             <a href="/buzz/buzzHistory?prev=${next}&next=${next+20}">
                                 <fmt:message key="buzzHistory.view.label.next"/>
                             </a>

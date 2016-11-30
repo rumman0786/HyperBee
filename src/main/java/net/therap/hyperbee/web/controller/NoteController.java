@@ -76,7 +76,6 @@ public class NoteController {
                            Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
-
             log.debug("ERROR IN SAVING NOTE");
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "noteCommand", bindingResult);
             redirectAttributes.addFlashAttribute("noteCommand", note);

@@ -65,14 +65,26 @@ public class HiveController {
         binder.setValidator(postValidator);
     }
 
+    @InitBinder("userIdInfo")
+    private void initUserIdInfoBinder(WebDataBinder binder) {
+        binder.setValidator(userIdInfoValidator);
+    }
+
+    @InitBinder("hive")
+    private void hiveBinder(WebDataBinder binder) {
+        binder.setValidator(hiveValidator);
+    }
 
     @GetMapping
     public String viewHive(ModelMap model) {
         int userId = sessionHelper.getUserIdFromSession();
         model.addAttribute("hiveList", hiveService.getHiveListByUserId(userId));
-        model.addAttribute("hive", new Hive());
         model.addAttribute("userList", userService.findAll());
         model.addAttribute("userIdInfo", new UserIdInfo());
+
+        if (!model.containsAttribute("hive")) {
+            model.addAttribute("hive", new Hive());
+        }
 
         return HIVE;
     }
@@ -86,11 +98,11 @@ public class HiveController {
         model.addAttribute("creator", userService.findById(hive.getCreatorId()));
         model.addAttribute("noticeList", hiveService.getLastFiveNotice(hive.getNoticeList()));
 
-        if(!model.containsAttribute("userIdInfo")){
+        if (!model.containsAttribute("userIdInfo")) {
             model.addAttribute("userIdInfo", new UserIdInfo());
         }
 
-        if(!model.containsAttribute("post")){
+        if (!model.containsAttribute("post")) {
             model.addAttribute("post", new Post());
         }
 
@@ -98,7 +110,18 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_ADD_USER_URL)
-    public String addUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model, BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+    public String addUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model,
+                          BindingResult result, RedirectAttributes redirectAttributes,
+                          @PathVariable("hiveId") int hiveId) {
+
+        userIdInfoValidator.validate(userIdInfo, result);
+
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "userIdInfo", result);
+            redirectAttributes.addFlashAttribute("userIdInfo", userIdInfo);
+
+            return "redirect:" + HIVE_VIEW + hiveId;
+        }
 
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.insertUsersToHive(hiveId, userIdInfo.getUserIdList());
@@ -107,7 +130,18 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_REMOVE_USER_URL)
-    public String RemoveUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model,  BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+    public String RemoveUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model,
+                             BindingResult result, RedirectAttributes redirectAttributes,
+                             @PathVariable("hiveId") int hiveId) {
+
+        userIdInfoValidator.validate(userIdInfo, result);
+
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "userIdInfo", result);
+            redirectAttributes.addFlashAttribute("userIdInfo", userIdInfo);
+
+            return "redirect:" + HIVE_VIEW + hiveId;
+        }
 
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.removeUsersFromHive(hiveId, userIdInfo.getUserIdList());
@@ -116,7 +150,22 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_CREATE_URL)
-    public String saveHive(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
+    public String saveHive(@Validated @ModelAttribute("hive") Hive hive, BindingResult result,
+                           RedirectAttributes redirectAttributes,
+                           @RequestParam MultipartFile file, Model model) throws IOException {
+
+        if (result.hasErrors() || file.getSize() == 0) {
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "hive", result);
+            redirectAttributes.addFlashAttribute("hive", hive);
+
+            if (file.getSize() == 0) {
+                redirectAttributes.addFlashAttribute("fileError", "Please select picture");
+            }
+
+            return "redirect:" + HIVE_URL;
+        }
+
+
         model.addAttribute("hiveName", hive.getName());
         String filename = hive.getName().replaceAll(" ", "") + file.getOriginalFilename();
         hive.setImagePath(filename);
@@ -136,7 +185,8 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_ADD_POST_URL)
-    public String savePost(@Validated @ModelAttribute("post") Post post, BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+    public String savePost(@Validated @ModelAttribute("post") Post post, BindingResult result,
+                           RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "post", result);

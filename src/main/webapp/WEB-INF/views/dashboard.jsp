@@ -27,15 +27,16 @@
 
         <div class="panel-body">
             <div id="buzzList"></div>
+            <br>
             <form:form id="buzzMessageForm" action="/buzz/sendBuzz" method="POST" modelAttribute="newBuzz">
-                <form:input path="message" placeholder="Enter your message..." cssStyle="width: 94%"/>
-                <input type="submit" class="btn btn-primary" value="Send"/>
-
-                <a href="/buzz/buzzHistory?prev=0&next=20" target="_blank">
-                    <fmt:message key="buzz.view.label.buzzHistory"/>
-                </a>
-
-                <p><form:errors path="message" cssClass="alert-danger"/></p>
+            <form:input path="message" placeholder="Enter your message..." cssStyle="width: 94%"/>
+            <input type="submit" class="btn btn-primary" value="Send"/>
+        </div>
+        <div class="panel-footer clearfix">
+            <form:errors path="message" cssClass="alert-danger"/>
+            <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-info" role="button" style="float:right">
+                <fmt:message key="buzz.view.label.buzzHistory"/>
+            </a>
             </form:form>
         </div>
     </div>
@@ -53,7 +54,34 @@
                         <c:choose>
                             <c:when test="${fn:length(item.description) gt 135}">
                                 <p>${fn:substring(item.description, 0, 135)}...
-                                    <a href="/user/notes"><strong>Read more</strong></a>
+                                    <a href="/user/notes#${item.id}"><strong><fmt:message key="dashboard.view.note.readMore"/></strong></a>
+                                </p>
+                             </c:when>
+                            <c:when test="${fn:length(item.description) lt 136}">
+                                <p>${item.description}</p>
+                            </c:when>
+                        </c:choose>
+
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+
+     <div class="row">
+        <c:forEach items="${latestReminders}" var="item">
+            <div class="container-fluid col-lg-3">
+                <div class="panel panel-warning" style="height: 150px">
+                    <div class="panel-heading clearfix">
+                        <small><i><cite>${item.noteType} ${item.getRemindDateFormatted()}</cite></i></small>
+                    </div>
+
+                    <div class="panel-body">
+                        <strong>${item.title}</strong>
+                        <c:choose>
+                            <c:when test="${fn:length(item.description) gt 135}">
+                                <p>${fn:substring(item.description, 0, 135)}...
+                                    <a href="/user/notes"><strong><fmt:message key="dashboard.view.note.readMore"/></strong></a>
                                 </p>
                              </c:when>
                             <c:when test="${fn:length(item.description) lt 136}">

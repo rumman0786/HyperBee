@@ -9,10 +9,10 @@
         <pattern>/conference/add</pattern>
         <pattern>/conference/update</pattern>
         <pattern>/conference/delete</pattern>
+        <pattern>/buzz/buzzList</pattern>
         <pattern>/reservation/add</pattern>
         <pattern>/reservation/update</pattern>
         <pattern>/reservation/delete</pattern>
-        <pattern>/buzz/*</pattern>
         <pattern>/login</pattern>
         <pattern>/signUp</pattern>
     </excludes>

@@ -1,6 +1,7 @@
 package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.domain.Buzz;
+import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import java.util.List;
@@ -17,8 +18,6 @@ public interface BuzzService {
 
     public Buzz getBuzzById(int buzzId);
 
-    public List<Buzz> getBuzzByUser(String username);
-
     public List<Buzz> getBuzzByStatus(DisplayStatus displayStatus);
 
     List<Buzz> getLatestBuzz();
@@ -30,4 +29,18 @@ public interface BuzzService {
     public Buzz deactivateBuzz(Buzz buzzToDeactivate);
 
     public Buzz pinBuzz(Buzz buzzToPin);
+
+    public int getActiveCountByUser(int userId);
+
+    public int getPinnedCountByUser(int userId);
+
+    public int getFlaggedCountByUser(int userId);
+
+    public int getActiveCount();
+
+    public int getInactiveCount();
+
+    public int getPinnedCount();
+
+    public int getFlaggedCount();
 }

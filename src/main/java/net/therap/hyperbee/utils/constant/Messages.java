@@ -45,5 +45,4 @@ public interface Messages {
     String VISIT_STALKUSER_ACTIVITY="Visited stalk user page";
     String STALK_PROFILE_ACTIVITY="searched user profile";
     String STALK_USER_PROFILE_ACTIVITY="stalked user profile";
-
 }
