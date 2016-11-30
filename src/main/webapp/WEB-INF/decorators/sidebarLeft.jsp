@@ -20,7 +20,6 @@
         </c:if>
         <h4><fmt:message key="sidebar.left.buzz.flagged"/></h4> <c:out value="${flaggedBuzz}"/>
         <h4><fmt:message key="sidebar.left.buzz.pinned"/></h4> <c:out value="${pinnedBuzz}"/>
-
     </div>
 </div>
 </html>
