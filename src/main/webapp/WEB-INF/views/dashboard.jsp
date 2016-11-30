@@ -33,19 +33,24 @@
         </div>
     </div>
 
-    <c:forEach items="${topStickyNote}" var="item">
-        <div class="panel panel-warning col-lg-3">
-            <div class="panel-heading clearfix">
-                <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><strong>${item.title}</strong></h4>
-            </div>
-            <div class="panel-body">${item.description}</div>
-            <div class="panel-footer clearfix">
-                <div class="pull-right">
-                    <small><i><cite>${item.noteType} ${item.getRemindDateFormatted()}</cite></i></small>
+    <div class="row">
+        <c:forEach items="${topStickyNote}" var="item">
+            <div class="container-fluid col-lg-3">
+                <div class="panel panel-warning">
+                    <div class="panel-heading clearfix">
+                        <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><strong>${item.title}</strong>
+                        </h4>
+                    </div>
+                    <div class="panel-body">${item.description}</div>
+                    <div class="panel-footer clearfix">
+                        <div class="pull-right">
+                            <small><i><cite>${item.noteType} ${item.getRemindDateFormatted()}</cite></i></small>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </c:forEach>
+        </c:forEach>
+    </div>
 </div>
 </body>
 </html>
