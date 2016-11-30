@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static net.therap.hyperbee.domain.enums.NoteType.REMINDER;
 import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
 /**
@@ -165,6 +166,11 @@ public class Note implements Serializable {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         return sdf.format(dateRemind.getTimeInMillis());
+    }
+
+    public String getNoteTypeAsString() {
+
+        return (noteType == REMINDER) ? NOTE_REMINDER : NOTE_STICKY;
     }
 
     public String toString() {

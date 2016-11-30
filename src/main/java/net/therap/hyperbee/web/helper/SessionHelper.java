@@ -1,8 +1,13 @@
 package net.therap.hyperbee.web.helper;
 
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.NoteType;
+import net.therap.hyperbee.service.StickyNoteService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -10,6 +15,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+
+import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
 /**
  * @author rayed
@@ -19,8 +26,13 @@ import java.util.Map;
 @Component
 public class SessionHelper {
 
+    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StickyNoteService noteService;
 
     public void persistInSession(User user) {
         AuthUser authUser = new AuthUser();
@@ -31,6 +43,7 @@ public class SessionHelper {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.setAttribute("authUser", authUser);
+        initializeNoteStatForUser(authUser.getId());
     }
 
     public void persistInSession(Map<String, Integer> map) {
@@ -76,5 +89,34 @@ public class SessionHelper {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         return session;
+    }
+
+    public void initializeNoteStatForUser(int userId) {
+        int stickyNoteCount = noteService.getStickyNoteCountForUser(userId);
+        int reminderCount = noteService.getRemainingReminderCountForUser(userId);
+
+        HttpSession session = getHttpSession();
+        session.setAttribute(SESSION_VARIABLE_STICKY_COUNT, stickyNoteCount);
+        session.setAttribute(SESSION_VARIABLE_REMINDER_COUNT, reminderCount);
+    }
+
+    public void incrementNoteCountByOne(NoteType noteType) {
+        if (noteType == NoteType.STICKY) {
+            int stickyCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_STICKY_COUNT);
+            getHttpSession().setAttribute(SESSION_VARIABLE_STICKY_COUNT, ++stickyCount);
+        } else if (noteType == NoteType.REMINDER) {
+            int reminderCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_REMINDER_COUNT);
+            getHttpSession().setAttribute(SESSION_VARIABLE_REMINDER_COUNT, ++reminderCount);
+        }
+    }
+
+    public void decrementNoteCountByOne(String noteType) {
+        if (noteType.equals(NOTE_STICKY)) {
+            int stickyCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_STICKY_COUNT);
+            getHttpSession().setAttribute(SESSION_VARIABLE_STICKY_COUNT, --stickyCount);
+        } else if (noteType.equals(NOTE_REMINDER)) {
+            int reminderCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_REMINDER_COUNT);
+            getHttpSession().setAttribute(SESSION_VARIABLE_REMINDER_COUNT, --reminderCount);
+        }
     }
 }

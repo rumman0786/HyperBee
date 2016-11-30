@@ -33,5 +33,8 @@ public interface DomainConstant {
 
     String PROFILE_ATTRIBUTE = "profile";
     String USER_ATTRIBUTE = "user";
-    String AUTH_USER_ATTRIBUTE="authUser";
+    String AUTH_USER_ATTRIBUTE = "authUser";
+
+    String SESSION_VARIABLE_STICKY_COUNT = "stickyCount";
+    String SESSION_VARIABLE_REMINDER_COUNT = "reminderCount";
 }
