@@ -146,12 +146,17 @@ public class HiveController {
     @PostMapping(value = HIVE_CREATE_URL)
     public String saveHive(@Validated @ModelAttribute("hive") Hive hive, BindingResult result, RedirectAttributes redirectAttributes, @RequestParam MultipartFile file, Model model) throws IOException {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors() || file.getSize() == 0) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "hive", result);
             redirectAttributes.addFlashAttribute("hive", hive);
 
+            if (file.getSize() == 0) {
+                redirectAttributes.addFlashAttribute("fileError", "Please select picture");
+            }
+
             return "redirect:" + "/user/hive";
         }
+
 
         model.addAttribute("hiveName", hive.getName());
         String filename = hive.getName().replaceAll(" ", "") + file.getOriginalFilename();

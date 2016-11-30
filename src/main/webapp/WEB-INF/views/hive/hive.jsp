@@ -39,11 +39,12 @@
                 </div>
                 <div class="form-group">
                     <input path="imagePath" type="file" name="file" size="50"/>
+                <p>${fileError}</p>
                 </div>
                 <div class="btn-group pull-right">
                     <form:button type="submit" class="btn btn-primary" value="Upload"><fmt:message
                             key="hive.form.button"/></form:button>
-                </div>
+                    </div>
             </form:form>
         </div>
         <p>${message}</p>
