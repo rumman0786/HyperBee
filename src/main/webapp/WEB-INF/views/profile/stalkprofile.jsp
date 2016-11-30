@@ -19,7 +19,14 @@
     <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
         <b>${user.firstName} ${user.lastName}</b>
         <c:if test="${authUser.isAdmin()}">
-            <span class="label label-warning"><a href="/user/inactivate/<c:out value="${user.getId()}"/>"/>Inactivate</span>
+            <c:choose>
+                <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
+                    <span class="label label-warning"><a href="/user/inactivate/<c:out value="${user.getId()}"/>"/>Inactivate</span>
+                </c:when>
+                <c:otherwise>
+                    <span class="label label-warning"><a href="/user/activate/<c:out value="${user.getId()}"/>"/>Activate</span>
+                </c:otherwise>
+            </c:choose>
         </c:if>
     </h1>
 </div>
