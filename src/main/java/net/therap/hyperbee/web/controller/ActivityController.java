@@ -46,7 +46,6 @@ public class ActivityController {
 
     @PostMapping("/user/activity/log")
     public String selectActivity(UserInfo userInfo, BindingResult bindingResult, Model model){
-//        System.out.println(userInfo.getUserId());
         int userId = userInfo.getUserId();
 
         User user = userService.findById(userId);

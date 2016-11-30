@@ -23,6 +23,7 @@ public class UserInfo {
     }
 
     public int getUserId() {
+
         return userId;
     }
 
@@ -31,6 +32,7 @@ public class UserInfo {
     }
 
     public List<User> getUserList() {
+
         return userList;
     }
 
