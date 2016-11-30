@@ -72,7 +72,7 @@ public class NoticeController {
         modelMap.addAttribute("page", "notice")
                 .addAttribute("noticeList", noticeService.findAllNotice())
                 .addAttribute("noticeAddUrl", NOTICE_BASE_URL)
-                .addAttribute("isAdmin", sessionHelper.retrieveAuthUserFromSession().isAdmin())
+                .addAttribute("isAdmin", sessionHelper.getAuthUserFromSession().isAdmin())
                 .addAttribute("deleteUrl", NOTICE_BASE_URL + NOTICE_DELETE_URL);
 
         log.debug(NOTICE_VIEWED);
@@ -103,7 +103,7 @@ public class NoticeController {
                             BindingResult bindingResult,
                             RedirectAttributes redirectAttributes) {
 
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
+        int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
         validator.validate(notice, bindingResult);
@@ -142,7 +142,7 @@ public class NoticeController {
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
 
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
+        int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
         validator.validate(notice, bindingResult);

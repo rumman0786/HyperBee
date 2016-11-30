@@ -80,7 +80,7 @@ public class BuzzController {
             return utils.redirectTo(USER_DASHBOARD_URL);
         }
 
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);
         log.debug("Created new buzz.");

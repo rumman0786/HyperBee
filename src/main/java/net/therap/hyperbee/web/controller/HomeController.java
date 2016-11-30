@@ -18,8 +18,6 @@ public class HomeController {
 
     @GetMapping(value = DONE_URL)
     public String noticeAccessDenied(Model model) {
-        //modelMap.addAttribute("message", NOTICE_ACCESS_DENIED);
-        //modelMap.addAttribute("messageStyle", "alert alert-success");
         return DONE_VIEW;
     }
 }

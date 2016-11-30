@@ -46,7 +46,7 @@ public class ProfileController {
 
     @GetMapping(value = PROFILE_EDIT_URL)
     public String getProfile(Model model, HttpSession session) {
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         int id = authUser.getId();
         User user = userService.findById(id);
 
@@ -67,7 +67,7 @@ public class ProfileController {
                               @RequestParam MultipartFile file,
                               @RequestParam String coverImage,
                               @RequestParam MultipartFile coverFile) {
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         int userId = authUser.getId();
 
         String message = profileService.saveProfileForUser(profile, userId);
@@ -91,7 +91,7 @@ public class ProfileController {
 
     @GetMapping(value = USER_PROFILE_URL)
     public String getViewProfile(Model model) {
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
@@ -104,7 +104,7 @@ public class ProfileController {
 
     @PostMapping(value = USER_PROFILE_URL)
     public String viewProfile(Model model) {
-        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
@@ -118,7 +118,7 @@ public class ProfileController {
     @GetMapping(value = SEARCH_URL)
     public String searchProfilePage(Model model) {
         List<User> userList;
-        if (sessionHelper.retrieveAuthUserFromSession().isAdmin()) {
+        if (sessionHelper.getAuthUserFromSession().isAdmin()) {
             userList = userService.findAll();
         } else {
             userList = userService.findActiveUsers();

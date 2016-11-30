@@ -80,7 +80,6 @@
             </div>
 
             <div class="modal-footer">
-                <%--<a href="#" class="btn btn-danger btn-ok">Delete</a>--%>
                 <form action="${deleteUrl}" method="post" id="form">
                     <input type="hidden" id="delete_id" name="id" value="#"/>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
