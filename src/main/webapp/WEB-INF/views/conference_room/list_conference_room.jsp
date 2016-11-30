@@ -9,20 +9,9 @@
 </head>
 
 <body>
-<<<<<<< HEAD
 <c:if test="${authUser.isAdmin()}">
     <a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference Room</a>
 </c:if>
-||||||| merged common ancestors
-<%--<c:if test="${user.isSuperuser}">--%>
-    <a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference Room</a>
-<%--</c:if>--%>
-=======
-<%--<c:if test="${user.isSuperuser}">--%>
-<a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference
-    Room</a>
-<%--</c:if>--%>
->>>>>>> feature/hyperbee-duity
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
         <thead>

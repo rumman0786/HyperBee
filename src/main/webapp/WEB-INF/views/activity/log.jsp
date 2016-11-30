@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <body>
-<<<<<<< HEAD
 <div class="container">
     <h2>Activity Log</h2>
     <ul class="list-group">
@@ -13,7 +12,6 @@
         </c:forEach>
     </ul>
 </div>
-=======
     <c:choose>
         <c:when test="${authUser.isAdmin()}">
             <h2>Select user whose activity log you want to view:</h2>

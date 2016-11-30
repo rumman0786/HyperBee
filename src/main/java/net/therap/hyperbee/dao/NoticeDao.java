@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface NoticeDao {
 
-    void save(Notice notice);
+    void saveOrUpdate(Notice notice);
 
     Notice findById(int noticeId);
 

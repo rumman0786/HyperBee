@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<body>
 <h2>Activity log for <c:out value="${user.username}"/></h2>
+
 <div class="pre-scrollable set-activity-height">
     <ul class="list-group">
         <c:forEach items="${activityList}" var="activity">
@@ -10,3 +12,4 @@
         </c:forEach>
     </ul>
 </div>
+</body>
