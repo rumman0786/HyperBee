@@ -53,7 +53,7 @@
                         <c:choose>
                             <c:when test="${fn:length(item.description) gt 135}">
                                 <p>${fn:substring(item.description, 0, 135)}...
-                                    <a href="/user/notes"><strong>Read more</strong></a>
+                                    <a href="/user/notes#${item.id}"><strong><fmt:message key="dashboard.view.note.readMore"/></strong></a>
                                 </p>
                              </c:when>
                             <c:when test="${fn:length(item.description) lt 136}">
@@ -80,7 +80,7 @@
                         <c:choose>
                             <c:when test="${fn:length(item.description) gt 135}">
                                 <p>${fn:substring(item.description, 0, 135)}...
-                                    <a href="/user/notes"><strong>Read more</strong></a>
+                                    <a href="/user/notes"><strong><fmt:message key="dashboard.view.note.readMore"/></strong></a>
                                 </p>
                              </c:when>
                             <c:when test="${fn:length(item.description) lt 136}">
