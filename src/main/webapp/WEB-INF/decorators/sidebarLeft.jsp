@@ -6,8 +6,8 @@
     <div class="well">
         <c:choose>
             <c:when test="${authUser.isAdmin()}">
-                <h4>Total active users</h4>
-
+                <h4>Total active users: <c:out  value="${statsMap['activeUsers']}"/></h4>
+                <h4>Total deactivated: <c:out  value="${statsMap['deactivatedUsers']}"/></h4>
             </c:when>
         </c:choose>
     </div>

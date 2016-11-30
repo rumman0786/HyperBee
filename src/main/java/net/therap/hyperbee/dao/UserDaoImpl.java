@@ -22,6 +22,8 @@ public class UserDaoImpl implements UserDao {
 
     private static String FIND_BY_USERNAME_AND_PASSWORD = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
 
+    private static String FIND_BY_USERNAME_AND_DISPLAYSTATUS = "SELECT u FROM User u WHERE u.username = :username AND u.displayStatus = :status";
+
     private static String FIND_USER_ACTIVE = "SELECT u FROM User u WHERE u.displayStatus = :status";
 
     private static String FIND_ALL = "SELECT u FROM User u";

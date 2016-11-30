@@ -1,47 +1,52 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
  * @author rumman
- * @since 11/22/16
+ * @since 11/29/16
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <title>| Conference Room</title>
+    <title>| Notice Board</title>
 </head>
-
 <body>
-<c:if test="${authUser.isAdmin()}">
-    <a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference Room</a>
-</c:if>
 
+<%--<c:if test="${user.isSuperuser}">--%>
+    <a href="${pageContext.request.contextPath}${actionUrl}" class="btn btn-success pull-right">Add Reservation</a>
+<%--</c:if>--%>
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Capacity</th>
+            <th>Conference Room</th>
+            <th>Reserved By</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Status</th>
 
-            <c:if test="${authUser.isAdmin()}">
-                <th>Edit</th>
-                <th>Delete</th>
-            </c:if>
+            <%--<c:if test="${user.isSuperuser}">--%>
+            <th>Edit</th>
+            <th>Delete</th>
+            <%--</c:if>--%>
 
         </tr>
         </thead>
         <tbody>
 
-        <c:forEach var="conferenceRoom" items="${conferenceRoomList}">
+        <c:forEach var="reservation" items="${reservationList}">
             <tr>
-                <td>${conferenceRoom.title}</td>
-                <td>${conferenceRoom.capacity}</td>
+                <td>${reservation.conferenceRoom.title}</td>
+                <td>${reservation.user.username}</td>
+                <td>${reservation.reservationFrom}</td>
+                <td>${reservation.reservationTo}</td>
+                <td>${reservation.reservationStatus}</td>
 
-                <c:if test="${authUser.isAdmin()}">
-                    <td><a href="${pageContext.request.contextPath}/conference/${conferenceRoom.id}/"><span
-                            class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a href="#" data-id="${conferenceRoom.id}"
-                           data-toggle="modal" data-target="#confirm-delete"
-                           class="delete-user-item"><span
-                            class="glyphicon glyphicon-trash"></span></a></td>
-                </c:if>
+                    <%--<c:if test="${user.isSuperuser}">--%>
+                <td><a href="${pageContext.request.contextPath}/reservation/${reservation.id}/"><span
+                        class="glyphicon glyphicon-edit"></span></a></td>
+                <td><a href="#" data-id="${reservation.id}"
+                       data-toggle="modal" data-target="#confirm-delete"
+                       class="delete-user-item"><span
+                        class="glyphicon glyphicon-trash"></span></a></td>
+                    <%--</c:if>--%>
 
             </tr>
         </c:forEach>
@@ -50,7 +55,7 @@
     </table>
 </div>
 
-<!--Modal start -->
+<!--Modal Start -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -62,7 +67,7 @@
             </div>
 
             <div class="modal-body">
-                <p>You are about to delete a Conference Room, this procedure is irreversible.</p>
+                <p>You are about to delete a Reservation, this procedure is irreversible.</p>
 
                 <p>Do you want to proceed?</p>
 
@@ -80,7 +85,7 @@
         </div>
     </div>
 </div>
-<!--Modal end -->
+<!--Modal END -->
 
 <script>
     $('.delete-user-item').on('click', function (e) {

@@ -5,3 +5,8 @@ INSERT INTO hyperTest.user (id, display_status, email, first_name, last_name, pa
 INSERT INTO hyperTest.user_role (user_id, role_id) VALUES (1, 1);
 
 //TODO ALL HIVE INSERT QUERY
+INSERT INTO hyperTest.hive(id, creator_id, description, image_path, name)
+VALUES (1, 1, 'General Hive For All user', 'AllHivedownload.jpg', 'All Hive');
+
+INSERT INTO hyperTest.user_hive (hive_id,user_id)
+VALUES (1, 1);

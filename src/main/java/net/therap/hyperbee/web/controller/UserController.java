@@ -1,18 +1,19 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Buzz;
+import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import net.therap.hyperbee.service.ActivityService;
-import net.therap.hyperbee.service.BuzzService;
-import net.therap.hyperbee.service.StickyNoteService;
-import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
 import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
@@ -32,29 +36,28 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 public class UserController {
 
+    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+
     @Autowired
     BuzzService buzzService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ActivityService activityService;
-
-    @Autowired
-    private LoginValidator loginValidator;
-
-    @Autowired
-    private SignUpValidator signUpValidator;
-
     @Autowired
     StickyNoteService noteService;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ActivityService activityService;
+    @Autowired
+    private LoginValidator loginValidator;
+    @Autowired
+    private SignUpValidator signUpValidator;
     @Autowired
     private SessionHelper sessionHelper;
 
     @Autowired
     private NoticeHelper noticeHelper;
+
+    @Autowired
+    private HiveService hiveService;
 
     @InitBinder("login")
     private void loginValidator(WebDataBinder binder) {
@@ -121,6 +124,9 @@ public class UserController {
         User retrievedUser = userService.createUser(user);
         sessionHelper.persistInSession(retrievedUser);
 
+        Hive hive = hiveService.retrieveHiveById(1);
+        hiveService.insertFirstUserToHive(hive,retrievedUser.getId());
+
         activityService.archive(SIGNED_UP);
 
         return "redirect:" + USER_DASHBOARD_URL;
@@ -135,6 +141,9 @@ public class UserController {
 
     @GetMapping("/user/dashboard")
     public String welcome(Model model) {
+
+//        System.out.println(userService.findAll());
+
         if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
         }
@@ -145,18 +154,31 @@ public class UserController {
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
+
         return USER_DASHBOARD_VIEW;
     }
 
     @GetMapping("/user/inactivate/{userId}")
     public String inactivateUser(@PathVariable int userId) {
         userService.inactivate(userId);
+
+        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") - 1);
+        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") + 1);
+
+
         return "redirect:/profile/search";
     }
+
+    //TODO admin check
 
     @GetMapping("/user/activate/{userId}")
     public String activateUser(@PathVariable int userId) {
         userService.activate(userId);
+
+        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") + 1);
+        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") - 1);
+
         return "redirect:/profile/search";
     }
 }

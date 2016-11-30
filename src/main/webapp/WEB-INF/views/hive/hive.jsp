@@ -1,14 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>HyperBee-Hive</title>
+    <title><fmt:message key="hive.title"/></title>
 </head>
 <body>
 <div class="col-lg-4">
     <div class="panel panel-info">
-        <div class="panel-heading"><h3> My Hive </h3>
+        <div class="panel-heading"><h3><fmt:message key="hive.list"/></h3>
         </div>
         <div class="panel-body">
             <table>
@@ -25,7 +26,7 @@
 </div>
 <div class="col-lg-8">
     <div class="panel panel-success">
-        <div class="panel-heading"><h3> Create New Hive </h3></div>
+        <div class="panel-heading"><h3><fmt:message key="hive.form"/></h3></div>
         <div class="panel-body">
             <form:form action="/user/hive/create" method="post" commandName="hive" enctype="multipart/form-data">
                 <div class="form-group">
@@ -38,13 +39,13 @@
                     <input path="imagePath" type="file" name="file" size="50"/>
                 </div>
                 <div class="btn-group pull-right">
-                    <form:button type="submit" class="btn btn-primary" value="Upload">Create</form:button>
+                    <form:button type="submit" class="btn btn-primary" value="Upload"><fmt:message
+                            key="hive.form.button"/></form:button>
                 </div>
             </form:form>
         </div>
         <p>${message}</p>
     </div>
 </div>
-
 </body>
 </html>

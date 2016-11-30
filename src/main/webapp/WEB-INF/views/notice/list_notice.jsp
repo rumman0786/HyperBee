@@ -1,43 +1,54 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
  * @author rumman
  * @since 11/22/16
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <title>| Conference Room</title>
+    <title><fmt:message key="notice.html.title"/></title>
 </head>
-
 <body>
-<c:if test="${authUser.isAdmin()}">
-    <a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference Room</a>
-</c:if>
+
+<div class="container-fluid">
+    <c:if test="${isAdmin}">
+        <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right"><fmt:message key="notice.list.btn.text"/></a>
+    </c:if>
+</div>
+<br/>
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Capacity</th>
+            <th><fmt:message key="notice.form.title"/></th>
+            <th><fmt:message key="notice.form.description"/></th>
+            <th><fmt:message key="notice.list.creator"/></th>
+            <th><fmt:message key="notice.form.Hives"/></th>
 
-            <c:if test="${authUser.isAdmin()}">
-                <th>Edit</th>
-                <th>Delete</th>
+            <c:if test="${isAdmin}">
+                <th><fmt:message key="notice.list.edit"/></th>
+                <th><fmt:message key="notice.list.delete"/></th>
             </c:if>
 
         </tr>
         </thead>
         <tbody>
 
-        <c:forEach var="conferenceRoom" items="${conferenceRoomList}">
+        <c:forEach var="notice" items="${noticeList}">
             <tr>
-                <td>${conferenceRoom.title}</td>
-                <td>${conferenceRoom.capacity}</td>
-
-                <c:if test="${authUser.isAdmin()}">
-                    <td><a href="${pageContext.request.contextPath}/conference/${conferenceRoom.id}/"><span
+                <td>${notice.title}</td>
+                <td>${notice.description}</td>
+                <td>${notice.user.username}</td>
+                <td>
+                    <c:forEach var="hive" items="${notice.hiveList}">
+                        ${hive.name}
+                    </c:forEach>
+                </td>
+                <c:if test="${isAdmin}">
+                    <td><a href="${pageContext.request.contextPath}/notice/${notice.id}/"><span
                             class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a href="#" data-id="${conferenceRoom.id}"
+                    <td><a href="#" data-id="${notice.id}"
                            data-toggle="modal" data-target="#confirm-delete"
                            class="delete-user-item"><span
                             class="glyphicon glyphicon-trash"></span></a></td>
@@ -50,7 +61,7 @@
     </table>
 </div>
 
-<!--Modal start -->
+<!--Modal Start -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -62,15 +73,13 @@
             </div>
 
             <div class="modal-body">
-                <p>You are about to delete a Conference Room, this procedure is irreversible.</p>
-
-                <p>Do you want to proceed?</p>
+                <p><fmt:message key="notice.list.modal.p1"/></p>
+                <p><fmt:message key="notice.list.modal.p2"/></p>
 
                 <p class="debug-url"></p>
             </div>
 
             <div class="modal-footer">
-                <%--<a href="#" class="btn btn-danger btn-ok">Delete</a>--%>
                 <form action="${deleteUrl}" method="post" id="form">
                     <input type="hidden" id="delete_id" name="id" value="#"/>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -80,7 +89,7 @@
         </div>
     </div>
 </div>
-<!--Modal end -->
+<!--Modal END -->
 
 <script>
     $('.delete-user-item').on('click', function (e) {
