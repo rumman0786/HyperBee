@@ -48,7 +48,14 @@ public interface Messages {
     String CONFERENCE_EDIT_VIEWED = "Conference Edit Page Viewed";
     String CONFERENCE_SAVE_ERROR = "ERROR:: Conference Could Not be saved";
     String CONFERENCE_SAVED = "Saved Conference";
-    String CONFERENCE_MODIFIED = "Modified Conference";
     String CONFERENCE_DELETED = "Deleted Conference";
+
+    //Reservation Messages
+    String RESERVATION_LIST_VIEWED = "Reservation Home Page Viewed";
+    String RESERVATION_ADD_VIEWED = "Reservation Add Page Viewed";
+    String RESERVATION_EDIT_VIEWED = "Reservation Edit Page Viewed";
+    String RESERVATION_SAVE_ERROR = "ERROR:: Reservation Could Not be saved";
+    String RESERVATION_SAVED = "Saved Reservation";
+    String RESERVATION_DELETED = "Deleted Reservation";
 
 }

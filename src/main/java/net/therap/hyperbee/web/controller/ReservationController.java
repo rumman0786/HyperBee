@@ -10,6 +10,9 @@ import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoticeValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.beans.PropertyEditorSupport;
 import java.util.GregorianCalendar;
 
+import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -29,6 +33,8 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 @RequestMapping(value = RERVATION_BASE_URL)
 public class ReservationController {
+
+    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
 
     @Autowired
     private ReservationService reservationService;
@@ -70,6 +76,8 @@ public class ReservationController {
                 .addAttribute("actionUrl", RERVATION_BASE_URL)
                 .addAttribute("deleteUrl", RERVATION_BASE_URL + RERVATION_DELETE_URL);
 
+        log.debug(RESERVATION_LIST_VIEWED);
+
         return "reservation/list_reservation";
     }
 
@@ -82,6 +90,8 @@ public class ReservationController {
                 .addAttribute("action", RERVATION_BASE_URL + RERVATION_ADD_URL)
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
                 .addAttribute("reservationStatusOptions", ReservationStatus.values());
+
+        log.debug(RESERVATION_ADD_VIEWED);
 
         return "reservation/form_reservation";
     }
@@ -102,6 +112,8 @@ public class ReservationController {
 //        }
 
         reservationService.saveReservation(reservation);
+        log.debug(RESERVATION_SAVED);
+
         return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
     }
 
@@ -113,6 +125,8 @@ public class ReservationController {
                 .addAttribute("reservation", reservationService.findReservationById(id))
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
                 .addAttribute("reservationStatusOptions", ReservationStatus.values());
+
+        log.debug(RESERVATION_EDIT_VIEWED);
 
         return "reservation/form_reservation";
     }
@@ -129,12 +143,16 @@ public class ReservationController {
         reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
         reservationService.saveReservation(reservation);
 
+        log.debug(RESERVATION_SAVED);
+
         return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
     }
 
     @PostMapping(value = RERVATION_DELETE_URL)
     public String deleteReservation(@RequestParam("id") int reservationId) {
         reservationService.delete(reservationId);
+
+        log.debug(RESERVATION_DELETED);
 
         return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
     }

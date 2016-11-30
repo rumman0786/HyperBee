@@ -75,7 +75,7 @@ public class ConferenceRoomController {
 
         if (bindingResult.hasErrors()) {
             log.debug(CONFERENCE_SAVE_ERROR);
-            
+
             return "conference_room/form_conference_room";
         }
 
@@ -101,6 +101,7 @@ public class ConferenceRoomController {
     @PostMapping(value = CONFERENCE_ROOM_UPDATE_URL)
     public String editAddConferenceRoom(@ModelAttribute("conferenceRoom") @Validated ConferenceRoom conferenceRoom,
                                         BindingResult bindingResult) {
+        
         if (bindingResult.hasErrors()) {
             log.debug(CONFERENCE_SAVE_ERROR);
 
