@@ -5,6 +5,7 @@ import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,13 +29,13 @@ public class HiveDaoImpl implements HiveDao {
     @PersistenceContext
     private EntityManager em;
 
+    @Transactional
     public void saveHive(Hive hive) {
         em.persist(em.merge(hive));
         em.flush();
     }
 
     public List<User> getUserListById(List<Integer> idList) {
-
         return em.createQuery(QUERY_GET_USER_BY_ID, User.class)
                 .setParameter("userIdList", idList).getResultList();
     }
@@ -45,27 +46,25 @@ public class HiveDaoImpl implements HiveDao {
     }
 
     @Override
-    public void insertUsersToHive(Hive hive, List<User> userList) {
+    @Transactional
+    public void addUsersToHive(Hive hive, List<User> userList) {
         hive.getUserList().addAll(userList);
         em.flush();
     }
 
     public Hive getHiveByHiveName(String name) {
-
         return em.createQuery(QUERY_GET_HIVE_BY_HIVENAME, Hive.class)
                 .setParameter("hiveName", name).getResultList().get(0);
     }
 
     @Override
     public List<User> findUserNotInList(List<User> userList) {
-
         return em.createQuery(QUERY_GET_USER_NOTIN_LIST, User.class)
                 .setParameter("userList", userList).getResultList();
     }
 
     @Override
     public Hive findById(int hiveId) {
-
         return em.find(Hive.class, hiveId);
     }
 
@@ -77,7 +76,6 @@ public class HiveDaoImpl implements HiveDao {
 
     @Override
     public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range) {
-
         return em.createQuery(QUERY_GET_LAST_FIVE_NOTICE, Notice.class)
                 .setParameter("noticeList", noticeList).getResultList();
     }

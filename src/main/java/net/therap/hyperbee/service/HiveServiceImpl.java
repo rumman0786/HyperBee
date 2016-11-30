@@ -57,7 +57,7 @@ public class HiveServiceImpl implements HiveService {
     public void insertUsersToHive(int hiveId, List<Integer> userIdList) {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
-        hiveDao.insertUsersToHive(hive, userList);
+        hiveDao.addUsersToHive(hive, userList);
     }
 
     @Override

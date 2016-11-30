@@ -18,7 +18,7 @@ public interface HiveDao {
 
     public Hive retrieveHiveById(int id);
 
-    public void insertUsersToHive(Hive hive, List<User> userList);
+    public void addUsersToHive(Hive hive, List<User> userList);
 
     public Hive getHiveByHiveName(String name);
 
