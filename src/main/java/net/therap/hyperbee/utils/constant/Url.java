@@ -74,8 +74,8 @@ public interface Url {
     String RESERVATION_UPDATE_URL = "/update";
     String RESERVATION_DELETE_URL = "/delete";
 
-    String RESERVATION_LIST_VIEW = "notice/list_notice";
-    String RESERVATION_FORM_VIEW = "notice/form_notice";
+    String RESERVATION_LIST_VIEW = "reservation/list_reservation";
+    String RESERVATION_FORM_VIEW = "reservation/form_reservation";
 
     //Resource Constants
     String RESOURCE_STYLE = "/css/";

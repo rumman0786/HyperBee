@@ -1,15 +1,13 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.ConferenceRoom;
-import net.therap.hyperbee.domain.Hive;
-import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.Reservation;
-import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.ReservationStatus;
-import net.therap.hyperbee.service.*;
+import net.therap.hyperbee.service.ConferenceRoomService;
+import net.therap.hyperbee.service.ReservationService;
+import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
-import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.beans.PropertyEditorSupport;
-import java.util.GregorianCalendar;
 
 import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
@@ -78,7 +75,7 @@ public class ReservationController {
 
         log.debug(RESERVATION_LIST_VIEWED);
 
-        return "reservation/list_reservation";
+        return RESERVATION_LIST_VIEW;
     }
 
     @GetMapping
@@ -93,14 +90,14 @@ public class ReservationController {
 
         log.debug(RESERVATION_ADD_VIEWED);
 
-        return "reservation/form_reservation";
+        return RESERVATION_FORM_VIEW;
     }
 
     @PostMapping(value = RESERVATION_ADD_URL)
     public String addReservation(@ModelAttribute("reservation") Reservation reservation,
-                            BindingResult bindingResult,
-                            @RequestParam("reservationFrom") String reservationFrom,
-                            @RequestParam("reservationTo") String reservationTo) {
+                                 BindingResult bindingResult,
+                                 @RequestParam("reservationFrom") String reservationFrom,
+                                 @RequestParam("reservationTo") String reservationTo) {
 
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
@@ -128,14 +125,14 @@ public class ReservationController {
 
         log.debug(RESERVATION_EDIT_VIEWED);
 
-        return "reservation/form_reservation";
+        return RESERVATION_FORM_VIEW;
     }
 
     @PostMapping(value = RESERVATION_UPDATE_URL)
     public String editReservation(@ModelAttribute("reservation") Reservation reservation,
-                             BindingResult bindingResult,
-                             @RequestParam("reservationFrom") String reservationFrom,
-                             @RequestParam("reservationTo") String reservationTo) {
+                                  BindingResult bindingResult,
+                                  @RequestParam("reservationFrom") String reservationFrom,
+                                  @RequestParam("reservationTo") String reservationTo) {
 
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));

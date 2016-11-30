@@ -2,7 +2,6 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.ConferenceRoom;
 import net.therap.hyperbee.service.ConferenceRoomService;
-import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.validator.ConferenceRoomValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
