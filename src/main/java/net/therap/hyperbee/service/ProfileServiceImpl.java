@@ -3,7 +3,6 @@ package net.therap.hyperbee.service;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Profile;
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.web.helper.ImageUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,14 +24,6 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
     private UserDao userDao;
-
-    @Autowired
-    private ImageUploader imageUploader;
-
-    @Override
-    public Profile findProfileById(int id) {
-        return em.find(Profile.class, id);
-    }
 
     @Override
     @Transactional

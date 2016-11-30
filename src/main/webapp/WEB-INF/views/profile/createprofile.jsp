@@ -30,7 +30,16 @@
         </tr>
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.joining.date"/></th>
-            <td><form:input path="joiningDate" cssClass="form-control"/></td>
+            <td>
+                <div class="form-group input-group date" id='datetimepicker2'>
+                    <form:input onkeydown="return false;" type="text" id="joiningDate" class="form-control"
+                                name="joiningDate" placeholder="dd-MM-yy"
+                                path="joiningDate" required="required"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </td>
         </tr>
         <tr>
             <th><h2 class="panel-heading" style="color: #269abc"><fmt:message key="profile.show.education"/></h2></th>
@@ -56,7 +65,16 @@
         </tr>
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.dateofbirth"/></th>
-            <td><form:input path="dateOfBirth" cssClass="form-control"/></td>
+            <td>
+                <div class="form-group input-group date" id='datetimepicker1'>
+                    <form:input onkeydown="return false;" type="text" id="dateOfBirth" class="form-control"
+                                name="dateOfBirth" placeholder="dd-MM-yy"
+                                path="dateOfBirth" required="required"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </td>
         </tr>
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.skills"/></th>
@@ -83,7 +101,7 @@
             <td><input type="file" name="coverFile"/></td>
         </tr>
         <tr>
-            <td colspan="2" align="left" class="pull-right"><input type="submit" class="btn btn-warning btn-sm" value="Edit"></td>
+            <td colspan="2" align="left"><input type="submit" class="btn btn-warning btn-sm" value="Edit"></td>
         </tr>
         <tr>
             <td style="color: green">${message}</td>
@@ -96,6 +114,19 @@
         </tr>
     </table>
 </form:form>
-
+<script>
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            format: 'DD-MM-YY'
+        });
+    });
+</script>
+<script>
+    $(function () {
+        $('#datetimepicker2').datetimepicker({
+            format: 'DD-MM-YY'
+        });
+    });
+</script>
 </body>
 </html>
