@@ -144,6 +144,7 @@ public class UserController {
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
+
         return USER_DASHBOARD_VIEW;
     }
 
