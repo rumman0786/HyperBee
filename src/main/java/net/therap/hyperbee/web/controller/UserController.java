@@ -2,6 +2,7 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.StickyNoteService;
@@ -82,7 +83,7 @@ public class UserController {
 
         User retrievedUser = userService.findByUsernameAndPassword(user);
 
-        if (retrievedUser != null) {
+        if ((retrievedUser != null) && (retrievedUser.getDisplayStatus() == DisplayStatus.ACTIVE)) {
             sessionHelper.persistInSession(retrievedUser);
 
             activityService.archive(LOGGED_IN);
@@ -138,5 +139,11 @@ public class UserController {
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         return USER_DASHBOARD_VIEW;
+    }
+
+    @GetMapping("/user/inactivate/{userId}")
+    public String inactivateUser(@PathVariable int userId) {
+        userService.inactivate(userId);
+        return "redirect:/profile/search";
     }
 }

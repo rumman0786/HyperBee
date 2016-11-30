@@ -25,7 +25,6 @@
                 </h1>
             </td>
             <td style="padding-left: 700"><a href="/profile/edit"/>Edit</td>
-            <td style="padding-left: 5"><span class="label label-warning"><a href="/user/inactivate/<c:out value="${authUser.getId()}"/>"/>Inactivate</span></td>
         </tr>
     </table>
 </div>

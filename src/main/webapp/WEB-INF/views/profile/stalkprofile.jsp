@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,6 +18,9 @@
 <div class="col-lg-10 container" style="padding-top: 10px">
     <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
         <b>${user.firstName} ${user.lastName}</b>
+        <c:if test="${authUser.isAdmin()}">
+            <span class="label label-warning"><a href="/user/inactivate/<c:out value="${user.getId()}"/>"/>Inactivate</span>
+        </c:if>
     </h1>
 </div>
 <div class="row">
