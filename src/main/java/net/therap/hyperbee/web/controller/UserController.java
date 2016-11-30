@@ -127,7 +127,7 @@ public class UserController {
         sessionHelper.persistInSession(retrievedUser);
 
         Hive hive = hiveService.retrieveHiveById(1);
-        hiveService.insertFirstUserToHive(hive,retrievedUser.getId());
+        hiveService.insertFirstUserToHive(hive, retrievedUser.getId());
 
         activityService.archive(SIGNED_UP);
 
@@ -147,8 +147,12 @@ public class UserController {
             model.addAttribute("newBuzz", new Buzz());
         }
 
+        int userId = sessionHelper.getUserIdFromSession();
+
         model.addAttribute("topStickyNote",
-                noteService.findTopStickyNoteByUser(sessionHelper.getUserIdFromSession()));
+                noteService.findTopStickyNoteByUser(userId));
+        model.addAttribute("latestReminders",
+                noteService.findUpcomingReminderNoteByUser(userId));
 
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());

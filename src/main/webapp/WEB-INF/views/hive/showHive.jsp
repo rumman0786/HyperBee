@@ -37,13 +37,13 @@
                     </div>
                     <div class="panel-body">
                         <form:textarea type="text" placeholder="Description" class="form-control" path="description"/>
-                        <form:errors path="description"/>
                     </div>
                     <div class="panel-footer clearfix">
                         <div class="btn-group pull-right">
                             <button class="btn btn-warning btn-sm" type="submit"><fmt:message
                                     key="hive.post.button"/></button>
                         </div>
+                        <form:errors path="description" cssClass="alert-danger"/>
                     </div>
                 </div>
             </form:form>
@@ -120,7 +120,6 @@
                                         <td>
                                             <form:checkbox path="userIdList" value="${user.id}"
                                                            label=" ${user.username}"/>
-                                            <form:errors path="userIdList"/>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -128,11 +127,12 @@
                         </div>
                         <div class="panel-footer clearfix">
                             <div class="pull-right">
+                                <form:errors path="userIdList" cssClass="alert-danger"/>
                                 <button class="btn btn-warning btn-sm" type="submit"><fmt:message
                                         key="hive.add.button"/></button>
                             </div>
                         </div>
-                     </form:form>
+                    </form:form>
                 </div>
             </div>
             <div class="col-sm-4 table-responsive">
@@ -147,7 +147,6 @@
                                         <td>
                                             <form:checkbox path="userIdList" value="${user.id}"
                                                            label=" ${user.username}"/>
-                                            <form:errors path="userIdList"/>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -155,9 +154,12 @@
                         </div>
                         <div class="panel-footer clearfix">
                             <div class="pull-right">
+                                <form:errors path="userIdList" cssClass="alert-danger"/>
                                 <button class="btn btn-warning btn-sm" type="submit"><fmt:message
                                         key="hive.remove.button"/></button>
+
                             </div>
+
                         </div>
                     </form:form>
                 </div>
