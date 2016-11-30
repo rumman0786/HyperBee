@@ -32,7 +32,7 @@
             <input type="submit" class="btn btn-primary" value="Send"/>
         </div>
         <div class="panel-footer clearfix">
-            <form:errors path="message" cssClass="alert alert-danger" cssStyle="max-height: 100px"/>
+            <form:errors path="message" cssClass="alert-danger"/>
             <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-info" role="button" style="float:right">
                 <fmt:message key="buzz.view.label.buzzHistory"/>
             </a>
