@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import static net.therap.hyperbee.utils.constant.Url.*;
+
 /**
  * @author azim
  * @since 11/22/16
@@ -73,7 +74,7 @@ public class HiveController {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.insertUsersToHive(hiveId, userIdInfo.getUserIdList());
 
-        return "redirect:" + HIVE_VIEW  + hiveId;
+        return "redirect:" + HIVE_VIEW + hiveId;
     }
 
     @PostMapping(value = HIVE_REMOVE_USER_URL)
@@ -87,7 +88,7 @@ public class HiveController {
     @PostMapping(value = HIVE_CREATE_URL)
     public String saveHive(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
-        String filename = hive.getName().replaceAll(" ","") + file.getOriginalFilename();
+        String filename = hive.getName().replaceAll(" ", "") + file.getOriginalFilename();
         hive.setImagePath(filename);
         int userId = sessionHelper.getUserIdFromSession();
         hive.setCreatorId(userId);
