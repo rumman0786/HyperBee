@@ -43,7 +43,7 @@ public interface Url {
     String NOTE_SAVE_URL = "/user/note/save";
     String NOTE_VIEW_ALL = "note/notes";
     String NOTE_ADD_VIEW = "note/note_form";
-    String NOTE_DELETE_URL = "/note/delete/{id}";
+    String NOTE_DELETE_URL = "/note/delete/{type}/{id}";
 
     String SUCCESS_VIEW = "success";
 
@@ -98,6 +98,7 @@ public interface Url {
     String HIVE = "hive/hive";
     String HIVE_VIEW = "/user/hive/show/";
     String HIVE_IMAGE = "/image/{imagePath}";
+    String HIVE_URL = "/user/hive";
 
     //Buzz Constants
     String BUZZ_BASE_URL = "/buzz";

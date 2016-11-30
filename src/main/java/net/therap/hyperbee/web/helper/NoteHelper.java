@@ -39,6 +39,7 @@ public class NoteHelper {
         while (matcher.find()) {
 
             calendar.set(Calendar.MONTH, Integer.parseInt(matcher.group(1)) - 1);
+
             log.debug("MONTH: " + matcher.group(1));
 
             calendar.set(Calendar.DATE, Integer.parseInt(matcher.group(2)));

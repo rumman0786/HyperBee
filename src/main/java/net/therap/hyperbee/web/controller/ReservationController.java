@@ -48,13 +48,8 @@ public class ReservationController {
     @Autowired
     private ReservationHelper reservationHelper;
 
-//    @Autowired
-//    private NoticeValidator validator;
-
     @InitBinder
     private void initBinder(WebDataBinder binder) {
-//        binder.setValidator(validator);
-
         binder.registerCustomEditor(ConferenceRoom.class, "conferenceRoom", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
@@ -99,14 +94,11 @@ public class ReservationController {
                                  @RequestParam("reservationFrom") String reservationFrom,
                                  @RequestParam("reservationTo") String reservationTo) {
 
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
+        int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
+
         reservation.setUser(userService.findById(sessionUserId));
         reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
         reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
-
-//        if (bindingResult.hasErrors()) {
-//            return "reservation/form_reservation";
-//        }
 
         reservationService.saveReservation(reservation);
         log.debug(RESERVATION_SAVED);
@@ -134,7 +126,7 @@ public class ReservationController {
                                   @RequestParam("reservationFrom") String reservationFrom,
                                   @RequestParam("reservationTo") String reservationTo) {
 
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
+        int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
         reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
         reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));

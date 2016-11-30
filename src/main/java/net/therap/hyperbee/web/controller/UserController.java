@@ -10,6 +10,9 @@ import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +32,13 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 public class UserController {
 
+    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+
     @Autowired
     BuzzService buzzService;
+
+    @Autowired
+    StickyNoteService noteService;
 
     @Autowired
     private UserService userService;
@@ -43,9 +51,6 @@ public class UserController {
 
     @Autowired
     private SignUpValidator signUpValidator;
-
-    @Autowired
-    StickyNoteService noteService;
 
     @Autowired
     private SessionHelper sessionHelper;
@@ -122,7 +127,7 @@ public class UserController {
         sessionHelper.persistInSession(retrievedUser);
 
         Hive hive = hiveService.retrieveHiveById(1);
-        hiveService.insertFirstUserToHive(hive,retrievedUser.getId());
+        hiveService.insertFirstUserToHive(hive, retrievedUser.getId());
 
         activityService.archive(SIGNED_UP);
 
@@ -142,11 +147,17 @@ public class UserController {
             model.addAttribute("newBuzz", new Buzz());
         }
 
+        int userId = sessionHelper.getUserIdFromSession();
+
         model.addAttribute("topStickyNote",
-                noteService.findTopStickyNoteByUser(sessionHelper.getUserIdFromSession()));
+                noteService.findTopStickyNoteByUser(userId));
+        model.addAttribute("latestReminders",
+                noteService.findUpcomingReminderNoteByUser(userId));
 
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
+
+        sessionHelper.setStatInSession();
 
         return USER_DASHBOARD_VIEW;
     }
@@ -154,12 +165,24 @@ public class UserController {
     @GetMapping("/user/inactivate/{userId}")
     public String inactivateUser(@PathVariable int userId) {
         userService.inactivate(userId);
+
+        sessionHelper.decrementSessionAttribute("activeUsers", 1);
+        sessionHelper.incrementSessionAttribute("inactiveUsers", 1);
+
         return "redirect:/profile/search";
     }
+
+    //TODO admin check
 
     @GetMapping("/user/activate/{userId}")
     public String activateUser(@PathVariable int userId) {
         userService.activate(userId);
+
+        sessionHelper.incrementSessionAttribute("activeUsers", 1);
+        sessionHelper.decrementSessionAttribute("inactiveUsers", 1);
+
         return "redirect:/profile/search";
     }
+
+
 }

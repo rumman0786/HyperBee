@@ -76,16 +76,14 @@
         </tr>
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.profileimage"/></th>
-            <td><form:input path="imagePath" type="text" cssClass="form-control"/></td>
             <td><input type="file" name="file" id="fileName"/></td>
         </tr>
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.coverimage"/></th>
-            <td><form:input path="coverImage" type="text" cssClass="form-control"/></td>
             <td><input type="file" name="coverFile"/></td>
         </tr>
         <tr>
-            <td colspan="2" align="left"><input type="submit" class="btn btn-warning btn-sm" value="Edit"></td>
+            <td colspan="2" align="left" class="pull-right"><input type="submit" class="btn btn-warning btn-sm" value="Edit"></td>
         </tr>
         <tr>
             <td style="color: green">${message}</td>

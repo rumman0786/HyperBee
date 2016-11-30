@@ -3,6 +3,7 @@ package net.therap.hyperbee.web.validator;
 import net.therap.hyperbee.domain.Hive;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
@@ -12,12 +13,13 @@ import org.springframework.validation.Validator;
 @Component
 public class HiveValidator implements Validator {
     @Override
-    public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(Hive.class);
+    public boolean supports(Class clazz) {
+        return Hive.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "hive.name.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "hive.description.required");
     }
 }

@@ -1,6 +1,7 @@
 package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface UserService {
     void inactivate(int userId);
 
     void activate(int userId);
+
+    public int findByDisplayStatus(DisplayStatus status);
 }

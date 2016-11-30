@@ -31,12 +31,16 @@
             <form:form action="/user/hive/create" method="post" commandName="hive" enctype="multipart/form-data">
                 <div class="form-group">
                     <form:input path="name" type="text" name="hiveName" class="form-control" placeholder="Hive Name"/>
+                    <form:errors path="name" cssClass="alert-danger"/>
                 </div>
                 <div class="form-group">
                     <form:textarea class="form-control" path="description" type="text" placeholder="Hive Description"/>
+                    <form:errors path="description" cssClass="alert-danger"/>
                 </div>
                 <div class="form-group">
                     <input path="imagePath" type="file" name="file" size="50"/>
+
+                    <p style="color: #ff0000">${fileError}</p>
                 </div>
                 <div class="btn-group pull-right">
                     <form:button type="submit" class="btn btn-primary" value="Upload"><fmt:message

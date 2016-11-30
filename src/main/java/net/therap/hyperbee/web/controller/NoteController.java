@@ -64,6 +64,8 @@ public class NoteController {
         if (!model.containsAttribute("noteCommand")) {
             model.addAttribute("noteCommand", new Note());
         }
+
+        model.addAttribute("page", "note");
         activityService.archive(NOTE_PAGE_VIEW_ACTIVITY);
 
         return NOTE_VIEW_ALL;
@@ -76,7 +78,6 @@ public class NoteController {
                            Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
-
             log.debug("ERROR IN SAVING NOTE");
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "noteCommand", bindingResult);
             redirectAttributes.addFlashAttribute("noteCommand", note);
@@ -98,20 +99,28 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("message", NOTE_SAVE_SUCCESS);
         redirectAttributes.addFlashAttribute("messageStyle", "alert alert-success");
 
+        log.debug("NOTE TYPE: " + note.getNoteType());
+        sessionHelper.incrementNoteCountByOne(note.getNoteType());
+
         return "redirect:" + DONE_URL;
     }
 
     @PostMapping(NOTE_DELETE_URL)
-    public String noteDelete(@PathVariable("id") int noteId, HttpSession session,
-                             @ModelAttribute("noteCommand") Note note, Model model) {
+    public String noteDelete(@PathVariable("id") int noteId, @PathVariable("type") String noteType, HttpSession session,
+                             RedirectAttributes redirectAttributes, @ModelAttribute("noteCommand") Note note, Model model) {
 
         noteService.markNoteAsInactiveForUser(sessionHelper.getUserIdFromSession(), noteId);
         log.debug("Selected note ID Delete: " + noteId);
 
-        model.addAttribute("message", NOTE_DELETE_SUCCESS);
-        model.addAttribute("redirectUrl", NOTE_VIEW_URL);
+        redirectAttributes.addFlashAttribute("message", NOTE_DELETE_SUCCESS);
+        redirectAttributes.addFlashAttribute("messageStyle", "alert alert-danger");
+
         activityService.archive(NOTE_DELETE_ACTIVITY);
 
-        return "redirect:" + NOTE_VIEW_URL;
+        log.debug("note type: "+noteType);
+
+        sessionHelper.decrementNoteCountByOne(noteType);
+
+        return "redirect:" + DONE_URL;
     }
 }
