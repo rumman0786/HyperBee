@@ -68,4 +68,14 @@ public class NoteService implements StickyNoteService {
 
         return noteDao.findUpcomingReminderNoteByUser(userId);
     }
+
+    public int getRemainingReminderCountForUser(int userId) {
+
+        return noteDao.getRemainingReminderCountForUser(userId);
+    }
+
+    public int getStickyNoteCountForUser(int userId) {
+
+        return noteDao.getStickyNoteCountForUser(userId);
+    }
 }

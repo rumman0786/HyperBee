@@ -1,7 +1,6 @@
 package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Note;
-import net.therap.hyperbee.domain.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,4 +23,8 @@ public interface NoteDao {
     void markExpiredNoteAsInactive();
 
     List<Note> findUpcomingReminderNoteByUser(int userId);
+
+    int getRemainingReminderCountForUser(int userId);
+
+    int getStickyNoteCountForUser(int userId);
 }
