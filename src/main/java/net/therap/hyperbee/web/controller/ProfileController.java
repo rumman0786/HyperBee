@@ -13,16 +13,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.constant.DomainConstant.PROFILE_ATTRIBUTE;
+import static net.therap.hyperbee.utils.constant.DomainConstant.USER_ATTRIBUTE;
+import static net.therap.hyperbee.utils.constant.Messages.NO_USER_FOUND;
 import static net.therap.hyperbee.utils.constant.Url.*;
-import static net.therap.hyperbee.utils.constant.DomainConstant.*;
-import static net.therap.hyperbee.utils.constant.Messages.*;
 
 /**
  * @author duity
@@ -45,7 +46,7 @@ public class ProfileController {
     private ImageUploader imageUploader;
 
     @GetMapping(value = PROFILE_EDIT_URL)
-    public String getProfile(Model model, HttpSession session) {
+    public String getProfile(Model model) {
         AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
         int id = authUser.getId();
         User user = userService.findById(id);
@@ -118,6 +119,7 @@ public class ProfileController {
     @GetMapping(value = SEARCH_URL)
     public String searchProfilePage(Model model) {
         List<User> userList;
+
         if (sessionHelper.retrieveAuthUserFromSession().isAdmin()) {
             userList = userService.findAll();
         } else {
@@ -130,23 +132,48 @@ public class ProfileController {
 
     @PostMapping(value = SEARCH_URL)
     public String searchProfile(@RequestParam("search") String username, Model model) {
+        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
         User user = userService.findByUsername(username);
-        DisplayStatus status=user.getDisplayStatus();
 
-        if (user == null || status== DisplayStatus.INACTIVE) {
-            model.addAttribute("message", NO_USER_FOUND);
+        List<User> userList;
+
+        if (authUser.isAdmin()) {
+            if (user == null) {
+                model.addAttribute("message", NO_USER_FOUND);
+            } else {
+                Profile profile = user.getProfile();
+                model.addAttribute(PROFILE_ATTRIBUTE, profile);
+                model.addAttribute(USER_ATTRIBUTE, user);
+            }
         } else {
-            Profile profile = user.getProfile();
-            model.addAttribute(PROFILE_ATTRIBUTE, profile);
-            model.addAttribute(USER_ATTRIBUTE, user);
+            if (user == null || user.getDisplayStatus() == DisplayStatus.INACTIVE) {
+                model.addAttribute("message", NO_USER_FOUND);
+            } else {
+                Profile profile = user.getProfile();
+                model.addAttribute(PROFILE_ATTRIBUTE, profile);
+                model.addAttribute(USER_ATTRIBUTE, user);
+            }
         }
+
+        if (authUser.isAdmin()) {
+            userList = userService.findAll();
+        } else {
+            userList = userService.findActiveUsers();
+        }
+        model.addAttribute("userList", userList);
 
         return PROFILE_SEARCH_URL;
     }
 
     @GetMapping(value = STALK_PROFILE_URL)
-    public String stalkProfile(Model model, @PathVariable String username) {
+    public String stalkProfile(Model model, @PathVariable String username, RedirectAttributes redirectAttributes) {
         User user = userService.findByUsername(username);
+
+        if (user == null) {
+            redirectAttributes.addFlashAttribute("message", NO_USER_FOUND);
+            redirectAttributes.addFlashAttribute("messageStyle", "alert alert-success");
+            return "redirect:" + ACCESS_DENIED_URL;
+        }
         Profile profile = user.getProfile();
         model.addAttribute(PROFILE_ATTRIBUTE, profile);
         model.addAttribute(USER_ATTRIBUTE, user);
