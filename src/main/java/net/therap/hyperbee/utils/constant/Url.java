@@ -14,7 +14,7 @@ public interface Url {
     String LOGIN_URL = "/login";
     String LOGIN_VIEW = "user/login";
     String LOGOUT_URL = "/logout";
-    String SIGN_UP_URL = "/signup";
+    String SIGN_UP_URL = "/signUp";
     String SIGN_UP_VIEW = "user/signUp";
 
     String USER_DASHBOARD_VIEW = "dashboard";
@@ -61,11 +61,16 @@ public interface Url {
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
 
+    //Resource Constants
+    String RESOURCE_STYLE = "/css/";
+    String RESOURCE_SCRIPT = "/js/";
+    String RESOURCE_FONT = "/fonts/";
+    String RESOURCE_IMAGES = "/images/";
+
     //Hive Constants
     String HIVE_CREATE_URL = "/create";
     String HIVE_VIEW_URL = "/show/{id}";
     String HIVE_ADD_USER_URL = "/insertuser/{hiveId}";
     String HIVE_REMOVE_USER_URL = "/removeuser/{hiveId}";
     String HIVE_ADD_POST_URL = "/post/{hiveId}";
-
 }

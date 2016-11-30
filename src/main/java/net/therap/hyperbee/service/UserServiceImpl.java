@@ -92,4 +92,9 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(int id) {
 
     }
+
+    @Override
+    public void inactivate(int userId) {
+        userDao.inactivate(userId);
+    }
 }

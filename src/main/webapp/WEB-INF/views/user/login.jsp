@@ -22,7 +22,7 @@
         <br>
 
         <div class="center-block">
-            <a href="/signup">Sign up?</a>
+            <a href="/signUp">Sign up?</a>
         </div>
     </form:form>
 </div>
