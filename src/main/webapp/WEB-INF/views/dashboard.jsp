@@ -26,15 +26,16 @@
 
         <div class="panel-body">
             <div id="buzzList"></div>
+            <br>
             <form:form id="buzzMessageForm" action="/buzz/sendBuzz" method="POST" modelAttribute="newBuzz">
-                <form:input path="message" placeholder="Enter your message..." cssStyle="width: 94%"/>
-                <input type="submit" class="btn btn-primary" value="Send"/>
-
-                <a href="/buzz/buzzHistory?prev=0&next=20" target="_blank">
-                    <fmt:message key="buzz.view.label.buzzHistory"/>
-                </a>
-
-                <p><form:errors path="message" cssClass="alert-danger"/></p>
+            <form:input path="message" placeholder="Enter your message..." cssStyle="width: 94%"/>
+            <input type="submit" class="btn btn-primary" value="Send"/>
+        </div>
+        <div class="panel-footer clearfix">
+            <form:errors path="message" cssClass="alert alert-danger" cssStyle="max-height: 100px"/>
+            <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-info" role="button" style="float:right">
+                <fmt:message key="buzz.view.label.buzzHistory"/>
+            </a>
             </form:form>
         </div>
     </div>
