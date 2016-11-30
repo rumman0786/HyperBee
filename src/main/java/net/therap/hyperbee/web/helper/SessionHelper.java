@@ -9,7 +9,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 /**
  * @author rayed
@@ -33,23 +32,6 @@ public class SessionHelper {
         session.setAttribute("authUser", authUser);
     }
 
-    public void persistInSession(Map<String, Integer> map) {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession session = servletRequestAttributes.getRequest().getSession();
-        session.setAttribute("statsMap", map);
-    }
-
-    public void persistInSession(String key, int count) {
-
-        System.out.println(userService.findAll() + " In persist Session");
-
-        HttpSession session = getHttpSession();
-        Map<String, Integer> statsMap = (Map<String, Integer>) session.getAttribute("statsMap");
-
-        statsMap.put(key, count);
-        session.setAttribute("statsMap", statsMap);
-    }
-
     public AuthUser getAuthUserFromSession() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
@@ -64,7 +46,6 @@ public class SessionHelper {
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.invalidate();
     }
-
 
     public int getUserIdFromSession() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
