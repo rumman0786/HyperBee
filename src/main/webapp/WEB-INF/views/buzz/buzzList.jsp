@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <body>
@@ -14,7 +15,7 @@
                                 <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
                                 <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
                             </c:if>
-                            <font color="#191970"><i>The message has been flagged for it's content.</i></font>
+                            <font color="#191970"><i><fmt:message key="buzz.view.label.flagMessage"/></i></font>
                         </td>
                     </tr>
                 </c:when>
@@ -25,7 +26,7 @@
                                 <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
                                 <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
                             </c:if>
-                            <i><font color="#191970">[PINNED] </font></i>
+                            <i><font color="#191970"><fmt:message key="buzz.view.label.pinnedTag"/></font></i>
                             <c:out value="${buzz.user.username} [${buzz.buzzTime.getTime()}]: ${buzz.message}"/>
                         </td>
                     </tr>
@@ -42,7 +43,7 @@
                                 <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
                                 <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
                             </c:if>
-                            <font color="#191970"><i>The message has been flagged for it's content.</i></font>
+                            <font color="#191970"><i><fmt:message key="buzz.view.label.flagMessage"/></i></font>
                         </td>
                     </tr>
                 </c:when>

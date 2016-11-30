@@ -1,9 +1,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html lang="en">
 <head>
-    <title>Dashboard</title>
+    <title><fmt:message key="dashboard.view.title"/></title>
     <script>
         function refreshList() {
             $("#buzzList").load("/buzz/buzzList")
@@ -19,14 +20,21 @@
 <body>
 <div class="container-fluid">
     <div id="buzzMain" class="panel panel-primary">
-        <div class="panel-heading"><h3 style="font-family:'Helvetica Neue'"><b><i>Buzz!</i></b></h3></div>
+        <div class="panel-heading">
+            <h3>
+                <b><i><fmt:message key="buzz.view.label.title"/></i></b>
+            </h3>
+        </div>
+
         <div class="panel-body">
             <div id="buzzList"></div>
             <form:form id="buzzMessageForm" action="/buzz/sendBuzz" method="POST" modelAttribute="newBuzz">
                 <form:input path="message" placeholder="Enter your message..." cssStyle="width: 94%"/>
                 <input type="submit" class="btn btn-primary" value="Send"/>
 
-                <a href="/buzz/buzzHistory?prev=0&next=20" target="_blank">Show Buzz History</a>
+                <a href="/buzz/buzzHistory?prev=0&next=20" target="_blank">
+                    <fmt:message key="buzz.view.label.buzzHistory"/>
+                </a>
 
                 <p><form:errors path="message" cssClass="alert-danger"/></p>
             </form:form>
