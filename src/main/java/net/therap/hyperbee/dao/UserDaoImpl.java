@@ -138,4 +138,11 @@ public class UserDaoImpl implements UserDao {
                 .executeUpdate();
         em.flush();
     }
+
+    @Override
+    public int findByDisplayStatus(DisplayStatus status) {
+        return em.createQuery("SELECT u FROM User u WHERE u.displayStatus = :status", User.class)
+                .setParameter("status", status)
+                .getResultList().size();
+    }
 }

@@ -142,9 +142,6 @@ public class UserController {
 
     @GetMapping("/user/dashboard")
     public String welcome(Model model) {
-
-//        System.out.println(userService.findAll());
-
         if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
         }
@@ -155,23 +152,37 @@ public class UserController {
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
-
-        AuthUser authUser = sessionHelper.getAuthUserFromSession();
-
-        Map<String, Integer> map = getMap(authUser);
-
-        sessionHelper.persistInSession(map);
+        setStatInSession();
 
         return USER_DASHBOARD_VIEW;
+    }
+
+    private void setStatInSession() {
+        AuthUser authUserFromSession = sessionHelper.getAuthUserFromSession();
+        if (authUserFromSession.isAdmin()){
+            int activeUser  = userService.findByDisplayStatus(DisplayStatus.ACTIVE);
+            int inactiveUser  = userService.findByDisplayStatus(DisplayStatus.INACTIVE);
+
+            sessionHelper.setStat("activeUsers", activeUser);
+            sessionHelper.setStat("inactiveUsers", inactiveUser);
+        }
     }
 
     @GetMapping("/user/inactivate/{userId}")
     public String inactivateUser(@PathVariable int userId) {
         userService.inactivate(userId);
 
-        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") - 1);
-        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") + 1);
+//        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") - 1);
+//        sessionHelper.persistInSession("deactivatedUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") + 1);
 
+        int inactiveUsers = sessionHelper.getStat("inactiveUsers");
+        sessionHelper.setStat("inactiveUsers", inactiveUsers + 1);
+
+        int activeUsers = sessionHelper.getStat("activeUsers");
+        sessionHelper.setStat("activeUsers", activeUsers - 1);
+
+
+//        sessionHelper.persistUserStats();
 
         return "redirect:/profile/search";
     }
@@ -182,8 +193,14 @@ public class UserController {
     public String activateUser(@PathVariable int userId) {
         userService.activate(userId);
 
-        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") + 1);
-        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") - 1);
+//        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") + 1);
+//        sessionHelper.persistInSession("deactivatedUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") - 1);
+
+        int inactiveUsers = sessionHelper.getStat("inactiveUsers");
+        sessionHelper.setStat("inactiveUsers", inactiveUsers - 1);
+
+        int activeUsers = sessionHelper.getStat("activeUsers");
+        sessionHelper.setStat("activeUsers", activeUsers + 1);
 
         return "redirect:/profile/search";
     }

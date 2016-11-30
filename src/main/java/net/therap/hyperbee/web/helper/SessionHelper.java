@@ -40,6 +40,9 @@ public class SessionHelper {
     }
 
     public void persistInSession(String key, int count) {
+
+        System.out.println(userService.findAll() + " In persist Session");
+
         HttpSession session = getHttpSession();
         Map<String, Integer> statsMap = (Map<String, Integer>) session.getAttribute("statsMap");
 
@@ -76,5 +79,14 @@ public class SessionHelper {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         return session;
+    }
+
+    public void setStat(String key, int value) {
+        HttpSession httpSession = getHttpSession();
+        httpSession.setAttribute(key, value);
+    }
+
+    public int getStat(String key) {
+        return (Integer) getHttpSession().getAttribute(key);
     }
 }
