@@ -8,21 +8,26 @@ import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.ImageUploader;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
+import net.therap.hyperbee.web.validator.ProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.constant.DomainConstant.PROFILE_ATTRIBUTE;
+import static net.therap.hyperbee.utils.constant.DomainConstant.USER_ATTRIBUTE;
+import static net.therap.hyperbee.utils.constant.Messages.NO_USER_FOUND;
 import static net.therap.hyperbee.utils.constant.Url.*;
-import static net.therap.hyperbee.utils.constant.DomainConstant.*;
-import static net.therap.hyperbee.utils.constant.Messages.*;
 
 /**
  * @author duity
@@ -44,8 +49,16 @@ public class ProfileController {
     @Autowired
     private ImageUploader imageUploader;
 
+    @Autowired
+    private ProfileValidator profileValidator;
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(profileValidator);
+    }
+
     @GetMapping(value = PROFILE_EDIT_URL)
-    public String getProfile(Model model, HttpSession session) {
+    public String getProfile(Model model) {
         AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
         int id = authUser.getId();
         User user = userService.findById(id);
@@ -63,10 +76,18 @@ public class ProfileController {
     }
 
     @PostMapping
-    public String postProfile(@ModelAttribute Profile profile, Model model, @RequestParam String imagePath,
+    public String postProfile(@ModelAttribute @Validated Profile profile, Model model, @RequestParam String imagePath,
                               @RequestParam MultipartFile file,
                               @RequestParam String coverImage,
-                              @RequestParam MultipartFile coverFile) {
+                              @RequestParam MultipartFile coverFile,
+                              BindingResult result,
+                              RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+
+
+
+            return "redirect:"+ CREATE_PROFILE_URL;
+        }
         AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
         int userId = authUser.getId();
 
