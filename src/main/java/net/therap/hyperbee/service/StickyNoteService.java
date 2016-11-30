@@ -20,4 +20,8 @@ public interface StickyNoteService {
     List<Note> findTopStickyNoteByUser(int userId);
 
     List<Note> findUpcomingReminderNoteByUser(int userId);
+
+    int getRemainingReminderCountForUser(int userId);
+
+    int getStickyNoteCountForUser(int userId);
 }
