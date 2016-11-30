@@ -63,12 +63,13 @@ public class HiveController {
         model.addAttribute("userIdInfo", new UserIdInfo());
         model.addAttribute("post", new Post());
         model.addAttribute("creator", userService.findById(hive.getCreatorId()));
+        model.addAttribute("noticeList", hiveService.getLastFiveNotice(hive.getNoticeList()));
 
         return SHOW_HIVE;
     }
 
     @PostMapping(value = HIVE_ADD_USER_URL)
-    public String addUserToHive(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
+    public String addUser(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.insertUsersToHive(hiveId, userIdInfo.getUserIdList());
 
@@ -76,7 +77,7 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_REMOVE_USER_URL)
-    public String RemoveUserFromHive(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
+    public String RemoveUser(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.removeUsersFromHive(hiveId, userIdInfo.getUserIdList());
 
@@ -84,7 +85,7 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_CREATE_URL)
-    public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
+    public String saveHive(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
         String filename = hive.getName().replaceAll(" ","") + file.getOriginalFilename();
         hive.setImagePath(filename);

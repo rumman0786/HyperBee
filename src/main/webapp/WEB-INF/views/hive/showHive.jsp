@@ -32,14 +32,16 @@
             <form:form action="/user/hive/post/${hive.id}" method="POST" commandName="post">
                 <div class="panel panel-success">
                     <div class="panel-heading clearfix">
-                        <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><fmt:message key="hive.post.form"/></h4>
+                        <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><fmt:message
+                                key="hive.post.form"/></h4>
                     </div>
                     <div class="panel-body">
                         <form:textarea type="text" placeholder="Description" class="form-control" path="description"/>
                     </div>
                     <div class="panel-footer clearfix">
                         <div class="btn-group pull-right">
-                            <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="hive.post.button"/></button>
+                            <button class="btn btn-warning btn-sm" type="submit"><fmt:message
+                                    key="hive.post.button"/></button>
                         </div>
                     </div>
                 </div>
@@ -71,7 +73,7 @@
             </c:forEach>
         </div>
         <div id="notice" class="tab-pane">
-            <c:forEach items="${hive.noticeList}" var="item">
+            <c:forEach items="${noticeList}" var="item">
                 <div class="panel panel-warning">
                     <div class="panel-heading clearfix">
                         <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
@@ -124,11 +126,11 @@
                         </div>
                         <div class="panel-footer clearfix">
                             <div class="pull-right">
-                                <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="hive.add.button"/></button>
+                                <button class="btn btn-warning btn-sm" type="submit"><fmt:message
+                                        key="hive.add.button"/></button>
                             </div>
                         </div>
                     </form:form>
-
                 </div>
             </div>
             <div class="col-sm-4 table-responsive">
@@ -150,7 +152,8 @@
                         </div>
                         <div class="panel-footer clearfix">
                             <div class="pull-right">
-                                <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="hive.remove.button"/></button>
+                                <button class="btn btn-warning btn-sm" type="submit"><fmt:message
+                                        key="hive.remove.button"/></button>
                             </div>
                         </div>
                     </form:form>
@@ -160,7 +163,6 @@
         <div id="about" class="tab-pane">
             <div class="panel panel-info">
                 <div class="panel-heading clearfix">
-
                 </div>
                 <div class="panel-body">${hive.description}</div>
             </div>

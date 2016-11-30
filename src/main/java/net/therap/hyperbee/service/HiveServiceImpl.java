@@ -94,20 +94,17 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Override
-    @Transactional
-    public List<Notice> getNoticeList(int id) {
-        Hive hive = retrieveHiveById(id);
-        List<Notice> noticeList = hive.getNoticeList();
-
-        return hiveDao.getLastFiveNotice(noticeList, 5);
-    }
-
-    @Override
     public List<User> getUserListToRemove(int id) {
         Hive hive = retrieveHiveById(id);
         List<User> userList = hive.getUserList();
         userList.remove(userService.findById(hive.getCreatorId()));
 
         return userList;
+    }
+
+    @Override
+    public List<Notice> getLastFiveNotice(List<Notice> noticeList) {
+
+        return hiveDao.getLastFiveNotice(noticeList,5);
     }
 }

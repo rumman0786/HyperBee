@@ -16,7 +16,7 @@
                 <tr>
                     <td><c:forEach items="${hiveList}" var="item">
                         <a href="/user/hive/show/${item.id}"><c:out value="${item.name}"/></a><br>
-                    <br>
+                        <br>
                     </c:forEach>
                     </td>
                 </tr>
@@ -39,13 +39,13 @@
                     <input path="imagePath" type="file" name="file" size="50"/>
                 </div>
                 <div class="btn-group pull-right">
-                    <form:button type="submit" class="btn btn-primary" value="Upload"><fmt:message key="hive.form.button"/></form:button>
+                    <form:button type="submit" class="btn btn-primary" value="Upload"><fmt:message
+                            key="hive.form.button"/></form:button>
                 </div>
             </form:form>
         </div>
         <p>${message}</p>
     </div>
 </div>
-
 </body>
 </html>
