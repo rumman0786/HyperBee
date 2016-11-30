@@ -84,7 +84,7 @@ public class BuzzServiceImpl implements BuzzService {
     public Buzz deactivateBuzz(Buzz buzzToDeactivate) {
         buzzToDeactivate.setDisplayStatus(DisplayStatus.INACTIVE);
 
-        return buzzDao.delete(buzzToDeactivate);
+        return buzzDao.saveOrUpdate(buzzToDeactivate);
     }
 
     @Override
