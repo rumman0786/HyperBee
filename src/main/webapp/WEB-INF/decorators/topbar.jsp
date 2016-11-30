@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
 </head>
@@ -11,23 +12,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/user/dashboard">HYPERBEE</a>
+            <a class="navbar-brand" href="/user/dashboard"><fmt:message key="dashboard.view.topbar.hyperbee"/> </a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/user/dashboard">Home</a></li>
-                <li><a href="/user/profile">Profile</a></li>
+                <li class="active"><a href="/user/dashboard"><fmt:message key="dashboard.view.topbar.home"/></a></li>
+                <li><a href="/user/profile"><fmt:message key="dashboard.view.topbar.profile"/></a></li>
 
                 <c:if test="${authUser.isAdmin()}">
-                <li><a href="/notice/list">Notice</a></li>
+                <li><a href="/notice/list"><fmt:message key="dashboard.view.topbar.notice"/></a></li>
                 </c:if>
-                <li><a href="/user/notes">Note</a></li>
-                <li><a href="/conference/list">Conference</a></li>
+                <li><a href="/user/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> <fmt:message key="dashboard.view.topbar.logout"/></a></li>
             </ul>
         </div>
     </div>
 </nav>
-</html>

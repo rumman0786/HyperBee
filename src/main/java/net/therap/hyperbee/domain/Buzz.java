@@ -90,6 +90,10 @@ public class Buzz implements Serializable {
         this.displayStatus = displayStatus;
     }
 
+    public boolean isActive() {
+        return displayStatus == DisplayStatus.ACTIVE;
+    }
+
     public boolean isPinned() {
         return pinned;
     }
