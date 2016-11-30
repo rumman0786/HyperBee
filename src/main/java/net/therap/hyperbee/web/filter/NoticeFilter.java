@@ -1,5 +1,6 @@
 package net.therap.hyperbee.web.filter;
 
+import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.security.AuthUser;
 
 import javax.servlet.*;
@@ -8,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static net.therap.hyperbee.utils.constant.Messages.NOTICE_ACCESS_DENIED;
 import static net.therap.hyperbee.utils.constant.Url.ACCESS_DENIED_URL;
+import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 
 /**
  * @author rumman
@@ -30,9 +33,11 @@ public class NoticeFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
+        session.setAttribute("message", NOTICE_ACCESS_DENIED);
+        session.setAttribute("messageStyle", "alert alert-danger");
 
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.sendRedirect(ACCESS_DENIED_URL);
+        httpServletResponse.sendRedirect(DONE_URL);
     }
 
     @Override
