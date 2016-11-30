@@ -16,6 +16,8 @@ public interface NoticeDao {
 
     List<Notice> findAll();
 
+    List<Notice> findLatestNotices(int range);
+
     void delete(Notice notice);
 
     void delete(int noticeId);

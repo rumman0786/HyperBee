@@ -10,12 +10,19 @@ public interface Messages {
 
     String NOTE_DELETE_SUCCESS = "Note has been deleted";
     String NOTE_SAVE_SUCCESS = "Note has been saved";
+    String NOTICE_LIST_VIEWED = "Notice List View";
     String NOTE_SAVE_FAILURE = "Note was not saved. Please Try Again";
 
     String NOTE_PAGE_VIEW_ACTIVITY = "Visited own notes page";
     String NOTE_SAVE_ACTIVITY = "Saved a new note";
     String NOTE_SAVE_FAILED = "Tried to save an invalid note";
     String NOTE_DELETE_ACTIVITY = "Deleted a note";
+
+    //Notice Messages
+    String NOTICE_SAVED = "Saved Notice";
+    String NOTICE_MODIFIED = "Modified Notice";
+    String NOTICE_DELETED = "Deleted Notice";
+    String NOTICE_ACCESS_DENIED = "Only Admin Users Can Access Notice Area";
 
     String LOGGED_IN = "Logged In";
     String SIGNED_UP = "Signed Up";

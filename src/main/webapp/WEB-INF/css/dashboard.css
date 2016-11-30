@@ -52,9 +52,14 @@
     background-color: #c0c0c0;
 }
 
+.set-activity-height {
+    max-height: 600px;
+}
+
 /* Set black background color, white text and some padding */
 footer {
     background-color: #555;
     color: white;
     padding: 15px;
 }
+

@@ -2,6 +2,7 @@ package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.dao.NoticeDao;
 import net.therap.hyperbee.domain.Notice;
+import net.therap.hyperbee.web.helper.NoticeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +19,14 @@ public class NoticeServiceImpl implements NoticeService {
     @Autowired
     private NoticeDao noticeDao;
 
+    @Autowired
+    private NoticeHelper noticeHelper;
+
     @Override
     @Transactional
     public void saveNotice(Notice notice) {
         noticeDao.save(notice);
+        noticeHelper.persistInSession();
     }
 
     @Override
@@ -35,14 +40,21 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    public List<Notice> findLatestNotices(int range) {
+        return noticeDao.findLatestNotices(range);
+    }
+
+    @Override
     @Transactional
     public void deleteNotice(Notice notice) {
         noticeDao.delete(notice);
+        noticeHelper.persistInSession();
     }
 
     @Override
     @Transactional
     public void delete(int noticeId) {
         noticeDao.delete(noticeId);
+        noticeHelper.persistInSession();
     }
 }
