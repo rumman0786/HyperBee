@@ -1,12 +1,15 @@
 package net.therap.hyperbee.web.helper;
 
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * @author rayed
@@ -16,6 +19,9 @@ import javax.servlet.http.HttpSession;
 @Component
 public class SessionHelper {
 
+    @Autowired
+    private UserService userService;
+
     public void persistInSession(User user) {
         AuthUser authUser = new AuthUser();
         authUser.setId(user.getId());
@@ -23,9 +29,22 @@ public class SessionHelper {
         authUser.setRoleList(user.getRoleList());
 
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.setAttribute("authUser", authUser);
+    }
+
+    public void persistInSession(Map<String, Integer> map) {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = servletRequestAttributes.getRequest().getSession();
+        session.setAttribute("statsMap", map);
+    }
+
+    public void persistInSession(String key, int count) {
+        HttpSession session = getHttpSession();
+        Map<String, Integer> statsMap = (Map<String, Integer>) session.getAttribute("statsMap");
+
+        statsMap.put(key, count);
+        session.setAttribute("statsMap", statsMap);
     }
 
     public AuthUser getAuthUserFromSession() {
@@ -51,5 +70,11 @@ public class SessionHelper {
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
 
         return authUser.getId();
+    }
+
+    public HttpSession getHttpSession() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = servletRequestAttributes.getRequest().getSession();
+        return session;
     }
 }

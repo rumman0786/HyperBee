@@ -1,9 +1,12 @@
 package net.therap.hyperbee.web.helper;
 
+import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,16 +16,18 @@ import java.util.Map;
 @Component
 public class UserHelper {
 
-    private Map<String, Integer> map;
+
+    Map<String, Integer> map;
 
     public UserHelper() {
         map = new HashMap<>();
     }
 
-    public Map<String, Integer> generateMap(AuthUser authUser) {
+    public Map<String, Integer> generateMap(AuthUser authUser, List<User> users) {
 
         if (authUser.isAdmin()) {
-            setUserStats();
+            setUserStats(users);
+
         } else {
 
         }
@@ -30,7 +35,21 @@ public class UserHelper {
         return map;
     }
 
-    private void setUserStats() {
-//        map.put("activeUsers", );
+    private void setUserStats(List<User> users) {
+//        System.out.println(users);
+
+        int activeUsers = -1;
+        int deactivatedUsers = 0;
+
+        for (User user : users) {
+            if (user.getDisplayStatus() == DisplayStatus.ACTIVE){
+                activeUsers++;
+            } else {
+                deactivatedUsers++;
+            }
+        }
+
+        map.put("activeUsers", activeUsers);
+        map.put("deactivatedUsers", deactivatedUsers);
     }
 }
