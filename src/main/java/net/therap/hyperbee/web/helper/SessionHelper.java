@@ -1,6 +1,7 @@
 package net.therap.hyperbee.web.helper;
 
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
@@ -66,6 +67,36 @@ public class SessionHelper {
         return session;
     }
 
+    public void setStatInSession() {
+        AuthUser authUserFromSession = getAuthUserFromSession();
+
+        if (authUserFromSession.isAdmin()){
+            int activeUser  = userService.findByDisplayStatus(DisplayStatus.ACTIVE);
+            int inactiveUser  = userService.findByDisplayStatus(DisplayStatus.INACTIVE);
+
+            int activeBuzz = buzzService.getActiveCount();
+            int inactiveBuzz = buzzService.getInactiveCount();
+            int flaggedBuzz = buzzService.getFlaggedCount();
+            int pinnedBuzz = buzzService.getPinnedCount();
+
+            setStat("activeUsers", activeUser);
+            setStat("inactiveUsers", inactiveUser);
+
+            setStat("activeBuzz", activeBuzz);
+            setStat("inactiveBuzz", inactiveBuzz);
+            setStat("flaggedBuzz", flaggedBuzz);
+            setStat("pinnedBuzz", pinnedBuzz);
+        } else {
+            int activeBuzz = buzzService.getActiveCountByUser(authUserFromSession.getId());
+            int flaggedBuzz = buzzService.getFlaggedCountByUser(authUserFromSession.getId());
+            int pinnedBuzz = buzzService.getPinnedCountByUser(authUserFromSession.getId());
+
+            setStat("activeBuzz", activeBuzz);
+            setStat("flaggedBuzz", flaggedBuzz);
+            setStat("pinnedBuzz", pinnedBuzz);
+        }
+    }
+
     public void setStat(String key, int value) {
         HttpSession httpSession = getHttpSession();
         httpSession.setAttribute(key, value);
@@ -73,5 +104,15 @@ public class SessionHelper {
 
     public int getStat(String key) {
         return (Integer) getHttpSession().getAttribute(key);
+    }
+
+    public void decrementSessionAttribute(String key, int increment) {
+        int count = getStat(key);
+        setStat(key, count - increment);
+    }
+
+    public void incrementSessionAttribute(String key, int increment) {
+        int count = getStat(key);
+        setStat(key, count + increment);
     }
 }

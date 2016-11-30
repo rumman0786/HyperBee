@@ -1,13 +1,13 @@
 package net.therap.hyperbee.dao;
 
-import net.therap.hyperbee.domain.Activity;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+    import net.therap.hyperbee.domain.Activity;
+    import org.springframework.stereotype.Repository;
+    import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import java.util.List;
+    import javax.persistence.EntityManager;
+    import javax.persistence.NoResultException;
+    import javax.persistence.PersistenceContext;
+    import java.util.List;
 
 /**
  * @author rayed

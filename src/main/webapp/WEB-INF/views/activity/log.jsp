@@ -8,18 +8,25 @@
         <h2>Select user whose activity log you want to view:</h2>
         <form:form action="/user/activity/log" method="post" modelAttribute="userInfo">
             <c:forEach items="${userInfo.userList}" var="user">
-                <form:radiobutton value="${user.id}" path="userId" label="${user.username}"/>
-                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <form:radiobutton value="${user.id}" path="userId" label=""/>
+                    </span>
+                    <label class="form-control" aria-label="..."><c:out value="${user.username}"/></label>
+                </div>
             </c:forEach>
-            <button type="submit">Submit</button>
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form:form>
     </c:when>
     <c:otherwise>
         <h2>Here are your activities: </h2>
+
         <div class="pre-scrollable set-activity-height">
             <ul class="list-group">
                 <c:forEach items="${activityList}" var="activity">
-                    <li class="list-group-item list-group-item-warning"><c:out value="${activity.getDateAndTime()}"/></li>
+                    <li class="list-group-item list-group-item-warning"><c:out
+                            value="${activity.getDateAndTime()}"/></li>
                     <li class="list-group-item"><c:out value="${activity.summary}"/></li>
                 </c:forEach>
             </ul>
