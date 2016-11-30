@@ -8,6 +8,7 @@ import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.StickyNoteService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.command.SignUpInfo;
+import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
@@ -51,6 +52,9 @@ public class UserController {
     @Autowired
     private SessionHelper sessionHelper;
 
+    @Autowired
+    private NoticeHelper noticeHelper;
+
     @InitBinder("login")
     private void loginValidator(WebDataBinder binder) {
         binder.setValidator(loginValidator);
@@ -88,7 +92,9 @@ public class UserController {
 
             activityService.archive(LOGGED_IN);
 
-            return "redirect:/user/dashboard";
+            noticeHelper.persistInSession();
+
+            return "redirect:" + USER_DASHBOARD_URL;
         }
 
         return LOGIN_VIEW;

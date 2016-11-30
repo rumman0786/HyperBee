@@ -15,15 +15,13 @@ import java.util.List;
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
 
-    private static final String NOTICE_ALL_QUERY = "FROM Notice";
-
     @PersistenceContext
     private EntityManager em;
 
     @Override
     @Transactional
     public void save(Notice notice) {
-        if (notice.getId() == 0) {
+        if (notice.isNew()) {
             em.persist(notice);
             em.flush();
         } else {
@@ -39,7 +37,15 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Notice> findAll() {
-        return em.createQuery(NOTICE_ALL_QUERY).getResultList();
+        return em.createNamedQuery("Notice.findAllNotice", Notice.class)
+                .getResultList();
+    }
+
+    @Override
+    public List<Notice> findLatestNotices(int range) {
+        return em.createNamedQuery("Notice.findLatestNotices", Notice.class)
+                .setMaxResults(range)
+                .getResultList();
     }
 
     @Override

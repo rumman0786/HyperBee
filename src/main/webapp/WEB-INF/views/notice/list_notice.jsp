@@ -1,26 +1,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: rumman
-  Date: 11/22/16
-  Time: 12:41 PM
-  To change this template use File | Settings | File Templates.
+ * @author rumman
+ * @since 11/22/16
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <title>| Notice Board</title>
 </head>
 <body>
+
 <c:if test="${isAdmin}">
     <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right">Add Notice</a>
 </c:if>
+
 <div class="table-responsive">
-    <table class="table table-striped" border="1">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th>Title</th>
             <th>Description</th>
             <th>Creator</th>
+            <th>Hives</th>
 
             <c:if test="${isAdmin}">
                 <th>Edit</th>
@@ -36,7 +36,11 @@
                 <td>${notice.title}</td>
                 <td>${notice.description}</td>
                 <td>${notice.user.username}</td>
-
+                <td>
+                    <c:forEach var="hive" items="${notice.hiveList}">
+                        ${hive.name}
+                    </c:forEach>
+                </td>
                 <c:if test="${isAdmin}">
                     <td><a href="${pageContext.request.contextPath}/notice/${notice.id}/"><span
                             class="glyphicon glyphicon-edit"></span></a></td>

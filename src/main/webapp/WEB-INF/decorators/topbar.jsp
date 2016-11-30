@@ -19,10 +19,15 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/user/dashboard"><fmt:message key="dashboard.view.topbar.home"/></a></li>
                 <li><a href="/profile/user"><fmt:message key="dashboard.view.topbar.profile"/></a></li>
+                <li><a href="/user/dashboard"><fmt:message key="dashboard.view.topbar.home"/></a></li>
+                <li><a href="/user/profile"><fmt:message key="dashboard.view.topbar.profile"/></a></li>
                 <c:if test="${authUser.isAdmin()}">
                     <li><a href="/notice/list"><fmt:message key="dashboard.view.topbar.notice"/></a></li>
+                    <li <c:if test="${page == 'notice'}"> class="active" </c:if>><a href="/notice/list"><fmt:message
+                            key="dashboard.view.topbar.notice"/></a></li>
                 </c:if>
                 <li><a href="/user/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
+                <li><a href="/conference/list">Conference</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> <fmt:message

@@ -14,5 +14,10 @@
     </excludes>
     <decorator name="decorator" page="decorator.jsp">
         <pattern>/*</pattern>
+        <pattern>/user/*</pattern>
+        <pattern>/notice*</pattern>
+        <pattern>/conference*</pattern>
+        <pattern>/profile*</pattern>
+        <pattern>/denied*</pattern>
     </decorator>
 </decorators>
