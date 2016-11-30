@@ -86,27 +86,11 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Override
-    public List<User> getUserInList(int id) {
-        Hive hive = retrieveHiveById(id);
-
-        return hive.getUserList();
-    }
-
-    @Override
     @Transactional
     public void removeUsersFromHive(int hiveId, List<Integer> userIdList) {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
         hiveDao.removeUsersFromHive(hive, userList);
-    }
-
-    @Override
-    @Transactional
-    public List<Notice> getNoticeList(int id) {
-        Hive hive = retrieveHiveById(id);
-        List<Notice> noticeList = hive.getNoticeList();
-
-        return hiveDao.getLastFiveNotice(noticeList, 5);
     }
 
     @Override
@@ -116,5 +100,20 @@ public class HiveServiceImpl implements HiveService {
         userList.remove(userService.findById(hive.getCreatorId()));
 
         return userList;
+    }
+
+    @Override
+    public List<Notice> getLastFiveNotice(List<Notice> noticeList) {
+
+        if (noticeList.isEmpty()) {
+            return noticeList;
+        }
+
+        return hiveDao.getLastFiveNotice(noticeList, 5);
+    }
+
+    @Override
+    public List<Hive> getAllHive() {
+        return hiveDao.findAll();
     }
 }

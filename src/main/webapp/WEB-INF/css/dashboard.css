@@ -6,6 +6,7 @@
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
+
     height: 950px
 }
 
@@ -51,6 +52,14 @@
 
 .set-activity-height {
     max-height: 600px;
+}
+
+.fixed-panel {
+    min-height: 300px;
+}
+
+.panel-body {
+    word-break: break-all
 }
 
 /* Set black background color, white text and some padding */

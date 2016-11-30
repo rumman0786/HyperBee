@@ -48,6 +48,7 @@ public class Hive implements Serializable {
 
     public Hive() {
         this.userList = new ArrayList<User>();
+        this.noticeList = new ArrayList<Notice>();
     }
 
     public int getId() {
