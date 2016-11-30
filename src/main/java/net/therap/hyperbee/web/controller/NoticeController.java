@@ -90,7 +90,7 @@ public class NoticeController {
         modelMap.addAttribute("page", "notice")
                 .addAttribute("noticeHeader", "Add Notice")
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_ADD_URL)
-                .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession()))
+                .addAttribute("hiveList", hiveService.getAllHive())
                 .addAttribute("displayStatusOptions", DisplayStatus.values());
 
         log.debug(NOTICE_ADD_VIEWED);
@@ -129,7 +129,7 @@ public class NoticeController {
         modelMap.addAttribute("page", "notice")
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_UPDATE_URL)
                 .addAttribute("noticeHeader", "Edit Notice")
-                .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession()))
+                .addAttribute("hiveList", hiveService.getAllHive())
                 .addAttribute("notice", noticeService.findNoticeById(id));
 
         log.debug(NOTICE_EDIT_VIEWED);

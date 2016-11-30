@@ -23,7 +23,7 @@ public class HiveDaoImpl implements HiveDao {
 
     private final String QUERY_GET_USER_NOTIN_LIST = "SELECT u FROM User u WHERE u NOT IN :userList";
 
-    private final String QUERY_GET_LAST_FIVE_NOTICE = "SELECT n FROM Notice n WHERE n IN :noticeList " +"ORDER BY n.id DESC";
+    private final String QUERY_GET_LAST_FIVE_NOTICE = "SELECT n FROM Notice n WHERE n IN :noticeList " + "ORDER BY n.id DESC";
 
     @PersistenceContext
     private EntityManager em;
@@ -89,6 +89,11 @@ public class HiveDaoImpl implements HiveDao {
 
         return em.createQuery(QUERY_GET_LAST_FIVE_NOTICE, Notice.class)
                 .setParameter("noticeList", noticeList).getResultList();
+    }
+
+    @Override
+    public List<Hive> findAll() {
+        return em.createQuery("From Hive", Hive.class).getResultList();
     }
 
 

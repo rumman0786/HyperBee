@@ -111,4 +111,9 @@ public class HiveServiceImpl implements HiveService {
 
         return hiveDao.getLastFiveNotice(noticeList, 5);
     }
+
+    @Override
+    public List<Hive> getAllHive() {
+        return hiveDao.findAll();
+    }
 }
