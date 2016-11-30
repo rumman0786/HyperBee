@@ -185,7 +185,8 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_ADD_POST_URL)
-    public String savePost(@Validated @ModelAttribute("post") Post post, BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+    public String savePost(@Validated @ModelAttribute("post") Post post, BindingResult result,
+                           RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "post", result);
