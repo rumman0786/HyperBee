@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -132,5 +133,16 @@ public class Notice implements Serializable {
 
     public boolean isNew() {
         return id == 0;
+    }
+
+    public String getRemindDateFormatted() {
+        if (null == dateExpired) {
+
+            return "";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+
+        return sdf.format(dateExpired.getTimeInMillis());
     }
 }
