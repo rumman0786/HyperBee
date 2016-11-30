@@ -110,7 +110,10 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_ADD_USER_URL)
-    public String addUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model, BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+    public String addUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model,
+                          BindingResult result, RedirectAttributes redirectAttributes,
+                          @PathVariable("hiveId") int hiveId) {
+
         userIdInfoValidator.validate(userIdInfo, result);
 
         if (result.hasErrors()) {
@@ -127,7 +130,10 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_REMOVE_USER_URL)
-    public String RemoveUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model, BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+    public String RemoveUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model,
+                             BindingResult result, RedirectAttributes redirectAttributes,
+                             @PathVariable("hiveId") int hiveId) {
+
         userIdInfoValidator.validate(userIdInfo, result);
 
         if (result.hasErrors()) {
@@ -144,7 +150,9 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_CREATE_URL)
-    public String saveHive(@Validated @ModelAttribute("hive") Hive hive, BindingResult result, RedirectAttributes redirectAttributes, @RequestParam MultipartFile file, Model model) throws IOException {
+    public String saveHive(@Validated @ModelAttribute("hive") Hive hive, BindingResult result,
+                           RedirectAttributes redirectAttributes,
+                           @RequestParam MultipartFile file, Model model) throws IOException {
 
         if (result.hasErrors() || file.getSize() == 0) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "hive", result);
@@ -154,7 +162,7 @@ public class HiveController {
                 redirectAttributes.addFlashAttribute("fileError", "Please select picture");
             }
 
-            return "redirect:" + "/user/hive";
+            return "redirect:" + HIVE_URL;
         }
 
 

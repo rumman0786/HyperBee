@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <input path="imagePath" type="file" name="file" size="50"/>
-                <p>${fileError}</p>
+                <p style="color: #ff0000">${fileError}</p>
                 </div>
                 <div class="btn-group pull-right">
                     <form:button type="submit" class="btn btn-primary" value="Upload"><fmt:message
