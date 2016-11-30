@@ -24,4 +24,6 @@ public interface Messages {
     String BUZZ_FLAG_SUCCESS = "Successfully flagged buzz: <message>";
     String BUZZ_DELETE_SUCCESS = "Successfully removed buzz: <message>";
     String BUZZ_PINNED_SUCCESS = "Successfully pinned buzz: <message>";
+
+    String NO_USER_FOUND = "No user Found with This username.";
 }

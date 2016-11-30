@@ -31,7 +31,7 @@ public class UrlFilter implements Filter {
         servletResponse.setHeader("Pragma", "no-cache");
         servletResponse.setHeader("Expires", "0");
 
-        if (authUser != null){
+        if (authUser != null) {
             chain.doFilter(request, response);
 
             return;

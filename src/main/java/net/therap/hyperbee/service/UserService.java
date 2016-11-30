@@ -22,6 +22,8 @@ public interface UserService {
 
     public List<User> findAll();
 
+    public List<User> findActiveUsers();
+
     public void updateUser(User user);
 
     public void deleteUser(int id);

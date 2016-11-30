@@ -13,7 +13,8 @@
 
 <body>
 <%--<c:if test="${user.isSuperuser}">--%>
-    <a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference Room</a>
+<a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference
+    Room</a>
 <%--</c:if>--%>
 <div class="table-responsive">
     <table class="table table-striped" border="1">

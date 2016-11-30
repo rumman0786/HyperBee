@@ -77,6 +77,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findActiveUsers() {
+        return userDao.findActiveUser();
+    }
+
+    @Override
     @Transactional
     public void updateUser(User user) {
 

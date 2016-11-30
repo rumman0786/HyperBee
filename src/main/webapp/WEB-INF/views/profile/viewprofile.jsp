@@ -16,18 +16,17 @@
     </div>
 </div>
 <div class="col-lg-10 container" style="padding-top: 10px">
-    <form action="/profile/edit" method="post">
-        <table>
-            <tr>
-                <td>
-                    <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
-                        <b>${user.firstName} ${user.lastName}</b>
-                    </h1>
-                </td>
-                <td style="padding-left: 700"><input type="submit" class="btn btn-block" value="Edit Profile"/></td>
-            </tr>
-        </table>
-    </form>
+    <table>
+        <tr>
+            <td>
+                <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
+                    <b>${user.firstName} ${user.lastName}</b>
+                </h1>
+            </td>
+            <td style="padding-left: 700"><a href="/profile/edit" class=" btn navbar-btn"/><fmt:message key="profile.edit.button"/> </td>
+            <td style="padding-left: 10"><a href="/profile/edit" class=" btn navbar-btn"/>Deactivate Profile</td>
+        </tr>
+    </table>
 </div>
 <div class="row">
     <div class="col-lg-5">

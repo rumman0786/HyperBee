@@ -5,7 +5,9 @@
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-.row.content {height: 1500px}
+.row.content {
+    height: 1500px
+}
 
 .top-padding {
     padding-top: 70px;
@@ -30,7 +32,7 @@
     list-style-type: none;
     display: block;
     margin: 0;
-    position:fixed;
+    position: fixed;
     overflow: hidden;
     font-family: sans-serif;
 }

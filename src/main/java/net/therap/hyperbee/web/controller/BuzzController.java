@@ -102,9 +102,9 @@ public class BuzzController {
 
     @GetMapping("/buzz/buzzHistory")
     public String viewBuzzHistory(@RequestParam("prev") int prev, @RequestParam("next") int next, Model model) {
-        List <Buzz> buzzList = buzzService.getAllBuzz();
+        List<Buzz> buzzList = buzzService.getAllBuzz();
 
-        if(next > buzzList.size()) {
+        if (next > buzzList.size()) {
             model.addAttribute("buzzList", buzzList.subList(prev, buzzList.size()));
             next = buzzList.size();
         } else {
