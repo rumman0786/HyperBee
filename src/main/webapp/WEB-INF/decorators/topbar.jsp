@@ -12,7 +12,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
+            </button>   
             <a class="navbar-brand" href="/user/dashboard"><fmt:message key="dashboard.view.topbar.hyperbee"/> </a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
