@@ -41,4 +41,14 @@ public interface Messages {
 
     String NO_USER_FOUND = "No user Found with This username.";
     String BUZZ_HISTORY_REQUEST = "Retrieved complete buzz list for viewing history";
+
+    //Conference Messages
+    String CONFERENCE_LIST_VIEWED = "Conference Home Page Viewed";
+    String CONFERENCE_ADD_VIEWED = "Conference Add Page Viewed";
+    String CONFERENCE_EDIT_VIEWED = "Conference Edit Page Viewed";
+    String CONFERENCE_SAVE_ERROR = "ERROR:: Conference Could Not be saved";
+    String CONFERENCE_SAVED = "Saved Conference";
+    String CONFERENCE_MODIFIED = "Modified Conference";
+    String CONFERENCE_DELETED = "Deleted Conference";
+
 }
