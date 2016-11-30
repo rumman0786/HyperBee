@@ -19,11 +19,9 @@
             <ul class="nav navbar-nav">
                 <li><a href="/user/profile"><fmt:message key="dashboard.view.topbar.profile"/></a></li>
 
-                <c:if test="${authUser.isAdmin()}">
-                    <li><a href="/notice/list"><fmt:message key="dashboard.view.topbar.notice"/></a></li>
-                    <li <c:if test="${page == 'notice'}"> class="active" </c:if>><a href="/notice/list"><fmt:message
-                            key="dashboard.view.topbar.notice"/></a></li>
-                </c:if>
+                <li <c:if test="${page == 'notice'}"> class="active" </c:if>>
+                    <a href="/notice/list"><fmt:message key="dashboard.view.topbar.notice"/></a>
+                </li>
 
                 <li><a href="/user/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
                 <li><a href="/conference/list"><fmt:message key="dashboard.view.topbar.conference"/></a></li>
