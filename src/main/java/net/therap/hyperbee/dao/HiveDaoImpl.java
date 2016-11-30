@@ -17,6 +17,14 @@ import java.util.List;
 @Repository
 public class HiveDaoImpl implements HiveDao {
 
+    private final String QUERY_GET_USER_BY_ID = "SELECT u FROM User u WHERE u.id IN :userIdList";
+
+    private final String QUERY_GET_HIVEID_BY_HIVENAME = "SELECT h.id FROM Hive h WHERE h.name=:hiveName";
+
+    private final String QUERY_GET_USER_NOTIN_LIST = "SELECT u FROM User u WHERE u NOT IN :userList";
+
+    private final String QUERY_GET_LAST_FIVE_NOTICE = "SELECT n FROM Notice n WHERE n IN :noticeList " + "ORDER BY n.id DESC";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -27,7 +35,7 @@ public class HiveDaoImpl implements HiveDao {
 
     public List<User> getUserListById(List<Integer> idList) {
 
-        return em.createQuery("SELECT u FROM User u WHERE u.id IN :userIdList", User.class)
+        return em.createQuery(QUERY_GET_USER_BY_ID, User.class)
                 .setParameter("userIdList", idList).getResultList();
     }
 
@@ -53,14 +61,14 @@ public class HiveDaoImpl implements HiveDao {
 
     public int getHiveIdByHiveName(String name) {
 
-        return em.createQuery("SELECT h.id FROM Hive h WHERE h.name=:hiveName", Integer.class)
+        return em.createQuery(QUERY_GET_HIVEID_BY_HIVENAME, Integer.class)
                 .setParameter("hiveName", name).getSingleResult();
     }
 
     @Override
     public List<User> findUserNotInList(List<User> userList) {
 
-        return em.createQuery("SELECT u FROM User u WHERE u NOT IN :userList", User.class)
+        return em.createQuery(QUERY_GET_USER_NOTIN_LIST, User.class)
                 .setParameter("userList", userList).getResultList();
     }
 
@@ -79,8 +87,13 @@ public class HiveDaoImpl implements HiveDao {
     @Override
     public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range) {
 
-        return em.createQuery("SELECT n FROM Notice n WHERE n IN :noticeList ORDER BY n.id DESC", Notice.class)
-                .setParameter("noticeList", noticeList).setMaxResults(range).getResultList();
+        return em.createQuery(QUERY_GET_LAST_FIVE_NOTICE, Notice.class)
+                .setParameter("noticeList", noticeList).getResultList();
+    }
+
+    @Override
+    public List<Hive> findAll() {
+        return em.createQuery("From Hive", Hive.class).getResultList();
     }
 
 
