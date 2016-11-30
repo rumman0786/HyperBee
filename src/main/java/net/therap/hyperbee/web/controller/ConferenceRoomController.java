@@ -35,7 +35,7 @@ public class ConferenceRoomController {
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
     }
 
-    @RequestMapping(value = CONFERENCE_ROOM_LIST_URL, method = RequestMethod.GET)
+    @GetMapping(value = CONFERENCE_ROOM_LIST_URL)
     public String showConferenceRoomList(ModelMap modelMap) {
 
         modelMap.addAttribute("page", "conferenceRoom")
@@ -46,7 +46,7 @@ public class ConferenceRoomController {
         return "conference_room/list_conference_room";
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String showAddConferenceRoomForm(ModelMap modelMap) {
 
         modelMap.addAttribute("page", "conferenceRoom")
@@ -58,7 +58,7 @@ public class ConferenceRoomController {
     }
 
 
-    @RequestMapping(value = CONFERENCE_ROOM_ADD_URL, method = RequestMethod.POST)
+    @PostMapping(value = CONFERENCE_ROOM_ADD_URL)
     public String AddConferenceRoom(@ModelAttribute("conferenceRoom") @Validated ConferenceRoom conferenceRoom,
                                     BindingResult bindingResult) {
 
@@ -71,7 +71,7 @@ public class ConferenceRoomController {
         return "redirect:" + CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_LIST_URL;
     }
 
-    @RequestMapping(value = "/{id}/**", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}/**")
     public String showEditConferenceRoomForm(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", "conferenceRoom")
                 .addAttribute("action", CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_UPDATE_URL)
@@ -82,7 +82,7 @@ public class ConferenceRoomController {
     }
 
 
-    @RequestMapping(value = CONFERENCE_ROOM_UPDATE_URL, method = RequestMethod.POST)
+    @PostMapping(value = CONFERENCE_ROOM_UPDATE_URL)
     public String editAddConferenceRoom(@ModelAttribute("conferenceRoom") @Validated ConferenceRoom conferenceRoom,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -94,7 +94,7 @@ public class ConferenceRoomController {
         return "redirect:" + CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_LIST_URL;
     }
 
-    @RequestMapping(value = CONFERENCE_ROOM_DELETE_URL, method = RequestMethod.POST)
+    @PostMapping(value = CONFERENCE_ROOM_DELETE_URL)
     public String deleteConferenceRoom(@RequestParam("id") int conferenceRoomId) {
         conferenceRoomService.delete(conferenceRoomId);
 
