@@ -1,14 +1,12 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.ConferenceRoom;
-import net.therap.hyperbee.domain.Hive;
-import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.Reservation;
-import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.ReservationStatus;
-import net.therap.hyperbee.service.*;
+import net.therap.hyperbee.service.ConferenceRoomService;
+import net.therap.hyperbee.service.ReservationService;
+import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
-import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.beans.PropertyEditorSupport;
-import java.util.GregorianCalendar;
 
 import static net.therap.hyperbee.utils.constant.Url.*;
 
@@ -89,7 +86,7 @@ public class ReservationController {
                             @RequestParam("reservationTo") String reservationTo) {
         System.out.println(reservationFrom);
         System.out.println(reservationTo);
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
+        int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
 
 //        if (bindingResult.hasErrors()) {
@@ -116,7 +113,7 @@ public class ReservationController {
     public String editReservation(@ModelAttribute("reservation") Reservation reservation,
                              BindingResult bindingResult) {
 
-        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
+        int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
 
         reservationService.saveReservation(reservation);

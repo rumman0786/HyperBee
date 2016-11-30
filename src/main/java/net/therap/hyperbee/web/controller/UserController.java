@@ -8,8 +8,13 @@ import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.helper.UserHelper;
+import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +22,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
 import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
@@ -29,24 +37,20 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 public class UserController {
 
+    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+
     @Autowired
     BuzzService buzzService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ActivityService activityService;
-
-    @Autowired
-    private LoginValidator loginValidator;
-
-    @Autowired
-    private SignUpValidator signUpValidator;
-
     @Autowired
     StickyNoteService noteService;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ActivityService activityService;
+    @Autowired
+    private LoginValidator loginValidator;
+    @Autowired
+    private SignUpValidator signUpValidator;
     @Autowired
     private SessionHelper sessionHelper;
 
@@ -138,6 +142,9 @@ public class UserController {
 
     @GetMapping("/user/dashboard")
     public String welcome(Model model) {
+
+//        System.out.println(userService.findAll());
+
         if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
         }
@@ -148,18 +155,47 @@ public class UserController {
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
+
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
+
+        Map<String, Integer> map = getMap(authUser);
+
+        sessionHelper.persistInSession(map);
+
         return USER_DASHBOARD_VIEW;
     }
 
     @GetMapping("/user/inactivate/{userId}")
     public String inactivateUser(@PathVariable int userId) {
         userService.inactivate(userId);
+
+        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") - 1);
+        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") + 1);
+
+
         return "redirect:/profile/search";
     }
+
+    //TODO admin check
 
     @GetMapping("/user/activate/{userId}")
     public String activateUser(@PathVariable int userId) {
         userService.activate(userId);
+
+        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") + 1);
+        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") - 1);
+
         return "redirect:/profile/search";
+    }
+
+    private Map<String, Integer> getMap(AuthUser authUser) {
+        List<User> users = userService.findAll();
+
+        UserHelper userHelper = new UserHelper();
+        Map<String, Integer> statsMap = userHelper.generateMap(authUser, users);
+
+        log.debug("Deactivated Users: {}", statsMap.get("deactivatedUsers"));
+
+        return statsMap;
     }
 }
