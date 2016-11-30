@@ -43,7 +43,7 @@ public class NoteService implements StickyNoteService {
     public List<Note> findTopStickyNoteByUser(int userId) {
 
         List<Note> noteList = noteDao.findTopStickyNoteByUser(STICKY_NOTE_COUNT_DASHBOARD, userId);
-        log.debug("Top Sticky Note Dashboard: "+noteList.size());
+        log.debug("Top Sticky Note Dashboard: " + noteList.size());
 
         return noteList;
     }
