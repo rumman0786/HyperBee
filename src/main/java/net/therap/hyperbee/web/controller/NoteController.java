@@ -95,7 +95,10 @@ public class NoteController {
 
         activityService.archive(NOTE_SAVE_ACTIVITY);
 
-        return "redirect:" + NOTE_VIEW_URL;
+        redirectAttributes.addFlashAttribute("message", NOTE_SAVE_SUCCESS);
+        redirectAttributes.addFlashAttribute("messageStyle", "alert alert-success");
+
+        return "redirect:" + DONE_URL;
     }
 
     @PostMapping(NOTE_DELETE_URL)

@@ -9,6 +9,11 @@
             font-style: italic;
             font-weight: bold;
         }
+        .success{
+            color: #47ff1e;
+            font-style: italic;
+            font-weight: bold;
+        }
     </style>
 
     <title>Success</title>
@@ -17,7 +22,6 @@
 <body>
 <div class="${messageStyle}">
     <c:out value="${message}"/>
-    <c:out value="${err}"/>
 </div>
 </body>
 </html>
