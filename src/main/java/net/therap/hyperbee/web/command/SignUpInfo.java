@@ -21,6 +21,7 @@ public class SignUpInfo {
     private String password2;
 
     public String getFirstName() {
+
         return firstName;
     }
 
@@ -29,6 +30,7 @@ public class SignUpInfo {
     }
 
     public String getLastName() {
+
         return lastName;
     }
 
@@ -37,6 +39,7 @@ public class SignUpInfo {
     }
 
     public String getUsername() {
+
         return username;
     }
 
@@ -45,6 +48,7 @@ public class SignUpInfo {
     }
 
     public String getEmail() {
+
         return email;
     }
 
@@ -53,14 +57,17 @@ public class SignUpInfo {
     }
 
     public String getPassword1() {
+
         return password1;
     }
 
     public void setPassword1(String password1) {
+
         this.password1 = password1;
     }
 
     public String getPassword2() {
+
         return password2;
     }
 
