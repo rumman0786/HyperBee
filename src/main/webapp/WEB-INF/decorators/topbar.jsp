@@ -28,21 +28,28 @@
                     </li>
                 </c:if>
 
+                <li <c:if test="${page == 'conferenceRoom'}"> class="active" </c:if> >
+                    <a href="/conference/list"><fmt:message key="dashboard.view.topbar.conference"/></a>
+                </li>
+
+                <li <c:if test="${page == 'reservation'}"> class="active" </c:if> >
+                    <a href="/reservation/list">Reservation</a>
+                </li>
+
                 <li <c:if test="${page == 'note'}"> class="active" </c:if> >
                     <a href="/user/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
-                <li><a href="/conference/list"><fmt:message key="dashboard.view.topbar.conference"/></a></li>
-                <li><a href="/reservation/list">Reservation</a></li>
 
                 <li><a href="/user/hive"><fmt:message key="dashboard.view.topbar.hive"/></a></li>
+
                 <li <c:if test="${page == 'stalk'}"> class="active" </c:if>>
                     <a href="/profile/search"><fmt:message key="dashboard.view.topbar.stalk"/></a>
                 </li>
+
                 <li><a href="/user/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a></li>
 
                 <li <c:if test="${page == 'buzz'}">class="active"</c:if>>
                     <a href="/buzz/buzzHistory?prev=0&next=20"><fmt:message key="dashboard.view.topbar.buzz"/></a>
                 </li>
-
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

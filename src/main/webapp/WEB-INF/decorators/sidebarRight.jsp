@@ -1,9 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="col-sm-2 sidenav top-padding text-left">
 
-    <h2>Top Notices</h2>
+    <h2><fmt:message key="notice.sidebar.header"/></h2>
+
     <c:forEach var="notice" items="${cachedNoticeList}">
         <div class="panel-group">
 

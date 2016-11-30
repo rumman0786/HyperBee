@@ -57,4 +57,9 @@ public class NoticeServiceImpl implements NoticeService {
         noticeDao.delete(noticeId);
         noticeHelper.persistInSession();
     }
+
+    @Override
+    public List<Notice> getNoticeListByHiveId(int hiveId, int range) {
+        return noticeDao.getNoticeListByHiveId(hiveId, range);
+    }
 }
