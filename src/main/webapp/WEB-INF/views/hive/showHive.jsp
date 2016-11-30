@@ -37,6 +37,7 @@
                     </div>
                     <div class="panel-body">
                         <form:textarea type="text" placeholder="Description" class="form-control" path="description"/>
+                        <form:errors path="description"/>
                     </div>
                     <div class="panel-footer clearfix">
                         <div class="btn-group pull-right">
@@ -119,6 +120,7 @@
                                         <td>
                                             <form:checkbox path="userIdList" value="${user.id}"
                                                            label=" ${user.username}"/>
+                                            <form:errors path="userIdList"/>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -130,7 +132,7 @@
                                         key="hive.add.button"/></button>
                             </div>
                         </div>
-                    </form:form>
+                     </form:form>
                 </div>
             </div>
             <div class="col-sm-4 table-responsive">
@@ -145,6 +147,7 @@
                                         <td>
                                             <form:checkbox path="userIdList" value="${user.id}"
                                                            label=" ${user.username}"/>
+                                            <form:errors path="userIdList"/>
                                         </td>
                                     </tr>
                                 </c:forEach>

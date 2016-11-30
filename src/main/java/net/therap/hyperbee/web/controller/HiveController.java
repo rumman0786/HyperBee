@@ -8,12 +8,19 @@ import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.command.UserIdInfo;
 import net.therap.hyperbee.web.helper.ImageUploader;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.validator.HiveValidator;
+import net.therap.hyperbee.web.validator.PostValidator;
+import net.therap.hyperbee.web.validator.UserIdInfoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +51,21 @@ public class HiveController {
     @Autowired
     private SessionHelper sessionHelper;
 
+    @Autowired
+    private UserIdInfoValidator userIdInfoValidator;
+
+    @Autowired
+    private PostValidator postValidator;
+
+    @Autowired
+    private HiveValidator hiveValidator;
+
+    @InitBinder("post")
+    private void initPostBinder(WebDataBinder binder) {
+        binder.setValidator(postValidator);
+    }
+
+
     @GetMapping
     public String viewHive(ModelMap model) {
         int userId = sessionHelper.getUserIdFromSession();
@@ -61,16 +83,23 @@ public class HiveController {
         model.addAttribute("hive", hive);
         model.addAttribute("userList", hiveService.getUserNotInList(id));
         model.addAttribute("userListToRemove", hiveService.getUserListToRemove(id));
-        model.addAttribute("userIdInfo", new UserIdInfo());
-        model.addAttribute("post", new Post());
         model.addAttribute("creator", userService.findById(hive.getCreatorId()));
         model.addAttribute("noticeList", hiveService.getLastFiveNotice(hive.getNoticeList()));
+
+        if(!model.containsAttribute("userIdInfo")){
+            model.addAttribute("userIdInfo", new UserIdInfo());
+        }
+
+        if(!model.containsAttribute("post")){
+            model.addAttribute("post", new Post());
+        }
 
         return SHOW_HIVE;
     }
 
     @PostMapping(value = HIVE_ADD_USER_URL)
-    public String addUser(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
+    public String addUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model, BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.insertUsersToHive(hiveId, userIdInfo.getUserIdList());
 
@@ -78,7 +107,8 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_REMOVE_USER_URL)
-    public String RemoveUser(@ModelAttribute UserIdInfo userIdInfo, Model model, @PathVariable("hiveId") int hiveId) {
+    public String RemoveUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model,  BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.removeUsersFromHive(hiveId, userIdInfo.getUserIdList());
 
@@ -106,7 +136,15 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_ADD_POST_URL)
-    public String savePost(@ModelAttribute Post post, Model model, @PathVariable("hiveId") int hiveId) {
+    public String savePost(@Validated @ModelAttribute("post") Post post, BindingResult result, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
+
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "post", result);
+            redirectAttributes.addFlashAttribute("post", post);
+
+            return "redirect:" + HIVE_VIEW + hiveId;
+        }
+
         int userId = sessionHelper.getUserIdFromSession();
         postService.savePost(userId, hiveId, post);
 
