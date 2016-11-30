@@ -12,7 +12,6 @@
     </style>
 
     <title>Success</title>
-    <meta http-equiv="Refresh" content="1;url=${redirectUrl}">
 
 </head>
 <body>

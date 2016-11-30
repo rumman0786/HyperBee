@@ -10,11 +10,13 @@ import java.util.List;
  */
 public interface NoticeDao {
 
-    void save(Notice notice);
+    void saveOrUpdate(Notice notice);
 
     Notice findById(int noticeId);
 
     List<Notice> findAll();
+
+    List<Notice> findLatestNotices(int range);
 
     void delete(Notice notice);
 

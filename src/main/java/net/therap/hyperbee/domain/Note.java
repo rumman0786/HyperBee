@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
@@ -28,6 +27,9 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.*;
                         " ORDER BY n.dateRemind"),
         @NamedQuery(name = "Note.updateDisplayStatusForUser",
                 query = "UPDATE Note n SET n.displayStatus = :displayStatus WHERE n.id = :noteId AND n.user.id = :userId"),
+        @NamedQuery(name = "Note.findTopStickyNoteByUserId",
+                query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus " +
+                        " AND  n.noteType = :type ORDER BY n.id DESC")
 })
 @Table(name = "note")
 public class Note implements Serializable {
@@ -144,6 +146,11 @@ public class Note implements Serializable {
 
     public void setNoteType(NoteType noteType) {
         this.noteType = noteType;
+    }
+
+    public boolean isNoteNew() {
+
+        return (id == 0);
     }
 
     public String getRemindDateFormatted() {

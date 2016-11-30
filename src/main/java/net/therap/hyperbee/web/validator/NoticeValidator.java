@@ -1,6 +1,5 @@
 package net.therap.hyperbee.web.validator;
 
-import net.therap.hyperbee.domain.ConferenceRoom;
 import net.therap.hyperbee.domain.Notice;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -23,7 +22,7 @@ public class NoticeValidator implements Validator {
     public void validate(Object target, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "notice.title.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "notice.description.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateExpired", "notice.description.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateExpired", "notice.dateExpired.required");
 
         Notice notice = (Notice) target;
 

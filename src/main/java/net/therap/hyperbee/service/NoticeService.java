@@ -16,6 +16,8 @@ public interface NoticeService {
 
     List<Notice> findAllNotice();
 
+    List<Notice> findLatestNotices(int range);
+
     void deleteNotice(Notice notice);
 
     void delete(int noticeId);

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import static net.therap.hyperbee.utils.constant.Messages.*;
 
 /**
  * @author duity
@@ -31,17 +32,18 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public String saveProfileForUser(Profile profile, int userId) {
-        User user=userDao.findById(userId);
-        if(user.getProfile()==null){
+        User user = userDao.findById(userId);
+
+        if (user.getProfile() == null) {
             user.setProfile(profile);
             em.persist(user);
             em.flush();
-        }else{
+        } else {
             user.setProfile(profile);
             em.merge(user);
             em.flush();
         }
 
-        return "profile is saved in user";
+        return PROFILE_SAVE_MESSAGE;
     }
 }

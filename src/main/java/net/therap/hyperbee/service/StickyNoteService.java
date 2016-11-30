@@ -11,12 +11,11 @@ import java.util.List;
  */
 public interface StickyNoteService {
 
-    public void createStickyNote(User user, Note note);
+    List<Note> findActiveNotesForUser(int userId);
 
-    public List<Note> findActiveNotesForUser(int userId);
+    void saveNoteForUser(Note note, int userId);
 
-    public void saveNoteForUser(Note note, int userId);
+    void markNoteAsInactiveForUser(int userId, int noteId);
 
-    public void markNoteAsInactiveForUser(int userId, int noteId);
-
+    List<Note> findTopStickyNoteByUser(int userId);
 }

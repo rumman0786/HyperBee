@@ -3,20 +3,26 @@ package net.therap.hyperbee.web.controller;
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.NoticeService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoticeValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
 
+import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -27,6 +33,8 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @RequestMapping(value = NOTICE_BASE_URL)
 public class NoticeController {
 
+    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+
     @Autowired
     private NoticeService noticeService;
 
@@ -35,6 +43,9 @@ public class NoticeController {
 
     @Autowired
     private HiveService hiveService;
+
+    @Autowired
+    private ActivityService activityService;
 
     @Autowired
     private SessionHelper sessionHelper;
@@ -49,7 +60,7 @@ public class NoticeController {
         binder.registerCustomEditor(Hive.class, "hiveList", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
-                Hive hive = (Hive) hiveService.retrieveHiveById(Integer.parseInt(text));
+                Hive hive = hiveService.retrieveHiveById(Integer.parseInt(text));
                 setValue(hive);
             }
         });
@@ -58,68 +69,105 @@ public class NoticeController {
 
     @RequestMapping(value = NOTICE_LIST_URL, method = RequestMethod.GET)
     public String showNoticeList(ModelMap modelMap) {
-
         modelMap.addAttribute("page", "notice")
                 .addAttribute("noticeList", noticeService.findAllNotice())
                 .addAttribute("noticeAddUrl", NOTICE_BASE_URL)
+                .addAttribute("isAdmin", sessionHelper.retrieveAuthUserFromSession().isAdmin())
                 .addAttribute("deleteUrl", NOTICE_BASE_URL + NOTICE_DELETE_URL);
 
-        return "notice/list_notice";
+        log.debug(NOTICE_VIEWED);
+        activityService.archive(NOTICE_LIST_VIEWED);
+
+        return NOTICE_LIST_VIEW;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String showAddNoticeForm(ModelMap modelMap) {
+        if (!modelMap.containsAttribute("notice")) {
+            modelMap.addAttribute("notice", new Notice());
+        }
 
         modelMap.addAttribute("page", "notice")
-                .addAttribute("notice", new Notice())
                 .addAttribute("noticeHeader", "Add Notice")
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_ADD_URL)
                 .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession()))
                 .addAttribute("displayStatusOptions", DisplayStatus.values());
 
-        return "notice/form_notice";
+        log.debug(NOTICE_ADD_VIEWED);
+
+        return NOTICE_FORM_VIEW;
     }
 
-    @RequestMapping(value = NOTICE_ADD_URL, method = RequestMethod.POST)
+    @PostMapping(value = NOTICE_ADD_URL)
     public String addNotice(@ModelAttribute("notice") Notice notice,
-                            BindingResult bindingResult) {
+                            BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
 
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
+        validator.validate(notice, bindingResult);
+
         if (bindingResult.hasErrors()) {
-            return "notice/form_notice";
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "notice", bindingResult)
+                    .addFlashAttribute("notice", notice);
+
+            log.debug(NOTICE_SAVE_ERROR);
+
+            return "redirect:" + NOTICE_BASE_URL;
         }
 
         noticeService.saveNotice(notice);
+        activityService.archive(NOTICE_SAVED);
+        log.debug(NOTICE_SAVED);
+
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }
 
-    @RequestMapping(value = "/{id}/**", method = RequestMethod.GET)
-    public String showEditNoiceForm(@PathVariable("id") int id, ModelMap modelMap) {
+    @GetMapping(value = "/{id}/**")
+    public String showEditNoticeForm(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", "notice")
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_UPDATE_URL)
                 .addAttribute("noticeHeader", "Edit Notice")
                 .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession()))
                 .addAttribute("notice", noticeService.findNoticeById(id));
 
-        return "notice/form_notice";
+        log.debug(NOTICE_EDIT_VIEWED);
+
+        return NOTICE_FORM_VIEW;
     }
 
-    @RequestMapping(value = NOTICE_UPDATE_URL, method = RequestMethod.POST)
+    @PostMapping(value = NOTICE_UPDATE_URL)
     public String editNotice(@ModelAttribute("notice") Notice notice,
-                             BindingResult bindingResult) {
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+
         int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
         notice.setUser(userService.findById(sessionUserId));
 
+        validator.validate(notice, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "notice", bindingResult)
+                    .addFlashAttribute("notice", notice);
+
+            log.debug(NOTICE_SAVE_ERROR);
+
+            return "redirect:" + NOTICE_BASE_URL;
+        }
+
         noticeService.saveNotice(notice);
+        activityService.archive(NOTICE_MODIFIED);
+        log.debug(NOTICE_MODIFIED);
 
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }
 
-    @RequestMapping(value = NOTICE_DELETE_URL, method = RequestMethod.POST)
+    @PostMapping(value = NOTICE_DELETE_URL)
     public String deleteNotice(@RequestParam("id") int noticeId) {
         noticeService.delete(noticeId);
+        activityService.archive(NOTICE_DELETED);
+        log.debug(NOTICE_DELETED);
 
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
     }

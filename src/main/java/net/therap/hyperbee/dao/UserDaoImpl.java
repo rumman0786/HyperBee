@@ -1,5 +1,6 @@
 package net.therap.hyperbee.dao;
 
+
 import net.therap.hyperbee.domain.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,14 @@ import java.util.List;
  */
 @Repository
 public class UserDaoImpl implements UserDao {
+
+    private static String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = :username";
+
+    private static String FIND_BY_USERNAME_AND_PASSWORD = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
+
+    private static String FIND_ALL = "SELECT u FROM User u";
+
+    private static String FIND_BY_USRNAME_AND_EMAIL = "User.findByUsernameOrEmail";
 
     @PersistenceContext
     private EntityManager em;
@@ -39,7 +48,7 @@ public class UserDaoImpl implements UserDao {
         User user = null;
 
         try {
-            user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+            user = em.createQuery(FIND_BY_USERNAME, User.class)
                         .setParameter("username", username)
                         .getSingleResult();
         } catch (NoResultException e) {
@@ -54,7 +63,7 @@ public class UserDaoImpl implements UserDao {
         User user = null;
 
         try {
-            user = em.createNamedQuery("User.findByUsernameOrEmail", User.class)
+            user = em.createNamedQuery(FIND_BY_USRNAME_AND_EMAIL, User.class)
                         .setParameter("username", username)
                         .setParameter("email", email)
                         .getSingleResult();
@@ -70,7 +79,7 @@ public class UserDaoImpl implements UserDao {
         User retrievedUser = null;
 
         try {
-            retrievedUser = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+            retrievedUser = em.createQuery(FIND_BY_USERNAME_AND_PASSWORD, User.class)
                                 .setParameter("username", user.getUsername())
                                 .setParameter("password", user.getPassword())
                                 .getSingleResult();
@@ -84,7 +93,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findAll() {
 
-        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+        return em.createQuery(FIND_ALL, User.class).getResultList();
     }
 
     @Override
@@ -97,5 +106,23 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public void deleteUser(int id) {
 
+    }
+
+    @Override
+    @Transactional
+    public void inactivate(int userId) {
+        em.createQuery("UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE id = :userId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+        em.flush();
+    }
+
+    @Override
+    @Transactional
+    public void activate(int userId) {
+        em.createQuery("UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE id = :userId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+        em.flush();
     }
 }

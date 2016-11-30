@@ -3,7 +3,7 @@
 
 <%@ include file="../header.jsp" %>
 <div class="container">
-    <form:form class="form-signin" action="/signup" method="POST" modelAttribute="signUp">
+    <form:form class="form-signin" action="/signUp" method="POST" modelAttribute="signUp">
         <h2 class="form-signin-heading">Please sign up</h2>
         <form:errors path="*" element="div" cssClass="alert alert-danger fade in"/>
         <form:input type="text" class="form-control" path="firstName" placeholder="First Name"/>
