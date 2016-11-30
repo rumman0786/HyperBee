@@ -1,11 +1,8 @@
 package net.therap.hyperbee.web.helper;
 
 import net.therap.hyperbee.domain.User;
-<<<<<<< HEAD
 import net.therap.hyperbee.service.BuzzService;
-=======
 import net.therap.hyperbee.service.UserService;
->>>>>>> 9275ff091bbec4b6e12232458d395c2ad2f4c616
 import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,12 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
-<<<<<<< HEAD
-import java.util.ArrayList;
-import java.util.List;
-=======
 import java.util.Map;
->>>>>>> 9275ff091bbec4b6e12232458d395c2ad2f4c616
 
 /**
  * @author rayed
@@ -29,11 +21,10 @@ import java.util.Map;
 public class SessionHelper {
 
     @Autowired
-<<<<<<< HEAD
     private BuzzService buzzService;
-=======
+
+    @Autowired
     private UserService userService;
->>>>>>> 9275ff091bbec4b6e12232458d395c2ad2f4c616
 
     public void persistInSession(User user) {
         AuthUser authUser = new AuthUser();
@@ -44,7 +35,6 @@ public class SessionHelper {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.setAttribute("authUser", authUser);
-        session.setAttribute("buzzStats", generateBuzzStatsList(authUser.getId(), authUser.isAdmin()));
     }
 
     public void persistInSession(Map<String, Integer> map) {
@@ -54,6 +44,9 @@ public class SessionHelper {
     }
 
     public void persistInSession(String key, int count) {
+
+        System.out.println(userService.findAll() + " In persist Session");
+
         HttpSession session = getHttpSession();
         Map<String, Integer> statsMap = (Map<String, Integer>) session.getAttribute("statsMap");
 
@@ -76,7 +69,6 @@ public class SessionHelper {
         session.invalidate();
     }
 
-
     public int getUserIdFromSession() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
@@ -86,26 +78,18 @@ public class SessionHelper {
         return authUser.getId();
     }
 
-    public List<Integer> generateBuzzStatsList(int userId, boolean isAdmin) {
-        List<Integer> buzzStatsList = new ArrayList<>();
-
-        if (isAdmin) {
-            buzzStatsList.add(buzzService.getActiveCount());
-            buzzStatsList.add(buzzService.getInactiveCount());
-            buzzStatsList.add(buzzService.getFlaggedCount());
-            buzzStatsList.add(buzzService.getPinnedCount());
-        } else {
-            buzzStatsList.add(buzzService.getActiveCountByUser(userId));
-            buzzStatsList.add(buzzService.getPinnedCountByUser(userId));
-            buzzStatsList.add(buzzService.getFlaggedCountByUser(userId));
-        }
-
-        return buzzStatsList;
-    }
-
     public HttpSession getHttpSession() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         return session;
+    }
+
+    public void setStat(String key, int value) {
+        HttpSession httpSession = getHttpSession();
+        httpSession.setAttribute(key, value);
+    }
+
+    public int getStat(String key) {
+        return (Integer) getHttpSession().getAttribute(key);
     }
 }

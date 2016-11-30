@@ -24,12 +24,11 @@ public class BuzzDaoImpl implements BuzzDao {
     private final String QUERY_GET_PINNED = "SELECT b FROM Buzz b WHERE b.pinned = :pinned " +
             "ORDER BY b.id DESC";
 
-
-    private final String QUERY_GET_ACTIVE_BY_USER = "SELECT b FROM Buzz b WHERE b.user = :user" +
+    private final String QUERY_GET_ACTIVE_BY_USER = "SELECT b FROM Buzz b WHERE b.user = :user " +
             "AND b.displayStatus = :displayStatus AND Date(b.buzzTime) = Curdate()";
-    private final String QUERY_GET_PINNED_BY_USER = "SELECT b FROM Buzz b WHERE b.user = :user" +
+    private final String QUERY_GET_PINNED_BY_USER = "SELECT b FROM Buzz b WHERE b.user = :user " +
             "AND b.pinned = :pinned AND Date(b.buzzTime) = Curdate()";
-    private final String QUERY_GET_FLAGGED_BY_USER = "SELECT b FROM Buzz b WHERE b.user = :user" +
+    private final String QUERY_GET_FLAGGED_BY_USER = "SELECT b FROM Buzz b WHERE b.user = :user " +
             "AND b.flagged = :flagged AND Date(b.buzzTime) = Curdate()";
 
     @PersistenceContext

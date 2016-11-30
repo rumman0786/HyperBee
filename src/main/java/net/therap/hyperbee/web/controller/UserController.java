@@ -141,9 +141,6 @@ public class UserController {
 
     @GetMapping("/user/dashboard")
     public String welcome(Model model) {
-
-//        System.out.println(userService.findAll());
-
         if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
         }
@@ -154,18 +151,56 @@ public class UserController {
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
-        AuthUser authUser = sessionHelper.getAuthUserFromSession();
+        setStatInSession();
 
         return USER_DASHBOARD_VIEW;
+    }
+
+    private void setStatInSession() {
+        AuthUser authUserFromSession = sessionHelper.getAuthUserFromSession();
+        if (authUserFromSession.isAdmin()){
+            int activeUser  = userService.findByDisplayStatus(DisplayStatus.ACTIVE);
+            int inactiveUser  = userService.findByDisplayStatus(DisplayStatus.INACTIVE);
+
+            int activeBuzz = buzzService.getActiveCount();
+            int inactiveBuzz = buzzService.getInactiveCount();
+            int flaggedBuzz = buzzService.getFlaggedCount();
+            int pinnedBuzz = buzzService.getPinnedCount();
+
+            sessionHelper.setStat("activeUsers", activeUser);
+            sessionHelper.setStat("inactiveUsers", inactiveUser);
+
+            sessionHelper.setStat("activeBuzz", activeBuzz);
+            sessionHelper.setStat("inactiveBuzz", inactiveBuzz);
+            sessionHelper.setStat("flaggedBuzz", flaggedBuzz);
+            sessionHelper.setStat("pinnedBuzz", pinnedBuzz);
+
+        } else {
+            int activeBuzz = buzzService.getActiveCountByUser(authUserFromSession.getId());
+            int flaggedBuzz = buzzService.getFlaggedCountByUser(authUserFromSession.getId());
+            int pinnedBuzz = buzzService.getPinnedCountByUser(authUserFromSession.getId());
+
+            sessionHelper.setStat("activeBuzz", activeBuzz);
+            sessionHelper.setStat("flaggedBuzz", flaggedBuzz);
+            sessionHelper.setStat("pinnedBuzz", pinnedBuzz);
+        }
     }
 
     @GetMapping("/user/inactivate/{userId}")
     public String inactivateUser(@PathVariable int userId) {
         userService.inactivate(userId);
 
-        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") - 1);
-        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") + 1);
+//        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") - 1);
+//        sessionHelper.persistInSession("deactivatedUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") + 1);
 
+        int inactiveUsers = sessionHelper.getStat("inactiveUsers");
+        sessionHelper.setStat("inactiveUsers", inactiveUsers + 1);
+
+        int activeUsers = sessionHelper.getStat("activeUsers");
+        sessionHelper.setStat("activeUsers", activeUsers - 1);
+
+
+//        sessionHelper.persistUserStats();
 
         return "redirect:/profile/search";
     }
@@ -176,8 +211,14 @@ public class UserController {
     public String activateUser(@PathVariable int userId) {
         userService.activate(userId);
 
-        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") + 1);
-        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") - 1);
+//        sessionHelper.persistInSession("activeUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("activeUsers") + 1);
+//        sessionHelper.persistInSession("deactivatedUsers", ((Map<String, Integer>) sessionHelper.getHttpSession().getAttribute("statsMap")).get("deactivatedUsers") - 1);
+
+        int inactiveUsers = sessionHelper.getStat("inactiveUsers");
+        sessionHelper.setStat("inactiveUsers", inactiveUsers - 1);
+
+        int activeUsers = sessionHelper.getStat("activeUsers");
+        sessionHelper.setStat("activeUsers", activeUsers + 1);
 
         return "redirect:/profile/search";
     }

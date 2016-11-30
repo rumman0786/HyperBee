@@ -4,6 +4,7 @@ import net.therap.hyperbee.dao.RoleDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,5 +102,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void activate(int userId) {
         userDao.activate(userId);
+    }
+
+    @Override
+    public int findByDisplayStatus(DisplayStatus status) {
+        return userDao.findByDisplayStatus(status);
     }
 }
