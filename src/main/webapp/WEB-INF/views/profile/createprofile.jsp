@@ -83,7 +83,7 @@
             <td><input type="file" name="coverFile"/></td>
         </tr>
         <tr>
-            <td colspan="2" align="left"><input type="submit" class="btn btn-warning btn-sm" value="Edit"></td>
+            <td colspan="2" align="left" class="pull-right"><input type="submit" class="btn btn-warning btn-sm" value="Edit"></td>
         </tr>
         <tr>
             <td style="color: green">${message}</td>
