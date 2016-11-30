@@ -97,4 +97,9 @@ public class UserServiceImpl implements UserService {
     public void inactivate(int userId) {
         userDao.inactivate(userId);
     }
+
+    @Override
+    public void activate(int userId) {
+        userDao.activate(userId);
+    }
 }

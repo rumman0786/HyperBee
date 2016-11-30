@@ -29,4 +29,6 @@ public interface UserDao {
     public void deleteUser(int id);
 
     void inactivate(int userId);
+
+    void activate(int userId);
 }

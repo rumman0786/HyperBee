@@ -127,4 +127,13 @@ public class UserDaoImpl implements UserDao {
                 .executeUpdate();
         em.flush();
     }
+
+    @Override
+    @Transactional
+    public void activate(int userId) {
+        em.createQuery("UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE id = :userId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+        em.flush();
+    }
 }

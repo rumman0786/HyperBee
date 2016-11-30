@@ -29,4 +29,6 @@ public interface UserService {
     public void deleteUser(int id);
 
     void inactivate(int userId);
+
+    void activate(int userId);
 }

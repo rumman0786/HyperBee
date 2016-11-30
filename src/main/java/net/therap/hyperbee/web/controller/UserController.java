@@ -146,4 +146,10 @@ public class UserController {
         userService.inactivate(userId);
         return "redirect:/profile/search";
     }
+
+    @GetMapping("/user/activate/{userId}")
+    public String activateUser(@PathVariable int userId) {
+        userService.activate(userId);
+        return "redirect:/profile/search";
+    }
 }
