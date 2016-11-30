@@ -141,7 +141,7 @@ public class Notice implements Serializable {
             return "";
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
 
         return sdf.format(dateExpired.getTimeInMillis());
     }
