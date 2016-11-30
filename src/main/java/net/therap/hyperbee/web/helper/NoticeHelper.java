@@ -19,11 +19,12 @@ public class NoticeHelper {
     private NoticeService noticeService;
 
     private static final int NOTICE_TO_DISPLAY_IN_SIDEBAR = 5;
+    private static final int GROUP_ALL_ID = 1;
 
     public void persistInSession() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
-        session.setAttribute("cachedNoticeList", noticeService.findLatestNotices(NOTICE_TO_DISPLAY_IN_SIDEBAR));
+        session.setAttribute("cachedNoticeList", noticeService.getNoticeListByHiveId(GROUP_ALL_ID, NOTICE_TO_DISPLAY_IN_SIDEBAR));
     }
 
 }

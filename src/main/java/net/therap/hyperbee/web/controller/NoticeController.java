@@ -121,7 +121,10 @@ public class NoticeController {
         activityService.archive(NOTICE_SAVED);
         log.debug(NOTICE_SAVED);
 
-        return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
+        redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
+                .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
+
+        return "redirect:" + DONE_URL;
     }
 
     @GetMapping(value = "/{id}/**")
@@ -160,7 +163,10 @@ public class NoticeController {
         activityService.archive(NOTICE_MODIFIED);
         log.debug(NOTICE_MODIFIED);
 
-        return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
+        redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
+                .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
+
+        return "redirect:" + DONE_URL;
     }
 
     @PostMapping(value = NOTICE_DELETE_URL)
