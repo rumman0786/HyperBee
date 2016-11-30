@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 import static net.therap.hyperbee.utils.constant.Url.*;
+
 /**
  * @author azim
  * @since 11/22/16
@@ -100,7 +101,7 @@ public class HiveController {
     @PostMapping(value = HIVE_CREATE_URL)
     public String saveHiveForm(@ModelAttribute Hive hive, @RequestParam MultipartFile file, Model model) throws IOException {
         model.addAttribute("hiveName", hive.getName());
-        String filename = hive.getName().replaceAll(" ","") + file.getOriginalFilename();
+        String filename = hive.getName().replaceAll(" ", "") + file.getOriginalFilename();
         hive.setImagePath(filename);
 
         if (file.isEmpty()) {

@@ -24,7 +24,7 @@ public class NoteDateTimeValidator implements Validator {
 
         Note note = (Note) target;
 
-        if (null!= note.getDateRemind() && Calendar.getInstance().compareTo(note.getDateRemind()) < 0) {
+        if (null != note.getDateRemind() && Calendar.getInstance().compareTo(note.getDateRemind()) < 0) {
             errors.rejectValue("dateRemind", "note.date.past");
         }
     }

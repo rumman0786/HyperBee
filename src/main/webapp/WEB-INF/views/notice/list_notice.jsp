@@ -9,9 +9,12 @@
 </head>
 <body>
 
+<div class="container-fluid">
 <c:if test="${isAdmin}">
     <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right">Add Notice</a>
 </c:if>
+</div>
+<br/>
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">

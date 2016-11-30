@@ -14,7 +14,7 @@ import java.io.FileOutputStream;
 @Component
 public class ImageUploader {
     private static final String IMAGES = "Images";
-    private static final String TOMCAT_HOME_PROPERTY = "catalina.home";
+    private static final String TOMCAT_HOME_PROPERTY = "user.home";
     private static final String TOMCAT_HOME_PATH = System.getProperty(TOMCAT_HOME_PROPERTY);
     private static final String IMAGES_PATH = TOMCAT_HOME_PATH + File.separator + IMAGES;
 

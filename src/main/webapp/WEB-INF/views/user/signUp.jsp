@@ -10,8 +10,8 @@
         <form:input type="text" class="form-control" path="lastName" placeholder="Last Name"/>
         <form:input type="text" class="form-control" path="username" placeholder="Username"/>
         <form:input type="email" class="form-control" path="email" placeholder="Email"/>
-        <form:input type="password" class="form-control"  path="password1" placeholder="Enter Password"/>
-        <form:input type="password" class="form-control"  path="password2" placeholder="Confirm Password"/>
+        <form:input type="password" class="form-control" path="password1" placeholder="Enter Password"/>
+        <form:input type="password" class="form-control" path="password2" placeholder="Confirm Password"/>
         <form:button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</form:button>
     </form:form>
 </div>

@@ -12,6 +12,7 @@
 <c:if test="${authUser.isAdmin()}">
     <a href="${pageContext.request.contextPath}${conferenceRoomAddUrl}" class="btn btn-success pull-right">Add Conference Room</a>
 </c:if>
+
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
         <thead>

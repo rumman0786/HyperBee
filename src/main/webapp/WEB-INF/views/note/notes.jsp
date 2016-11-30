@@ -29,7 +29,7 @@
 <body>
 
 <form:form action="/user/note/save" method="post" commandName="noteCommand">
-    <div class="panel panel-success" >
+    <div class="panel panel-success">
         <div class="panel-heading clearfix">
             <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><fmt:message key="notes.view.label.add"/></h4>
 
@@ -68,7 +68,8 @@
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><strong>${item.title}</strong></h4>
 
                 <div class="btn-group pull-right">
-                    <button class="btn btn-default btn-sm" type="submit"><fmt:message key="notes.view.label.delete"/></button>
+                    <button class="btn btn-default btn-sm" type="submit"><fmt:message
+                            key="notes.view.label.delete"/></button>
                 </div>
             </div>
             <div class="panel-body">${item.description}</div>

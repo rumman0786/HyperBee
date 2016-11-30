@@ -53,9 +53,12 @@ public interface Url {
     String NOTICE_ADD_URL = "/add";
     String NOTICE_UPDATE_URL = "/update";
     String NOTICE_DELETE_URL = "/delete";
-    // Notice Constants
-    String CONFERENCE_ROOM_BASE_URL = "/conference";
 
+    String NOTICE_LIST_VIEW = "notice/list_notice";
+    String NOTICE_FORM_VIEW = "notice/form_notice";
+
+    // Conference  Constants
+    String CONFERENCE_ROOM_BASE_URL = "/conference";
     String CONFERENCE_ROOM_LIST_URL = "/list";
     String CONFERENCE_ROOM_ADD_URL = "/add";
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
@@ -76,4 +79,13 @@ public interface Url {
     String HIVE_ADD_USER_URL = "/insertuser/{hiveId}";
     String HIVE_REMOVE_USER_URL = "/removeuser/{hiveId}";
     String HIVE_ADD_POST_URL = "/post/{hiveId}";
+
+    //Buzz Constants
+    String BUZZ_BASE_URL = "/buzz";
+    String BUZZ_VIEW_URL = "/buzzList";
+    String BUZZ_CREATE_URL = "/sendBuzz";
+    String BUZZ_FLAG_URL = "/flagBuzz";
+    String BUZZ_DEACTIVATE_URL = "/deactivateBuzz";
+    String BUZZ_PIN_URL = "/pinBuzz";
+    String BUZZ_HISTORY_URL = "/buzzHistory";
 }

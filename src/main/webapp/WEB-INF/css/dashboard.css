@@ -6,7 +6,8 @@
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
-    height: 1500px
+
+    height: 950px
 }
 
 .top-padding {
@@ -14,11 +15,6 @@
 }
 
 .pre-scrollable {
-    overflow-y: auto;
-}
-
-.pre-scrollable-body {
-    max-height: 1500px;
     overflow-y: auto;
 }
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @since 11/24/16 10:33 AM
  */
 @Service
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleDao roleDao;

@@ -19,6 +19,10 @@ public interface Messages {
     String NOTE_DELETE_ACTIVITY = "Deleted a note";
 
     //Notice Messages
+    String NOTICE_VIEWED = "Notice Home Page Viewed";
+    String NOTICE_ADD_VIEWED = "Notice Add Page Viewed";
+    String NOTICE_EDIT_VIEWED = "Notice Edit Page Viewed";
+    String NOTICE_SAVE_ERROR = "ERROR:: Notice Could Not be saved";
     String NOTICE_SAVED = "Saved Notice";
     String NOTICE_MODIFIED = "Modified Notice";
     String NOTICE_DELETED = "Deleted Notice";
@@ -31,4 +35,7 @@ public interface Messages {
     String BUZZ_FLAG_SUCCESS = "Successfully flagged buzz: <message>";
     String BUZZ_DELETE_SUCCESS = "Successfully removed buzz: <message>";
     String BUZZ_PINNED_SUCCESS = "Successfully pinned buzz: <message>";
+
+    String NO_USER_FOUND = "No user Found with This username.";
+    String BUZZ_HISTORY_REQUEST = "Retrieved complete buzz list for viewing history";
 }

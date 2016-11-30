@@ -13,8 +13,6 @@ public interface BuzzDao {
 
     public Buzz saveOrUpdate(Buzz newBuzz);
 
-    public Buzz delete(Buzz buzzToDelete);
-
     public List<Buzz> getAll();
 
     public Buzz getById(int buzzId);
