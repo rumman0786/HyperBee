@@ -28,7 +28,7 @@
 <div class="container-fluid text-center">
     <div class="row content">
         <jsp:include page="sidebarLeft.jsp"/>
-        <div class="col-sm-8 text-left top-padding pre-scrollable-body">
+        <div class="col-sm-8 text-left top-padding">
             <sitemesh:body/>
         </div>
         <jsp:include page="sidebarRight.jsp"/>

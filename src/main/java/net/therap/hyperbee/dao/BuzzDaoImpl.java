@@ -78,10 +78,4 @@ public class BuzzDaoImpl implements BuzzDao {
                 .setMaxResults(range)
                 .getResultList();
     }
-
-    @Override
-    @Transactional
-    public Buzz delete(Buzz buzzToDelete) {
-        return em.merge(buzzToDelete);
-    }
 }

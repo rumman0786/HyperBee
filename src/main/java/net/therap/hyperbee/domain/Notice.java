@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -19,6 +20,12 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.*;
  * @author zoha
  * @since 11/21/16
  */
+@NamedQueries({
+        @NamedQuery(name = "Notice.findAllNotice",
+                query = "SELECT notice FROM Notice notice ORDER BY notice.id DESC"),
+        @NamedQuery(name = "Notice.findLatestNotices",
+                query = "SELECT notice FROM Notice notice WHERE notice.displayStatus = 'ACTIVE' ORDER BY notice.id DESC")
+})
 @Entity
 @Table(name = "notice")
 public class Notice implements Serializable {
@@ -122,5 +129,20 @@ public class Notice implements Serializable {
 
     public void setHiveList(List<Hive> hiveList) {
         this.hiveList = hiveList;
+    }
+
+    public boolean isNew() {
+        return id == 0;
+    }
+
+    public String getRemindDateFormatted() {
+        if (null == dateExpired) {
+
+            return "";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
+
+        return sdf.format(dateExpired.getTimeInMillis());
     }
 }
