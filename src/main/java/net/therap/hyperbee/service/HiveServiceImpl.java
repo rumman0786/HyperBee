@@ -105,6 +105,10 @@ public class HiveServiceImpl implements HiveService {
     @Override
     public List<Notice> getLastFiveNotice(List<Notice> noticeList) {
 
+        if(noticeList.isEmpty()){
+            return noticeList;
+        }
+
         return hiveDao.getLastFiveNotice(noticeList,5);
     }
 }

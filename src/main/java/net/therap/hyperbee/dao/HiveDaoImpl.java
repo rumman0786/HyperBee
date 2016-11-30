@@ -79,8 +79,9 @@ public class HiveDaoImpl implements HiveDao {
     @Override
     public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range) {
 
+        System.out.println(noticeList.toString());
         return em.createQuery("SELECT n FROM Notice n WHERE n IN :noticeList ORDER BY n.id DESC", Notice.class)
-                .setParameter("noticeList", noticeList).setMaxResults(range).getResultList();
+                .setParameter("noticeList", noticeList).getResultList();
     }
 
 
