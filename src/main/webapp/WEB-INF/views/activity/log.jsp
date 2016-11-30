@@ -3,17 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <body>
-<<<<<<< HEAD
-<div class="container">
-    <h2>Activity Log</h2>
-    <ul class="list-group">
-        <c:forEach items="${activityList}" var="activity">
-            <li class="list-group-item list-group-item-warning"><c:out value="${activity.getDateAndTime()}"/></li>
-            <li class="list-group-item"><c:out value="${activity.summary}"/></li>
-        </c:forEach>
-    </ul>
-</div>
-=======
     <c:choose>
         <c:when test="${authUser.isAdmin()}">
             <h2>Select user whose activity log you want to view:</h2>
@@ -37,5 +26,4 @@
             </div>
         </c:otherwise>
     </c:choose>
->>>>>>> feature/hyperbee-rayed
 </body>
