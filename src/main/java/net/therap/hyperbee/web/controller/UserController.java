@@ -1,12 +1,10 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Buzz;
+import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import net.therap.hyperbee.service.ActivityService;
-import net.therap.hyperbee.service.BuzzService;
-import net.therap.hyperbee.service.StickyNoteService;
-import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
@@ -58,6 +56,9 @@ public class UserController {
 
     @Autowired
     private NoticeHelper noticeHelper;
+
+    @Autowired
+    private HiveService hiveService;
 
     @InitBinder("login")
     private void loginValidator(WebDataBinder binder) {
@@ -123,6 +124,9 @@ public class UserController {
 
         User retrievedUser = userService.createUser(user);
         sessionHelper.persistInSession(retrievedUser);
+
+        Hive hive = hiveService.retrieveHiveById(1);
+        hiveService.insertFirstUserToHive(hive,retrievedUser.getId());
 
         activityService.archive(SIGNED_UP);
 

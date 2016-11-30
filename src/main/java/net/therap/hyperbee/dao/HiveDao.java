@@ -31,4 +31,6 @@ public interface HiveDao {
     public void removeUsersFromHive(Hive hive, List<User> userList);
 
     public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range);
+
+    public List<Hive> findAll();
 }
