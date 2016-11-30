@@ -53,35 +53,43 @@ ${message}
         <div class="panel-body">
             <ul class="list-group">
                 <c:forEach items="${userList}" var="userList">
-                    <li class="list-group-item">
-                        <table>
-                            <tr>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${empty userList.profile.imagePath}">
-                                            <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                 alt="Cinque Terre"
-                                                 width="80px" height="80px"/>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img src="/profile/image/${userList.profile.imagePath}" class="img-circle"
-                                                 alt="Cinque Terre"
-                                                 width="80px" height="80px"/>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td>
-                                    <a href="/profile/stalk/${userList.username}">
-                                        <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
-                                                      escapeXml="false"/></b></h4>
-                                    </a>
+                    <c:choose>
+                        <c:when test="${userList.username == authUser.username}">
+                        </c:when>
+                        <c:otherwise>
+                            <li class="list-group-item">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${empty userList.profile.imagePath}">
+                                                    <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                         alt="Cinque Terre"
+                                                         width="80px" height="80px"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="/profile/image/${userList.profile.imagePath}"
+                                                         class="img-circle"
+                                                         alt="Cinque Terre"
+                                                         width="80px" height="80px"/>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <a href="/profile/stalk/${userList.username}">
+                                                <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
+                                                              escapeXml="false"/></b></h4>
+                                            </a>
 
-                                    <p>${userList.profile.designation}</p>
-                                    <p>${userList.displayStatus}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </li>
+                                            <p>${userList.profile.designation}</p>
+
+                                            <p>${userList.displayStatus}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
             </ul>
         </div>
@@ -90,34 +98,43 @@ ${message}
         <div class="panel-body">
             <ul class="list-group">
                 <c:forEach items="${userList}" var="userList">
-                    <li class="list-group-item">
-                        <table>
-                            <tr>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${empty userList.profile.imagePath}">
-                                            <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                 alt="Cinque Terre"
-                                                 width="80px" height="80px"/>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img src="/profile/image/${userList.profile.imagePath}" class="img-circle"
-                                                 alt="Cinque Terre"
-                                                 width="80px" height="80px"/>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td>
-                                    <a href="/profile/stalk/${userList.username}">
-                                        <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
-                                                      escapeXml="false"/></b></h4>
-                                    </a>
+                    <c:choose>
+                        <c:when test="${userList.username == authUser.username}">
 
-                                    <p>${userList.profile.designation}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="list-group-item">
+
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${empty userList.profile.imagePath}">
+                                                    <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                         alt="Cinque Terre"
+                                                         width="80px" height="80px"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="/profile/image/${userList.profile.imagePath}"
+                                                         class="img-circle"
+                                                         alt="Cinque Terre"
+                                                         width="80px" height="80px"/>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <a href="/profile/stalk/${userList.username}">
+                                                <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
+                                                              escapeXml="false"/></b></h4>
+                                            </a>
+
+                                            <p>${userList.profile.designation}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
             </ul>
         </div>

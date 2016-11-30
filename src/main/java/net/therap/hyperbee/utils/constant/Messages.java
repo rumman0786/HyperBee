@@ -38,4 +38,12 @@ public interface Messages {
 
     String NO_USER_FOUND = "No user Found with This username.";
     String BUZZ_HISTORY_REQUEST = "Retrieved complete buzz list for viewing history";
+
+    String VISIT_EDIT_PROFILE_ACTIVITY= "Visited profile field entry form.";
+    String EDITED_PROFILE_ACTIVITY= "Profile is edited";
+    String VISITED_PROFILE_ACTIVITY="Profile has been visited";
+    String VISIT_STALKUSER_ACTIVITY="Visited stalk user page";
+    String STALK_PROFILE_ACTIVITY="searched user profile";
+    String STALK_USER_PROFILE_ACTIVITY="stalked user profile";
+
 }
