@@ -36,4 +36,5 @@ public interface Messages {
     String BUZZ_DELETE_SUCCESS = "Successfully removed buzz: <message>";
     String BUZZ_PINNED_SUCCESS = "Successfully pinned buzz: <message>";
     String BUZZ_HISTORY_REQUEST = "Retrieved complete buzz list for viewing history";
+    String NO_USER_FOUND = "No user Found with This username.";
 }

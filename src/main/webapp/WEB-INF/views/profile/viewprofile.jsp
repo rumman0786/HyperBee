@@ -24,7 +24,8 @@
                     <b>${user.firstName} ${user.lastName}</b>
                 </h1>
             </td>
-            <td style="padding-left: 700"><a href="/profile/edit"/>Edit</td>
+            <td style="padding-left: 700"><a href="/profile/edit" class=" btn navbar-btn"/><fmt:message
+                    key="profile.edit.button"/></td>
         </tr>
     </table>
 </div>

@@ -10,6 +10,8 @@ import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.helper.UserHelper;
+import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,6 +145,12 @@ public class UserController {
 
         model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
+
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
+        if (authUser.isAdmin()) {
+            UserHelper userHelper = new UserHelper();
+
+        }
 
         return USER_DASHBOARD_VIEW;
     }

@@ -1,21 +1,21 @@
 $.noty.layouts.centerLeft = {
-    name     : 'centerLeft',
-    options  : { // overrides options
+    name: 'centerLeft',
+    options: { // overrides options
 
     },
     container: {
-        object  : '<ul id="noty_centerLeft_layout_container" />',
+        object: '<ul id="noty_centerLeft_layout_container" />',
         selector: 'ul#noty_centerLeft_layout_container',
-        style   : function() {
+        style: function () {
             $(this).css({
-                left         : 20,
-                position     : 'fixed',
-                width        : '310px',
-                height       : 'auto',
-                margin       : 0,
-                padding      : 0,
+                left: 20,
+                position: 'fixed',
+                width: '310px',
+                height: 'auto',
+                margin: 0,
+                padding: 0,
                 listStyleType: 'none',
-                zIndex       : 10000000
+                zIndex: 10000000
             });
 
             // getting hidden height
@@ -26,7 +26,7 @@ $.noty.layouts.centerLeft = {
             var actual_height = dupe.height();
             dupe.remove();
 
-            if($(this).hasClass('i-am-new')) {
+            if ($(this).hasClass('i-am-new')) {
                 $(this).css({
                     top: ($(window).height() - actual_height) / 2 + 'px'
                 });
@@ -37,7 +37,7 @@ $.noty.layouts.centerLeft = {
                 }, 500);
             }
 
-            if(window.innerWidth < 600) {
+            if (window.innerWidth < 600) {
                 $(this).css({
                     left: 5
                 });
@@ -45,14 +45,14 @@ $.noty.layouts.centerLeft = {
 
         }
     },
-    parent   : {
-        object  : '<li />',
+    parent: {
+        object: '<li />',
         selector: 'li',
-        css     : {}
+        css: {}
     },
-    css      : {
+    css: {
         display: 'none',
-        width  : '310px'
+        width: '310px'
     },
-    addClass : ''
+    addClass: ''
 };
