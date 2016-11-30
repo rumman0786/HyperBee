@@ -1,4 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="sitemesh" %>
+
 <html lang="en">
 <head>
     <title>HyperBee::<sitemesh:title/></title>
@@ -17,7 +19,6 @@
 
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-
     <link href="/css/dashboard.css" rel="stylesheet">
     <sitemesh:head/>
 </head>

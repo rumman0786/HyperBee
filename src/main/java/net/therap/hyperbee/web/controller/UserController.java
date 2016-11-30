@@ -2,6 +2,7 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.StickyNoteService;
@@ -17,12 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.*;
 
 import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
 import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
@@ -91,7 +87,7 @@ public class UserController {
 
         User retrievedUser = userService.findByUsernameAndPassword(user);
 
-        if (retrievedUser != null) {
+        if ((retrievedUser != null) && (retrievedUser.getDisplayStatus() == DisplayStatus.ACTIVE)) {
             sessionHelper.persistInSession(retrievedUser);
 
             activityService.archive(LOGGED_IN);
@@ -112,9 +108,10 @@ public class UserController {
     }
 
     @PostMapping(SIGN_UP_URL)
-    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpInfo signUpInfo, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpInfo signUpInfo,
+                             BindingResult bindingResult) {
 
+        if (bindingResult.hasErrors()) {
             return SIGN_UP_VIEW;
         }
 
@@ -135,8 +132,8 @@ public class UserController {
         return "redirect:" + LOGIN_URL;
     }
 
-    @GetMapping(USER_DASHBOARD_URL)
-    public String welcome(HttpSession session, Model model) {
+    @GetMapping("/user/dashboard")
+    public String welcome(Model model) {
         if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
         }
@@ -148,5 +145,17 @@ public class UserController {
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         return USER_DASHBOARD_VIEW;
+    }
+
+    @GetMapping("/user/inactivate/{userId}")
+    public String inactivateUser(@PathVariable int userId) {
+        userService.inactivate(userId);
+        return "redirect:/profile/search";
+    }
+
+    @GetMapping("/user/activate/{userId}")
+    public String activateUser(@PathVariable int userId) {
+        userService.activate(userId);
+        return "redirect:/profile/search";
     }
 }

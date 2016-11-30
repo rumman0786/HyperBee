@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import static net.therap.hyperbee.utils.constant.Messages.*;
 
 /**
  * @author duity
@@ -43,6 +44,6 @@ public class ProfileServiceImpl implements ProfileService {
             em.flush();
         }
 
-        return "profile is saved in user";
+        return PROFILE_SAVE_MESSAGE;
     }
 }

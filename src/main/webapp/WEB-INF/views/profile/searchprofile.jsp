@@ -1,14 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Stalk Therap</title>
+    <title><fmt:message key="stalk.profile.title"/></title>
 </head>
 <body>
 <form action="/profile/search" method="post">
     <input type="text" name="search" placeholder="Enter Username">
-    <button class="btn btn-warning btn-sm" type="submit">Search</button>
+    <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="search.button"/></button>
     <br>
 
     <div class="well well-sm">

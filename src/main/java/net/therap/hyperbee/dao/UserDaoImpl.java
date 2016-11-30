@@ -1,5 +1,6 @@
 package net.therap.hyperbee.dao;
 
+
 import net.therap.hyperbee.domain.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,5 +106,23 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public void deleteUser(int id) {
 
+    }
+
+    @Override
+    @Transactional
+    public void inactivate(int userId) {
+        em.createQuery("UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE id = :userId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+        em.flush();
+    }
+
+    @Override
+    @Transactional
+    public void activate(int userId) {
+        em.createQuery("UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE id = :userId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+        em.flush();
     }
 }

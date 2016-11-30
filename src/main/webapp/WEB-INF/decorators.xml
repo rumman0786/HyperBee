@@ -8,8 +8,12 @@
         <pattern>/conference/add</pattern>
         <pattern>/conference/update</pattern>
         <pattern>/conference/delete</pattern>
+        <pattern>/buzz/*</pattern>
+        <pattern>/login</pattern>
+        <pattern>/signUp</pattern>
     </excludes>
     <decorator name="decorator" page="decorator.jsp">
+        <pattern>/*</pattern>
         <pattern>/user/*</pattern>
         <pattern>/notice*</pattern>
         <pattern>/conference*</pattern>
