@@ -759,16 +759,16 @@
         var overflow;
         if (m._a && m._pf.overflow === -2) {
             overflow =
-                m._a[MONTH] < 0 || m._a[MONTH] > 11 ? MONTH :
+                    m._a[MONTH] < 0 || m._a[MONTH] > 11 ? MONTH :
                     m._a[DATE] < 1 || m._a[DATE] > daysInMonth(m._a[YEAR], m._a[MONTH]) ? DATE :
-                        m._a[HOUR] < 0 || m._a[HOUR] > 24 ||
-                        (m._a[HOUR] === 24 && (m._a[MINUTE] !== 0 ||
-                        m._a[SECOND] !== 0 ||
-                        m._a[MILLISECOND] !== 0)) ? HOUR :
-                            m._a[MINUTE] < 0 || m._a[MINUTE] > 59 ? MINUTE :
-                                m._a[SECOND] < 0 || m._a[SECOND] > 59 ? SECOND :
-                                    m._a[MILLISECOND] < 0 || m._a[MILLISECOND] > 999 ? MILLISECOND :
-                                        -1;
+                    m._a[HOUR] < 0 || m._a[HOUR] > 24 ||
+                (m._a[HOUR] === 24 && (m._a[MINUTE] !== 0 ||
+                    m._a[SECOND] !== 0 ||
+                    m._a[MILLISECOND] !== 0)) ? HOUR :
+                    m._a[MINUTE] < 0 || m._a[MINUTE] > 59 ? MINUTE :
+                    m._a[SECOND] < 0 || m._a[SECOND] > 59 ? SECOND :
+                    m._a[MILLISECOND] < 0 || m._a[MILLISECOND] > 999 ? MILLISECOND :
+                -1;
 
             if (m._pf._overflowDayOfYear && (overflow < YEAR || overflow > DATE)) {
                 overflow = DATE;
@@ -845,7 +845,7 @@
         if (model._isUTC) {
             res = model.clone();
             diff = (moment.isMoment(input) || isDate(input) ?
-                    +input : +moment(input)) - (+res);
+                +input : +moment(input)) - (+res);
             // Use low-level api, because this fn is low-level api.
             res._d.setTime(+res._d + diff);
             moment.updateOffset(res, false);
@@ -1137,7 +1137,7 @@
      ************************************/
 
 
-    // get the regex to find the next token
+        // get the regex to find the next token
     function getParseRegexForToken(token, config) {
         var a, strict = config._strict;
         switch (token) {
@@ -1499,7 +1499,7 @@
         config._a = [
             normalizedInput.year,
             normalizedInput.month,
-            normalizedInput.day || normalizedInput.date,
+                normalizedInput.day || normalizedInput.date,
             normalizedInput.hour,
             normalizedInput.minute,
             normalizedInput.second,
@@ -1752,7 +1752,7 @@
      ************************************/
 
 
-    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
+        // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
     function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
         return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
     }
@@ -1789,13 +1789,13 @@
      ************************************/
 
 
-    // firstDayOfWeek       0 = sun, 6 = sat
-    //                      the day of the week that starts the week
-    //                      (usually sunday or monday)
-    // firstDayOfWeekOfYear 0 = sun, 6 = sat
-    //                      the first week is the week that contains the first
-    //                      of this day of the week
-    //                      (eg. ISO weeks use thursday (4))
+        // firstDayOfWeek       0 = sun, 6 = sat
+        //                      the day of the week that starts the week
+        //                      (usually sunday or monday)
+        // firstDayOfWeekOfYear 0 = sun, 6 = sat
+        //                      the first week is the week that contains the first
+        //                      of this day of the week
+        //                      (eg. ISO weeks use thursday (4))
     function weekOfYear(mom, firstDayOfWeek, firstDayOfWeekOfYear) {
         var end = firstDayOfWeekOfYear - firstDayOfWeek,
             daysToDayOfWeek = firstDayOfWeekOfYear - mom.day(),
@@ -1897,10 +1897,10 @@
     moment.suppressDeprecationWarnings = false;
 
     moment.createFromInputFallback = deprecate(
-        'moment construction falls back to js Date. This is ' +
-        'discouraged and will be removed in upcoming major ' +
-        'release. Please refer to ' +
-        'https://github.com/moment/moment/issues/1407 for more info.',
+            'moment construction falls back to js Date. This is ' +
+            'discouraged and will be removed in upcoming major ' +
+            'release. Please refer to ' +
+            'https://github.com/moment/moment/issues/1407 for more info.',
         function (config) {
             config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
         }
@@ -2306,11 +2306,11 @@
             } else {
                 diff = this - that;
                 output = units === 'second' ? diff / 1e3 : // 1000
-                    units === 'minute' ? diff / 6e4 : // 1000 * 60
+                        units === 'minute' ? diff / 6e4 : // 1000 * 60
                         units === 'hour' ? diff / 36e5 : // 1000 * 60 * 60
-                            units === 'day' ? (diff - zoneDiff) / 864e5 : // 1000 * 60 * 60 * 24, negate dst
-                                units === 'week' ? (diff - zoneDiff) / 6048e5 : // 1000 * 60 * 60 * 24 * 7, negate dst
-                                    diff;
+                        units === 'day' ? (diff - zoneDiff) / 864e5 : // 1000 * 60 * 60 * 24, negate dst
+                        units === 'week' ? (diff - zoneDiff) / 6048e5 : // 1000 * 60 * 60 * 24 * 7, negate dst
+                    diff;
             }
             return asFloat ? output : absRound(output);
         },
@@ -2331,11 +2331,11 @@
                 sod = makeAs(now, this).startOf('day'),
                 diff = this.diff(sod, 'days', true),
                 format = diff < -6 ? 'sameElse' :
-                    diff < -1 ? 'lastWeek' :
+                        diff < -1 ? 'lastWeek' :
                         diff < 0 ? 'lastDay' :
-                            diff < 1 ? 'sameDay' :
-                                diff < 2 ? 'nextDay' :
-                                    diff < 7 ? 'nextWeek' : 'sameElse';
+                        diff < 1 ? 'sameDay' :
+                        diff < 2 ? 'nextDay' :
+                        diff < 7 ? 'nextWeek' : 'sameElse';
             return this.format(this.localeData().calendar(format, this, moment(now)));
         },
 
@@ -2345,7 +2345,7 @@
 
         isDST: function () {
             return (this.utcOffset() > this.clone().month(0).utcOffset() ||
-            this.utcOffset() > this.clone().month(5).utcOffset());
+                this.utcOffset() > this.clone().month(5).utcOffset());
         },
 
         day: function (input) {
@@ -2468,8 +2468,8 @@
         ),
 
         zone: deprecate(
-            'moment().zone is deprecated, use moment().utcOffset instead. ' +
-            'https://github.com/moment/moment/issues/1779',
+                'moment().zone is deprecated, use moment().utcOffset instead. ' +
+                'https://github.com/moment/moment/issues/1779',
             function (input, keepLocalTime) {
                 if (input != null) {
                     if (typeof input !== 'string') {
@@ -2913,8 +2913,8 @@
         locale: moment.fn.locale,
 
         toIsoString: deprecate(
-            'toIsoString() is deprecated. Please use toISOString() instead ' +
-            '(notice the capitals)',
+                'toIsoString() is deprecated. Please use toISOString() instead ' +
+                '(notice the capitals)',
             function () {
                 return this.toISOString();
             }
@@ -6634,7 +6634,7 @@
                 future: function (s) {
                     return (/(წამი|წუთი|საათი|წელი)/).test(s) ?
                         s.replace(/ი$/, 'ში') :
-                    s + 'ში';
+                        s + 'ში';
                 },
                 past: function (s) {
                     if ((/(წამი|წუთი|საათი|დღე|თვე)/).test(s)) {
@@ -9774,9 +9774,9 @@
         oldGlobalMoment = globalScope.moment;
         if (shouldDeprecate) {
             globalScope.moment = deprecate(
-                'Accessing Moment through the global scope is ' +
-                'deprecated, and will be removed in an upcoming ' +
-                'release.',
+                    'Accessing Moment through the global scope is ' +
+                    'deprecated, and will be removed in an upcoming ' +
+                    'release.',
                 moment);
         } else {
             globalScope.moment = moment;

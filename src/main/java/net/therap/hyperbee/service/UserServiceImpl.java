@@ -77,6 +77,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findActiveUsers() {
+        return userDao.findActiveUser();
+    }
+
+    @Override
     @Transactional
     public void updateUser(User user) {
 
@@ -86,5 +91,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(int id) {
 
+    }
+
+    @Override
+    public void inactivate(int userId) {
+        userDao.inactivate(userId);
+    }
+
+    @Override
+    public void activate(int userId) {
+        userDao.activate(userId);
     }
 }

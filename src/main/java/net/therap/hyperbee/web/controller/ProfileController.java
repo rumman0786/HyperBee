@@ -2,9 +2,11 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Profile;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.ProfileService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.ImageUploader;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,13 +21,19 @@ import java.nio.file.Files;
 import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.Messages.*;
 
 /**
  * @author duity
  * @since 11/22/16.
  */
 @Controller
+@RequestMapping(value = PROFILE_URL)
 public class ProfileController {
+
+    @Autowired
+    private SessionHelper sessionHelper;
 
     @Autowired
     private ProfileService profileService;
@@ -36,45 +44,44 @@ public class ProfileController {
     @Autowired
     private ImageUploader imageUploader;
 
-    @PostMapping(value = PROFILE_EDIT_URL)
+    @GetMapping(value = PROFILE_EDIT_URL)
     public String getProfile(Model model, HttpSession session) {
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
         int id = authUser.getId();
         User user = userService.findById(id);
 
         if (user.getProfile() == null) {
-            model.addAttribute("profile", new Profile());
-            model.addAttribute("user", user);
+            model.addAttribute(PROFILE_ATTRIBUTE, new Profile());
+            model.addAttribute(USER_ATTRIBUTE, user);
         } else {
             Profile profile = user.getProfile();
-            model.addAttribute("profile", profile);
-            model.addAttribute("user", user);
+            model.addAttribute(PROFILE_ATTRIBUTE, profile);
+            model.addAttribute(USER_ATTRIBUTE, user);
         }
 
         return CREATE_PROFILE_URL;
     }
 
-    @PostMapping(value = PROFILE_URL)
+    @PostMapping
     public String postProfile(@ModelAttribute Profile profile, Model model, @RequestParam String imagePath,
                               @RequestParam MultipartFile file,
                               @RequestParam String coverImage,
-                              @RequestParam MultipartFile coverFile,
-                              HttpSession session) {
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+                              @RequestParam MultipartFile coverFile) {
+        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
         int userId = authUser.getId();
+
         String message = profileService.saveProfileForUser(profile, userId);
         User user = userService.findById(userId);
-        model.addAttribute("user", user);
-        model.addAttribute("message", message);
 
-        if (file.isEmpty()) {
-        } else {
+        model.addAttribute("message", message);
+        model.addAttribute(USER_ATTRIBUTE, user);
+
+        if (!file.isEmpty()) {
             imageUploader.createImagesDirIfNeeded();
             model.addAttribute("message2", imageUploader.createImage(imagePath, file));
         }
 
-        if (coverFile.isEmpty()) {
-        } else {
+        if (!coverFile.isEmpty()) {
             imageUploader.createImagesDirIfNeeded();
             model.addAttribute("message3", imageUploader.createImage(coverImage, coverFile));
         }
@@ -83,32 +90,39 @@ public class ProfileController {
     }
 
     @GetMapping(value = USER_PROFILE_URL)
-    public String getViewProfile(HttpSession session, Model model) {
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+    public String getViewProfile(Model model) {
+        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
-        model.addAttribute("profile", profile);
-        model.addAttribute("user", user);
+
+        model.addAttribute(PROFILE_ATTRIBUTE, profile);
+        model.addAttribute(USER_ATTRIBUTE, user);
 
         return VIEW_PROFILE_URL;
     }
 
     @PostMapping(value = USER_PROFILE_URL)
-    public String viewProfile(HttpSession session, Model model) {
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+    public String viewProfile(Model model) {
+        AuthUser authUser = sessionHelper.retrieveAuthUserFromSession();
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
-        model.addAttribute("profile", profile);
-        model.addAttribute("user", user);
+
+        model.addAttribute(PROFILE_ATTRIBUTE, profile);
+        model.addAttribute(USER_ATTRIBUTE, user);
 
         return VIEW_PROFILE_URL;
     }
 
     @GetMapping(value = SEARCH_URL)
     public String searchProfilePage(Model model) {
-        List<User> userList= userService.findAll();
+        List<User> userList;
+        if (sessionHelper.retrieveAuthUserFromSession().isAdmin()) {
+            userList = userService.findAll();
+        } else {
+            userList = userService.findActiveUsers();
+        }
         model.addAttribute("userList", userList);
 
         return PROFILE_SEARCH_URL;
@@ -117,15 +131,14 @@ public class ProfileController {
     @PostMapping(value = SEARCH_URL)
     public String searchProfile(@RequestParam("search") String username, Model model) {
         User user = userService.findByUsername(username);
-        List<User> userList= userService.findAll();
-        model.addAttribute("userList", userList);
+        DisplayStatus status=user.getDisplayStatus();
 
-        if (user == null) {
-            model.addAttribute("message", "No user Found with This username.");
+        if (user == null || status== DisplayStatus.INACTIVE) {
+            model.addAttribute("message", NO_USER_FOUND);
         } else {
             Profile profile = user.getProfile();
-            model.addAttribute("profile", profile);
-            model.addAttribute("user", user);
+            model.addAttribute(PROFILE_ATTRIBUTE, profile);
+            model.addAttribute(USER_ATTRIBUTE, user);
         }
 
         return PROFILE_SEARCH_URL;
@@ -135,28 +148,26 @@ public class ProfileController {
     public String stalkProfile(Model model, @PathVariable String username) {
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
-        model.addAttribute("profile", profile);
-        model.addAttribute("user", user);
+        model.addAttribute(PROFILE_ATTRIBUTE, profile);
+        model.addAttribute(USER_ATTRIBUTE, user);
 
         return PROFILE_STALK_URL;
     }
 
-    @RequestMapping(value = "/profile/image/{imagePath}")
+    @RequestMapping(value = PROFILE_IMAGE_URL)
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "imagePath") String imageName) throws IOException {
         imageUploader.createImagesDirIfNeeded();
-        System.out.println(imageName);
-        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName+ ".png");
+        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName + ".png");
 
         return Files.readAllBytes(serverFile.toPath());
     }
 
-    @RequestMapping(value = "/profile/cover/{coverImage}")
+    @RequestMapping(value = COVER_IMAGE_URL)
     @ResponseBody
     public byte[] getCoverImage(@PathVariable(value = "coverImage") String imageName) throws IOException {
         imageUploader.createImagesDirIfNeeded();
-        System.out.println(imageName);
-        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName+ ".png");
+        File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName + ".png");
 
         return Files.readAllBytes(serverFile.toPath());
     }

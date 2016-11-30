@@ -70,7 +70,7 @@ public class BuzzServiceImpl implements BuzzService {
     @Override
     @Transactional
     public Buzz flagBuzz(Buzz buzzToFlag) {
-        if(buzzToFlag.isFlagged()) {
+        if (buzzToFlag.isFlagged()) {
             buzzToFlag.setFlagged(false);
         } else {
             buzzToFlag.setFlagged(true);
@@ -84,13 +84,13 @@ public class BuzzServiceImpl implements BuzzService {
     public Buzz deactivateBuzz(Buzz buzzToDeactivate) {
         buzzToDeactivate.setDisplayStatus(DisplayStatus.INACTIVE);
 
-        return buzzDao.delete(buzzToDeactivate);
+        return buzzDao.saveOrUpdate(buzzToDeactivate);
     }
 
     @Override
     @Transactional
     public Buzz pinBuzz(Buzz buzzToPin) {
-        if(buzzToPin.isPinned()) {
+        if (buzzToPin.isPinned()) {
             buzzToPin.setPinned(false);
         } else {
             buzzToPin.setPinned(true);

@@ -15,7 +15,7 @@
             <table>
                 <tr>
                     <td><c:forEach items="${hiveList}" var="item">
-                        <a href="/user/hive/show/${item.id}"><c:out value="${item.name}"/></a><br>
+                        <a href="/user/hive/show/${item.id}"> <c:out value="${item.name}"/></a><br>
                         <br>
                     </c:forEach>
                     </td>

@@ -12,7 +12,7 @@ import java.util.List;
  * @since 11/27/16
  */
 @Repository
-public class PostDaoImpl implements PostDao{
+public class PostDaoImpl implements PostDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -26,7 +26,7 @@ public class PostDaoImpl implements PostDao{
     @Override
     public List<Post> getPostListByHive(int id) {
 
-        return em.createQuery("SELECT p FROM Post p WHERE p.hive.id =:id",Post.class).setParameter("id", id)
+        return em.createQuery("SELECT p FROM Post p WHERE p.hive.id =:id", Post.class).setParameter("id", id)
                 .getResultList();
     }
 }

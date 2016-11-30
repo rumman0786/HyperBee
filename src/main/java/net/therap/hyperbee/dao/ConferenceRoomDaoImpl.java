@@ -15,15 +15,13 @@ import java.util.List;
 @Repository
 public class ConferenceRoomDaoImpl implements ConferenceRoomDao {
 
-    private static final String CONFERENCE_ROOM_ALL_QUERY = "FROM ConferenceRoom";
-
     @PersistenceContext
     private EntityManager em;
 
     @Override
     @Transactional
     public void save(ConferenceRoom conferenceRoom) {
-        if (conferenceRoom.getId() == 0) {
+        if (conferenceRoom.isNew()) {
             em.persist(conferenceRoom);
             em.flush();
         } else {
@@ -39,7 +37,8 @@ public class ConferenceRoomDaoImpl implements ConferenceRoomDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<ConferenceRoom> findAll() {
-        return em.createQuery(CONFERENCE_ROOM_ALL_QUERY).getResultList();
+        return em.createNamedQuery("ConferenceRoom.findAllRoom", ConferenceRoom.class)
+                .getResultList();
     }
 
     @Override

@@ -29,7 +29,7 @@ public class BuzzDaoImpl implements BuzzDao {
     @Override
     @Transactional
     public Buzz saveOrUpdate(Buzz buzz) {
-        if(buzz.getId() == 0) {
+        if (buzz.getId() == 0) {
             em.persist(buzz);
         } else {
             return em.merge(buzz);
@@ -77,11 +77,5 @@ public class BuzzDaoImpl implements BuzzDao {
                 .setParameter("pinned", true)
                 .setMaxResults(range)
                 .getResultList();
-    }
-
-    @Override
-    @Transactional
-    public Buzz delete(Buzz buzzToDelete) {
-        return em.merge(buzzToDelete);
     }
 }

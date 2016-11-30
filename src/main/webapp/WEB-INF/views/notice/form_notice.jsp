@@ -1,10 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: rumman
-  Date: 10/25/16
-  Time: 11:20 AM
-  To change this template use File | Settings | File Templates.
+ * @author rumman
+ * @since 11/22/16
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <head>
@@ -16,48 +13,50 @@
     <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-            <form:form class="form-signin" method="post" action="${pageContext.request.contextPath}${action}" modelAttribute="notice">
+            <form:form class="form-signin" method="post" action="${pageContext.request.contextPath}${action}"
+                       modelAttribute="notice">
                 <h2 class="form-signin-heading">${noticeHeader}</h2>
 
                 <form:hidden path="id"/>
 
                 <div class="form-group">
-                    <label for="title" class="sr-only">Title</label>
+                    <label for="title">Title</label>
                     <form:input type="text" id="title" class="form-control" placeholder="Notice Title" name="title"
                                 path="title" required="required" autofocus="autofocus"/>
-                    <form:errors path="title" cssClass="error" />
+                    <form:errors path="title" cssClass="error"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="description" class="sr-only">Description</label>
-                    <form:input type="text" id="description" class="form-control" name="description" placeholder="Description"
-                                path="description" required="required"/>
-                    <form:errors path="description" cssClass="error" />
+                    <label for="description">Description</label>
+                    <form:textarea class="form-control" rows="5" id="description" path="description" name="description"
+                                   required="required"></form:textarea>
+                    <form:errors path="description" cssClass="alert alert-danger"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="displayStatus" class="sr-only">Display Status</label>
-                    <form:select path="displayStatus" id="displayStatus">
-                        <form:options items="${displayStatusOptions}" itemValue="status" itemLabel="status" />
+                    <label for="displayStatus">Display Status</label>
+                    <form:select path="displayStatus" id="displayStatus" class="form-control">
+                        <form:options items="${displayStatusOptions}" itemValue="status" itemLabel="status"/>
                     </form:select>
                 </div>
 
                 <div class="form-group input-group date" id='datetimepicker1'>
-                    <label for="dateExpired" class="sr-only">Expiry Date</label>
-                    <form:input type="text" id="dateExpired" class="form-control" name="dateExpired" placeholder="dd-MM-yy"
-                          path="dateExpired" required="required"/>
+                    <label for="dateExpired">Expiry Date</label>
+                    <form:input onkeydown="return false;" type="text" id="dateExpired" class="form-control"
+                                name="dateExpired" placeholder="dd-MM-yy"
+                                path="dateExpired" required="required"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                    <form:errors path="dateExpired" cssClass="error" />
+                    <form:errors path="dateExpired" cssClass="alert alert-danger"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="hiveList" class="sr-only">Hives</label>
-                    <form:select multiple="true" path="hiveList" id="hiveList">
+                    <label for="hiveList">Hives</label>
+                    <form:select multiple="true" path="hiveList" id="hiveList" class="form-control">
                         <form:options items="${hiveList}" itemValue="id" itemLabel="name"/>
                     </form:select>
-                    <form:errors path="dateExpired" cssClass="error" />
+                    <form:errors path="hiveList" cssClass="alert alert-danger"/>
                 </div>
 
                 <div class="form-group">

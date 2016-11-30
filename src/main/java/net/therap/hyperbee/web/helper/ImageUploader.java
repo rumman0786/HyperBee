@@ -43,7 +43,7 @@ public class ImageUploader {
         }
     }
 
-    public String getImagesDirAbsolutePath(){
+    public String getImagesDirAbsolutePath() {
         return IMAGES_DIR_ABSOLUTE_PATH;
     }
 }

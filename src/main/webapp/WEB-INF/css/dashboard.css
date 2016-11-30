@@ -5,18 +5,16 @@
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-.row.content {height: 1500px}
+.row.content {
+
+    height: 950px
+}
 
 .top-padding {
     padding-top: 70px;
 }
 
 .pre-scrollable {
-    overflow-y: auto;
-}
-
-.pre-scrollable-body {
-    max-height: 1500px;
     overflow-y: auto;
 }
 
@@ -30,7 +28,7 @@
     list-style-type: none;
     display: block;
     margin: 0;
-    position:fixed;
+    position: fixed;
     overflow: hidden;
     font-family: sans-serif;
 }
@@ -52,9 +50,22 @@
     background-color: #c0c0c0;
 }
 
+.set-activity-height {
+    max-height: 600px;
+}
+
+.fixed-panel {
+    min-height: 300px;
+}
+
+.panel-body {
+    word-break: break-all
+}
+
 /* Set black background color, white text and some padding */
 footer {
     background-color: #555;
     color: white;
     padding: 15px;
 }
+

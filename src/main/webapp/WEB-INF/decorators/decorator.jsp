@@ -1,4 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="sitemesh" %>
+
 <html lang="en">
 <head>
     <title>HyperBee::<sitemesh:title/></title>
@@ -17,7 +19,6 @@
 
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-
     <link href="/css/dashboard.css" rel="stylesheet">
     <sitemesh:head/>
 </head>
@@ -27,7 +28,7 @@
 <div class="container-fluid text-center">
     <div class="row content">
         <jsp:include page="sidebarLeft.jsp"/>
-        <div class="col-sm-8 text-left top-padding pre-scrollable-body">
+        <div class="col-sm-8 text-left top-padding">
             <sitemesh:body/>
         </div>
         <jsp:include page="sidebarRight.jsp"/>

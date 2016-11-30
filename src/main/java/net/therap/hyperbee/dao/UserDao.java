@@ -22,7 +22,13 @@ public interface UserDao {
 
     public List<User> findAll();
 
+    public List<User> findActiveUser();
+
     public void updateUser(User user);
 
     public void deleteUser(int id);
+
+    void inactivate(int userId);
+
+    void activate(int userId);
 }
