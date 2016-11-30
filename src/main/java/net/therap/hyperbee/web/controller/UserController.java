@@ -8,7 +8,6 @@ import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
-import net.therap.hyperbee.web.helper.UserHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
@@ -163,8 +162,27 @@ public class UserController {
             int activeUser  = userService.findByDisplayStatus(DisplayStatus.ACTIVE);
             int inactiveUser  = userService.findByDisplayStatus(DisplayStatus.INACTIVE);
 
+            int activeBuzz = buzzService.getActiveCount();
+            int inactiveBuzz = buzzService.getInactiveCount();
+            int flaggedBuzz = buzzService.getFlaggedCount();
+            int pinnedBuzz = buzzService.getPinnedCount();
+
             sessionHelper.setStat("activeUsers", activeUser);
             sessionHelper.setStat("inactiveUsers", inactiveUser);
+
+            sessionHelper.setStat("activeBuzz", activeBuzz);
+            sessionHelper.setStat("inactiveBuzz", inactiveBuzz);
+            sessionHelper.setStat("flaggedBuzz", flaggedBuzz);
+            sessionHelper.setStat("pinnedBuzz", pinnedBuzz);
+
+        } else {
+            int activeBuzz = buzzService.getActiveCountByUser(authUserFromSession.getId());
+            int flaggedBuzz = buzzService.getFlaggedCountByUser(authUserFromSession.getId());
+            int pinnedBuzz = buzzService.getPinnedCountByUser(authUserFromSession.getId());
+
+            sessionHelper.setStat("activeBuzz", activeBuzz);
+            sessionHelper.setStat("flaggedBuzz", flaggedBuzz);
+            sessionHelper.setStat("pinnedBuzz", pinnedBuzz);
         }
     }
 
@@ -203,16 +221,5 @@ public class UserController {
         sessionHelper.setStat("activeUsers", activeUsers + 1);
 
         return "redirect:/profile/search";
-    }
-
-    private Map<String, Integer> getMap(AuthUser authUser) {
-        List<User> users = userService.findAll();
-
-        UserHelper userHelper = new UserHelper();
-        Map<String, Integer> statsMap = userHelper.generateMap(authUser, users);
-
-        log.debug("Deactivated Users: {}", statsMap.get("deactivatedUsers"));
-
-        return statsMap;
     }
 }

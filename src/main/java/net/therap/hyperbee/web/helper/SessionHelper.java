@@ -1,6 +1,7 @@
 package net.therap.hyperbee.web.helper;
 
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpSession;
  */
 @Component
 public class SessionHelper {
+
+    @Autowired
+    private BuzzService buzzService;
 
     @Autowired
     private UserService userService;

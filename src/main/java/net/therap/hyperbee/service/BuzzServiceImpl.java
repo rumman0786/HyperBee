@@ -3,6 +3,7 @@ package net.therap.hyperbee.service;
 import net.therap.hyperbee.dao.BuzzDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Buzz;
+import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +47,38 @@ public class BuzzServiceImpl implements BuzzService {
     }
 
     @Override
-    public List<Buzz> getBuzzByUser(String username) {
-        int userId = userDao.findByUsername(username).getId();
+    public int getActiveCountByUser(int userId) {
+        return buzzDao.getActiveCountByUser(userDao.findById(userId));
+    }
 
-        return buzzDao.getByUser(userId);
+    @Override
+    public int getPinnedCountByUser(int userId) {
+        return buzzDao.getPinnedCountByUser(userDao.findById(userId));
+    }
+
+    @Override
+    public int getFlaggedCountByUser(int userId) {
+        return buzzDao.getFlaggedCountByUser(userDao.findById(userId));
+    }
+
+    @Override
+    public int getActiveCount() {
+        return buzzDao.getActiveCount();
+    }
+
+    @Override
+    public int getInactiveCount() {
+        return buzzDao.getInactiveCount();
+    }
+
+    @Override
+    public int getPinnedCount() {
+        return buzzDao.getPinnedCount();
+    }
+
+    @Override
+    public int getFlaggedCount() {
+        return buzzDao.getFlaggedCount();
     }
 
     @Override
