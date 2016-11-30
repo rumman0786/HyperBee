@@ -15,7 +15,7 @@ import java.util.List;
  * @since 11/27/16
  */
 @Repository
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserService userService;

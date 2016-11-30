@@ -10,7 +10,7 @@ import java.util.List;
  * @since 11/24/16
  */
 public class UserIdInfo {
-   
+
     @Size(min = 1)
     List<Integer> userIdList;
 

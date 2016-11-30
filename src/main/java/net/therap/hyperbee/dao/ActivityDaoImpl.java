@@ -36,7 +36,7 @@ public class ActivityDaoImpl implements ActivityDao {
             activityList = em.createQuery(SELECT_ACTIVITY, Activity.class)
                     .setParameter("userId", userId)
                     .getResultList();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             e.printStackTrace();
         }
 

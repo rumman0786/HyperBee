@@ -28,11 +28,9 @@ public interface HiveService {
 
     public Hive findById(int hiveId);
 
-    public List<User> getUserInList(int id);
-
     public void removeUsersFromHive(int hiveId, List<Integer> userIdList);
 
-    public List<Notice> getNoticeList(int id);
-
     public List<User> getUserListToRemove(int id);
+
+    public List<Notice> getLastFiveNotice(List<Notice> noticeList);
 }
