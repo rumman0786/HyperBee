@@ -50,15 +50,6 @@ public class HiveDaoImpl implements HiveDao {
         em.flush();
     }
 
-    @Override
-    public List<Hive> getHiveListByUserId(int userId) {
-        User user = em.find(User.class, userId);
-        Hibernate.initialize(user.getHiveList());
-
-        return user.getHiveList();
-    }
-
-
     public Hive getHiveByHiveName(String name) {
 
         return em.createQuery(QUERY_GET_HIVE_BY_HIVENAME, Hive.class)

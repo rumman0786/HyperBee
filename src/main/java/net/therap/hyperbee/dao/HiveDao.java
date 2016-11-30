@@ -20,8 +20,6 @@ public interface HiveDao {
 
     public void insertUsersToHive(Hive hive, List<User> userList);
 
-    public List<Hive> getHiveListByUserId(int userId);
-
     public Hive getHiveByHiveName(String name);
 
     public List<User> findUserNotInList(List<User> userList);

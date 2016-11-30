@@ -78,7 +78,7 @@ public class HiveController {
     @GetMapping
     public String viewHive(ModelMap model) {
         int userId = sessionHelper.getUserIdFromSession();
-        model.addAttribute("hiveList", hiveService.getHiveListByUserId(userId));
+        model.addAttribute("hiveList", userService.findById(userId).getHiveList());
         model.addAttribute("userList", userService.findAll());
         model.addAttribute("userIdInfo", new UserIdInfo());
 

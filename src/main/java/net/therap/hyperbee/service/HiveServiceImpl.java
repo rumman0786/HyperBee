@@ -60,12 +60,6 @@ public class HiveServiceImpl implements HiveService {
         hiveDao.insertUsersToHive(hive, userList);
     }
 
-    @Transactional
-    public List<Hive> getHiveListByUserId(int userId) {
-
-        return hiveDao.getHiveListByUserId(userId);
-    }
-
     @Override
     public Hive getHiveByHiveName(String name) {
         return hiveDao.getHiveByHiveName(name);
