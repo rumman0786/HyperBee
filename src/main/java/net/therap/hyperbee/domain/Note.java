@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static net.therap.hyperbee.domain.enums.NoteType.REMINDER;
 import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 
 /**
@@ -29,7 +30,10 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.*;
                 query = "UPDATE Note n SET n.displayStatus = :displayStatus WHERE n.id = :noteId AND n.user.id = :userId"),
         @NamedQuery(name = "Note.findTopStickyNoteByUserId",
                 query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus " +
-                        " AND  n.noteType = :type ORDER BY n.id DESC")
+                        " AND  n.noteType = :type ORDER BY n.id DESC"),
+        @NamedQuery(name = "Note.reminderForUserDash",
+                query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus " +
+                        " AND  n.noteType = :type ORDER BY n.dateRemind")
 })
 @Table(name = "note")
 public class Note implements Serializable {
@@ -162,6 +166,11 @@ public class Note implements Serializable {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         return sdf.format(dateRemind.getTimeInMillis());
+    }
+
+    public String getNoteTypeAsString() {
+
+        return (noteType == REMINDER) ? NOTE_REMINDER : NOTE_STICKY;
     }
 
     public String toString() {

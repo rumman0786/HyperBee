@@ -43,7 +43,7 @@ public interface Url {
     String NOTE_SAVE_URL = "/user/note/save";
     String NOTE_VIEW_ALL = "note/notes";
     String NOTE_ADD_VIEW = "note/note_form";
-    String NOTE_DELETE_URL = "/note/delete/{id}";
+    String NOTE_DELETE_URL = "/note/delete/{type}/{id}";
 
     String SUCCESS_VIEW = "success";
 
