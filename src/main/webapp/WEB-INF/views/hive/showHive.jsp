@@ -10,8 +10,8 @@
 <div class="container-fluid">
     <div class="container" style="background-image: url(http://localhost:8080/user/hive/image/${hive.imagePath})">
         <div class="row">
-            <div class="col-lg-10" style="padding-top: 200">
-                <h3>${hive.name}</h3>
+            <div class="col-lg-10" style="padding-top: 200; padding-bottom: 50; padding-left: 25">
+                <h1>${hive.name}</h1>
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@
                     <div class="panel-body">${item.description}</div>
                     <div class="panel-footer clearfix">
                         <div class="pull-right">
-                            <fmt:formatDate type="date" value="${item.dateCreated.time}" pattern="dd-MM-yy"/>
+                            <fmt:formatDate type="date" value="${item.dateCreated.time}" pattern="dd-MM-yy [hh:mm]"/>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
         <div id="member" class="tab-pane">
             <div class="col-sm-4 table-responsive">
                 <div class="panel panel-info">
-                    <div class="panel-heading"><h3>Members ${hive.userList.size()} </h3>
+                    <div class="panel-heading"><h3><fmt:message key="hive.member"/> ${hive.userList.size()} </h3>
                         <h4><fmt:message key="hive.admin"/>
                             <small>${creator.username}</small>
                         </h4>
@@ -101,6 +101,10 @@
                         <table>
                             <c:forEach items="${hive.userList}" var="user">
                                 <tr style="border: 1">
+                                   <td><img src="/profile/image/${user.profile.imagePath}" class="img-circle"
+                                         alt="Cinque Terre"
+                                         width="40px" height="40px"/>
+                                    </td>
                                     <td><c:out value="${user.username}"/></td>
                                 </tr>
                             </c:forEach>
@@ -118,9 +122,13 @@
                                 <c:forEach var="user" items="${userList}" varStatus="loop">
                                     <tr style="border: 1">
                                         <td>
-                                            <form:checkbox path="userIdList" value="${user.id}"
-                                                           label=" ${user.username}"/>
+                                            <form:checkbox path="userIdList" value="${user.id}"/>
                                         </td>
+                                        <td><img src="/profile/image/${user.profile.imagePath}" class="img-circle"
+                                                 alt="Cinque Terre"
+                                                 width="40px" height="40px"/>
+                                        </td>
+                                        <td>${user.username}</td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -145,9 +153,13 @@
                                 <c:forEach var="user" items="${userListToRemove}" varStatus="loop">
                                     <tr style="border: 1">
                                         <td>
-                                            <form:checkbox path="userIdList" value="${user.id}"
-                                                           label=" ${user.username}"/>
+                                            <form:checkbox path="userIdList" value="${user.id}"/>
                                         </td>
+                                        <td><img src="/profile/image/${user.profile.imagePath}" class="img-circle"
+                                                 alt="Cinque Terre"
+                                                 width="40px" height="40px"/>
+                                        </td>
+                                        <td>${user.username}</td>
                                     </tr>
                                 </c:forEach>
                             </table>

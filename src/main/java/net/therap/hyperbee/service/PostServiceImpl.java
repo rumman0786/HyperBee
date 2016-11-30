@@ -35,10 +35,4 @@ public class PostServiceImpl implements PostService {
         post.setHive(hive);
         postDao.insertPost(post);
     }
-
-    @Override
-    public List<Post> getPostListByHive(int id) {
-
-        return postDao.getPostListByHive(id);
-    }
 }

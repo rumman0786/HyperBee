@@ -28,7 +28,8 @@
                     </li>
                 </c:if>
 
-                <li><a href="/user/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
+                <li <c:if test="${page == 'note'}"> class="active" </c:if> >
+                    <a href="/user/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
                 <li><a href="/conference/list"><fmt:message key="dashboard.view.topbar.conference"/></a></li>
                 <li><a href="/reservation/list">Reservation</a></li>
 
