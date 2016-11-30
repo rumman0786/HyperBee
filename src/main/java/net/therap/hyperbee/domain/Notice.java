@@ -19,8 +19,12 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.*;
  * @author zoha
  * @since 11/21/16
  */
-@NamedQuery(name = "Notice.findAllNotice",
-        query = "SELECT notice FROM Notice notice ORDER BY notice.id DESC")
+@NamedQueries({
+        @NamedQuery(name = "Notice.findAllNotice",
+                query = "SELECT notice FROM Notice notice ORDER BY notice.id DESC"),
+        @NamedQuery(name = "Notice.findLatestNotices",
+                query = "SELECT notice FROM Notice notice WHERE notice.displayStatus = 'ACTIVE' ORDER BY notice.id DESC")
+})
 @Entity
 @Table(name = "notice")
 public class Notice implements Serializable {

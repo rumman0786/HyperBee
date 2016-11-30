@@ -42,6 +42,13 @@ public class NoticeDaoImpl implements NoticeDao {
     }
 
     @Override
+    public List<Notice> findLatestNotices(int range) {
+        return em.createNamedQuery("Notice.findLatestNotices", Notice.class)
+                .setMaxResults(range)
+                .getResultList();
+    }
+
+    @Override
     @Transactional
     public void delete(Notice notice) {
         delete(notice.getId());

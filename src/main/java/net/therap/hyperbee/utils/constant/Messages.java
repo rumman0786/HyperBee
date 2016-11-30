@@ -16,5 +16,7 @@ public interface Messages {
     String NOTICE_MODIFIED = "Modified Notice";
     String NOTICE_DELETED = "Deleted Notice";
     String NOTICE_LIST_VIEWED = "Notice List View";
+    String NOTICE_ACCESS_DENIED = "Only Admin Users Can Access Notice Area";
+
 
 }
