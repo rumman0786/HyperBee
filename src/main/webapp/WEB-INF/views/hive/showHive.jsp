@@ -4,46 +4,46 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>HypeerBee-Hive Page</title>
+    <title><fmt:message key="hive.title"/></title>
 </head>
 <body>
 <div class="container-fluid">
     <div class="container" style="background-image: url(http://localhost:8080/user/hive/image/${hive.imagePath})">
         <div class="row">
-            <div class="col-lg-4" style="padding-top: 200">
-                <h3>Welcome to ${hive.name}</h3>
-
-                <p>${hive.description}</p>
+            <div class="col-lg-10" style="padding-top: 200">
+                <h3>${hive.name}</h3>
             </div>
         </div>
     </div>
-    <div>
+    <br>
+
+    <div class="container">
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#post">Discussion</a></li>
-            <li><a data-toggle="tab" href="#notice">Notice</a></li>
-            <li><a data-toggle="tab" href="#member">Member</a></li>
+            <li class="active"><a data-toggle="tab" href="#post"><fmt:message key="hive.discussion"/></a></li>
+            <li><a data-toggle="tab" href="#notice"><fmt:message key="hive.notice"/></a></li>
+            <li><a data-toggle="tab" href="#member"><fmt:message key="hive.member"/></a></li>
+            <li><a data-toggle="tab" href="#about"><fmt:message key="hive.about"/></a></li>
         </ul>
     </div>
     <br>
 
-    <div class=" col-sm-8 tab-content">
-        <div id="post" class="tab-pane fade in active">
+    <div class=" col-sm-10 tab-content">
+        <div id="post" class="tab-pane in active">
             <form:form action="/user/hive/post/${hive.id}" method="POST" commandName="post">
                 <div class="panel panel-success">
                     <div class="panel-heading clearfix">
-                        <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Add Post</h4>
+                        <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><fmt:message key="hive.post.form"/></h4>
                     </div>
                     <div class="panel-body">
                         <form:textarea type="text" placeholder="Description" class="form-control" path="description"/>
                     </div>
                     <div class="panel-footer clearfix">
                         <div class="btn-group pull-right">
-                            <button class="btn btn-warning btn-sm" type="submit">Post</button>
+                            <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="hive.post.button"/></button>
                         </div>
                     </div>
                 </div>
             </form:form>
-
             <c:forEach items="${hive.postList}" var="item">
                 <div class="panel panel-warning">
                     <div class="panel-heading clearfix">
@@ -54,7 +54,6 @@
                                          alt="Cinque Terre"
                                          width="40px" height="40px"/>
                                 </td>
-
                                 <td>
                                     <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
                                         <b>${item.user.firstName} ${item.user.lastName}</b></h4>
@@ -71,7 +70,6 @@
                 </div>
             </c:forEach>
         </div>
-
         <div id="notice" class="tab-pane">
             <c:forEach items="${hive.noticeList}" var="item">
                 <div class="panel panel-warning">
@@ -88,12 +86,11 @@
                 </div>
             </c:forEach>
         </div>
-
         <div id="member" class="tab-pane">
             <div class="col-sm-4 table-responsive">
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3>Members ${hive.userList.size()} </h3>
-                        <h4>Admin :
+                        <h4><fmt:message key="hive.admin"/>
                             <small>${creator.username}</small>
                         </h4>
                     </div>
@@ -110,7 +107,7 @@
             </div>
             <div class="col-sm-4 table-responsive">
                 <div class="panel panel-info">
-                    <div class="panel-heading"><h3>Add Members</h3>
+                    <div class="panel-heading"><h3><fmt:message key="hive.add.member"/></h3>
                     </div>
                     <form:form method="POST" action="/user/hive/insertuser/${hive.id}" commandName="userIdInfo">
                         <div class="panel-body">
@@ -127,7 +124,7 @@
                         </div>
                         <div class="panel-footer clearfix">
                             <div class="pull-right">
-                                <button class="btn btn-warning btn-sm" type="submit">Add</button>
+                                <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="hive.add.button"/></button>
                             </div>
                         </div>
                     </form:form>
@@ -136,7 +133,7 @@
             </div>
             <div class="col-sm-4 table-responsive">
                 <div class="panel panel-info">
-                    <div class="panel-heading"><h3>Remove Members</h3>
+                    <div class="panel-heading"><h3><fmt:message key="hive.remove.member"/></h3>
                     </div>
                     <form:form method="POST" action="/user/hive/removeuser/${hive.id}" commandName="userIdInfo">
                         <div class="panel-body">
@@ -153,12 +150,19 @@
                         </div>
                         <div class="panel-footer clearfix">
                             <div class="pull-right">
-                                <button class="btn btn-warning btn-sm" type="submit">Remove</button>
+                                <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="hive.remove.button"/></button>
                             </div>
                         </div>
                     </form:form>
+                </div>
+            </div>
+        </div>
+        <div id="about" class="tab-pane">
+            <div class="panel panel-info">
+                <div class="panel-heading clearfix">
 
                 </div>
+                <div class="panel-body">${hive.description}</div>
             </div>
         </div>
     </div>

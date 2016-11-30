@@ -100,8 +100,6 @@ public class HiveController {
             model.addAttribute("message", imageUploader.createImage(filename, file));
         }
 
-
-
         return "redirect:" + HIVE_VIEW + hiveId;
     }
 
