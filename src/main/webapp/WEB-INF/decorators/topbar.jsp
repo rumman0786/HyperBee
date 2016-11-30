@@ -20,6 +20,7 @@
                 <li><a href="#">Contact</a></li>
                 <li><a href="/notice/list">Notice</a></li>
                 <li><a href="/conference/list">Conference</a></li>
+                <li><a href="/reservation/list">Reservation</a></li>
                 <li><a href="/user/profile">Profile</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -99,33 +99,35 @@ public class ReservationController {
         reservationService.saveReservation(reservation);
         return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
     }
-//
-//    @RequestMapping(value = "/{id}/**", method = RequestMethod.GET)
-//    public String showEditNoiceForm(@PathVariable("id") int id, ModelMap modelMap) {
-//        modelMap.addAttribute("page", "notice")
-//                .addAttribute("action", RERVATION_BASE_URL + RERVATION_UPDATE_URL)
-//                .addAttribute("noticeHeader", "Edit Notice")
-//                .addAttribute("hiveList", hiveService.getHiveListByUserId(sessionHelper.getUserIdFromSession()))
-//                .addAttribute("notice", noticeService.findNoticeById(id));
-//
-//        return "notice/form_notice";
-//    }
-//
-//    @RequestMapping(value = RERVATION_UPDATE_URL, method = RequestMethod.POST)
-//    public String editNotice(@ModelAttribute("notice") Notice notice,
-//                             BindingResult bindingResult) {
-//        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
-//        notice.setUser(userService.findById(sessionUserId));
-//
-//        noticeService.saveNotice(notice);
-//
-//        return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
-//    }
-//
-//    @RequestMapping(value = RERVATION_DELETE_URL, method = RequestMethod.POST)
-//    public String deleteNotice(@RequestParam("id") int noticeId) {
-//        noticeService.delete(noticeId);
-//
-//        return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
-//    }
+
+    @GetMapping(value = "/{id}/**")
+    public String showEditReservationForm(@PathVariable("id") int id, ModelMap modelMap) {
+        modelMap.addAttribute("page", "reservation")
+                .addAttribute("pageHeader", "Edit Reservation")
+                .addAttribute("action", RERVATION_BASE_URL + RERVATION_UPDATE_URL)
+                .addAttribute("reservation", reservationService.findReservationById(id))
+                .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
+                .addAttribute("reservationStatusOptions", ReservationStatus.values());
+
+        return "reservation/form_reservation";
+    }
+
+    @PostMapping(value = RERVATION_UPDATE_URL)
+    public String editReservation(@ModelAttribute("reservation") Reservation reservation,
+                             BindingResult bindingResult) {
+
+        int sessionUserId = (sessionHelper.retrieveAuthUserFromSession()).getId();
+        reservation.setUser(userService.findById(sessionUserId));
+
+        reservationService.saveReservation(reservation);
+
+        return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
+    }
+
+    @PostMapping(value = RERVATION_DELETE_URL)
+    public String deleteReservation(@RequestParam("id") int reservationId) {
+        reservationService.delete(reservationId);
+
+        return "redirect:" + RERVATION_BASE_URL + RERVATION_LIST_URL;
+    }
 }

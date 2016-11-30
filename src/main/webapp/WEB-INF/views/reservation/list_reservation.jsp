@@ -8,16 +8,19 @@
     <title>| Notice Board</title>
 </head>
 <body>
+
 <%--<c:if test="${user.isSuperuser}">--%>
-    <a href="${pageContext.request.contextPath}${noticeAddUrl}" class="btn btn-success pull-right">Add Notice</a>
+    <a href="${pageContext.request.contextPath}${actionUrl}" class="btn btn-success pull-right">Add Reservation</a>
 <%--</c:if>--%>
 <div class="table-responsive">
-    <table class="table table-striped" border="1">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Creator</th>
+            <th>Conference Room</th>
+            <th>Reserved By</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Status</th>
 
             <%--<c:if test="${user.isSuperuser}">--%>
             <th>Edit</th>
@@ -28,16 +31,18 @@
         </thead>
         <tbody>
 
-        <c:forEach var="notice" items="${noticeList}">
+        <c:forEach var="reservation" items="${reservationList}">
             <tr>
-                <td>${notice.title}</td>
-                <td>${notice.description}</td>
-                <td>${notice.user.username}</td>
+                <td>${reservation.conferenceRoom.title}</td>
+                <td>${reservation.user.username}</td>
+                <td>${reservation.reservationFrom}</td>
+                <td>${reservation.reservationTo}</td>
+                <td>${reservation.reservationStatus}</td>
 
                     <%--<c:if test="${user.isSuperuser}">--%>
-                <td><a href="${pageContext.request.contextPath}/notice/${notice.id}/"><span
+                <td><a href="${pageContext.request.contextPath}/reservation/${reservation.id}/"><span
                         class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#" data-id="${notice.id}"
+                <td><a href="#" data-id="${reservation.id}"
                        data-toggle="modal" data-target="#confirm-delete"
                        class="delete-user-item"><span
                         class="glyphicon glyphicon-trash"></span></a></td>
@@ -62,7 +67,7 @@
             </div>
 
             <div class="modal-body">
-                <p>You are about to delete a Notice, this procedure is irreversible.</p>
+                <p>You are about to delete a Reservation, this procedure is irreversible.</p>
 
                 <p>Do you want to proceed?</p>
 
