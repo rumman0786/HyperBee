@@ -1,12 +1,16 @@
 package net.therap.hyperbee.web.helper;
 
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.web.security.AuthUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author rayed
@@ -15,6 +19,9 @@ import javax.servlet.http.HttpSession;
  */
 @Component
 public class SessionHelper {
+
+    @Autowired
+    private BuzzService buzzService;
 
     public void persistInSession(User user) {
         AuthUser authUser = new AuthUser();
@@ -26,6 +33,7 @@ public class SessionHelper {
 
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.setAttribute("authUser", authUser);
+        session.setAttribute("buzzStats", generateBuzzStatsList(authUser.getId(), authUser.isAdmin()));
     }
 
     public AuthUser getAuthUserFromSession() {
@@ -51,5 +59,22 @@ public class SessionHelper {
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
 
         return authUser.getId();
+    }
+
+    public List<Integer> generateBuzzStatsList(int userId, boolean isAdmin) {
+        List<Integer> buzzStatsList = new ArrayList<>();
+
+        if(isAdmin) {
+            buzzStatsList.add(buzzService.getActiveCount());
+            buzzStatsList.add(buzzService.getInactiveCount());
+            buzzStatsList.add(buzzService.getFlaggedCount());
+            buzzStatsList.add(buzzService.getPinnedCount());
+        } else {
+            buzzStatsList.add(buzzService.getActiveCountByUser(userId));
+            buzzStatsList.add(buzzService.getPinnedCountByUser(userId));
+            buzzStatsList.add(buzzService.getFlaggedCountByUser(userId));
+        }
+
+        return buzzStatsList;
     }
 }

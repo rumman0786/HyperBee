@@ -32,6 +32,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
  */
 @RequestMapping(BUZZ_BASE_URL)
 @Controller
+
 public class BuzzController {
 
     private static final Logger log = LogManager.getLogger(SimpleLogger.class);
