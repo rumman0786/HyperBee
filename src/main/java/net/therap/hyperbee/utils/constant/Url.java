@@ -64,6 +64,13 @@ public interface Url {
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
 
+    // Reservation Constants
+    String RERVATION_BASE_URL = "/reservation";
+    String RERVATION_LIST_URL = "/list";
+    String RERVATION_ADD_URL = "/add";
+    String RERVATION_UPDATE_URL = "/update";
+    String RERVATION_DELETE_URL = "/delete";
+
     //Resource Constants
     String RESOURCE_STYLE = "/css/";
     String RESOURCE_SCRIPT = "/js/";
@@ -72,6 +79,8 @@ public interface Url {
 
     //Common Constants
     String ACCESS_DENIED_URL = "/denied";
+    String DONE_URL= "/done";
+    String DONE_VIEW = "done";
 
     //Hive Constants
     String HIVE_CREATE_URL = "/create";

@@ -1,6 +1,7 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.ReservationStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -33,9 +34,11 @@ public class Reservation implements Serializable {
     private ReservationStatus reservationStatus;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm a")
     private Calendar reservationFrom;
 
     @Column(columnDefinition = DATE_TIME_FIELD)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm a")
     private Calendar reservationTo;
 
     @ManyToOne
@@ -47,8 +50,8 @@ public class Reservation implements Serializable {
     private ConferenceRoom conferenceRoom;
 
     public Reservation() {
-        this.reservationFrom = new GregorianCalendar();
-        this.reservationTo = new GregorianCalendar();
+//        this.reservationFrom = new GregorianCalendar();
+//        this.reservationTo = new GregorianCalendar();
     }
 
     public int getId() {
@@ -97,5 +100,9 @@ public class Reservation implements Serializable {
 
     public void setConferenceRoom(ConferenceRoom conferenceRoom) {
         this.conferenceRoom = conferenceRoom;
+    }
+
+    public boolean isNew() {
+        return id == 0;
     }
 }
