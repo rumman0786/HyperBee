@@ -33,4 +33,6 @@ public interface HiveService {
     public List<User> getUserListToRemove(int id);
 
     public List<Notice> getLastFiveNotice(List<Notice> noticeList);
+
+    public List<Hive> getAllHive();
 }

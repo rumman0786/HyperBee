@@ -4,6 +4,7 @@ import net.therap.hyperbee.utils.constant.DomainConstant;
 
 /**
  * @author bashir
+ * @author rumman
  * @since 11/21/16
  */
 public enum ReservationStatus {
@@ -12,13 +13,13 @@ public enum ReservationStatus {
     REJECTED(DomainConstant.REJECTED),
     PENDING(DomainConstant.PENDING);
 
-    private String reservationStatus;
+    private String status;
 
-    ReservationStatus(String reservationStatus) {
-        this.reservationStatus = reservationStatus;
+    ReservationStatus(String status) {
+        this.status = status;
     }
 
-    public String getReservationStatus() {
-        return reservationStatus;
+    public String getStatus() {
+        return status;
     }
 }
