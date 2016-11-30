@@ -76,4 +76,13 @@ public interface Url {
     String HIVE_ADD_USER_URL = "/insertuser/{hiveId}";
     String HIVE_REMOVE_USER_URL = "/removeuser/{hiveId}";
     String HIVE_ADD_POST_URL = "/post/{hiveId}";
+
+    //Buzz Constants
+    String BUZZ_BASE_URL = "/buzz";
+    String BUZZ_VIEW_URL = "/buzzList";
+    String BUZZ_CREATE_URL = "/sendBuzz";
+    String BUZZ_FLAG_URL = "/flagBuzz";
+    String BUZZ_DEACTIVATE_URL = "/deactivateBuzz";
+    String BUZZ_PIN_URL = "/pinBuzz";
+    String BUZZ_HISTORY_URL = "/buzzHistory";
 }
