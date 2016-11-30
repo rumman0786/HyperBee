@@ -140,6 +140,8 @@ public class BuzzController {
         model.addAttribute("prev", prev);
         model.addAttribute("next", next);
 
+        model.addAttribute("page", "buzz");
+
         log.debug("Sending buzz list as per requirement for viewing history.");
 
         activityService.archive(Messages.BUZZ_HISTORY_REQUEST);
