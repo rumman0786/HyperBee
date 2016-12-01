@@ -87,30 +87,7 @@ public class ProfileController {
         AuthUser authUser = sessionHelper.getAuthUserFromSession();
         int userId = authUser.getId();
         User user = userService.findById(userId);
-        String oldProfileImage = user.getProfile().getImagePath();
-        String oldCoverImage = user.getProfile().getCoverImage();
-
-        if (file.getSize() == 0) {
-            profile.setImagePath(oldProfileImage);
-        } else {
-            String filename = user.getUsername().replaceAll(" ", "") + file.getOriginalFilename();
-            profile.setImagePath(filename);
-            if (!file.isEmpty()) {
-                imageUploader.createImagesDirIfNeeded();
-                model.addAttribute("message2", imageUploader.createImage(filename, file));
-            }
-        }
-
-        if (coverFile.getSize() == 0) {
-            profile.setCoverImage(oldCoverImage);
-        } else {
-            String coverImageName = user.getUsername().replaceAll(" ", "") + coverFile.getOriginalFilename();
-            profile.setCoverImage(coverImageName);
-            if (!coverFile.isEmpty()) {
-                imageUploader.createImagesDirIfNeeded();
-                model.addAttribute("message3", imageUploader.createImage(coverImageName, coverFile));
-            }
-        }
+        profile = profileService.saveFileForUser(coverFile, file, user, profile);
         String message = profileService.saveProfileForUser(profile, userId);
         model.addAttribute("message", message);
         model.addAttribute(USER_ATTRIBUTE, user);
