@@ -1,11 +1,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
  * @author rumman
  * @since 11/22/16
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <head>
-    <title>| Conference Room</title>
+    <title><fmt:message key="conference.html.title"/></title>
 </head>
 <body>
 
@@ -20,15 +21,14 @@
                 <form:hidden path="id"/>
 
                 <div class="form-group">
-                    <label for="title" class="sr-only">Title</label>
+                    <label for="title"><fmt:message key="conference.title"/></label>
                     <form:input type="text" id="title" class="form-control" placeholder="Conference Room Title"
-                                name="title"
-                                path="title" required="required" autofocus="autofocus"/>
+                                name="title" path="title" required="required" autofocus="autofocus"/>
                     <form:errors path="title" cssClass="error"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="capacity" class="sr-only">Capacity</label>
+                    <label for="capacity"><fmt:message key="conference.capacity"/></label>
                     <form:input type="text" id="capacity" class="form-control" name="Capacity" placeholder="Capacity"
                                 path="capacity" required="required"/>
                     <form:errors path="capacity" cssClass="error"/>

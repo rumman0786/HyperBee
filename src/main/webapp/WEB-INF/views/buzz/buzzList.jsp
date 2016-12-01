@@ -42,8 +42,13 @@
                     <tr>
                         <td>
                             <c:if test="${authUser.isAdmin()}">
-                                <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
-                                <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
+                                <a href="/buzz/flagBuzz?id=${buzz.id}">
+                                    <span class="glyphicon glyphicon-flag"/>
+                                </a>
+
+                                <a href="/buzz/deactivateBuzz?id=${buzz.id}">
+                                    <span class="glyphicon glyphicon-remove"/>
+                                </a>
                             </c:if>
                             <font color="#191970"><i><fmt:message key="buzz.view.label.flagMessage"/></i></font>
                         </td>
@@ -53,9 +58,17 @@
                     <tr>
                         <td>
                             <c:if test="${authUser.isAdmin()}">
-                                <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
-                                <a href="/buzz/deactivateBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-remove"/></a>
-                                <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
+                                <a href="/buzz/flagBuzz?id=${buzz.id}">
+                                    <span class="glyphicon glyphicon-flag"/>
+                                </a>
+
+                                <a href="/buzz/deactivateBuzz?id=${buzz.id}">
+                                    <span class="glyphicon glyphicon-remove"/>
+                                </a>
+
+                                <a href="/buzz/pinBuzz?id=${buzz.id}">
+                                    <span class="glyphicon glyphicon-pushpin"/>
+                                </a>
                             </c:if>
                             <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
                         </td>

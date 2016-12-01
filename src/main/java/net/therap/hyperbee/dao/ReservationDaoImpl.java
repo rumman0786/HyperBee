@@ -1,6 +1,7 @@
 package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Reservation;
+import net.therap.hyperbee.domain.enums.ReservationStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,8 @@ import java.util.List;
 public class ReservationDaoImpl implements ReservationDao {
 
     private static final String RESERVATION_ALL_QUERY = "FROM Reservation";
+    private static final String RESERVATION_ACTIVE_BY_RANGE_QUERY = "SELECT reservation FROM Reservation reservation "
+            + " where reservation.reservationStatus =:status ORDER BY reservation.id DESC";
 
     @PersistenceContext
     private EntityManager em;
@@ -47,5 +50,15 @@ public class ReservationDaoImpl implements ReservationDao {
     public void delete(int reservationId) {
         Reservation attachedReservation = em.getReference(Reservation.class, reservationId);
         em.remove(attachedReservation);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Reservation> findLatestReservation(int range) {
+
+        return em.createQuery(RESERVATION_ACTIVE_BY_RANGE_QUERY, Reservation.class)
+                .setParameter("status", ReservationStatus.APPROVED)
+                .setMaxResults(range)
+                .getResultList();
     }
 }

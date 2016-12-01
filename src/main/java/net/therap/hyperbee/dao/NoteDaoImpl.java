@@ -15,8 +15,8 @@ import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.REMINDER_NOTE_COUNT_DASHBOARD;
-import static net.therap.hyperbee.utils.constant.DomainConstant.STICKY_NOTE_COUNT_DASHBOARD;
+import static net.therap.hyperbee.utils.constant.Constant.REMINDER_NOTE_COUNT_DASHBOARD;
+import static net.therap.hyperbee.utils.constant.Constant.STICKY_NOTE_COUNT_DASHBOARD;
 
 /**
  * @author bashir
@@ -44,10 +44,8 @@ public class NoteDaoImpl implements NoteDao {
     @Transactional
     public void save(Note note) {
         if (note.isNoteNew()) {
-
             em.persist(note);
         } else {
-
             note = em.merge(note);
         }
         em.flush();
@@ -87,7 +85,6 @@ public class NoteDaoImpl implements NoteDao {
     @Override
     @Transactional
     public void markExpiredNoteAsInactive() {
-
         em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
     }
 

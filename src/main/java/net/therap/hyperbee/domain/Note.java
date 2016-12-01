@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import static net.therap.hyperbee.domain.enums.NoteType.REMINDER;
-import static net.therap.hyperbee.utils.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.Constant.*;
 
 /**
  * @author bashir
@@ -44,10 +44,11 @@ public class Note implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Size(max = 20, message = "{note.title.long}")
     private String title;
 
     @NotNull
-    @Size(min = 1, message = "{note.description.required}")
+    @Size(min = 1, max = 250,message = "{note.description.required}")
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)

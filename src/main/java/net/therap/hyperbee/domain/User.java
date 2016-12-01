@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_STATUS_ENUM;
-import static net.therap.hyperbee.utils.constant.DomainConstant.DISPLAY_STATUS_FIELD;
+import static net.therap.hyperbee.utils.constant.Constant.DISPLAY_STATUS_ENUM;
+import static net.therap.hyperbee.utils.constant.Constant.DISPLAY_STATUS_FIELD;
 
 /**
  * @author bashir

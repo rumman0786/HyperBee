@@ -1,6 +1,8 @@
 package net.therap.hyperbee.dao;
 
+import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.Notice;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
+
+    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n FROM Notice n where n.displayStatus =:status AND n IN :noticeList ORDER BY n.id DESC";
 
     @PersistenceContext
     private EntityManager em;
@@ -59,5 +63,23 @@ public class NoticeDaoImpl implements NoticeDao {
     public void delete(int noticeId) {
         Notice attachedDish = em.getReference(Notice.class, noticeId);
         em.remove(attachedDish);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Notice> getNoticeListByHiveId(int hiveId, int range) {
+        Hive hive = em.find(Hive.class, hiveId);
+        List<Notice> noticeList = hive.getNoticeList();
+
+        if (noticeList.size() == 0) {
+
+            return noticeList;
+        }
+
+        return em.createQuery(ACTIVE_NOTICE_LIST_QUERY, Notice.class)
+                .setParameter("status", DisplayStatus.ACTIVE)
+                .setParameter("noticeList", noticeList)
+                .setMaxResults(range)
+                .getResultList();
     }
 }

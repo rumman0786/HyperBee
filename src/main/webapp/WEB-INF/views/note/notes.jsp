@@ -28,7 +28,7 @@
 
 <body>
 
-<form:form action="/user/note/save" method="post" commandName="noteCommand">
+<form:form action="/note/save" method="post" commandName="noteCommand">
     <div class="panel panel-success">
         <div class="panel-heading clearfix">
             <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><fmt:message key="notes.view.label.add"/></h4>
@@ -57,6 +57,7 @@
                 <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="notes.view.label.save"/></button>
             </div>
             <form:errors path="description" cssClass="error"/>
+            <form:errors path="title" cssClass="error"/>
         </div>
     </div>
 </form:form>
