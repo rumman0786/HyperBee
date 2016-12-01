@@ -3,6 +3,7 @@ package net.therap.hyperbee.web.controller;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.NoteService;
+import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.helper.NoteHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
@@ -48,6 +49,9 @@ public class NoteController {
     @Autowired
     private NoteDateTimeValidator noteDateTimeValidator;
 
+    @Autowired
+    private Utils utils;
+
     @InitBinder("noteCommand")
     private void noteInputInitBinder(WebDataBinder binder) {
         binder.addValidators(noteDateTimeValidator);
@@ -83,44 +87,42 @@ public class NoteController {
             redirectAttributes.addFlashAttribute("noteCommand", note);
             activityService.archive(NOTE_SAVE_FAILED);
 
-            return "redirect:" + NOTE_VIEW_URL;
+            log.debug("Note save failed: " + bindingResult);
+
+            return utils.redirectTo(NOTE_VIEW_URL);
         }
 
         int userId = sessionHelper.getUserIdFromSession();
 
-        log.debug("AuthUser ID: " + userId);
-        log.debug("Date Remind: " + dateRemindString);
-
         noteHelper.processNoteForSaving(note, dateRemindString);
         noteService.saveNoteForUser(note, userId);
 
-        activityService.archive(NOTE_SAVE_ACTIVITY);
+        activityService.archive(NOTE_SAVE_ACTIVITY + " type: " + note.getNoteTypeAsString() + " Title:" + note.getTitle());
 
         redirectAttributes.addFlashAttribute("message", NOTE_SAVE_SUCCESS);
-        redirectAttributes.addFlashAttribute("messageStyle", "alert alert-success");
+        redirectAttributes.addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
-        log.debug("NOTE TYPE: " + note.getNoteType());
+        log.debug("Note successfully saved: userId" + userId + "note: " + note);
         sessionHelper.incrementNoteCountByOne(note.getNoteType());
 
-        return "redirect:" + DONE_URL;
+        return utils.redirectTo(DONE_URL);
     }
 
     @PostMapping(NOTE_DELETE_URL)
     public String noteDelete(@PathVariable("id") int noteId, @PathVariable("type") String noteType, HttpSession session,
                              RedirectAttributes redirectAttributes, @ModelAttribute("noteCommand") Note note, Model model) {
 
-        noteService.markNoteAsInactiveForUser(sessionHelper.getUserIdFromSession(), noteId);
-        log.debug("Selected note ID Delete: " + noteId);
+        int userId = sessionHelper.getUserIdFromSession();
+        noteService.markNoteAsInactiveForUser(userId, noteId);
 
         redirectAttributes.addFlashAttribute("message", NOTE_DELETE_SUCCESS);
-        redirectAttributes.addFlashAttribute("messageStyle", "alert alert-danger");
+        redirectAttributes.addFlashAttribute("messageStyle", FAILURE_HTML_CLASS);
 
-        activityService.archive(NOTE_DELETE_ACTIVITY);
-
-        log.debug("note type: "+noteType);
-
+        activityService.archive(NOTE_DELETE_ACTIVITY + " " + noteType);
         sessionHelper.decrementNoteCountByOne(noteType);
 
-        return "redirect:" + DONE_URL;
+        log.debug("Note deleted: userId " + userId + " noteId: " + noteId + " noteType: " + noteType);
+
+        return utils.redirectTo(DONE_URL);
     }
 }

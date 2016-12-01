@@ -44,10 +44,11 @@ public class Note implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Size(max = 20, message = "{note.title.long}")
     private String title;
 
     @NotNull
-    @Size(min = 1, message = "{note.description.required}")
+    @Size(min = 1, max = 250,message = "{note.description.required}")
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)

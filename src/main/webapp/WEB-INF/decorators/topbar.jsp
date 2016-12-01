@@ -45,11 +45,12 @@
                     <a href="/profile/search"><fmt:message key="dashboard.view.topbar.stalk"/></a>
                 </li>
 
-                <li><a href="/user/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a></li>
-
                 <li <c:if test="${page == 'buzz'}">class="active"</c:if>>
                     <a href="/buzz/buzzHistory?prev=0&next=20"><fmt:message key="dashboard.view.topbar.buzz"/></a>
                 </li>
+
+                <li><a href="/user/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a></li>
+
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

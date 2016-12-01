@@ -57,6 +57,7 @@
                 <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="notes.view.label.save"/></button>
             </div>
             <form:errors path="description" cssClass="error"/>
+            <form:errors path="title" cssClass="error"/>
         </div>
     </div>
 </form:form>
