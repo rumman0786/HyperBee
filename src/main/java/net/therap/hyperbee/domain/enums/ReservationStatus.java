@@ -1,6 +1,6 @@
 package net.therap.hyperbee.domain.enums;
 
-import net.therap.hyperbee.utils.constant.DomainConstant;
+import net.therap.hyperbee.utils.constant.Constant;
 
 /**
  * @author bashir
@@ -9,9 +9,9 @@ import net.therap.hyperbee.utils.constant.DomainConstant;
  */
 public enum ReservationStatus {
 
-    APPROVED(DomainConstant.APPROVED),
-    REJECTED(DomainConstant.REJECTED),
-    PENDING(DomainConstant.PENDING);
+    APPROVED(Constant.APPROVED),
+    REJECTED(Constant.REJECTED),
+    PENDING(Constant.PENDING);
 
     private String status;
 

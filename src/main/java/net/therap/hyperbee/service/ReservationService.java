@@ -17,4 +17,6 @@ public interface ReservationService {
     List<Reservation> findAllReservation();
 
     void delete(int reservationId);
+
+    List<Reservation> findLatestReservation(int range);
 }

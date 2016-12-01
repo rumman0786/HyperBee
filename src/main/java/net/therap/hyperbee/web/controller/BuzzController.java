@@ -82,6 +82,7 @@ public class BuzzController {
         }
 
         AuthUser authUser = sessionHelper.getAuthUserFromSession();
+
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);
         log.debug("Created new buzz.");
@@ -150,6 +151,4 @@ public class BuzzController {
 
         return BUZZ_BASE_URL + BUZZ_HISTORY_URL;
     }
-
-
 }

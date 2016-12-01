@@ -17,4 +17,6 @@ public interface ReservationDao {
     List<Reservation> findAll();
 
     void delete(int reservationId);
+
+    List<Reservation> findLatestReservation(int range);
 }

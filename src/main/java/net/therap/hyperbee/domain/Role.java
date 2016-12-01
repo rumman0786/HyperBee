@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.USER_STATUS_ENUM;
+import static net.therap.hyperbee.utils.constant.Constant.USER_STATUS_ENUM;
 
 /**
  * @author bashir

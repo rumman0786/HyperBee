@@ -3,9 +3,10 @@ package net.therap.hyperbee.utils.constant;
 /**
  * @author bashir
  * @author rayed
+ * @author zoha
  * @since 11/21/16
  */
-public interface DomainConstant {
+public interface Constant {
 
     String DISPLAY_ACTIVE = "ACTIVE";
     String DISPLAY_INACTIVE = "INACTIVE";
@@ -37,4 +38,9 @@ public interface DomainConstant {
 
     String SESSION_VARIABLE_STICKY_COUNT = "stickyCount";
     String SESSION_VARIABLE_REMINDER_COUNT = "reminderCount";
+
+    String SESSION_VARIABLE_ACTIVE_BUZZ_COUNT = "activeBuzz";
+    String SESSION_VARIABLE_INACTIVE_BUZZ_COUNT = "inactiveBuzz";
+    String SESSION_VARIABLE_PINNED_BUZZ_COUNT = "pinnedBuzz";
+    String SESSION_VARIABLE_FLAGGED_BUZZ_COUNT = "flaggedBuzz";;
 }

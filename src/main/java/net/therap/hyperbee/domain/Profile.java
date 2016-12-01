@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.utils.constant.Constant.DATE_TIME_FIELD;
 
 /**
  * @author bashir

@@ -8,6 +8,7 @@ import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.helper.NoticeHelper;
+import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
@@ -34,7 +35,7 @@ public class UserController {
     BuzzService buzzService;
 
     @Autowired
-    StickyNoteService noteService;
+    NoteService noteService;
 
     @Autowired
     private UserService userService;
@@ -53,6 +54,9 @@ public class UserController {
 
     @Autowired
     private NoticeHelper noticeHelper;
+
+    @Autowired
+    private ReservationHelper reservationHelper;
 
     @Autowired
     private HiveService hiveService;
@@ -95,6 +99,7 @@ public class UserController {
         if ((retrievedUser != null) && (retrievedUser.getDisplayStatus() == DisplayStatus.ACTIVE)) {
             sessionHelper.persistInSession(retrievedUser);
             noticeHelper.persistInSession();
+            reservationHelper.persistInSession();
 
             activityService.archive(LOGGED_IN);
 
