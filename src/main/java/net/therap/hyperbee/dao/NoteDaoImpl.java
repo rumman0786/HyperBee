@@ -43,7 +43,7 @@ public class NoteDaoImpl implements NoteDao {
     @Override
     @Transactional
     public void save(Note note) {
-        if (note.isNoteNew()) {
+        if (note.isNew()) {
             em.persist(note);
         } else {
             note = em.merge(note);
