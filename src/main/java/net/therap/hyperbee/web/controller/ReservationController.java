@@ -96,8 +96,8 @@ public class ReservationController {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
 
-        reservation.setUser(userService.findById(sessionUserId));
         reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
+        reservation.setUser(userService.findById(sessionUserId));
         reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
 
         reservationService.saveReservation(reservation);
@@ -106,7 +106,7 @@ public class ReservationController {
         return "redirect:" + RESERVATION_BASE_URL + RESERVATION_LIST_URL;
     }
 
-    @GetMapping(value = "/{id}/**")
+    @GetMapping(value = RESERVATION_ROOM_UPDATE_VIEW_URL)
     public String showEditReservationForm(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", RESERVATION_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("pageHeader", RESERVATION_PAGE_EDIT_HEADER)

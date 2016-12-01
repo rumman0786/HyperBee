@@ -33,6 +33,8 @@ public class NoticeFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
+
+        session.setAttribute("htmlTitle", NOTICE_ACCESS_DENIED);
         session.setAttribute("message", NOTICE_ACCESS_DENIED);
         session.setAttribute("messageStyle", "alert alert-danger");
 
