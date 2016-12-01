@@ -14,6 +14,9 @@ import java.util.List;
 @Repository
 public class PostDaoImpl implements PostDao {
 
+
+    private final String QUERY_GET_POST_ID = "SELECT p FROM Post p WHERE p.hive.id =:id";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -25,8 +28,6 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getPostListByHive(int id) {
-
-        return em.createQuery("SELECT p FROM Post p WHERE p.hive.id =:id", Post.class).setParameter("id", id)
-                .getResultList();
+        return em.createQuery(QUERY_GET_POST_ID, Post.class).setParameter("id", id).getResultList();
     }
 }
