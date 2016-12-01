@@ -74,7 +74,7 @@ public class NoticeDaoImpl implements NoticeDao {
         Hive hive = em.find(Hive.class, hiveId);
         List<Notice> noticeList = hive.getNoticeList();
 
-        if (noticeList.size() == 0) {
+        if (noticeList.isEmpty()) {
 
             return noticeList;
         }
