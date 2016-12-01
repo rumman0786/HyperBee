@@ -16,7 +16,7 @@
         }
     </style>
 
-    <title>Success</title>
+    <title>${htmlTitle}</title>
 
 </head>
 <body>

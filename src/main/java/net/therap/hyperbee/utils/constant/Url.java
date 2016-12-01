@@ -20,6 +20,14 @@ public interface Url {
     String USER_DASHBOARD_VIEW = "dashboard";
     String USER_DASHBOARD_URL = "/user/dashboard";
 
+    String ACTIVITY_ROOT_URL = "/activity";
+    String ACTIVITY_LOG_URL = "/log";
+    String ACTIVITY_VIEW = "activity/log";
+    String ACTIVITY_ADMIN_VIEW = "activity/userLog";
+
+    String USER_ACTIVATE_URL = "/user/activate/{userId}";
+    String USER_DEACTIVATE_URL = "/user/deactivate/{userId}";
+
     //Profile Constant
     String PROFILE_URL = "/profile";
     String PROFILE_EDIT_URL = "/edit";
@@ -72,6 +80,7 @@ public interface Url {
     String RESERVATION_BASE_URL = "/reservation";
     String RESERVATION_LIST_URL = "/list";
     String RESERVATION_ADD_URL = "/add";
+    String RESERVATION_ROOM_UPDATE_VIEW_URL = "/{id}/**";
     String RESERVATION_UPDATE_URL = "/update";
     String RESERVATION_DELETE_URL = "/delete";
 
@@ -85,7 +94,6 @@ public interface Url {
     String RESOURCE_IMAGES = "/images/";
 
     //Common Constants
-    String ACCESS_DENIED_URL = "/denied";
     String DONE_URL= "/done";
     String DONE_VIEW = "done";
 

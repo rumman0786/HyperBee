@@ -1,12 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<head>
+    <title><fmt:message key="activity.view.title"/></title>
+</head>
 <body>
 <c:choose>
     <c:when test="${authUser.isAdmin()}">
         <h2>Select user whose activity log you want to view:</h2>
-        <form:form action="/user/activity/log" method="post" modelAttribute="userInfo">
+        <form:form action="/activity/log" method="post" modelAttribute="userInfo">
             <c:forEach items="${userInfo.userList}" var="user">
                 <div class="input-group">
                     <span class="input-group-addon">

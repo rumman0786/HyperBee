@@ -36,6 +36,7 @@ public class Role implements Serializable {
     }
 
     public int getId() {
+
         return id;
     }
 
@@ -44,6 +45,7 @@ public class Role implements Serializable {
     }
 
     public RoleType getRoleType() {
+
         return roleType;
     }
 
@@ -52,6 +54,7 @@ public class Role implements Serializable {
     }
 
     public List<User> getUserList() {
+
         return userList;
     }
 

@@ -17,20 +17,23 @@ import java.util.List;
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
 
-    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n FROM Notice n where n.displayStatus =:status AND n IN :noticeList ORDER BY n.id DESC";
+    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n FROM Notice n where n.displayStatus =:status " +
+            "AND n IN :noticeList ORDER BY n.id DESC";
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
     @Transactional
-    public void saveOrUpdate(Notice notice) {
+    public Notice saveOrUpdate(Notice notice) {
         if (notice.isNew()) {
             em.persist(notice);
             em.flush();
         } else {
-            em.merge(notice);
+            notice = em.merge(notice);
         }
+
+        return notice;
     }
 
     @Override
@@ -61,8 +64,8 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     @Transactional
     public void delete(int noticeId) {
-        Notice attachedDish = em.getReference(Notice.class, noticeId);
-        em.remove(attachedDish);
+        Notice attachedNotice = em.getReference(Notice.class, noticeId);
+        em.remove(attachedNotice);
     }
 
     @Override
@@ -71,7 +74,7 @@ public class NoticeDaoImpl implements NoticeDao {
         Hive hive = em.find(Hive.class, hiveId);
         List<Notice> noticeList = hive.getNoticeList();
 
-        if (noticeList.size() == 0) {
+        if (noticeList.isEmpty()) {
 
             return noticeList;
         }

@@ -34,9 +34,11 @@
         </div>
         <div class="panel-footer clearfix">
             <form:errors path="message" cssClass="alert-danger"/>
-            <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-info" role="button" style="float:right">
-                <fmt:message key="buzz.view.label.buzzHistory"/>
-            </a>
+            <c:if test="${authUser.isAdmin()}">
+                <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-info" role="button" style="float:right">
+                    <span class="glyphicon glyphicon glyphicon-time"/>
+                </a>
+            </c:if>
             </form:form>
         </div>
     </div>

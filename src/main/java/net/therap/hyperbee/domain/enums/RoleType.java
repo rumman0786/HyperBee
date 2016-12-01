@@ -5,6 +5,7 @@ import static net.therap.hyperbee.utils.constant.Constant.USER_ROLE;
 
 /**
  * @author bashir
+ * @author rayed
  * @since 11/21/16
  */
 public enum RoleType {

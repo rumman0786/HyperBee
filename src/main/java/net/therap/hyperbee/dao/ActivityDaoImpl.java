@@ -1,13 +1,16 @@
 package net.therap.hyperbee.dao;
 
-    import net.therap.hyperbee.domain.Activity;
-    import org.springframework.stereotype.Repository;
-    import org.springframework.transaction.annotation.Transactional;
+import net.therap.hyperbee.domain.Activity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-    import javax.persistence.EntityManager;
-    import javax.persistence.NoResultException;
-    import javax.persistence.PersistenceContext;
-    import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * @author rayed
@@ -15,6 +18,8 @@ package net.therap.hyperbee.dao;
  */
 @Repository
 public class ActivityDaoImpl implements ActivityDao {
+
+    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
 
     private static String SELECT_ACTIVITY = "SELECT a FROM Activity a WHERE a.user.id = :userId ORDER BY a.activityTime DESC";
 
@@ -26,6 +31,8 @@ public class ActivityDaoImpl implements ActivityDao {
     public void create(Activity activity) {
         em.persist(activity);
         em.flush();
+
+        log.debug("Activity created: ", activity.getSummary());
     }
 
     @Override
@@ -34,10 +41,10 @@ public class ActivityDaoImpl implements ActivityDao {
 
         try {
             activityList = em.createQuery(SELECT_ACTIVITY, Activity.class)
-                    .setParameter("userId", userId)
-                    .getResultList();
+                                .setParameter("userId", userId)
+                                .getResultList();
         } catch (NoResultException e) {
-            e.printStackTrace();
+            log.debug("Activity not found by user id", e);
         }
 
         return activityList;

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static net.therap.hyperbee.utils.constant.Messages.NOTICE_ACCESS_DENIED;
-import static net.therap.hyperbee.utils.constant.Url.ACCESS_DENIED_URL;
 import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 
 /**
@@ -33,6 +32,8 @@ public class NoticeFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
+
+        session.setAttribute("htmlTitle", NOTICE_ACCESS_DENIED);
         session.setAttribute("message", NOTICE_ACCESS_DENIED);
         session.setAttribute("messageStyle", "alert alert-danger");
 
