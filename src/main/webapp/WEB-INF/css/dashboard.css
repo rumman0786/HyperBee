@@ -6,14 +6,13 @@
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
-    min-height: 100%;
     height: 100%
 }
 
 .top-padding {
     padding-top: 70px;
-    float: none;
     display: table-cell;
+    height: inherit;
 }
 
 .pre-scrollable {
