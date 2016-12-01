@@ -69,6 +69,7 @@ public class HiveDaoImpl implements HiveDao {
     }
 
     @Override
+    @Transactional
     public void removeUsersFromHive(Hive hive, List<User> userList) {
         hive.getUserList().removeAll(userList);
         em.flush();
