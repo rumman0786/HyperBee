@@ -12,13 +12,13 @@ import java.util.List;
  */
 public interface HiveService {
 
-    void insertHive(Hive hive);
+    void saveHive(Hive hive);
 
     Hive retrieveHiveById(int id);
 
-    void insertUsersToHive(int hiveId, List<Integer> userIdList);
+    void saveUsersToHive(int hiveId, List<Integer> userIdList);
 
-    Hive insertFirstUserToHive(Hive hive, int userId);
+    Hive saveFirstUserToHive(Hive hive, int userId);
 
     Hive getHiveByHiveName(String name);
 

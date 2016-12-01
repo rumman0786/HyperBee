@@ -25,7 +25,7 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     @Transactional
-    public void insertHive(Hive hive) {
+    public void saveHive(Hive hive) {
         hiveDao.saveHive(hive);
     }
 
@@ -38,7 +38,7 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     @Transactional
-    public Hive insertFirstUserToHive(Hive hive, int userId) {
+    public Hive saveFirstUserToHive(Hive hive, int userId) {
         List<User> userList = hive.getUserList();
         User user = userService.findById(userId);
         userList.add(user);
@@ -54,7 +54,7 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     @Transactional
-    public void insertUsersToHive(int hiveId, List<Integer> userIdList) {
+    public void saveUsersToHive(int hiveId, List<Integer> userIdList) {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
         hiveDao.addUsersToHive(hive, userList);

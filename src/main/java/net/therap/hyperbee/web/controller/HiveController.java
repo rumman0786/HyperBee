@@ -83,6 +83,7 @@ public class HiveController {
     @GetMapping
     public String viewHive(ModelMap model) {
         int userId = sessionHelper.getUserIdFromSession();
+
         model.addAttribute("hiveList", userService.findById(userId).getHiveList());
         model.addAttribute("userIdInfo", new UserIdInfo());
 
@@ -131,7 +132,7 @@ public class HiveController {
         }
 
         model.addAttribute("userInfoId", userIdInfo);
-        hiveService.insertUsersToHive(hiveId, userIdInfo.getUserIdList());
+        hiveService.saveUsersToHive(hiveId, userIdInfo.getUserIdList());
 
         log.debug("Member Added to hive : " + userIdInfo.getUserIdList());
 
@@ -181,8 +182,8 @@ public class HiveController {
         hive.setImagePath(filename);
         int userId = sessionHelper.getUserIdFromSession();
         hive.setCreator(userService.findById(userId));
-        Hive newHive = hiveService.insertFirstUserToHive(hive, userId);
-        hiveService.insertHive(newHive);
+        Hive newHive = hiveService.saveFirstUserToHive(hive, userId);
+        hiveService.saveHive(newHive);
 
         if (file.isEmpty()) {
         } else {
