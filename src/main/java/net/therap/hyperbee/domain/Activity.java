@@ -41,6 +41,7 @@ public class Activity implements Serializable {
     }
 
     public int getId() {
+
         return id;
     }
 
@@ -49,6 +50,7 @@ public class Activity implements Serializable {
     }
 
     public Calendar getActivityTime() {
+
         return activityTime;
     }
 
@@ -57,6 +59,7 @@ public class Activity implements Serializable {
     }
 
     public String getSummary() {
+
         return summary;
     }
 
@@ -65,6 +68,7 @@ public class Activity implements Serializable {
     }
 
     public User getUser() {
+
         return user;
     }
 

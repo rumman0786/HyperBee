@@ -17,7 +17,6 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-
                 <li <c:if test="${page == 'profile'}"> class="active" </c:if>>
                     <a href="/profile/user"><fmt:message key="dashboard.view.topbar.profile"/></a>
                 </li>
@@ -51,7 +50,9 @@
                     </li>
                 </c:if>
 
-                <li><a href="/user/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a></li>
+                <li <c:if test="${page == 'activity'}"> class="active" </c:if>>
+                    <a href="/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
