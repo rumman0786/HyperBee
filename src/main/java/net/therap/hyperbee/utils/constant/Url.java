@@ -43,7 +43,7 @@ public interface Url {
     String NOTE_SAVE_URL = "/user/note/save";
     String NOTE_VIEW_ALL = "note/notes";
     String NOTE_ADD_VIEW = "note/note_form";
-    String NOTE_DELETE_URL = "/note/delete/{id}";
+    String NOTE_DELETE_URL = "/note/delete/{type}/{id}";
 
     String SUCCESS_VIEW = "success";
 
@@ -61,15 +61,22 @@ public interface Url {
     String CONFERENCE_ROOM_BASE_URL = "/conference";
     String CONFERENCE_ROOM_LIST_URL = "/list";
     String CONFERENCE_ROOM_ADD_URL = "/add";
+    String CONFERENCE_ROOM_UPDATE_VIEW_URL = "/{id}/**";
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
 
+    String CONFERENCE_LIST_VIEW = "conference_room/list_conference_room";
+    String CONFERENCE_FORM_VIEW = "conference_room/form_conference_room";
+
     // Reservation Constants
-    String RERVATION_BASE_URL = "/reservation";
-    String RERVATION_LIST_URL = "/list";
-    String RERVATION_ADD_URL = "/add";
-    String RERVATION_UPDATE_URL = "/update";
-    String RERVATION_DELETE_URL = "/delete";
+    String RESERVATION_BASE_URL = "/reservation";
+    String RESERVATION_LIST_URL = "/list";
+    String RESERVATION_ADD_URL = "/add";
+    String RESERVATION_UPDATE_URL = "/update";
+    String RESERVATION_DELETE_URL = "/delete";
+
+    String RESERVATION_LIST_VIEW = "reservation/list_reservation";
+    String RESERVATION_FORM_VIEW = "reservation/form_reservation";
 
     //Resource Constants
     String RESOURCE_STYLE = "/css/";

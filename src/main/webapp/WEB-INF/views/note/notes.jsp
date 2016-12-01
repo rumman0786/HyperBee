@@ -62,7 +62,7 @@
 </form:form>
 <div class="pre-scrollable set-activity-height">
     <c:forEach items="${noteList}" var="item">
-        <form:form action="/note/delete/${item.id}" method="post">
+        <form:form action="/note/delete/${item.getNoteTypeAsString()}/${item.id}" method="post">
             <div class="panel panel-warning" id="${item.id}">
                 <div class="panel-heading clearfix">
                     <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><strong>${item.title}</strong></h4>

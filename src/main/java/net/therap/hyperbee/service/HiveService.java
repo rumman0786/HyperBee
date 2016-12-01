@@ -20,9 +20,7 @@ public interface HiveService {
 
     public Hive insertFirstUserToHive(Hive hive, int userId);
 
-    public List<Hive> getHiveListByUserId(int userId);
-
-    public int getHiveIdByHiveName(String name);
+    public Hive getHiveByHiveName(String name);
 
     public List<User> getUserNotInList(int hiveId);
 

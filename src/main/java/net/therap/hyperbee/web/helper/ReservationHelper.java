@@ -1,6 +1,5 @@
 package net.therap.hyperbee.web.helper;
 
-import net.therap.hyperbee.domain.Note;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
@@ -11,25 +10,16 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.therap.hyperbee.domain.enums.NoteType.REMINDER;
-import static net.therap.hyperbee.domain.enums.NoteType.STICKY;
-
 /**
- * @author bashir
- * @since 11/23/16
+ * @author rumman
+ * @since 11/30/16
  */
 @Component
-public class NoteHelper {
+public class ReservationHelper {
 
     private static final Logger log = LogManager.getLogger(SimpleLogger.class);
 
-    public Note getEmptyNote() {
-
-        return new Note();
-    }
-
-    public void setCalendarValFromString(Note note, String dateTime) {
-
+    public Calendar getCalendarFromString(String dateTime) {
         Calendar calendar = new GregorianCalendar();
 
         String regExp = "^([0-9]+)/([0-9]+)/([0-9]+) ([0-9]+):([0-9]+) (AM|PM)$";
@@ -39,7 +29,6 @@ public class NoteHelper {
         while (matcher.find()) {
 
             calendar.set(Calendar.MONTH, Integer.parseInt(matcher.group(1)) - 1);
-
             log.debug("MONTH: " + matcher.group(1));
 
             calendar.set(Calendar.DATE, Integer.parseInt(matcher.group(2)));
@@ -56,21 +45,9 @@ public class NoteHelper {
 
             calendar.set(Calendar.AM_PM, (matcher.group(6)).equals("AM") ? 0 : 1);
             log.debug("MONTH: " + matcher.group(6));
-            note.setDateRemind(calendar);
+
         }
-    }
 
-    public void processNoteForSaving(Note note, String remindDate) {
-
-        note.setDateCreated(new GregorianCalendar());
-
-        if (remindDate.isEmpty()) {
-
-            note.setNoteType(STICKY);
-
-            return;
-        }
-        setCalendarValFromString(note, remindDate);
-        note.setNoteType(REMINDER);
+        return calendar;
     }
 }

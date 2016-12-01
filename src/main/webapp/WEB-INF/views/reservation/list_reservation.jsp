@@ -1,31 +1,37 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
  * @author rumman
  * @since 11/29/16
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <title>| Notice Board</title>
+    <title><fmt:message key="reservation.html.title"/></title>
 </head>
 <body>
 
-<%--<c:if test="${user.isSuperuser}">--%>
-    <a href="${pageContext.request.contextPath}${actionUrl}" class="btn btn-success pull-right">Add Reservation</a>
-<%--</c:if>--%>
+<div class="container-fluid">
+    <c:if test="${authUser.isAdmin()}">
+        <a href="${pageContext.request.contextPath}${actionUrl}" class="btn btn-success pull-right"><fmt:message
+                key="reservation.list.btn.text"/></a>
+    </c:if>
+</div>
+<br/>
+
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-            <th>Conference Room</th>
-            <th>Reserved By</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Status</th>
+            <th><fmt:message key="reservation.conferenceRoom"/></th>
+            <th><fmt:message key="reservation.byUsername"/></th>
+            <th><fmt:message key="reservation.from"/></th>
+            <th><fmt:message key="reservation.to"/></th>
+            <th><fmt:message key="reservation.displayStatus"/></th>
 
-            <%--<c:if test="${user.isSuperuser}">--%>
-            <th>Edit</th>
-            <th>Delete</th>
-            <%--</c:if>--%>
+            <c:if test="${authUser.isAdmin()}">
+                <th><fmt:message key="reservation.edit"/></th>
+                <th><fmt:message key="reservation.delete"/></th>
+            </c:if>
 
         </tr>
         </thead>
@@ -35,18 +41,18 @@
             <tr>
                 <td>${reservation.conferenceRoom.title}</td>
                 <td>${reservation.user.username}</td>
-                <td>${reservation.reservationFrom}</td>
-                <td>${reservation.reservationTo}</td>
+                <td>${reservation.getFormattedFromDate()}</td>
+                <td>${reservation.getFormattedToDate()}</td>
                 <td>${reservation.reservationStatus}</td>
 
-                    <%--<c:if test="${user.isSuperuser}">--%>
-                <td><a href="${pageContext.request.contextPath}/reservation/${reservation.id}/"><span
-                        class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#" data-id="${reservation.id}"
-                       data-toggle="modal" data-target="#confirm-delete"
-                       class="delete-user-item"><span
-                        class="glyphicon glyphicon-trash"></span></a></td>
-                    <%--</c:if>--%>
+                <c:if test="${authUser.isAdmin()}">
+                    <td><a href="${pageContext.request.contextPath}/reservation/${reservation.id}/"><span
+                            class="glyphicon glyphicon-edit"></span></a></td>
+                    <td><a href="#" data-id="${reservation.id}"
+                           data-toggle="modal" data-target="#confirm-delete"
+                           class="delete-user-item"><span
+                            class="glyphicon glyphicon-trash"></span></a></td>
+                </c:if>
 
             </tr>
         </c:forEach>
@@ -63,19 +69,18 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                <h4 class="modal-title" id="myModalLabel"><fmt:message key="reservation.list.modal.confirm"/></h4>
             </div>
 
             <div class="modal-body">
-                <p>You are about to delete a Reservation, this procedure is irreversible.</p>
+                <p><fmt:message key="reservation.list.modal.p1"/></p>
 
-                <p>Do you want to proceed?</p>
+                <p><fmt:message key="reservation.list.modal.p2"/></p>
 
                 <p class="debug-url"></p>
             </div>
 
             <div class="modal-footer">
-                <%--<a href="#" class="btn btn-danger btn-ok">Delete</a>--%>
                 <form action="${deleteUrl}" method="post" id="form">
                     <input type="hidden" id="delete_id" name="id" value="#"/>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
