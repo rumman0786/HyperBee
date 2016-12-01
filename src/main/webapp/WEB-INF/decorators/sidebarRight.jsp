@@ -14,9 +14,9 @@
             <div class="panel panel-info">
                 <div class="panel-heading">${reservation.conferenceRoom.title}</div>
                 <div class="panel-body">
-                    <div>Reserved By ${reservation.user.username}</div>
-                    <div>From ${reservation.getFormattedFromDate()}</div>
-                    <div>To ${reservation.getFormattedToDate()}</div>
+                    <div><fmt:message key="reservation.sidebar.reservedBy"/> ${reservation.user.username}</div>
+                    <div><fmt:message key="reservation.sidebar.From"/> ${reservation.getFormattedFromDate()}</div>
+                    <div><fmt:message key="reservation.sidebar.To"/> ${reservation.getFormattedToDate()}</div>
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">${notice.title}</div>
                 <div class="panel-body">${notice.description}</div>
-                <div class="panel-footer text-right">Expires On ${notice.getRemindDateFormatted()}</div>
+                <div class="panel-footer text-right"><fmt:message key="reservation.sidebar.expiresOn"/> ${notice.getRemindDateFormatted()}</div>
             </div>
 
         </div>

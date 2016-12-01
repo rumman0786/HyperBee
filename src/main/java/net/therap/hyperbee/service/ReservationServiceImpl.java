@@ -42,4 +42,9 @@ public class ReservationServiceImpl implements ReservationService {
         reservationDao.delete(reservationId);
         reservationHelper.persistInSession();
     }
+
+    @Override
+    public List<Reservation> findLatestReservation(int range) {
+        return reservationDao.findLatestReservation(range);
+    }
 }

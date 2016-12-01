@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 public class ReservationHelper {
 
     private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final int RESERVATION_TO_DISPLAY_IN_SIDEBAR = 3;
 
     @Autowired
     private ReservationService reservationService;
@@ -62,6 +63,6 @@ public class ReservationHelper {
     public void persistInSession() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
-        session.setAttribute("cachedReservationList", reservationService.findAllReservation());
+        session.setAttribute("cachedReservationList", reservationService.findLatestReservation(RESERVATION_TO_DISPLAY_IN_SIDEBAR));
     }
 }
