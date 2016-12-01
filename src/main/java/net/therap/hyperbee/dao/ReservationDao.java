@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ReservationDao {
 
-    void saveOrUpdate(Reservation reservation);
+    Reservation saveOrUpdate(Reservation reservation);
 
     Reservation findById(int reservationId);
 
