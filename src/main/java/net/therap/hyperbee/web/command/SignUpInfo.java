@@ -2,11 +2,15 @@ package net.therap.hyperbee.web.command;
 
 import net.therap.hyperbee.domain.User;
 
+import java.io.Serializable;
+
 /**
  * @author rayed
  * @since 11/27/16 12:01 PM
  */
-public class SignUpInfo {
+public class SignUpInfo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String firstName;
 
@@ -21,6 +25,7 @@ public class SignUpInfo {
     private String password2;
 
     public String getFirstName() {
+
         return firstName;
     }
 
@@ -29,6 +34,7 @@ public class SignUpInfo {
     }
 
     public String getLastName() {
+
         return lastName;
     }
 
@@ -37,6 +43,7 @@ public class SignUpInfo {
     }
 
     public String getUsername() {
+
         return username;
     }
 
@@ -45,6 +52,7 @@ public class SignUpInfo {
     }
 
     public String getEmail() {
+
         return email;
     }
 
@@ -53,14 +61,17 @@ public class SignUpInfo {
     }
 
     public String getPassword1() {
+
         return password1;
     }
 
     public void setPassword1(String password1) {
+
         this.password1 = password1;
     }
 
     public String getPassword2() {
+
         return password2;
     }
 

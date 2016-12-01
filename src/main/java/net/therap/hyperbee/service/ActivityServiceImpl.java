@@ -21,10 +21,10 @@ public class ActivityServiceImpl implements ActivityService {
     private ActivityDao activityDao;
 
     @Autowired
-    private SessionHelper sessionHelper;
+    private UserDao userDao;
 
     @Autowired
-    private UserDao userDao;
+    private SessionHelper sessionHelper;
 
     @Override
     public List<Activity> findByUserId(int userId) {

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class AuthUser implements Serializable {
 
-    private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 1L;
 
     private int id;
     private String username;

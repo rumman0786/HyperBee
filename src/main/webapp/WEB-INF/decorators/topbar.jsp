@@ -49,8 +49,9 @@
                     <a href="/buzz/buzzHistory?prev=0&next=20"><fmt:message key="dashboard.view.topbar.buzz"/></a>
                 </li>
 
-                <li><a href="/user/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a></li>
-
+                <li <c:if test="${page == 'activity'}"> class="active" </c:if>>
+                    <a href="/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

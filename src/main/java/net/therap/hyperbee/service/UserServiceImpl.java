@@ -79,19 +79,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findActiveUsers() {
+
         return userDao.findActiveUser();
-    }
-
-    @Override
-    @Transactional
-    public void updateUser(User user) {
-
-    }
-
-    @Override
-    @Transactional
-    public void deleteUser(int id) {
-
     }
 
     @Override
@@ -106,6 +95,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int findByDisplayStatus(DisplayStatus status) {
+
         return userDao.findByDisplayStatus(status);
     }
 }

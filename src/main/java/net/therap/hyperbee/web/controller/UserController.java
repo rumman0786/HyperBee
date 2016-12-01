@@ -5,15 +5,13 @@ import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.*;
+import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +30,6 @@ import static net.therap.hyperbee.utils.constant.Url.*;
  */
 @Controller
 public class UserController {
-
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
 
     @Autowired
     BuzzService buzzService;
@@ -65,6 +61,9 @@ public class UserController {
     @Autowired
     private HiveService hiveService;
 
+    @Autowired
+    private Utils utils;
+
     @InitBinder("login")
     private void loginValidator(WebDataBinder binder) {
         binder.setValidator(loginValidator);
@@ -78,7 +77,7 @@ public class UserController {
     @GetMapping(ROOT_URL)
     public String entry() {
 
-        return "redirect:" + LOGIN_URL;
+        return utils.redirectTo(LOGIN_URL);
     }
 
     @GetMapping(LOGIN_URL)
@@ -99,13 +98,12 @@ public class UserController {
 
         if ((retrievedUser != null) && (retrievedUser.getDisplayStatus() == DisplayStatus.ACTIVE)) {
             sessionHelper.persistInSession(retrievedUser);
-
-            activityService.archive(LOGGED_IN);
-
             noticeHelper.persistInSession();
             reservationHelper.persistInSession();
 
-            return "redirect:" + USER_DASHBOARD_URL;
+            activityService.archive(LOGGED_IN);
+
+            return utils.redirectTo(USER_DASHBOARD_URL);
         }
 
         return LOGIN_VIEW;
@@ -123,6 +121,7 @@ public class UserController {
                              BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
+
             return SIGN_UP_VIEW;
         }
 
@@ -136,17 +135,17 @@ public class UserController {
 
         activityService.archive(SIGNED_UP);
 
-        return "redirect:" + USER_DASHBOARD_URL;
+        return utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(LOGOUT_URL)
     public String logout() {
         sessionHelper.invalidateSession();
 
-        return "redirect:" + LOGIN_URL;
+        return utils.redirectTo(LOGIN_URL);
     }
 
-    @GetMapping("/user/dashboard")
+    @GetMapping(USER_DASHBOARD_URL)
     public String welcome(Model model) {
         if (!model.containsAttribute("newBuzz")) {
             model.addAttribute("newBuzz", new Buzz());
@@ -167,27 +166,23 @@ public class UserController {
         return USER_DASHBOARD_VIEW;
     }
 
-    @GetMapping("/user/inactivate/{userId}")
+    @GetMapping(USER_DEACTIVATE_URL)
     public String inactivateUser(@PathVariable int userId) {
         userService.inactivate(userId);
 
         sessionHelper.decrementSessionAttribute("activeUsers", 1);
         sessionHelper.incrementSessionAttribute("inactiveUsers", 1);
 
-        return "redirect:/profile/search";
+        return utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }
 
-    //TODO admin check
-
-    @GetMapping("/user/activate/{userId}")
+    @GetMapping(USER_ACTIVATE_URL)
     public String activateUser(@PathVariable int userId) {
         userService.activate(userId);
 
         sessionHelper.incrementSessionAttribute("activeUsers", 1);
         sessionHelper.decrementSessionAttribute("inactiveUsers", 1);
 
-        return "redirect:/profile/search";
+        return utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }
-
-
 }
