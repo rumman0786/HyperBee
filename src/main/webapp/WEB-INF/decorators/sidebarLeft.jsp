@@ -32,12 +32,12 @@
         <div class="panel panel-info">
             <div class="panel-heading"><fmt:message key="sidebar.left.buzz.title"/></div>
             <div class="panel-body">
-                <fmt:message key="sidebar.left.buzz.active"/> <c:out value="${activeBuzz}"/><br>
+                <strong><fmt:message key="sidebar.left.buzz.active"/></strong> <c:out value="${activeBuzz}"/><br>
                 <c:if test="${authUser.isAdmin()}">
-                    <fmt:message key="sidebar.left.buzz.inactive"/> <c:out value="${inactiveBuzz}"/><br>
+                    <strong><fmt:message key="sidebar.left.buzz.inactive"/></strong> <c:out value="${inactiveBuzz}"/><br>
                 </c:if>
-                <fmt:message key="sidebar.left.buzz.flagged"/> <c:out value="${flaggedBuzz}"/><br>
-                <fmt:message key="sidebar.left.buzz.pinned"/> <c:out value="${pinnedBuzz}"/><br>
+                <strong><fmt:message key="sidebar.left.buzz.flagged"/></strong> <c:out value="${flaggedBuzz}"/><br>
+                <strong><fmt:message key="sidebar.left.buzz.pinned"/></strong> <c:out value="${pinnedBuzz}"/><br>
             </div>
         </div>
     </div>
