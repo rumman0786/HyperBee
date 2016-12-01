@@ -22,6 +22,7 @@ import static net.therap.hyperbee.utils.constant.DomainConstant.*;
 /**
  * @author rayed
  * @author bashir
+ * @author zoha
  * @since 11/24/16 12:12 PM
  */
 @Component
@@ -129,18 +130,18 @@ public class SessionHelper {
             setStat("activeUsers", activeUser);
             setStat("inactiveUsers", inactiveUser);
 
-            setStat("activeBuzz", activeBuzz);
-            setStat("inactiveBuzz", inactiveBuzz);
-            setStat("flaggedBuzz", flaggedBuzz);
-            setStat("pinnedBuzz", pinnedBuzz);
+            setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
+            setStat(SESSION_VARIABLE_INACTIVE_BUZZ_COUNT, inactiveBuzz);
+            setStat(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
+            setStat(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
         } else {
             int activeBuzz = buzzService.getActiveCountByUser(authUserFromSession.getId());
             int flaggedBuzz = buzzService.getFlaggedCountByUser(authUserFromSession.getId());
             int pinnedBuzz = buzzService.getPinnedCountByUser(authUserFromSession.getId());
 
-            setStat("activeBuzz", activeBuzz);
-            setStat("flaggedBuzz", flaggedBuzz);
-            setStat("pinnedBuzz", pinnedBuzz);
+            setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
+            setStat(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
+            setStat(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
         }
     }
 

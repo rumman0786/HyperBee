@@ -20,9 +20,9 @@
             </c:when>
         </c:choose>
     </div>
+
     <div class="well">
         <div class="panel-success">
-
             <div class="panel panel-info">
                 <div class="panel-heading">Note Stats</div>
                 <div class="panel-body">
@@ -30,18 +30,21 @@
                     <fmt:message key="sidebar.left.note.reminderCount"/>${reminderCount}
                 </div>
             </div>
-
         </div>
     </div>
-    <div class="well">
-        counter
-        <h4><fmt:message key="sidebar.left.buzz.active"/></h4> <c:out value="${activeBuzz}"/>
-        <c:if test="${authUser.isAdmin()}">
 
-            <h4><fmt:message key="sidebar.left.buzz.inactive"/></h4> <c:out value="${inactiveBuzz}"/>
-        </c:if>
-        <h4><fmt:message key="sidebar.left.buzz.flagged"/></h4> <c:out value="${flaggedBuzz}"/>
-        <h4><fmt:message key="sidebar.left.buzz.pinned"/></h4> <c:out value="${pinnedBuzz}"/>
+    <div class="panel-success">
+        <div class="panel panel-info">
+            <div class="panel-heading"><fmt:message key="sidebar.left.Buzz.title"/></div>
+            <div class="panel-body">
+                <h4><fmt:message key="sidebar.left.buzz.active"/></h4> <c:out value="${activeBuzz}"/>
+                <c:if test="${authUser.isAdmin()}">
+                    <h4><fmt:message key="sidebar.left.buzz.inactive"/></h4> <c:out value="${inactiveBuzz}"/>
+                </c:if>
+                <h4><fmt:message key="sidebar.left.buzz.flagged"/></h4> <c:out value="${flaggedBuzz}"/>
+                <h4><fmt:message key="sidebar.left.buzz.pinned"/></h4> <c:out value="${pinnedBuzz}"/>
+            </div>
+        </div>
     </div>
 </div>
 </html>
