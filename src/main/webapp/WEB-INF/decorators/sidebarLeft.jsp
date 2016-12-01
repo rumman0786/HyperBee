@@ -3,23 +3,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="col-sm-2 sidenav top-padding">
-    <c:choose>
-        <c:when test="${authUser.isAdmin()}">
-            <div class="well">
-                <h4>Total active users: <c:out value="${activeUsers}"/></h4>
-                <h4>Total deactivated: <c:out value="${inactiveUsers}"/></h4>
+    <c:if test="${authUser.isAdmin()}">
+        <div class="panel-success">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <fmt:message key="sidebar.left.user.title"/>
+                </div>
+                <div class="panel-body">
+                    <fmt:message key="sidebar.left.user.active"/> <c:out value="${activeUsers}"/>
+                    <br>
+                    <fmt:message key="sidebar.left.user.inactive"/> <c:out value="${inactiveUsers}"/>
+                </div>
             </div>
-        </c:when>
-    </c:choose>
-
-    <div class="well">
-        <c:choose>
-            <c:when test="${authUser.isAdmin()}">
-                <h4>Total active users: <c:out value="${statsMap['activeUsers']}"/></h4>
-                <h4>Total deactivated: <c:out value="${statsMap['deactivatedUsers']}"/></h4>
-            </c:when>
-        </c:choose>
-    </div>
+        </div>
+    </c:if>
 
     <div class="panel-success">
         <div class="panel panel-info">
@@ -33,14 +30,14 @@
 
     <div class="panel-success">
         <div class="panel panel-info">
-            <div class="panel-heading"><fmt:message key="sidebar.left.Buzz.title"/></div>
+            <div class="panel-heading"><fmt:message key="sidebar.left.buzz.title"/></div>
             <div class="panel-body">
-                <h4><fmt:message key="sidebar.left.buzz.active"/></h4> <c:out value="${activeBuzz}"/>
+                <strong><fmt:message key="sidebar.left.buzz.active"/></strong> <c:out value="${activeBuzz}"/><br>
                 <c:if test="${authUser.isAdmin()}">
-                    <h4><fmt:message key="sidebar.left.buzz.inactive"/></h4> <c:out value="${inactiveBuzz}"/>
+                    <strong><fmt:message key="sidebar.left.buzz.inactive"/></strong> <c:out value="${inactiveBuzz}"/><br>
                 </c:if>
-                <h4><fmt:message key="sidebar.left.buzz.flagged"/></h4> <c:out value="${flaggedBuzz}"/>
-                <h4><fmt:message key="sidebar.left.buzz.pinned"/></h4> <c:out value="${pinnedBuzz}"/>
+                <strong><fmt:message key="sidebar.left.buzz.flagged"/></strong> <c:out value="${flaggedBuzz}"/><br>
+                <strong><fmt:message key="sidebar.left.buzz.pinned"/></strong> <c:out value="${pinnedBuzz}"/><br>
             </div>
         </div>
     </div>

@@ -29,9 +29,11 @@ public interface Messages {
     String NOTICE_DELETED = "Deleted Notice";
     String NOTICE_ACCESS_DENIED = "Only Admin Users Can Access Notice Area";
     String NOTICE_SUCCESS= "Notice Saved Successfully";
+    String NOTICE_HTML_PAGE_ACTIVE_KEY = "notice";
+    String NOTICE_PAGE_ADD_HEADER = "Add Notice";
+    String NOTICE_PAGE_EDIT_HEADER = "Edit Notice";
     String SUCCESS_HTML_CLASS = "alert alert-success";
     String FAILURE_HTML_CLASS = "alert alert-danger";
-
     String LOGGED_IN = "Logged In";
     String SIGNED_UP = "Signed Up";
 
@@ -41,6 +43,7 @@ public interface Messages {
     String BUZZ_DELETE_SUCCESS = "Successfully removed buzz: <message>";
     String BUZZ_PINNED_SUCCESS = "Successfully pinned buzz: <message>";
     String BUZZ_HISTORY_REQUEST = "Retrieved complete buzz list for viewing history";
+    String BUZZ_ACCESS_DENIED = "Only administrators can view Buzz History!";
 
     //Conference Messages
     String CONFERENCE_LIST_VIEWED = "Conference Home Page Viewed";
@@ -73,4 +76,9 @@ public interface Messages {
     String STALK_PROFILE_ACTIVITY="searched user profile";
     String STALK_USER_PROFILE_ACTIVITY="stalked user profile";
     String NO_USER_FOUND = "No user Found with This username.";
+
+    //HTML Title for Done
+    String TITLE_SUCCESS = "Success";
+    String TITLE_FAILURE = "Failure";
+    String TITLE_ACCESS_DENIED = "Access Denied";
 }

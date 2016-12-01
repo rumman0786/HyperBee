@@ -1,8 +1,10 @@
 package net.therap.hyperbee.dao;
 
-
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,17 +20,23 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private static String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = :username";
+    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
 
-    private static String FIND_BY_USERNAME_AND_PASSWORD = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
+    private static final String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = :username";
 
-    private static String FIND_BY_USERNAME_AND_DISPLAYSTATUS = "SELECT u FROM User u WHERE u.username = :username AND u.displayStatus = :status";
+    private static final String FIND_BY_USRNAME_AND_EMAIL = "User.findByUsernameOrEmail";
 
-    private static String FIND_USER_ACTIVE = "SELECT u FROM User u WHERE u.displayStatus = :status";
+    private static final String FIND_BY_USERNAME_AND_PASSWORD = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
 
-    private static String FIND_ALL = "SELECT u FROM User u";
+    private static final String FIND_ALL = "SELECT u FROM User u";
 
-    private static String FIND_BY_USRNAME_AND_EMAIL = "User.findByUsernameOrEmail";
+    private static final String FIND_USER_ACTIVE = "SELECT u FROM User u WHERE u.displayStatus = :status";
+
+    private static final String UPDATE_STATUS_TO_ACTIVE = "UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE id = :userId";
+
+    private static final String UPDATE_STATUS_TO_INACTIVE = "UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE id = :userId";
+
+    private static final String FIND_BY_DISPLAY_STATUS = "SELECT u FROM User u WHERE u.displayStatus = :status";
 
     @PersistenceContext
     private EntityManager em;
@@ -38,6 +46,8 @@ public class UserDaoImpl implements UserDao {
     public User createUser(User user) {
         em.persist(user);
         em.flush();
+
+        log.debug("User created: " + user.getUsername());
 
         return user;
     }
@@ -57,7 +67,7 @@ public class UserDaoImpl implements UserDao {
                     .setParameter("username", username)
                     .getSingleResult();
         } catch (NoResultException e) {
-            e.printStackTrace();
+            log.debug("Find by username exception", e);
         }
 
         return user;
@@ -73,7 +83,7 @@ public class UserDaoImpl implements UserDao {
                     .setParameter("email", email)
                     .getSingleResult();
         } catch (NoResultException e) {
-            e.printStackTrace();
+            log.debug("Find by username or email exception", e);
         }
 
         return user;
@@ -89,7 +99,7 @@ public class UserDaoImpl implements UserDao {
                     .setParameter("password", user.getPassword())
                     .getSingleResult();
         } catch (NoResultException e) {
-            e.printStackTrace();
+            log.debug("Find by username and password exception", e);
         }
 
         return retrievedUser;
@@ -118,20 +128,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-
-    }
-
-    @Override
-    @Transactional
-    public void deleteUser(int id) {
-
-    }
-
-    @Override
-    @Transactional
     public void inactivate(int userId) {
-        em.createQuery("UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE id = :userId")
+        em.createQuery(UPDATE_STATUS_TO_INACTIVE)
                 .setParameter("userId", userId)
                 .executeUpdate();
         em.flush();
@@ -140,7 +138,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void activate(int userId) {
-        em.createQuery("UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE id = :userId")
+        em.createQuery(UPDATE_STATUS_TO_ACTIVE)
                 .setParameter("userId", userId)
                 .executeUpdate();
         em.flush();
@@ -148,7 +146,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int findByDisplayStatus(DisplayStatus status) {
-        return em.createQuery("SELECT u FROM User u WHERE u.displayStatus = :status", User.class)
+
+        return em.createQuery(FIND_BY_DISPLAY_STATUS, User.class)
                 .setParameter("status", status)
                 .getResultList().size();
     }

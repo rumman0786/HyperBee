@@ -20,13 +20,15 @@ public class ConferenceRoomDaoImpl implements ConferenceRoomDao {
 
     @Override
     @Transactional
-    public void save(ConferenceRoom conferenceRoom) {
+    public ConferenceRoom save(ConferenceRoom conferenceRoom) {
         if (conferenceRoom.isNew()) {
             em.persist(conferenceRoom);
             em.flush();
         } else {
-            em.merge(conferenceRoom);
+            conferenceRoom = em.merge(conferenceRoom);
         }
+
+        return conferenceRoom;
     }
 
     @Override

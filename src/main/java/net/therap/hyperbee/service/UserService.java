@@ -27,10 +27,6 @@ public interface UserService {
 
     List<User> searchByEntry(String entry);
 
-    public void updateUser(User user);
-
-    public void deleteUser(int id);
-
     void inactivate(int userId);
 
     void activate(int userId);

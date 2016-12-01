@@ -83,6 +83,7 @@ public class SessionHelper {
         ServletRequestAttributes servletRequestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
+
         return session;
     }
 

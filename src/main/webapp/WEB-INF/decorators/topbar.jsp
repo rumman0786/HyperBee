@@ -17,7 +17,6 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-
                 <li <c:if test="${page == 'profile'}"> class="active" </c:if>>
                     <a href="/profile/user"><fmt:message key="dashboard.view.topbar.profile"/></a>
                 </li>
@@ -45,12 +44,15 @@
                     <a href="/profile/search"><fmt:message key="dashboard.view.topbar.stalk"/></a>
                 </li>
 
-                <li <c:if test="${page == 'buzz'}">class="active"</c:if>>
-                    <a href="/buzz/buzzHistory?prev=0&next=20"><fmt:message key="dashboard.view.topbar.buzz"/></a>
+                <c:if test="${authUser.isAdmin()}">
+                    <li <c:if test="${page == 'buzz'}">class="active"</c:if>>
+                        <a href="/buzz/buzzHistory?prev=0&next=20"><fmt:message key="dashboard.view.topbar.buzz"/></a>
+                    </li>
+                </c:if>
+
+                <li <c:if test="${page == 'activity'}"> class="active" </c:if>>
+                    <a href="/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a>
                 </li>
-
-                <li><a href="/user/activity/log"><fmt:message key="dashboard.view.topbar.activity"/></a></li>
-
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
