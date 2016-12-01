@@ -2,7 +2,7 @@ package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.service.ActivityService;
-import net.therap.hyperbee.service.StickyNoteService;
+import net.therap.hyperbee.service.NoteService;
 import net.therap.hyperbee.web.helper.NoteHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
@@ -34,7 +34,7 @@ public class NoteController {
     private static final Logger log = LogManager.getLogger(SimpleLogger.class);
 
     @Autowired
-    private StickyNoteService noteService;
+    private NoteService noteService;
 
     @Autowired
     ActivityService activityService;

@@ -15,8 +15,8 @@ import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.REMINDER_NOTE_COUNT_DASHBOARD;
-import static net.therap.hyperbee.utils.constant.DomainConstant.STICKY_NOTE_COUNT_DASHBOARD;
+import static net.therap.hyperbee.utils.constant.Constant.REMINDER_NOTE_COUNT_DASHBOARD;
+import static net.therap.hyperbee.utils.constant.Constant.STICKY_NOTE_COUNT_DASHBOARD;
 
 /**
  * @author bashir

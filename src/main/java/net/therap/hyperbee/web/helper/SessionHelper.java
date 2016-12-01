@@ -4,7 +4,7 @@ import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.NoteType;
 import net.therap.hyperbee.service.BuzzService;
-import net.therap.hyperbee.service.StickyNoteService;
+import net.therap.hyperbee.service.NoteService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.Constant.*;
 
 /**
  * @author rayed
@@ -36,7 +36,7 @@ public class SessionHelper {
     private UserService userService;
 
     @Autowired
-    private StickyNoteService noteService;
+    private NoteService noteService;
 
     public void persistInSession(User user) {
         AuthUser authUser = new AuthUser();

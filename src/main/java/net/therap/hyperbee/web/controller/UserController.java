@@ -38,7 +38,7 @@ public class UserController {
     BuzzService buzzService;
 
     @Autowired
-    StickyNoteService noteService;
+    NoteService noteService;
 
     @Autowired
     private UserService userService;
