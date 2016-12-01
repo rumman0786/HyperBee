@@ -7,6 +7,7 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.web.command.SignUpInfo;
 import net.therap.hyperbee.web.helper.NoticeHelper;
+import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
@@ -59,6 +60,9 @@ public class UserController {
     private NoticeHelper noticeHelper;
 
     @Autowired
+    private ReservationHelper reservationHelper;
+
+    @Autowired
     private HiveService hiveService;
 
     @InitBinder("login")
@@ -99,6 +103,7 @@ public class UserController {
             activityService.archive(LOGGED_IN);
 
             noticeHelper.persistInSession();
+            reservationHelper.persistInSession();
 
             return "redirect:" + USER_DASHBOARD_URL;
         }

@@ -4,6 +4,25 @@
 
 <div class="col-sm-2 sidenav top-padding text-left">
 
+    <c:if test="${cachedReservationList.size() > 0}">
+        <h2><fmt:message key="reservation.sidebar.header"/></h2>
+    </c:if>
+
+    <c:forEach var="reservation" items="${cachedReservationList}">
+        <div class="panel-group">
+
+            <div class="panel panel-info">
+                <div class="panel-heading">${reservation.conferenceRoom.title}</div>
+                <div class="panel-body">
+                    <div>Reserved By ${reservation.user.username}</div>
+                    <div>From ${reservation.getFormattedFromDate()}</div>
+                    <div>To ${reservation.getFormattedToDate()}</div>
+                </div>
+            </div>
+
+        </div>
+    </c:forEach>
+
     <c:if test="${cachedNoticeList.size() > 0}">
         <h2><fmt:message key="notice.sidebar.header"/></h2>
     </c:if>

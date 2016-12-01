@@ -2,6 +2,7 @@ package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.dao.ReservationDao;
 import net.therap.hyperbee.domain.Reservation;
+import net.therap.hyperbee.web.helper.ReservationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,13 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private ReservationDao reservationDao;
 
+    @Autowired
+    private ReservationHelper reservationHelper;
+
     @Override
     public void saveReservation(Reservation reservation) {
         reservationDao.saveOrUpdate(reservation);
+        reservationHelper.persistInSession();
     }
 
     @Override
@@ -35,5 +40,6 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void delete(int reservationId) {
         reservationDao.delete(reservationId);
+        reservationHelper.persistInSession();
     }
 }
