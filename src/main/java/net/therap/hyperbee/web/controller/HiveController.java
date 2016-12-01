@@ -101,7 +101,6 @@ public class HiveController {
         model.addAttribute("hive", hive);
         model.addAttribute("userList", hiveService.getUserNotInList(id));
         model.addAttribute("userListToRemove", hiveService.getUserListToRemove(id));
-        model.addAttribute("creator", userService.findById(hive.getCreatorId()));
         model.addAttribute("noticeList", hiveService.getLastFiveNotice(hive.getNoticeList()));
 
         if (!model.containsAttribute("userIdInfo")) {
@@ -181,7 +180,7 @@ public class HiveController {
         String filename = hive.getName().replaceAll(" ", "") + file.getOriginalFilename();
         hive.setImagePath(filename);
         int userId = sessionHelper.getUserIdFromSession();
-        hive.setCreatorId(userId);
+        hive.setCreator(userService.findById(userId));
         Hive newHive = hiveService.insertFirstUserToHive(hive, userId);
         hiveService.insertHive(newHive);
 

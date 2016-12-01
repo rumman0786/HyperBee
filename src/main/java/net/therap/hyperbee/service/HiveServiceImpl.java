@@ -90,7 +90,7 @@ public class HiveServiceImpl implements HiveService {
     public List<User> getUserListToRemove(int id) {
         Hive hive = retrieveHiveById(id);
         List<User> userList = hive.getUserList();
-        userList.remove(userService.findById(hive.getCreatorId()));
+        userList.remove(userService.findById(hive.getCreator().getId()));
 
         return userList;
     }
