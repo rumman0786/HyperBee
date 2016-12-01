@@ -62,7 +62,9 @@ public class ProfileController {
         User user = userService.findById(id);
 
         if (user.getProfile() == null) {
-            model.addAttribute(PROFILE_ATTRIBUTE, new Profile());
+            Profile profile = new Profile();
+            model.addAttribute(PROFILE_ATTRIBUTE, profile);
+            profileService.saveProfileForUser(profile, authUser.getId());
             model.addAttribute(USER_ATTRIBUTE, user);
         } else {
             Profile profile = user.getProfile();
@@ -109,7 +111,6 @@ public class ProfileController {
                 model.addAttribute("message3", imageUploader.createImage(coverImageName, coverFile));
             }
         }
-
         String message = profileService.saveProfileForUser(profile, userId);
         model.addAttribute("message", message);
         model.addAttribute(USER_ATTRIBUTE, user);
