@@ -12,14 +12,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+
+import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author rayed
  * @since 11/28/16 11:07 AM
  */
 @Controller
+@RequestMapping(ACTIVITY_ROOT_URL)
 public class ActivityController {
 
     @Autowired
@@ -31,29 +35,31 @@ public class ActivityController {
     @Autowired
     private SessionHelper sessionHelper;
 
-    @GetMapping("/user/activity/log")
+    @GetMapping(ACTIVITY_LOG_URL)
     public String viewActivity(Model model) {
         int userId = sessionHelper.getUserIdFromSession();
 
         List<Activity> activityList = activityService.findByUserId(userId);
-        model.addAttribute("activityList", activityList);
-
         List<User> userList = userService.findAll();
-        model.addAttribute("userInfo", new UserInfo(userList));
 
-        return "activity/log";
+        model.addAttribute("activityList", activityList);
+        model.addAttribute("userInfo", new UserInfo(userList));
+        model.addAttribute("page", "activity");
+
+        return ACTIVITY_VIEW;
     }
 
-    @PostMapping("/user/activity/log")
+    @PostMapping(ACTIVITY_LOG_URL)
     public String selectActivity(UserInfo userInfo, BindingResult bindingResult, Model model){
         int userId = userInfo.getUserId();
 
         User user = userService.findById(userId);
-        model.addAttribute("user", user);
-
         List<Activity> activityList = activityService.findByUserId(userId);
-        model.addAttribute("activityList", activityList);
 
-        return "activity/userLog";
+        model.addAttribute("user", user);
+        model.addAttribute("activityList", activityList);
+        model.addAttribute("page", "activity");
+
+        return ACTIVITY_ADMIN_VIEW;
     }
 }
