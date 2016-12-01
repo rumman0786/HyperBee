@@ -153,7 +153,7 @@ public class Note implements Serializable {
         this.noteType = noteType;
     }
 
-    public boolean isNoteNew() {
+    public boolean isNew() {
 
         return (id == 0);
     }

@@ -49,6 +49,9 @@ public interface Messages {
     String CONFERENCE_SAVE_ERROR = "ERROR:: Conference Could Not be saved";
     String CONFERENCE_SAVED = "Saved Conference";
     String CONFERENCE_DELETED = "Deleted Conference";
+    String CONFERENCE_HTML_PAGE_ACTIVE_KEY = "conferenceRoom";
+    String CONFERENCE_PAGE_ADD_HEADER = "Add Conference Room";
+    String CONFERENCE_PAGE_EDIT_HEADER = "Edit ConferemceRoom";
 
     //Reservation Messages
     String RESERVATION_LIST_VIEWED = "Reservation Home Page Viewed";

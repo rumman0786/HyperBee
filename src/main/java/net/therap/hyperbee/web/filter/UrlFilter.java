@@ -47,7 +47,6 @@ public class UrlFilter implements Filter {
         servletResponse.setHeader("Pragma", "no-cache");
         servletResponse.setHeader("Expires", "0");
 
-
         HttpSession session = ((HttpServletRequest) request).getSession();
         AuthUser authUser = (AuthUser) session.getAttribute("authUser");
 
