@@ -61,6 +61,7 @@ public interface Url {
     String CONFERENCE_ROOM_BASE_URL = "/conference";
     String CONFERENCE_ROOM_LIST_URL = "/list";
     String CONFERENCE_ROOM_ADD_URL = "/add";
+    String CONFERENCE_ROOM_UPDATE_VIEW_URL = "/{id}/**";
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
 

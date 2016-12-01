@@ -23,8 +23,7 @@
                 <div class="form-group">
                     <label for="title"><fmt:message key="conference.title"/></label>
                     <form:input type="text" id="title" class="form-control" placeholder="Conference Room Title"
-                                name="title"
-                                path="title" required="required" autofocus="autofocus"/>
+                                name="title" path="title" required="required" autofocus="autofocus"/>
                     <form:errors path="title" cssClass="error"/>
                 </div>
 
