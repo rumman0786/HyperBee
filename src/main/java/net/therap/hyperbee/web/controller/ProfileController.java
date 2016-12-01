@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.PROFILE_ATTRIBUTE;
-import static net.therap.hyperbee.utils.constant.DomainConstant.USER_ATTRIBUTE;
+import static net.therap.hyperbee.utils.constant.Constant.PROFILE_ATTRIBUTE;
+import static net.therap.hyperbee.utils.constant.Constant.USER_ATTRIBUTE;
 import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
 

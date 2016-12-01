@@ -38,9 +38,9 @@ public interface Url {
     String PROFILE_STALK_URL = "profile/stalkprofile";
 
     //Notes Constant
-    String NOTE_VIEW_URL = "/user/notes";
-    String NOTE_ADD_URL = "/user/note/add";
-    String NOTE_SAVE_URL = "/user/note/save";
+    String NOTE_VIEW_URL = "/notes";
+    String NOTE_ADD_URL = "/note/add";
+    String NOTE_SAVE_URL = "/note/save";
     String NOTE_VIEW_ALL = "note/notes";
     String NOTE_ADD_VIEW = "note/note_form";
     String NOTE_DELETE_URL = "/note/delete/{type}/{id}";
@@ -61,6 +61,7 @@ public interface Url {
     String CONFERENCE_ROOM_BASE_URL = "/conference";
     String CONFERENCE_ROOM_LIST_URL = "/list";
     String CONFERENCE_ROOM_ADD_URL = "/add";
+    String CONFERENCE_ROOM_UPDATE_VIEW_URL = "/{id}/**";
     String CONFERENCE_ROOM_UPDATE_URL = "/update";
     String CONFERENCE_ROOM_DELETE_URL = "/delete";
 

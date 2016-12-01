@@ -4,7 +4,9 @@
 
 <div class="col-sm-2 sidenav top-padding text-left">
 
-    <h2><fmt:message key="notice.sidebar.header"/></h2>
+    <c:if test="${cachedNoticeList.size() > 0}">
+        <h2><fmt:message key="notice.sidebar.header"/></h2>
+    </c:if>
 
     <c:forEach var="notice" items="${cachedNoticeList}">
         <div class="panel-group">

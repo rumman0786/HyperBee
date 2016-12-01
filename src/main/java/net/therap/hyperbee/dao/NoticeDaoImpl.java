@@ -67,10 +67,16 @@ public class NoticeDaoImpl implements NoticeDao {
     @SuppressWarnings("unchecked")
     public List<Notice> getNoticeListByHiveId(int hiveId, int range) {
         Hive hive = em.find(Hive.class, hiveId);
+        List<Notice> noticeList = hive.getNoticeList();
+
+        if (noticeList.size() == 0) {
+
+            return noticeList;
+        }
 
         return em.createQuery("SELECT n FROM Notice n where n.displayStatus =:status AND n IN :noticeList ORDER BY n.id DESC", Notice.class)
                 .setParameter("status", DisplayStatus.ACTIVE)
-                .setParameter("noticeList", hive.getNoticeList())
+                .setParameter("noticeList", noticeList)
                 .setMaxResults(range)
                 .getResultList();
     }

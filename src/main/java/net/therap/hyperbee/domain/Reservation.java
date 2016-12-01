@@ -1,16 +1,14 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.ReservationStatus;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.DATE_TIME_FIELD;
-import static net.therap.hyperbee.utils.constant.DomainConstant.RES_STATUS_ENUM;
+import static net.therap.hyperbee.utils.constant.Constant.DATE_TIME_FIELD;
+import static net.therap.hyperbee.utils.constant.Constant.RES_STATUS_ENUM;
 
 /**
  * @author bashir
