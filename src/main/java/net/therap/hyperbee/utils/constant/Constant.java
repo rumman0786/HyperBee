@@ -6,7 +6,7 @@ package net.therap.hyperbee.utils.constant;
  * @author zoha
  * @since 11/21/16
  */
-public interface DomainConstant {
+public interface Constant {
 
     String DISPLAY_ACTIVE = "ACTIVE";
     String DISPLAY_INACTIVE = "INACTIVE";

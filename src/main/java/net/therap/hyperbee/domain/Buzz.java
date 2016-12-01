@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.*;
+import static net.therap.hyperbee.utils.constant.Constant.*;
 
 /**
  * @author bashir

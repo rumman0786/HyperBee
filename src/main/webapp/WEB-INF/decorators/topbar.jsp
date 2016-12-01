@@ -37,7 +37,7 @@
                 </li>
 
                 <li <c:if test="${page == 'note'}"> class="active" </c:if> >
-                    <a href="/user/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
+                    <a href="/notes"><fmt:message key="dashboard.view.topbar.note"/></a></li>
 
                 <li><a href="/user/hive"><fmt:message key="dashboard.view.topbar.hive"/></a></li>
 
