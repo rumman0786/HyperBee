@@ -30,7 +30,7 @@
                 <div class="form-group input-group date" id='datetimepicker1'>
                     <label for="reservationFrom"><fmt:message key="reservation.from"/></label>
                     <form:input type="text" id="reservationFrom" class="form-control" name="reservationFrom"
-                                path="reservationFrom" required="required" onkeydown="return false;"
+                                path="reservationFrom"  onkeydown="return false;"
                                 value="${reservation.getFormattedFromDate()}"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -41,7 +41,7 @@
                 <div class="form-group input-group date" id='datetimepicker2'>
                     <label for="reservationTo"><fmt:message key="reservation.to"/></label>
                     <form:input type="text" id="reservationTo" class="form-control" name="reservationTo"
-                                path="reservationTo" required="required" onkeydown="return false;"
+                                path="reservationTo"  onkeydown="return false;"
                                 value="${reservation.getFormattedToDate()}"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>

@@ -32,7 +32,6 @@ public class ConferenceRoomController {
     @Autowired
     private ConferenceRoomService conferenceRoomService;
 
-
     @Autowired
     private ConferenceRoomValidator validator;
 

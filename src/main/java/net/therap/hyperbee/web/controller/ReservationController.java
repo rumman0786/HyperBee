@@ -8,6 +8,7 @@ import net.therap.hyperbee.service.ReservationService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.validator.ReservationValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
@@ -17,8 +18,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
+import java.util.Calendar;
 
 import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
@@ -48,13 +51,33 @@ public class ReservationController {
     @Autowired
     private ReservationHelper reservationHelper;
 
+    @Autowired
+    private ReservationValidator validator;
+
     @InitBinder
     private void initBinder(WebDataBinder binder) {
+        binder.setValidator(validator);
         binder.registerCustomEditor(ConferenceRoom.class, "conferenceRoom", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
                 ConferenceRoom conferenceRoom = conferenceRoomService.findConferenceRoomById(Integer.parseInt(text));
                 setValue(conferenceRoom);
+            }
+        });
+
+        binder.registerCustomEditor(Calendar.class, "reservationFrom", new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                Calendar calendar= reservationHelper.getCalendarFromString(text);
+                setValue(calendar);
+            }
+        });
+
+        binder.registerCustomEditor(Calendar.class, "reservationTo", new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                Calendar calendar= reservationHelper.getCalendarFromString(text);
+                setValue(calendar);
             }
         });
     }
@@ -75,9 +98,11 @@ public class ReservationController {
 
     @GetMapping
     public String showAddReservationForm(ModelMap modelMap) {
+        if (!modelMap.containsAttribute("reservation")) {
+            modelMap.addAttribute("reservation", new Reservation());
+        }
 
         modelMap.addAttribute("page", "reservation")
-                .addAttribute("reservation", new Reservation())
                 .addAttribute("pageHeader", "Add Reservation")
                 .addAttribute("action", RESERVATION_BASE_URL + RESERVATION_ADD_URL)
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
@@ -92,7 +117,8 @@ public class ReservationController {
     public String addReservation(@ModelAttribute("reservation") Reservation reservation,
                                  BindingResult bindingResult,
                                  @RequestParam("reservationFrom") String reservationFrom,
-                                 @RequestParam("reservationTo") String reservationTo) {
+                                 @RequestParam("reservationTo") String reservationTo,
+                                 RedirectAttributes redirectAttributes) {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
 
@@ -100,18 +126,32 @@ public class ReservationController {
         reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
         reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
 
+        validator.validate(reservation,bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "reservation", bindingResult)
+                    .addFlashAttribute("reservation", reservation);
+
+            log.debug(RESERVATION_SAVE_ERROR);
+
+            return "redirect:" + RESERVATION_BASE_URL;
+        }
+
         reservationService.saveReservation(reservation);
         log.debug(RESERVATION_SAVED);
 
         return "redirect:" + RESERVATION_BASE_URL + RESERVATION_LIST_URL;
     }
 
-    @GetMapping(value = "/{id}/**")
+    @GetMapping(value = RESERVATION_ROOM_UPDATE_VIEW_URL)
     public String showEditReservationForm(@PathVariable("id") int id, ModelMap modelMap) {
+        if (!modelMap.containsAttribute("reservation")) {
+            modelMap.addAttribute("reservation", reservationService.findReservationById(id));
+        }
+
         modelMap.addAttribute("page", "reservation")
                 .addAttribute("pageHeader", "Edit Reservation")
                 .addAttribute("action", RESERVATION_BASE_URL + RESERVATION_UPDATE_URL)
-                .addAttribute("reservation", reservationService.findReservationById(id))
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
                 .addAttribute("reservationStatusOptions", ReservationStatus.values());
 
@@ -124,12 +164,25 @@ public class ReservationController {
     public String editReservation(@ModelAttribute("reservation") Reservation reservation,
                                   BindingResult bindingResult,
                                   @RequestParam("reservationFrom") String reservationFrom,
-                                  @RequestParam("reservationTo") String reservationTo) {
+                                  @RequestParam("reservationTo") String reservationTo,
+                                  RedirectAttributes redirectAttributes) {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
         reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
         reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
+
+        validator.validate(reservation,bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "reservation", bindingResult)
+                    .addFlashAttribute("reservation", reservation);
+
+            log.debug(RESERVATION_SAVE_ERROR);
+
+            return "redirect:" + RESERVATION_BASE_URL + "/" + reservation.getId();
+        }
+
         reservationService.saveReservation(reservation);
 
         log.debug(RESERVATION_SAVED);
