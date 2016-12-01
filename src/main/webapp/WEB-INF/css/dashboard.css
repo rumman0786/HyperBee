@@ -12,8 +12,9 @@
 
 .top-padding {
     padding-top: 70px;
-    float: none;
+    /*float: none;*/
     display: table-cell;
+    height: inherit;
 }
 
 .pre-scrollable {
