@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface PostDao {
 
-    public void insertPost(Post post);
+    void insertPost(Post post);
 
-    public List<Post> getPostListByHive(int id);
+    List<Post> getPostListByHive(int id);
 }
