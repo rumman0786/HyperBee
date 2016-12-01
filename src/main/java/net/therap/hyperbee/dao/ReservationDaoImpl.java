@@ -17,21 +17,23 @@ import java.util.List;
 public class ReservationDaoImpl implements ReservationDao {
 
     private static final String RESERVATION_ALL_QUERY = "FROM Reservation";
-    private static final String RESERVATION_ACTIVE_BY_RANGE_QUERY = "SELECT reservation FROM Reservation reservation "
-            + " where reservation.reservationStatus =:status ORDER BY reservation.id DESC";
+    private static final String RESERVATION_ACTIVE_BY_RANGE_QUERY = "SELECT reservation FROM Reservation reservation" +
+            " where reservation.reservationStatus =:status ORDER BY reservation.id DESC";
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
     @Transactional
-    public void saveOrUpdate(Reservation reservation) {
+    public Reservation saveOrUpdate(Reservation reservation) {
         if (reservation.isNew()) {
             em.persist(reservation);
             em.flush();
         } else {
-            em.merge(reservation);
+            reservation = em.merge(reservation);
         }
+
+        return reservation;
     }
 
     @Override
