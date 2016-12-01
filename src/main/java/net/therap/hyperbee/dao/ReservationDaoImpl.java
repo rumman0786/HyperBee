@@ -17,6 +17,8 @@ import java.util.List;
 public class ReservationDaoImpl implements ReservationDao {
 
     private static final String RESERVATION_ALL_QUERY = "FROM Reservation";
+    private static final String RESERVATION_ACTIVE_BY_RANGE_QUERY = "SELECT reservation FROM Reservation reservation "
+            + " where reservation.reservationStatus =:status ORDER BY reservation.id DESC";
 
     @PersistenceContext
     private EntityManager em;
@@ -54,7 +56,7 @@ public class ReservationDaoImpl implements ReservationDao {
     @SuppressWarnings("unchecked")
     public List<Reservation> findLatestReservation(int range) {
 
-        return em.createQuery("SELECT reservation FROM Reservation reservation where reservation.reservationStatus =:status ORDER BY reservation.id DESC", Reservation.class)
+        return em.createQuery(RESERVATION_ACTIVE_BY_RANGE_QUERY, Reservation.class)
                 .setParameter("status", ReservationStatus.APPROVED)
                 .setMaxResults(range)
                 .getResultList();
