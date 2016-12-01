@@ -52,13 +52,12 @@
                     <div class="panel-body">
                         <strong>${item.title}</strong>
                         <c:choose>
-                            <c:when test="${fn:length(item.description) gt 135}">
-                                <p>${fn:substring(item.description, 0, 135)}...
-                                    <a href="/notes#${item.id}"><strong><fmt:message
-                                            key="dashboard.view.note.readMore"/></strong></a>
+                            <c:when test="${fn:length(item.description) gt 102}">
+                                <p>${fn:substring(item.description, 0, 102)}...
+                                    <a href="/notes#${item.id}"><strong><fmt:message key="dashboard.view.note.readMore"/></strong></a>
                                 </p>
-                            </c:when>
-                            <c:when test="${fn:length(item.description) lt 136}">
+                             </c:when>
+                            <c:when test="${fn:length(item.description) lt 103}">
                                 <p>${item.description}</p>
                             </c:when>
                         </c:choose>
@@ -80,12 +79,12 @@
                     <div class="panel-body">
                         <strong>${item.title}</strong>
                         <c:choose>
-                            <c:when test="${fn:length(item.description) gt 135}">
-                                <p>${fn:substring(item.description, 0, 135)}...
+                            <c:when test="${fn:length(item.description) gt 102}">
+                                <p>${fn:substring(item.description, 0, 102)}...
                                     <a href="/notes"><strong><fmt:message key="dashboard.view.note.readMore"/></strong></a>
                                 </p>
-                            </c:when>
-                            <c:when test="${fn:length(item.description) lt 136}">
+                             </c:when>
+                            <c:when test="${fn:length(item.description) lt 103}">
                                 <p>${item.description}</p>
                             </c:when>
                         </c:choose>

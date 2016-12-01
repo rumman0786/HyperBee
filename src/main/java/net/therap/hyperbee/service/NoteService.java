@@ -1,7 +1,6 @@
 package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.domain.Note;
-import net.therap.hyperbee.domain.User;
 
 import java.util.List;
 
