@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
 /**
  * @author azim
@@ -21,13 +20,8 @@ public class PostDaoImpl implements PostDao {
     private EntityManager em;
 
     @Override
-    public void insertPost(Post post) {
+    public void savePost(Post post) {
         em.persist(em.merge(post));
         em.flush();
-    }
-
-    @Override
-    public List<Post> getPostListByHive(int id) {
-        return em.createQuery(QUERY_GET_POST_ID, Post.class).setParameter("id", id).getResultList();
     }
 }
