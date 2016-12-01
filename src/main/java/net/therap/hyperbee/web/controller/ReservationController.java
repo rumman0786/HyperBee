@@ -63,7 +63,7 @@ public class ReservationController {
     @GetMapping(value = RESERVATION_LIST_URL)
     public String showReservationList(ModelMap modelMap) {
 
-        modelMap.addAttribute("page", "reservation")
+        modelMap.addAttribute("page", RESERVATION_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("reservationList", reservationService.findAllReservation())
                 .addAttribute("actionUrl", RESERVATION_BASE_URL)
                 .addAttribute("deleteUrl", RESERVATION_BASE_URL + RESERVATION_DELETE_URL);
@@ -76,9 +76,9 @@ public class ReservationController {
     @GetMapping
     public String showAddReservationForm(ModelMap modelMap) {
 
-        modelMap.addAttribute("page", "reservation")
+        modelMap.addAttribute("page", RESERVATION_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("reservation", new Reservation())
-                .addAttribute("pageHeader", "Add Reservation")
+                .addAttribute("pageHeader", RESERVATION_PAGE_ADD_HEADER)
                 .addAttribute("action", RESERVATION_BASE_URL + RESERVATION_ADD_URL)
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
                 .addAttribute("reservationStatusOptions", ReservationStatus.values());
@@ -96,8 +96,8 @@ public class ReservationController {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
 
-        reservation.setUser(userService.findById(sessionUserId));
         reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
+        reservation.setUser(userService.findById(sessionUserId));
         reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
 
         reservationService.saveReservation(reservation);
@@ -106,10 +106,10 @@ public class ReservationController {
         return "redirect:" + RESERVATION_BASE_URL + RESERVATION_LIST_URL;
     }
 
-    @GetMapping(value = "/{id}/**")
+    @GetMapping(value = RESERVATION_ROOM_UPDATE_VIEW_URL)
     public String showEditReservationForm(@PathVariable("id") int id, ModelMap modelMap) {
-        modelMap.addAttribute("page", "reservation")
-                .addAttribute("pageHeader", "Edit Reservation")
+        modelMap.addAttribute("page", RESERVATION_HTML_PAGE_ACTIVE_KEY)
+                .addAttribute("pageHeader", RESERVATION_PAGE_EDIT_HEADER)
                 .addAttribute("action", RESERVATION_BASE_URL + RESERVATION_UPDATE_URL)
                 .addAttribute("reservation", reservationService.findReservationById(id))
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())

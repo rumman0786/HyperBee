@@ -122,6 +122,7 @@ public class NoticeController {
         log.debug(NOTICE_SAVED);
 
         redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
+                .addFlashAttribute("htmlTitle", NOTICE_SAVED)
                 .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
         return "redirect:" + DONE_URL;
@@ -164,6 +165,7 @@ public class NoticeController {
         log.debug(NOTICE_MODIFIED);
 
         redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
+                .addFlashAttribute("htmlTitle", NOTICE_MODIFIED)
                 .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
         return "redirect:" + DONE_URL;
