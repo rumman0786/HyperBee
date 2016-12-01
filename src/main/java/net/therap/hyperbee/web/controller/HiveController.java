@@ -84,7 +84,6 @@ public class HiveController {
     public String viewHive(ModelMap model) {
         int userId = sessionHelper.getUserIdFromSession();
         model.addAttribute("hiveList", userService.findById(userId).getHiveList());
-        model.addAttribute("userList", userService.findAll());
         model.addAttribute("userIdInfo", new UserIdInfo());
 
         if (!model.containsAttribute("hive")) {

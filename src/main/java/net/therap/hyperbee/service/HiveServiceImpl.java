@@ -42,7 +42,6 @@ public class HiveServiceImpl implements HiveService {
         List<User> userList = hive.getUserList();
         User user = userService.findById(userId);
         userList.add(user);
-
         hive.setUserList(userList);
 
         return hive;
@@ -50,7 +49,6 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     public Hive retrieveHiveById(int id) {
-
         return hiveDao.retrieveHiveById(id);
     }
 
@@ -77,7 +75,6 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     public Hive findById(int hiveId) {
-
         return hiveDao.findById(hiveId);
     }
 
