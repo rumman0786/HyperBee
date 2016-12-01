@@ -29,9 +29,11 @@ public interface Messages {
     String NOTICE_DELETED = "Deleted Notice";
     String NOTICE_ACCESS_DENIED = "Only Admin Users Can Access Notice Area";
     String NOTICE_SUCCESS= "Notice Saved Successfully";
+    String NOTICE_HTML_PAGE_ACTIVE_KEY = "notice";
+    String NOTICE_PAGE_ADD_HEADER = "Add Notice";
+    String NOTICE_PAGE_EDIT_HEADER = "Edit Notice";
     String SUCCESS_HTML_CLASS = "alert alert-success";
     String FAILURE_HTML_CLASS = "alert alert-danger";
-
     String LOGGED_IN = "Logged In";
     String SIGNED_UP = "Signed Up";
 
