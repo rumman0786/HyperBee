@@ -17,7 +17,8 @@ import java.util.List;
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
 
-    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n FROM Notice n where n.displayStatus =:status AND n IN :noticeList ORDER BY n.id DESC";
+    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n FROM Notice n where n.displayStatus =:status " +
+            "AND n IN :noticeList ORDER BY n.id DESC";
 
     @PersistenceContext
     private EntityManager em;
@@ -61,8 +62,8 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     @Transactional
     public void delete(int noticeId) {
-        Notice attachedDish = em.getReference(Notice.class, noticeId);
-        em.remove(attachedDish);
+        Notice attachedNotice = em.getReference(Notice.class, noticeId);
+        em.remove(attachedNotice);
     }
 
     @Override
