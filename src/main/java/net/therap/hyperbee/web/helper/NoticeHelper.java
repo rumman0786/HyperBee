@@ -26,7 +26,7 @@ public class NoticeHelper {
     @Autowired
     private NoticeService noticeService;
 
-    private static final int NOTICE_TO_DISPLAY_IN_SIDEBAR = 5;
+    private static final int NOTICE_TO_DISPLAY_IN_SIDEBAR = 3;
     private static final int GROUP_ALL_ID = 1;
 
     public void persistInSession() {

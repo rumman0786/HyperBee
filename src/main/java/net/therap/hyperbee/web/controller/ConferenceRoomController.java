@@ -45,7 +45,7 @@ public class ConferenceRoomController {
     @GetMapping(value = CONFERENCE_ROOM_LIST_URL)
     public String showConferenceRoomList(ModelMap modelMap) {
 
-        modelMap.addAttribute("page", "conferenceRoom")
+        modelMap.addAttribute("page", CONFERENCE_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("conferenceRoomList", conferenceRoomService.findAllConferenceRoom())
                 .addAttribute("conferenceRoomAddUrl", CONFERENCE_ROOM_BASE_URL)
                 .addAttribute("deleteUrl", CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_DELETE_URL);
@@ -61,8 +61,8 @@ public class ConferenceRoomController {
             modelMap.addAttribute("conferenceRoom", new ConferenceRoom());
         }
 
-        modelMap.addAttribute("page", "conferenceRoom")
-                .addAttribute("pageHeader", "Add Conference Room")
+        modelMap.addAttribute("page", CONFERENCE_HTML_PAGE_ACTIVE_KEY)
+                .addAttribute("pageHeader", CONFERENCE_PAGE_ADD_HEADER)
                 .addAttribute("action", CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_ADD_URL);
 
         log.debug(CONFERENCE_ADD_VIEWED);
@@ -97,9 +97,9 @@ public class ConferenceRoomController {
             modelMap.addAttribute("conferenceRoom", conferenceRoomService.findConferenceRoomById(id));
         }
 
-        modelMap.addAttribute("page", "conferenceRoom")
+        modelMap.addAttribute("page", CONFERENCE_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("action", CONFERENCE_ROOM_BASE_URL + CONFERENCE_ROOM_UPDATE_URL)
-                .addAttribute("pageHeader", "Edit ConferemceRoom");
+                .addAttribute("pageHeader", CONFERENCE_PAGE_EDIT_HEADER);
 
         log.debug(CONFERENCE_EDIT_VIEWED);
 

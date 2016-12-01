@@ -3,7 +3,6 @@ package net.therap.hyperbee.service;
 import net.therap.hyperbee.dao.BuzzDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Buzz;
-import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +87,7 @@ public class BuzzServiceImpl implements BuzzService {
 
     @Override
     public List<Buzz> getLatestBuzz() {
-        return buzzDao.getLatest(20);
+        return buzzDao.getLatest(15);
     }
 
     @Override

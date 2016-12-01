@@ -17,6 +17,8 @@ import java.util.List;
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
 
+    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n FROM Notice n where n.displayStatus =:status AND n IN :noticeList ORDER BY n.id DESC";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -74,7 +76,7 @@ public class NoticeDaoImpl implements NoticeDao {
             return noticeList;
         }
 
-        return em.createQuery("SELECT n FROM Notice n where n.displayStatus =:status AND n IN :noticeList ORDER BY n.id DESC", Notice.class)
+        return em.createQuery(ACTIVE_NOTICE_LIST_QUERY, Notice.class)
                 .setParameter("status", DisplayStatus.ACTIVE)
                 .setParameter("noticeList", noticeList)
                 .setMaxResults(range)

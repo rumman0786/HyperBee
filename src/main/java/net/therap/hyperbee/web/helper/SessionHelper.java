@@ -22,6 +22,7 @@ import static net.therap.hyperbee.utils.constant.Constant.*;
 /**
  * @author rayed
  * @author bashir
+ * @author zoha
  * @since 11/24/16 12:12 PM
  */
 @Component
@@ -96,21 +97,17 @@ public class SessionHelper {
 
     public void incrementNoteCountByOne(NoteType noteType) {
         if (noteType == NoteType.STICKY) {
-            int stickyCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_STICKY_COUNT);
-            getHttpSession().setAttribute(SESSION_VARIABLE_STICKY_COUNT, ++stickyCount);
+            incrementSessionAttribute(SESSION_VARIABLE_STICKY_COUNT, 1);
         } else if (noteType == NoteType.REMINDER) {
-            int reminderCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_REMINDER_COUNT);
-            getHttpSession().setAttribute(SESSION_VARIABLE_REMINDER_COUNT, ++reminderCount);
+            incrementSessionAttribute(SESSION_VARIABLE_REMINDER_COUNT, 1);
         }
     }
 
     public void decrementNoteCountByOne(String noteType) {
         if (noteType.equals(NOTE_STICKY)) {
-            int stickyCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_STICKY_COUNT);
-            getHttpSession().setAttribute(SESSION_VARIABLE_STICKY_COUNT, --stickyCount);
+            decrementSessionAttribute(SESSION_VARIABLE_STICKY_COUNT, 1);
         } else if (noteType.equals(NOTE_REMINDER)) {
-            int reminderCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_REMINDER_COUNT);
-            getHttpSession().setAttribute(SESSION_VARIABLE_REMINDER_COUNT, --reminderCount);
+            decrementSessionAttribute(SESSION_VARIABLE_REMINDER_COUNT, 1);
         }
     }
 
@@ -129,18 +126,18 @@ public class SessionHelper {
             setStat("activeUsers", activeUser);
             setStat("inactiveUsers", inactiveUser);
 
-            setStat("activeBuzz", activeBuzz);
-            setStat("inactiveBuzz", inactiveBuzz);
-            setStat("flaggedBuzz", flaggedBuzz);
-            setStat("pinnedBuzz", pinnedBuzz);
+            setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
+            setStat(SESSION_VARIABLE_INACTIVE_BUZZ_COUNT, inactiveBuzz);
+            setStat(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
+            setStat(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
         } else {
             int activeBuzz = buzzService.getActiveCountByUser(authUserFromSession.getId());
             int flaggedBuzz = buzzService.getFlaggedCountByUser(authUserFromSession.getId());
             int pinnedBuzz = buzzService.getPinnedCountByUser(authUserFromSession.getId());
 
-            setStat("activeBuzz", activeBuzz);
-            setStat("flaggedBuzz", flaggedBuzz);
-            setStat("pinnedBuzz", pinnedBuzz);
+            setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
+            setStat(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
+            setStat(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
         }
     }
 

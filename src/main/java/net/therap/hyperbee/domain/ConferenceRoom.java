@@ -28,7 +28,7 @@ public class ConferenceRoom implements Serializable {
 
     private int capacity;
 
-    @OneToMany(mappedBy = "conferenceRoom")
+    @OneToMany(mappedBy = "conferenceRoom",cascade = {CascadeType.ALL})
     private List<Reservation> reservationList;
 
     public int getId() {
