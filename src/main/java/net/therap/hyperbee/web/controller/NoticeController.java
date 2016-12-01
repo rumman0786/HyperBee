@@ -69,7 +69,7 @@ public class NoticeController {
 
     @RequestMapping(value = NOTICE_LIST_URL, method = RequestMethod.GET)
     public String showNoticeList(ModelMap modelMap) {
-        modelMap.addAttribute("page", "notice")
+        modelMap.addAttribute("page", NOTICE_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("noticeList", noticeService.findAllNotice())
                 .addAttribute("noticeAddUrl", NOTICE_BASE_URL)
                 .addAttribute("isAdmin", sessionHelper.getAuthUserFromSession().isAdmin())
@@ -87,8 +87,8 @@ public class NoticeController {
             modelMap.addAttribute("notice", new Notice());
         }
 
-        modelMap.addAttribute("page", "notice")
-                .addAttribute("noticeHeader", "Add Notice")
+        modelMap.addAttribute("page", NOTICE_HTML_PAGE_ACTIVE_KEY)
+                .addAttribute("noticeHeader", NOTICE_PAGE_ADD_HEADER)
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_ADD_URL)
                 .addAttribute("hiveList", hiveService.getAllHive())
                 .addAttribute("displayStatusOptions", DisplayStatus.values());
@@ -122,6 +122,7 @@ public class NoticeController {
         log.debug(NOTICE_SAVED);
 
         redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
+                .addFlashAttribute("htmlTitle", NOTICE_SAVED)
                 .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
         return "redirect:" + DONE_URL;
@@ -129,9 +130,9 @@ public class NoticeController {
 
     @GetMapping(value = "/{id}/**")
     public String showEditNoticeForm(@PathVariable("id") int id, ModelMap modelMap) {
-        modelMap.addAttribute("page", "notice")
+        modelMap.addAttribute("page", NOTICE_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_UPDATE_URL)
-                .addAttribute("noticeHeader", "Edit Notice")
+                .addAttribute("noticeHeader", NOTICE_PAGE_EDIT_HEADER)
                 .addAttribute("hiveList", hiveService.getAllHive())
                 .addAttribute("notice", noticeService.findNoticeById(id));
 
@@ -164,6 +165,7 @@ public class NoticeController {
         log.debug(NOTICE_MODIFIED);
 
         redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
+                .addFlashAttribute("htmlTitle", NOTICE_MODIFIED)
                 .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
         return "redirect:" + DONE_URL;

@@ -80,6 +80,7 @@ public interface Url {
     String RESERVATION_BASE_URL = "/reservation";
     String RESERVATION_LIST_URL = "/list";
     String RESERVATION_ADD_URL = "/add";
+    String RESERVATION_ROOM_UPDATE_VIEW_URL = "/{id}/**";
     String RESERVATION_UPDATE_URL = "/update";
     String RESERVATION_DELETE_URL = "/delete";
 
@@ -93,7 +94,6 @@ public interface Url {
     String RESOURCE_IMAGES = "/images/";
 
     //Common Constants
-    String ACCESS_DENIED_URL = "/denied";
     String DONE_URL= "/done";
     String DONE_VIEW = "done";
 

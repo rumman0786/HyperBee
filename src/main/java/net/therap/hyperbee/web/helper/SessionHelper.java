@@ -98,21 +98,17 @@ public class SessionHelper {
 
     public void incrementNoteCountByOne(NoteType noteType) {
         if (noteType == NoteType.STICKY) {
-            int stickyCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_STICKY_COUNT);
-            getHttpSession().setAttribute(SESSION_VARIABLE_STICKY_COUNT, ++stickyCount);
+            incrementSessionAttribute(SESSION_VARIABLE_STICKY_COUNT, 1);
         } else if (noteType == NoteType.REMINDER) {
-            int reminderCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_REMINDER_COUNT);
-            getHttpSession().setAttribute(SESSION_VARIABLE_REMINDER_COUNT, ++reminderCount);
+            incrementSessionAttribute(SESSION_VARIABLE_REMINDER_COUNT, 1);
         }
     }
 
     public void decrementNoteCountByOne(String noteType) {
         if (noteType.equals(NOTE_STICKY)) {
-            int stickyCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_STICKY_COUNT);
-            getHttpSession().setAttribute(SESSION_VARIABLE_STICKY_COUNT, --stickyCount);
+            decrementSessionAttribute(SESSION_VARIABLE_STICKY_COUNT, 1);
         } else if (noteType.equals(NOTE_REMINDER)) {
-            int reminderCount = (int) getHttpSession().getAttribute(SESSION_VARIABLE_REMINDER_COUNT);
-            getHttpSession().setAttribute(SESSION_VARIABLE_REMINDER_COUNT, --reminderCount);
+            decrementSessionAttribute(SESSION_VARIABLE_REMINDER_COUNT, 1);
         }
     }
 
