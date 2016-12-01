@@ -1,7 +1,7 @@
 package net.therap.hyperbee.domain.enums;
 
-import static net.therap.hyperbee.utils.constant.DomainConstant.NOTE_REMINDER;
-import static net.therap.hyperbee.utils.constant.DomainConstant.NOTE_STICKY;
+import static net.therap.hyperbee.utils.constant.Constant.NOTE_REMINDER;
+import static net.therap.hyperbee.utils.constant.Constant.NOTE_STICKY;
 
 /**
  * @author bashir
