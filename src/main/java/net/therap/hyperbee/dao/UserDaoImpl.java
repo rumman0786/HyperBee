@@ -110,6 +110,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> searchUserByEntry(String entry) {
+        return em.createNamedQuery("User.SearchUserByEntry")
+                .setParameter("name", entry+"%")
+                .getResultList();
+    }
+
+    @Override
     @Transactional
     public void updateUser(User user) {
 

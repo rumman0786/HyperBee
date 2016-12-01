@@ -25,6 +25,8 @@ public interface UserDao {
 
     public List<User> findActiveUser();
 
+    List<User> searchUserByEntry(String entry);
+
     public void updateUser(User user);
 
     public void deleteUser(int id);

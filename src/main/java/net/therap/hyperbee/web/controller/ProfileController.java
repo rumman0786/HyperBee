@@ -6,15 +6,20 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.ProfileService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.helper.ImageUploader;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
+import net.therap.hyperbee.web.validator.ProfileValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -54,6 +59,17 @@ public class ProfileController {
     @Autowired
     private ActivityService activityService;
 
+    @Autowired
+    private ProfileValidator profileValidator;
+
+    @Autowired
+    private Utils utils;
+
+    @InitBinder("profile")
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(profileValidator);
+    }
+
     @GetMapping(value = PROFILE_EDIT_URL)
     public String getProfile(Model model) {
         model.addAttribute("page", "profile");
@@ -62,10 +78,10 @@ public class ProfileController {
         User user = userService.findById(id);
 
         if (user.getProfile() == null) {
-            Profile profile = new Profile();
-            model.addAttribute(PROFILE_ATTRIBUTE, profile);
-            profileService.saveProfileForUser(profile, authUser.getId());
-            model.addAttribute(USER_ATTRIBUTE, user);
+                Profile profile = new Profile();
+                model.addAttribute(PROFILE_ATTRIBUTE, profile);
+                profileService.saveProfileForUser(profile, authUser.getId());
+                model.addAttribute(USER_ATTRIBUTE, user);
         } else {
             Profile profile = user.getProfile();
             model.addAttribute(PROFILE_ATTRIBUTE, profile);
@@ -80,9 +96,20 @@ public class ProfileController {
     }
 
     @PostMapping
-    public String postProfile(@ModelAttribute Profile profile, Model model,
+    public String postProfile(@ModelAttribute("profile") @Validated Profile profile,
+                              BindingResult result,
+                              Model model,
                               @RequestParam MultipartFile file,
-                              @RequestParam MultipartFile coverFile) {
+                              @RequestParam MultipartFile coverFile,
+                              RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "profile", result);
+            redirectAttributes.addFlashAttribute("profile", profile);
+
+            return utils.redirectTo(PROFILE_URL + PROFILE_EDIT_URL);
+        }
         model.addAttribute("page", "profile");
         AuthUser authUser = sessionHelper.getAuthUserFromSession();
         int userId = authUser.getId();

@@ -84,6 +84,7 @@ public class User implements Serializable {
     private List<Reservation> reservationList;
 
     public User() {
+        profile=new Profile();
         displayStatus = DisplayStatus.ACTIVE;
         activityList = new ArrayList<Activity>();
         noteList = new ArrayList<Note>();

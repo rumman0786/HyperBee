@@ -25,6 +25,8 @@ public interface UserService {
 
     public List<User> findActiveUsers();
 
+    List<User> searchByEntry(String entry);
+
     public void updateUser(User user);
 
     public void deleteUser(int id);
