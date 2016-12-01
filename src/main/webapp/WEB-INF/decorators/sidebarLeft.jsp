@@ -24,7 +24,7 @@
         <div class="panel-success">
 
             <div class="panel panel-info">
-                <div class="panel-heading">Note Stats</div>
+                <div class="panel-heading"><fmt:message key="sidebar.left.note.label.stats"/></div>
                 <div class="panel-body">
                     <fmt:message key="sidebar.left.note.stickyCount"/>${stickyCount} <br>
                     <fmt:message key="sidebar.left.note.reminderCount"/>${reminderCount}

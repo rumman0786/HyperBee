@@ -41,7 +41,6 @@ public class NoteServiceImpl implements NoteService {
     }
 
     public List<Note> findTopStickyNoteByUser(int userId) {
-
         List<Note> noteList = noteDao.findTopStickyNoteByUser(STICKY_NOTE_COUNT_DASHBOARD, userId);
         log.debug("Top Sticky Note Dashboard: " + noteList.size());
 
@@ -51,7 +50,6 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public void saveNoteForUser(Note note, int userId) {
-
         User user = userDao.findById(userId);
         note.setUser(user);
         noteDao.save(note);
