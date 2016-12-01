@@ -86,7 +86,6 @@ public interface Url {
     String RESOURCE_IMAGES = "/images/";
 
     //Common Constants
-    String ACCESS_DENIED_URL = "/denied";
     String DONE_URL= "/done";
     String DONE_VIEW = "done";
 

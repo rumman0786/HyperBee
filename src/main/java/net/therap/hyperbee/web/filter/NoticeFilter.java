@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static net.therap.hyperbee.utils.constant.Messages.NOTICE_ACCESS_DENIED;
-import static net.therap.hyperbee.utils.constant.Url.ACCESS_DENIED_URL;
 import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 
 /**

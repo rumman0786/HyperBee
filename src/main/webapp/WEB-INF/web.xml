@@ -49,6 +49,11 @@
         <filter-class>net.therap.hyperbee.web.filter.NoticeFilter</filter-class>
     </filter>
 
+    <filter>
+        <filter-name>buzzHistoryFilter</filter-name>
+        <filter-class>net.therap.hyperbee.web.filter.BuzzHistoryFilter</filter-class>
+    </filter>
+
     <filter-mapping>
         <filter-name>sitemeshFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -65,4 +70,8 @@
         <url-pattern>/notice/*</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>buzzHistoryFilter</filter-name>
+        <url-pattern>/buzz/buzzHistory</url-pattern>
+    </filter-mapping>
 </web-app>
