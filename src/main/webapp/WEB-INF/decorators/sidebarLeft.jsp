@@ -18,14 +18,12 @@
         </div>
     </c:if>
 
-    <div class="well">
-        <div class="panel-success">
-            <div class="panel panel-info">
-                <div class="panel-heading"><fmt:message key="sidebar.left.note.label.stats"/></div>
-                <div class="panel-body">
-                    <fmt:message key="sidebar.left.note.stickyCount"/>${stickyCount} <br>
-                    <fmt:message key="sidebar.left.note.reminderCount"/>${reminderCount}
-                </div>
+    <div class="panel-success">
+        <div class="panel panel-info">
+            <div class="panel-heading"><fmt:message key="sidebar.left.note.label.stats"/></div>
+            <div class="panel-body">
+                <fmt:message key="sidebar.left.note.stickyCount"/>${stickyCount} <br>
+                <fmt:message key="sidebar.left.note.reminderCount"/>${reminderCount}
             </div>
         </div>
     </div>
