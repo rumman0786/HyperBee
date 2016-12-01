@@ -31,7 +31,7 @@ public class HiveDaoImpl implements HiveDao {
 
     @Transactional
     public void saveHive(Hive hive) {
-        em.persist(em.merge(hive));
+        em.persist(hive);
         em.flush();
     }
 
