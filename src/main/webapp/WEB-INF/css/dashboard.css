@@ -5,10 +5,14 @@
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-.row.content { height: 1200px }
+.row.content {
+    height: 100%
+}
 
 .top-padding {
     padding-top: 70px;
+    display: table-cell;
+    height: inherit;
 }
 
 .pre-scrollable {
@@ -18,30 +22,6 @@
 /* Set gray background color and 100% height */
 .sidenav {
     background-color: #f1f1f1;
-    height: 100%;
-}
-
-.sidebar {
-    list-style-type: none;
-    display: block;
-    margin: 0;
-    position:fixed;
-    overflow: auto;
-    font-family: sans-serif;
-}
-
-.sidebar > li > a {
-    float: left;
-    color: black;
-    text-align: left;
-    padding: 15px;
-
-    text-decoration: none;
-    width: 250px;
-}
-
-.sidebar > li > a:hover {
-    background-color: #c0c0c0;
 }
 
 .set-activity-height {

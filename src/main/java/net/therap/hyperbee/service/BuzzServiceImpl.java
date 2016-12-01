@@ -111,6 +111,8 @@ public class BuzzServiceImpl implements BuzzService {
     @Transactional
     public Buzz deactivateBuzz(Buzz buzzToDeactivate) {
         buzzToDeactivate.setDisplayStatus(DisplayStatus.INACTIVE);
+        buzzToDeactivate.setFlagged(false);
+        buzzToDeactivate.setPinned(false);
 
         return buzzDao.saveOrUpdate(buzzToDeactivate);
     }
