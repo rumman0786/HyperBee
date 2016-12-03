@@ -4,7 +4,6 @@ import net.therap.hyperbee.dao.NoteDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.web.helper.NoteHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
@@ -31,15 +30,13 @@ public class NoteServiceImpl implements NoteService {
     @Autowired
     UserDao userDao;
 
-    @Autowired
-    NoteHelper noteHelper;
-
     @Override
     public List<Note> findActiveNotesForUser(int userId) {
 
         return noteDao.findActiveNoteListByUserId(userId);
     }
 
+    @Override
     public List<Note> findTopStickyNoteByUser(int userId) {
         List<Note> noteList = noteDao.findTopStickyNoteByUser(STICKY_NOTE_COUNT_DASHBOARD, userId);
         log.debug("Top Sticky Note Dashboard: " + noteList.size());
