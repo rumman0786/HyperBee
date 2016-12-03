@@ -42,13 +42,14 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     @Transactional
-    public void save(Note note) {
+    public Note save(Note note) {
         if (note.isNew()) {
             em.persist(note);
         } else {
             note = em.merge(note);
         }
         em.flush();
+        return note;
     }
 
     @Override
@@ -84,8 +85,8 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     @Transactional
-    public void markExpiredNoteAsInactive() {
-        em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
+    public int markExpiredNoteAsInactive() {
+        return em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
     }
 
     @Override
