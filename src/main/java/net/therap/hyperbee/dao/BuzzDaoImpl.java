@@ -46,6 +46,7 @@ public class BuzzDaoImpl implements BuzzDao {
     public Buzz saveOrUpdate(Buzz buzz) {
         if (buzz.getId() == 0) {
             em.persist(buzz);
+            em.flush();
         } else {
             return em.merge(buzz);
         }
