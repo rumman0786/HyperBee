@@ -38,15 +38,13 @@ public class SessionHelper {
     private NoteService noteService;
 
     public void persistInSession(User user) {
-        AuthUser authUser = new AuthUser();
-        authUser.setId(user.getId());
-        authUser.setUsername(user.getUsername());
-        authUser.setRoleList(user.getRoleList());
+        AuthUser authUser = new AuthUser(user.getId(), user.getUsername(), user.getRoleList());
 
         ServletRequestAttributes servletRequestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.setAttribute("authUser", authUser);
+
         initializeNoteStatForUser(authUser.getId());
     }
 
@@ -110,8 +108,8 @@ public class SessionHelper {
             int flaggedBuzz = buzzService.getFlaggedCount();
             int pinnedBuzz = buzzService.getPinnedCount();
 
-            setStat("activeUsers", activeUser);
-            setStat("inactiveUsers", inactiveUser);
+            setStat(SESSION_KEY_ACTIVE_USERS, activeUser - USER_ACTIVATION_COUNT);
+            setStat(SESSION_KEY_INACTIVE_USERS, inactiveUser);
 
             setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
             setStat(SESSION_VARIABLE_INACTIVE_BUZZ_COUNT, inactiveBuzz);

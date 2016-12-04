@@ -31,7 +31,7 @@ public class HiveDaoImpl implements HiveDao {
 
     @Transactional
     public void saveHive(Hive hive) {
-        em.persist(em.merge(hive));
+        em.persist(hive);
         em.flush();
     }
 
@@ -69,6 +69,7 @@ public class HiveDaoImpl implements HiveDao {
     }
 
     @Override
+    @Transactional
     public void removeUsersFromHive(Hive hive, List<User> userList) {
         hive.getUserList().removeAll(userList);
         em.flush();

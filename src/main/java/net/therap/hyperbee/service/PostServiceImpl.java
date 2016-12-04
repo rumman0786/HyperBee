@@ -31,7 +31,7 @@ public class PostServiceImpl implements PostService {
         Hive hive = hiveService.findById(hiveId);
         post.setUser(user);
         post.setHive(hive);
-        postDao.insertPost(post);
+        postDao.savePost(post);
     }
 
 

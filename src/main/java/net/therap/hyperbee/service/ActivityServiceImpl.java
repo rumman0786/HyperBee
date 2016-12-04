@@ -7,6 +7,7 @@ import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @Transactional
     public void archive(String summary) {
         Activity activity = new Activity();
 

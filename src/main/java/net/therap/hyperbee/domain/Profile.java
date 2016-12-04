@@ -22,10 +22,6 @@ import static net.therap.hyperbee.utils.constant.Constant.DATE_TIME_FIELD;
  * @since 11/21/16
  */
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "User.SearchUserByEntry",
-                query = "select c from User c where c.username like :name")
-})
 @Table(name = "profile")
 public class Profile implements Serializable {
 

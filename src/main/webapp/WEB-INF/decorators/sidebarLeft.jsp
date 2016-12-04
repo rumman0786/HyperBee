@@ -10,9 +10,10 @@
                     <fmt:message key="sidebar.left.user.title"/>
                 </div>
                 <div class="panel-body">
-                    <fmt:message key="sidebar.left.user.active"/> <c:out value="${activeUsers}"/>
-                    <br>
-                    <fmt:message key="sidebar.left.user.inactive"/> <c:out value="${inactiveUsers}"/>
+                    <h4><fmt:message key="sidebar.left.user.active"/></h4>
+                    <h4><c:out value="${activeUsers}"/></h4>
+                    <h4><fmt:message key="sidebar.left.user.inactive"/></h4>
+                    <h4><c:out value="${inactiveUsers}"/></h4>
                 </div>
             </div>
         </div>

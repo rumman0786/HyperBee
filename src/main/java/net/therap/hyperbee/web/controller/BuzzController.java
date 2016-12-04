@@ -52,9 +52,6 @@ public class BuzzController {
     @Autowired
     private ActivityService activityService;
 
-    @Autowired
-    private Utils utils;
-
     @InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(buzzValidator);
@@ -78,7 +75,7 @@ public class BuzzController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "newBuzz", result);
             redirectAttributes.addFlashAttribute("newBuzz", newBuzz);
 
-            return utils.redirectTo(USER_DASHBOARD_URL);
+            return Utils.redirectTo(USER_DASHBOARD_URL);
         }
 
         AuthUser authUser = sessionHelper.getAuthUserFromSession();
@@ -92,7 +89,7 @@ public class BuzzController {
 
         model.addAttribute("newBuzz", new Buzz());
 
-        return utils.redirectTo(USER_DASHBOARD_URL);
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_FLAG_URL)
@@ -103,7 +100,7 @@ public class BuzzController {
         activityService.archive(Messages.BUZZ_FLAG_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
         log.debug("Flagging of buzz logged in activity log.");
 
-        return utils.redirectTo(USER_DASHBOARD_URL);
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_DEACTIVATE_URL)
@@ -114,7 +111,7 @@ public class BuzzController {
         activityService.archive(Messages.BUZZ_DELETE_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
         log.debug("Deactivation of buzz logged in activity log.");
 
-        return utils.redirectTo(USER_DASHBOARD_URL);
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_PIN_URL)
@@ -125,7 +122,7 @@ public class BuzzController {
         activityService.archive(Messages.BUZZ_PINNED_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
         log.debug("Pinning of buzz logged in activity log.");
 
-        return utils.redirectTo(USER_DASHBOARD_URL);
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_HISTORY_URL)

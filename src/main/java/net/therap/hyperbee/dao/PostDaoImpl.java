@@ -2,10 +2,10 @@ package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Post;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
 /**
  * @author azim
@@ -14,20 +14,15 @@ import java.util.List;
 @Repository
 public class PostDaoImpl implements PostDao {
 
-
     private final String QUERY_GET_POST_ID = "SELECT p FROM Post p WHERE p.hive.id =:id";
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public void insertPost(Post post) {
-        em.persist(em.merge(post));
+    @Transactional
+    public void savePost(Post post) {
+        em.persist(post);
         em.flush();
-    }
-
-    @Override
-    public List<Post> getPostListByHive(int id) {
-        return em.createQuery(QUERY_GET_POST_ID, Post.class).setParameter("id", id).getResultList();
     }
 }
