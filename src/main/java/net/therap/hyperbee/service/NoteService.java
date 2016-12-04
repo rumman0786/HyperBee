@@ -25,4 +25,6 @@ public interface NoteService {
     int getStickyNoteCountForUser(int userId);
 
     int getReminderCountTodayForUser(int userId);
+
+    int getNextWeekReminderCountForUser(int userId);
 }

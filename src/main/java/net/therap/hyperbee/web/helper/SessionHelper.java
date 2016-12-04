@@ -92,11 +92,13 @@ public class SessionHelper {
         int stickyNoteCount = noteService.getStickyNoteCountForUser(userId);
         int reminderCount = noteService.getRemainingReminderCountForUser(userId);
         int reminderCountForToday = noteService.getReminderCountTodayForUser(userId);
+        int reminderCountForNextWeek = noteService.getNextWeekReminderCountForUser(userId);
 
         HttpSession session = getHttpSession();
         session.setAttribute(SESSION_KEY_STICKY_COUNT, stickyNoteCount);
         session.setAttribute(SESSION_KEY_REMINDER_COUNT, reminderCount);
         session.setAttribute(SESSION_KEY_REMINDER_COUNT_TODAY, reminderCountForToday);
+        session.setAttribute(SESSION_KEY_REMINDER_COUNT_NEXT_WEEK, reminderCountForNextWeek);
     }
 
     public void setStatInSession() {
