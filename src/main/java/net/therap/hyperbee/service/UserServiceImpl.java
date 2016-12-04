@@ -20,6 +20,8 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final int USER_ROLE_ID = 2;
+
     @Autowired
     private UserDao userDao;
 
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User createUser(User user) {
-        Role role = roleDao.findRole(2);
+        Role role = roleDao.findRole(USER_ROLE_ID);
 
         List<Role> roleList = new ArrayList<Role>();
         roleList.add(role);
@@ -84,11 +86,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void inactivate(int userId) {
         userDao.inactivate(userId);
     }
 
     @Override
+    @Transactional
     public void activate(int userId) {
         userDao.activate(userId);
     }

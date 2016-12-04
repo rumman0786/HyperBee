@@ -9,7 +9,6 @@ import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,7 +27,7 @@ import static net.therap.hyperbee.utils.constant.Constant.*;
 @Component
 public class SessionHelper {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(SessionHelper.class);
 
     @Autowired
     private BuzzService buzzService;
@@ -40,15 +39,13 @@ public class SessionHelper {
     private NoteService noteService;
 
     public void persistInSession(User user) {
-        AuthUser authUser = new AuthUser();
-        authUser.setId(user.getId());
-        authUser.setUsername(user.getUsername());
-        authUser.setRoleList(user.getRoleList());
+        AuthUser authUser = new AuthUser(user.getId(), user.getUsername(), user.getRoleList());
 
         ServletRequestAttributes servletRequestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
         session.setAttribute("authUser", authUser);
+
         initializeNoteStatForUser(authUser.getId());
     }
 

@@ -29,7 +29,7 @@
         <c:if test="${authUser.isAdmin()}">
             <c:choose>
                 <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
-                    <span class="label label-warning"><a href="/user/inactivate/<c:out value="${user.getId()}"/>"/>Deactivate</span>
+                    <span class="label label-warning"><a href="/user/deactivate/<c:out value="${user.getId()}"/>"/>Deactivate</span>
                 </c:when>
                 <c:otherwise>
                     <span class="label label-warning"><a href="/user/activate/<c:out value="${user.getId()}"/>"/>Activate</span>

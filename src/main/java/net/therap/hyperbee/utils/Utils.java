@@ -17,11 +17,11 @@ public class Utils {
         return System.currentTimeMillis();
     }
 
-    public String redirectTo(String url) {
+    public static String redirectTo(String url) {
         return "redirect:" + url;
     }
 
-    public String hashMd5(String pass) {
+    public static String hashMd5(String pass) {
         try {
             byte[] passBytes = pass.getBytes();
             MessageDigest md = MessageDigest.getInstance("MD5");
