@@ -25,7 +25,7 @@ import static net.therap.hyperbee.utils.constant.Constant.STICKY_NOTE_COUNT_DASH
 @Repository
 public class NoteDaoImpl implements NoteDao {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(NoteDaoImpl.class);
 
     private static final String NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY = "UPDATE note n SET " +
             " n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() AND n.date_remind IS NOT NULL;";

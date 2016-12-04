@@ -32,7 +32,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 public class NoteController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(NoteController.class);
 
     @Autowired
     private NoteService noteService;
