@@ -12,7 +12,7 @@
     <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="search.button"/></button>
     <br>
 
-    <div class="well well-sm">
+    <div class="container">
         <table>
             <tr>
                 <td>
