@@ -1,5 +1,6 @@
 package net.therap.hyperbee.web.helper;
 
+import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.NoteType;
@@ -90,26 +91,14 @@ public class SessionHelper {
     public void initializeNoteStatForUser(int userId) {
         int stickyNoteCount = noteService.getStickyNoteCountForUser(userId);
         int reminderCount = noteService.getRemainingReminderCountForUser(userId);
+        int reminderCountForToday = noteService.getReminderCountTodayForUser(userId);
+        int reminderCountForNextWeek = noteService.getNextWeekReminderCountForUser(userId);
 
         HttpSession session = getHttpSession();
-        session.setAttribute(SESSION_VARIABLE_STICKY_COUNT, stickyNoteCount);
-        session.setAttribute(SESSION_VARIABLE_REMINDER_COUNT, reminderCount);
-    }
-
-    public void incrementNoteCountByOne(NoteType noteType) {
-        if (noteType == NoteType.STICKY) {
-            incrementSessionAttribute(SESSION_VARIABLE_STICKY_COUNT, 1);
-        } else if (noteType == NoteType.REMINDER) {
-            incrementSessionAttribute(SESSION_VARIABLE_REMINDER_COUNT, 1);
-        }
-    }
-
-    public void decrementNoteCountByOne(String noteType) {
-        if (noteType.equals(NOTE_STICKY)) {
-            decrementSessionAttribute(SESSION_VARIABLE_STICKY_COUNT, 1);
-        } else if (noteType.equals(NOTE_REMINDER)) {
-            decrementSessionAttribute(SESSION_VARIABLE_REMINDER_COUNT, 1);
-        }
+        session.setAttribute(SESSION_KEY_STICKY_COUNT, stickyNoteCount);
+        session.setAttribute(SESSION_KEY_REMINDER_COUNT, reminderCount);
+        session.setAttribute(SESSION_KEY_REMINDER_COUNT_TODAY, reminderCountForToday);
+        session.setAttribute(SESSION_KEY_REMINDER_COUNT_NEXT_WEEK, reminderCountForNextWeek);
     }
 
     public void setStatInSession() {

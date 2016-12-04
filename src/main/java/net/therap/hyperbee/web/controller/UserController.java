@@ -131,7 +131,7 @@ public class UserController {
         sessionHelper.persistInSession(retrievedUser);
 
         Hive hive = hiveService.retrieveHiveById(1);
-        hiveService.insertFirstUserToHive(hive, retrievedUser.getId());
+        hiveService.saveFirstUserToHive(hive, retrievedUser.getId());
 
         activityService.archive(SIGNED_UP);
 

@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * @author azim
  * @since 11/27/16
@@ -33,6 +31,8 @@ public class PostServiceImpl implements PostService {
         Hive hive = hiveService.findById(hiveId);
         post.setUser(user);
         post.setHive(hive);
-        postDao.insertPost(post);
+        postDao.savePost(post);
     }
+
+
 }
