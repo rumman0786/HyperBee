@@ -18,6 +18,9 @@ import java.util.List;
 @Service
 public class BuzzServiceImpl implements BuzzService {
 
+    public static final int LATEST_RANGE = 15;
+    public static final int PINNED_RANGE = 5;
+
     @Autowired
     private BuzzDao buzzDao;
 
@@ -30,7 +33,7 @@ public class BuzzServiceImpl implements BuzzService {
     @Override
     @Transactional
     public Buzz saveBuzz(Buzz newBuzz) {
-        newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
+        newBuzz.setBuzzTime(utils.getCurrentTimeMills());
 
         return buzzDao.saveOrUpdate(newBuzz);
     }
@@ -87,22 +90,18 @@ public class BuzzServiceImpl implements BuzzService {
 
     @Override
     public List<Buzz> getLatestBuzz() {
-        return buzzDao.getLatest(15);
+        return buzzDao.getLatest(LATEST_RANGE);
     }
 
     @Override
-    public List<Buzz> getPinnedBuzz() {
-        return buzzDao.getPinnedBuzz(5);
+    public List<Buzz> getLatestPinnedBuzz() {
+        return buzzDao.getLatestPinnedBuzz(PINNED_RANGE);
     }
 
     @Override
     @Transactional
     public Buzz flagBuzz(Buzz buzzToFlag) {
-        if (buzzToFlag.isFlagged()) {
-            buzzToFlag.setFlagged(false);
-        } else {
-            buzzToFlag.setFlagged(true);
-        }
+        buzzToFlag.setFlagged(!buzzToFlag.isFlagged());
 
         return buzzDao.saveOrUpdate(buzzToFlag);
     }
@@ -120,11 +119,7 @@ public class BuzzServiceImpl implements BuzzService {
     @Override
     @Transactional
     public Buzz pinBuzz(Buzz buzzToPin) {
-        if (buzzToPin.isPinned()) {
-            buzzToPin.setPinned(false);
-        } else {
-            buzzToPin.setPinned(true);
-        }
+        buzzToPin.setPinned(!buzzToPin.isFlagged());
 
         return buzzDao.saveOrUpdate(buzzToPin);
     }
