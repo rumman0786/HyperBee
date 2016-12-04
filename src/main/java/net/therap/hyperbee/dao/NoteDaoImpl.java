@@ -5,7 +5,6 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.NoteType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,13 +53,16 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     @Transactional
-    public void markNoteAsInactiveForUser(int userId, int noteId) {
-        em.createNamedQuery("Note.updateDisplayStatusForUser")
+    public int markNoteAsInactiveForUser(int userId, int noteId) {
+        int rowUpdated = em.createNamedQuery("Note.updateDisplayStatusForUser")
                 .setParameter("userId", userId)
                 .setParameter("noteId", noteId)
                 .setParameter("displayStatus", DisplayStatus.INACTIVE)
                 .executeUpdate();
         em.flush();
+        log.trace("markNoteAsInactive- no of rows updated :: ", rowUpdated);
+
+        return rowUpdated;
     }
 
     @Override
@@ -104,8 +106,7 @@ public class NoteDaoImpl implements NoteDao {
         Query query = em.createNativeQuery(NOTE_REMAINING_REMINDER_COUNT_QUERY);
         query.setParameter(1, userId);
 
-        BigInteger count = (BigInteger) query.getSingleResult();
-        return count.intValue();
+        return ((BigInteger) query.getSingleResult()).intValue();
     }
 
     public int getStickyNoteCountForUser(int userId) {
