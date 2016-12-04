@@ -36,7 +36,7 @@
         </c:forEach>
 
         <c:forEach items="${buzzList}" var="buzz">
-            <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.buzzTime.getTime()}" var="buzzDateTime"/>
+            <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.getBuzzTime()}" var="buzzDateTime"/>
             <c:choose>
                 <c:when test="${buzz.isFlagged()}">
                     <tr>

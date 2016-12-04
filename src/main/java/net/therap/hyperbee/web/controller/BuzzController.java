@@ -43,7 +43,7 @@ public class BuzzController {
     private static final String BUZZ_PIN_URL = "/pinBuzz";
     private static final String BUZZ_HISTORY_URL = "/buzzHistory";
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(BuzzController.class);
 
     @Autowired
     private BuzzService buzzService;
@@ -100,7 +100,7 @@ public class BuzzController {
 
     @GetMapping(BUZZ_FLAG_URL)
     public String flagBuzz(int id) {
-        Buzz tempBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
+        Buzz flagBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
         log.debug("Flagged buzz with id = {} and logged in activity log.", id);
 
         return utils.redirectTo(USER_DASHBOARD_URL);
@@ -108,7 +108,7 @@ public class BuzzController {
 
     @GetMapping(BUZZ_DEACTIVATE_URL)
     public String deactivateBuzz(int id) {
-        Buzz tempBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
+        Buzz deactivateBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
         log.debug("Deactivated buzz with id = {} and logged in activity log.", id);
 
         return utils.redirectTo(USER_DASHBOARD_URL);
@@ -116,7 +116,7 @@ public class BuzzController {
 
     @GetMapping(BUZZ_PIN_URL)
     public String pinBuzz(int id) {
-        Buzz tempBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
+        Buzz pinBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
         log.debug("Pinned buzz with id = {} and logged in activity log.", id);
 
         return utils.redirectTo(USER_DASHBOARD_URL);

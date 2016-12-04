@@ -129,7 +129,7 @@ public class BuzzServiceImpl implements BuzzService {
     @Override
     @Transactional
     public Buzz pinBuzz(Buzz buzzToPin) {
-        buzzToPin.setPinned(!buzzToPin.isFlagged());
+        buzzToPin.setPinned(!buzzToPin.isPinned());
 
         activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_PINNED_SUCCESS, buzzToPin.getId()));
 
