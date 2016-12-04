@@ -34,7 +34,7 @@ public interface Constant {
 
     String PROFILE_ATTRIBUTE = "profile";
     String USER_ATTRIBUTE = "user";
-    String AUTH_USER_ATTRIBUTE = "authUser";
+    String SESSION_KEY_AUTH_USER = "authUser";
 
     String SESSION_KEY_STICKY_COUNT = "stickyCount";
     String SESSION_KEY_REMINDER_COUNT = "reminderCount";

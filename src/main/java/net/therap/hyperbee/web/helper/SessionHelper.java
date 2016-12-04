@@ -43,7 +43,7 @@ public class SessionHelper {
         ServletRequestAttributes servletRequestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
-        session.setAttribute("authUser", authUser);
+        session.setAttribute(SESSION_KEY_AUTH_USER, authUser);
 
         initializeNoteStatForUser(authUser.getId());
     }
@@ -54,7 +54,7 @@ public class SessionHelper {
 
         HttpSession session = servletRequestAttributes.getRequest().getSession();
 
-        return (AuthUser) session.getAttribute("authUser");
+        return (AuthUser) session.getAttribute(SESSION_KEY_AUTH_USER);
     }
 
     public void invalidateSession() {
