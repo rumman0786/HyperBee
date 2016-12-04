@@ -33,7 +33,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @RequestMapping(value = NOTICE_BASE_URL)
 public class NoticeController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(NoticeController.class);
 
     @Autowired
     private NoticeService noticeService;

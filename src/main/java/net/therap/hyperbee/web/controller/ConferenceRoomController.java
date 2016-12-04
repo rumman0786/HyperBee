@@ -27,7 +27,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @RequestMapping(value = CONFERENCE_ROOM_BASE_URL)
 public class ConferenceRoomController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(ConferenceRoomController.class);
 
     @Autowired
     private ConferenceRoomService conferenceRoomService;
