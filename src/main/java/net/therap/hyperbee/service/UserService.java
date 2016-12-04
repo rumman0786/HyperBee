@@ -25,6 +25,8 @@ public interface UserService {
 
     List<User> findActiveUsers();
 
+    List<User> searchByEntry(String entry);
+
     void inactivate(int userId);
 
     void activate(int userId);

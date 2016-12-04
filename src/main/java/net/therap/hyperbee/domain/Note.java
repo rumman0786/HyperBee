@@ -174,6 +174,7 @@ public class Note implements Serializable {
         return (noteType == REMINDER) ? NOTE_REMINDER : NOTE_STICKY;
     }
 
+    @Override
     public String toString() {
 
         return "Title: " + getTitle() + "\n Description: " + getDescription();

@@ -94,7 +94,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3><fmt:message key="hive.member"/> ${hive.userList.size()} </h3>
                         <h4><fmt:message key="hive.admin"/>
-                            <small>${creator.username}</small>
+                            <small>${hive.creator.username}</small>
                         </h4>
                     </div>
                     <div class="panel-body">

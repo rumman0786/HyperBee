@@ -23,8 +23,10 @@
         <div class="panel panel-info">
             <div class="panel-heading"><fmt:message key="sidebar.left.note.label.stats"/></div>
             <div class="panel-body">
-                <fmt:message key="sidebar.left.note.stickyCount"/>${stickyCount} <br>
-                <fmt:message key="sidebar.left.note.reminderCount"/>${reminderCount}
+                <fmt:message key="sidebar.left.note.stickyCount"/> ${stickyCount} <br>
+                <fmt:message key="sidebar.left.note.reminderCount"/> ${reminderCount}<br>
+                <fmt:message key="sidebar.left.note.reminderCountToday"/> ${remindCountToday}<br>
+                <fmt:message key="sidebar.left.note.reminderCountNextWeek"/> ${remindCountNextWeek}<br>
             </div>
         </div>
     </div>

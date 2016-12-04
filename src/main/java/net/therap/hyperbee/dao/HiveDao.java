@@ -12,23 +12,23 @@ import java.util.List;
  */
 public interface HiveDao {
 
-    public void saveHive(Hive hive);
+    void saveHive(Hive hive);
 
-    public List<User> getUserListById(List<Integer> idList);
+    List<User> getUserListById(List<Integer> idList);
 
-    public Hive retrieveHiveById(int id);
+    Hive retrieveHiveById(int id);
 
-    public void addUsersToHive(Hive hive, List<User> userList);
+    void addUsersToHive(Hive hive, List<User> userList);
 
-    public Hive getHiveByHiveName(String name);
+    Hive getHiveByHiveName(String name);
 
-    public List<User> findUserNotInList(List<User> userList);
+    List<User> findUserNotInList(List<User> userList);
 
-    public Hive findById(int hiveId);
+    Hive findById(int hiveId);
 
-    public void removeUsersFromHive(Hive hive, List<User> userList);
+    void removeUsersFromHive(Hive hive, List<User> userList);
 
-    public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range);
+    List<Notice> getLastFiveNotice(List<Notice> noticeList, int range);
 
-    public List<Hive> findAll();
+    List<Hive> findAll();
 }
