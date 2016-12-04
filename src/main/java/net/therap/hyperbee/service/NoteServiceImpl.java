@@ -77,4 +77,10 @@ public class NoteServiceImpl implements NoteService {
 
         return noteDao.getStickyNoteCountForUser(userId);
     }
+
+    @Override
+    public int getReminderCountTodayForUser(int userId) {
+
+        return noteDao.getReminderCountTodayForUser(userId);
+    }
 }

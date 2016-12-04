@@ -9,7 +9,6 @@ import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,7 +81,6 @@ public class NoteController {
                            Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
-            log.debug("ERROR IN SAVING NOTE");
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "noteCommand", bindingResult);
             redirectAttributes.addFlashAttribute("noteCommand", note);
             activityService.archive(NOTE_SAVE_FAILED);
@@ -103,14 +101,15 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
         log.debug("Note successfully saved: userId" + userId + "note: " + note);
-        sessionHelper.incrementNoteCountByOne(note.getNoteType());
+        sessionHelper.initializeNoteStatForUser(userId);
 
         return utils.redirectTo(DONE_URL);
     }
 
     @PostMapping(NOTE_DELETE_URL)
-    public String noteDelete(@PathVariable("id") int noteId, @PathVariable("type") String noteType, HttpSession session,
-                             RedirectAttributes redirectAttributes, @ModelAttribute("noteCommand") Note note, Model model) {
+    public String noteDelete(@PathVariable("id") int noteId, @PathVariable("type") String noteType,
+                             HttpSession session, RedirectAttributes redirectAttributes,
+                             @ModelAttribute("noteCommand") Note note, Model model) {
 
         int userId = sessionHelper.getUserIdFromSession();
         noteService.markNoteAsInactiveForUser(userId, noteId);
@@ -119,7 +118,7 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("messageStyle", FAILURE_HTML_CLASS);
 
         activityService.archive(NOTE_DELETE_ACTIVITY + " " + noteType);
-        sessionHelper.decrementNoteCountByOne(noteType);
+        sessionHelper.initializeNoteStatForUser(userId);
 
         log.debug("Note deleted: userId " + userId + " noteId: " + noteId + " noteType: " + noteType);
 

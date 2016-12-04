@@ -36,6 +36,9 @@ public class NoteDaoImpl implements NoteDao {
     private static final String NOTE_STICKY_COUNT_QUERY = "SELECT COUNT(*) FROM note n " +
             " WHERE n.type='STICKY' AND n.display_status= 'ACTIVE' AND n.user_id=?;";
 
+    private static final String NOTE_REMINDER_COUNT_TODAY = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
+            " AND n.date_remind BETWEEN now() AND DATE_ADD(NOW(), INTERVAL 1 DAY) AND n.user_id=?;";
+
     @PersistenceContext
     EntityManager em;
 
@@ -102,6 +105,7 @@ public class NoteDaoImpl implements NoteDao {
                 .getResultList();
     }
 
+    @Override
     public int getRemainingReminderCountForUser(int userId) {
         Query query = em.createNativeQuery(NOTE_REMAINING_REMINDER_COUNT_QUERY);
         query.setParameter(1, userId);
@@ -109,12 +113,19 @@ public class NoteDaoImpl implements NoteDao {
         return ((BigInteger) query.getSingleResult()).intValue();
     }
 
+    @Override
     public int getStickyNoteCountForUser(int userId) {
         Query query = em.createNativeQuery(NOTE_STICKY_COUNT_QUERY);
         query.setParameter(1, userId);
 
-        BigInteger count = (BigInteger) query.getSingleResult();
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
 
-        return count.intValue();
+    @Override
+    public int getReminderCountTodayForUser(int userId) {
+        Query query = em.createNativeQuery(NOTE_REMINDER_COUNT_TODAY);
+        query.setParameter(1, userId);
+
+        return ((BigInteger) query.getSingleResult()).intValue();
     }
 }
