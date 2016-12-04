@@ -55,7 +55,7 @@ public class NoticeController {
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
+        binder.addValidators(validator);
 
         binder.registerCustomEditor(Hive.class, "hiveList", new PropertyEditorSupport() {
             @Override

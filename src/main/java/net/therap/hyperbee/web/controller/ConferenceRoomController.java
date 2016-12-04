@@ -37,7 +37,7 @@ public class ConferenceRoomController {
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
+        binder.addValidators(validator);
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
     }
 
