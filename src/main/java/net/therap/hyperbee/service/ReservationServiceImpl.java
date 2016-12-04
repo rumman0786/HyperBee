@@ -5,6 +5,7 @@ import net.therap.hyperbee.domain.Reservation;
 import net.therap.hyperbee.web.helper.ReservationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class ReservationServiceImpl implements ReservationService {
     private ReservationHelper reservationHelper;
 
     @Override
+    @Transactional
     public void saveReservation(Reservation reservation) {
         reservationDao.saveOrUpdate(reservation);
         reservationHelper.persistInSession();
@@ -38,6 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional
     public void delete(int reservationId) {
         reservationDao.delete(reservationId);
         reservationHelper.persistInSession();
