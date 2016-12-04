@@ -24,7 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.Url.BUZZ_BASE_URL;
+import static net.therap.hyperbee.utils.constant.Url.USER_DASHBOARD_URL;
 
 /**
  * @author zoha
@@ -34,6 +35,13 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 
 public class BuzzController {
+
+    private static final String BUZZ_VIEW_URL = "/buzzList";
+    private static final String BUZZ_CREATE_URL = "/sendBuzz";
+    private static final String BUZZ_FLAG_URL = "/flagBuzz";
+    private static final String BUZZ_DEACTIVATE_URL = "/deactivateBuzz";
+    private static final String BUZZ_PIN_URL = "/pinBuzz";
+    private static final String BUZZ_HISTORY_URL = "/buzzHistory";
 
     private static final Logger log = LogManager.getLogger(SimpleLogger.class);
 
@@ -93,7 +101,7 @@ public class BuzzController {
     @GetMapping(BUZZ_FLAG_URL)
     public String flagBuzz(int id) {
         Buzz tempBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
-        log.debug("Flagged buzz and logged in activity log.");
+        log.debug("Flagged buzz with id = {} and logged in activity log.", id);
 
         return utils.redirectTo(USER_DASHBOARD_URL);
     }
@@ -101,7 +109,7 @@ public class BuzzController {
     @GetMapping(BUZZ_DEACTIVATE_URL)
     public String deactivateBuzz(int id) {
         Buzz tempBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
-        log.debug("Deactivated buzz and logged in activity log.");
+        log.debug("Deactivated buzz with id = {} and logged in activity log.", id);
 
         return utils.redirectTo(USER_DASHBOARD_URL);
     }
@@ -109,7 +117,7 @@ public class BuzzController {
     @GetMapping(BUZZ_PIN_URL)
     public String pinBuzz(int id) {
         Buzz tempBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
-        log.debug("Pinned buzz and logged in activity log.");
+        log.debug("Pinned buzz with id = {} and logged in activity log.", id);
 
         return utils.redirectTo(USER_DASHBOARD_URL);
     }

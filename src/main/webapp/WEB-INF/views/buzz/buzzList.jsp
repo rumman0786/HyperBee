@@ -7,7 +7,7 @@
 <div class="pre-scrollable">
     <table class="table table-striped table-bordered">
         <c:forEach items="${pinnedBuzzList}" var="buzz">
-            <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.buzzTime.getTime()}" var="buzzDateTime"/>
+            <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.getBuzzTime()}" var="buzzDateTime"/>
             <c:choose>
                 <c:when test="${buzz.isFlagged()}">
                     <tr class="info">
