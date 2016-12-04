@@ -11,7 +11,6 @@ import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -117,8 +116,7 @@ public class NoticeController {
             return "redirect:" + NOTICE_BASE_URL;
         }
 
-        noticeService.saveNotice(notice);
-        activityService.archive(NOTICE_SAVED);
+        noticeService.saveNotice(notice, NOTICE_SAVED);
         log.debug(NOTICE_SAVED);
 
         redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
@@ -160,8 +158,7 @@ public class NoticeController {
             return "redirect:" + NOTICE_BASE_URL;
         }
 
-        noticeService.saveNotice(notice);
-        activityService.archive(NOTICE_MODIFIED);
+        noticeService.saveNotice(notice, NOTICE_MODIFIED);
         log.debug(NOTICE_MODIFIED);
 
         redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
@@ -173,8 +170,7 @@ public class NoticeController {
 
     @PostMapping(value = NOTICE_DELETE_URL)
     public String deleteNotice(@RequestParam("id") int noticeId) {
-        noticeService.delete(noticeId);
-        activityService.archive(NOTICE_DELETED);
+        noticeService.delete(noticeId, NOTICE_DELETED);
         log.debug(NOTICE_DELETED);
 
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
