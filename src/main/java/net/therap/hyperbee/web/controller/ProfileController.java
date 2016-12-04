@@ -78,10 +78,10 @@ public class ProfileController {
         User user = userService.findById(id);
 
         if (user.getProfile() == null) {
-                Profile profile = new Profile();
-                model.addAttribute(PROFILE_ATTRIBUTE, profile);
-                profileService.saveProfileForUser(profile, authUser.getId());
-                model.addAttribute(USER_ATTRIBUTE, user);
+            Profile profile = new Profile();
+            model.addAttribute(PROFILE_ATTRIBUTE, profile);
+            profileService.saveProfileForUser(profile, authUser.getId());
+            model.addAttribute(USER_ATTRIBUTE, user);
         } else {
             Profile profile = user.getProfile();
             model.addAttribute(PROFILE_ATTRIBUTE, profile);
@@ -104,9 +104,8 @@ public class ProfileController {
                               RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
-
-            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "profile", result);
-            redirectAttributes.addFlashAttribute("profile", profile);
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "profile", result)
+                              .addFlashAttribute("profile", profile);
 
             return utils.redirectTo(PROFILE_URL + PROFILE_EDIT_URL);
         }
@@ -178,6 +177,7 @@ public class ProfileController {
         List<User> userList;
 
         if (authUser.isAdmin()) {
+            userList = userService.findAll();
             if (user == null) {
                 model.addAttribute("message", NO_USER_FOUND);
             } else {
@@ -186,6 +186,7 @@ public class ProfileController {
                 model.addAttribute(USER_ATTRIBUTE, user);
             }
         } else {
+            userList = userService.findActiveUsers();
             if (user == null || user.getDisplayStatus() == DisplayStatus.INACTIVE) {
                 model.addAttribute("message", NO_USER_FOUND);
             } else {
@@ -193,12 +194,6 @@ public class ProfileController {
                 model.addAttribute(PROFILE_ATTRIBUTE, profile);
                 model.addAttribute(USER_ATTRIBUTE, user);
             }
-        }
-
-        if (authUser.isAdmin()) {
-            userList = userService.findAll();
-        } else {
-            userList = userService.findActiveUsers();
         }
         model.addAttribute("userList", userList);
         activityService.archive(STALK_PROFILE_ACTIVITY);
