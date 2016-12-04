@@ -25,7 +25,7 @@ import static net.therap.hyperbee.utils.constant.Constant.STICKY_NOTE_COUNT_DASH
 @Repository
 public class NoteDaoImpl implements NoteDao {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(NoteDaoImpl.class);
 
     private static final String NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY = "UPDATE note n SET " +
             " n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() AND n.date_remind IS NOT NULL;";
@@ -42,13 +42,14 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     @Transactional
-    public void save(Note note) {
+    public Note save(Note note) {
         if (note.isNew()) {
             em.persist(note);
         } else {
             note = em.merge(note);
         }
         em.flush();
+        return note;
     }
 
     @Override
@@ -84,8 +85,8 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     @Transactional
-    public void markExpiredNoteAsInactive() {
-        em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
+    public int markExpiredNoteAsInactive() {
+        return em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
     }
 
     @Override

@@ -4,7 +4,6 @@ import net.therap.hyperbee.dao.NoteDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.web.helper.NoteHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.simple.SimpleLogger;
@@ -23,16 +22,13 @@ import static net.therap.hyperbee.utils.constant.Constant.STICKY_NOTE_COUNT_DASH
 @Service
 public class NoteServiceImpl implements NoteService {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(NoteServiceImpl.class);
 
     @Autowired
-    NoteDao noteDao;
+    private NoteDao noteDao;
 
     @Autowired
-    UserDao userDao;
-
-    @Autowired
-    NoteHelper noteHelper;
+    private UserDao userDao;
 
     @Override
     public List<Note> findActiveNotesForUser(int userId) {
@@ -40,19 +36,21 @@ public class NoteServiceImpl implements NoteService {
         return noteDao.findActiveNoteListByUserId(userId);
     }
 
+    @Override
     public List<Note> findTopStickyNoteByUser(int userId) {
+        log.debug("userId sticky note: " + userId);
         List<Note> noteList = noteDao.findTopStickyNoteByUser(STICKY_NOTE_COUNT_DASHBOARD, userId);
-        log.debug("Top Sticky Note Dashboard: " + noteList.size());
 
         return noteList;
     }
 
     @Override
     @Transactional
-    public void saveNoteForUser(Note note, int userId) {
+    public Note saveNoteForUser(Note note, int userId) {
         User user = userDao.findById(userId);
         note.setUser(user);
-        noteDao.save(note);
+
+        return noteDao.save(note);
     }
 
     @Override
