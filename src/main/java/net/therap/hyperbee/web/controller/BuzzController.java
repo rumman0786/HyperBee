@@ -50,19 +50,16 @@ public class BuzzController {
     private BuzzValidator buzzValidator;
 
     @Autowired
-    private ActivityService activityService;
-
-    @Autowired
     private Utils utils;
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {
-        binder.setValidator(buzzValidator);
+        binder.addValidators(buzzValidator);
     }
 
     @GetMapping(BUZZ_VIEW_URL)
     public void viewLatestBuzz(Model model) {
-        model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
+        model.addAttribute("pinnedBuzzList", buzzService.getLatestPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         log.debug("Passing Buzz Lists to view for displaying.");
@@ -85,10 +82,8 @@ public class BuzzController {
 
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);
-        log.debug("Created new buzz.");
 
-        activityService.archive(Messages.BUZZ_SEND_SUCCESS.replaceAll("<message>", newBuzz.getMessage()));
-        log.debug("Creation of buzz logged in activity log.");
+        log.debug("Created new buzz and logged in activity log.");
 
         model.addAttribute("newBuzz", new Buzz());
 
@@ -98,10 +93,7 @@ public class BuzzController {
     @GetMapping(BUZZ_FLAG_URL)
     public String flagBuzz(int id) {
         Buzz tempBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
-        log.debug("Flagged buzz with id = " + id + ".");
-
-        activityService.archive(Messages.BUZZ_FLAG_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
-        log.debug("Flagging of buzz logged in activity log.");
+        log.debug("Flagged buzz and logged in activity log.");
 
         return utils.redirectTo(USER_DASHBOARD_URL);
     }
@@ -109,10 +101,7 @@ public class BuzzController {
     @GetMapping(BUZZ_DEACTIVATE_URL)
     public String deactivateBuzz(int id) {
         Buzz tempBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
-        log.debug("Deactivated buzz with id = " + id + ".");
-
-        activityService.archive(Messages.BUZZ_DELETE_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
-        log.debug("Deactivation of buzz logged in activity log.");
+        log.debug("Deactivated buzz and logged in activity log.");
 
         return utils.redirectTo(USER_DASHBOARD_URL);
     }
@@ -120,10 +109,7 @@ public class BuzzController {
     @GetMapping(BUZZ_PIN_URL)
     public String pinBuzz(int id) {
         Buzz tempBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
-        log.debug("Pinned buzz with id = " + id + ".");
-
-        activityService.archive(Messages.BUZZ_PINNED_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
-        log.debug("Pinning of buzz logged in activity log.");
+        log.debug("Pinned buzz and logged in activity log.");
 
         return utils.redirectTo(USER_DASHBOARD_URL);
     }
@@ -145,9 +131,6 @@ public class BuzzController {
         model.addAttribute("page", "buzz");
 
         log.debug("Sending buzz list as per requirement for viewing history.");
-
-        activityService.archive(Messages.BUZZ_HISTORY_REQUEST);
-        log.debug("Retrieval of buzz history logged in activity log");
 
         return BUZZ_BASE_URL + BUZZ_HISTORY_URL;
     }

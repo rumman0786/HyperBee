@@ -1,10 +1,13 @@
 package net.therap.hyperbee.service;
 
+import net.therap.hyperbee.dao.ActivityDao;
 import net.therap.hyperbee.dao.BuzzDao;
 import net.therap.hyperbee.dao.UserDao;
+import net.therap.hyperbee.domain.Activity;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
+import net.therap.hyperbee.utils.constant.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,15 +31,7 @@ public class BuzzServiceImpl implements BuzzService {
     private UserDao userDao;
 
     @Autowired
-    private Utils utils;
-
-    @Override
-    @Transactional
-    public Buzz saveBuzz(Buzz newBuzz) {
-        newBuzz.setBuzzTime(utils.getCurrentTimeMills());
-
-        return buzzDao.saveOrUpdate(newBuzz);
-    }
+    private ActivityService activityService;
 
     @Override
     public List<Buzz> getAllBuzz() {
@@ -100,8 +95,21 @@ public class BuzzServiceImpl implements BuzzService {
 
     @Override
     @Transactional
+    public Buzz saveBuzz(Buzz newBuzz) {
+        newBuzz.setBuzzTime(Utils.getCurrentTimeMills());
+        buzzDao.saveOrUpdate(newBuzz);
+
+        activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_SEND_SUCCESS, newBuzz.getMessage()));
+
+        return newBuzz;
+    }
+
+    @Override
+    @Transactional
     public Buzz flagBuzz(Buzz buzzToFlag) {
         buzzToFlag.setFlagged(!buzzToFlag.isFlagged());
+
+        activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_FLAG_SUCCESS, buzzToFlag.getId()));
 
         return buzzDao.saveOrUpdate(buzzToFlag);
     }
@@ -113,6 +121,8 @@ public class BuzzServiceImpl implements BuzzService {
         buzzToDeactivate.setFlagged(false);
         buzzToDeactivate.setPinned(false);
 
+        activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_DELETE_SUCCESS, buzzToDeactivate.getId()));
+
         return buzzDao.saveOrUpdate(buzzToDeactivate);
     }
 
@@ -120,6 +130,8 @@ public class BuzzServiceImpl implements BuzzService {
     @Transactional
     public Buzz pinBuzz(Buzz buzzToPin) {
         buzzToPin.setPinned(!buzzToPin.isFlagged());
+
+        activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_PINNED_SUCCESS, buzzToPin.getId()));
 
         return buzzDao.saveOrUpdate(buzzToPin);
     }
