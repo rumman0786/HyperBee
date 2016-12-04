@@ -32,6 +32,9 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 public class NoteController {
 
     private static final Logger log = LogManager.getLogger(NoteController.class);
+    private static final String NOTE_VIEW = "note/note_list";
+    private static final String NOTE_VIEW_STICKY_URL = "/note/view/sticky";
+    private static final String NOTE_VIEW_REMINDER_URL = "/note/view/reminder";
 
     @Autowired
     private NoteService noteService;
@@ -123,5 +126,25 @@ public class NoteController {
         log.debug("Note deleted: userId " + userId + " noteId: " + noteId + " noteType: " + noteType);
 
         return utils.redirectTo(DONE_URL);
+    }
+
+    @GetMapping(NOTE_VIEW_STICKY_URL)
+    public String viewAllStickyNote(Model model) {
+
+        int userId = sessionHelper.getUserIdFromSession();
+        List<Note> stickyNoteList = noteService.findStickyNoteByUser(userId);
+        model.addAttribute("selectedNoteList", stickyNoteList);
+        model.addAttribute("page", "Sticky Note");
+        return NOTE_VIEW;
+    }
+
+    @GetMapping(NOTE_VIEW_REMINDER_URL)
+    public String viewAllReminderNote(Model model) {
+
+        int userId = sessionHelper.getUserIdFromSession();
+        List<Note> stickyNoteList = noteService.getReminderNoteForTodayByUser(userId);
+        model.addAttribute("selectedNoteList", stickyNoteList);
+        model.addAttribute("page", "Reminder Note");
+        return NOTE_VIEW;
     }
 }

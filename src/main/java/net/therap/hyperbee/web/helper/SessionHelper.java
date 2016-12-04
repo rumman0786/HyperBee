@@ -1,16 +1,13 @@
 package net.therap.hyperbee.web.helper;
 
-import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import net.therap.hyperbee.domain.enums.NoteType;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.NoteService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -29,7 +26,7 @@ import static net.therap.hyperbee.utils.constant.Constant.*;
 @Component
 public class SessionHelper {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(SessionHelper.class);
 
     @Autowired
     private BuzzService buzzService;
