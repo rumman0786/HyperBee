@@ -122,10 +122,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> searchUserByEntry(String entry) {
-        return em.createNamedQuery("User.SearchUserByEntry")
-                .setParameter("name", entry+"%")
+
+        return em.createNamedQuery("User.SearchByUserInput")
+                .setParameter("name", entry + "%")
                 .getResultList();
-    }
+    } // written by duity
 
     @Override
     @Transactional

@@ -20,8 +20,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import static net.therap.hyperbee.utils.constant.Constant.*;
 import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
 import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
+import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author rayed
@@ -44,15 +46,9 @@ public class UserController {
 
     private static final String USER_DASHBOARD_VIEW = "dashboard";
 
-    private static final String USER_DASHBOARD_URL = "/user/dashboard";
-
     private static final String USER_ACTIVATE_URL = "/user/activate/{userId}";
 
     private static final String USER_DEACTIVATE_URL = "/user/deactivate/{userId}";
-
-    private static final String PROFILE_URL = "/profile";
-
-    private static final String SEARCH_URL = "/search";
 
     @Autowired
     BuzzService buzzService;
@@ -190,8 +186,8 @@ public class UserController {
     public String inactivateUser(@PathVariable int userId) {
         userService.inactivate(userId);
 
-        sessionHelper.decrementSessionAttribute("activeUsers", 1);
-        sessionHelper.incrementSessionAttribute("inactiveUsers", 1);
+        sessionHelper.decrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
+        sessionHelper.incrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
 
         return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }
@@ -200,8 +196,8 @@ public class UserController {
     public String activateUser(@PathVariable int userId) {
         userService.activate(userId);
 
-        sessionHelper.incrementSessionAttribute("activeUsers", 1);
-        sessionHelper.decrementSessionAttribute("inactiveUsers", 1);
+        sessionHelper.incrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
+        sessionHelper.decrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
 
         return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }

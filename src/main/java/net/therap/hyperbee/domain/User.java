@@ -21,7 +21,9 @@ import static net.therap.hyperbee.utils.constant.Constant.DISPLAY_STATUS_FIELD;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "User.findByUsernameOrEmail",
-                    query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email ")
+                    query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email "),
+        @NamedQuery(name = "User.SearchByUserInput",
+                    query = "SELECT u FROM User u WHERE u.username like :name")
 })
 @Table(name = "user")
 public class User implements Serializable {

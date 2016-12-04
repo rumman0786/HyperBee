@@ -1,9 +1,7 @@
 package net.therap.hyperbee.web.helper;
 
-import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import net.therap.hyperbee.domain.enums.NoteType;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.NoteService;
 import net.therap.hyperbee.service.UserService;
@@ -110,8 +108,8 @@ public class SessionHelper {
             int flaggedBuzz = buzzService.getFlaggedCount();
             int pinnedBuzz = buzzService.getPinnedCount();
 
-            setStat("activeUsers", activeUser);
-            setStat("inactiveUsers", inactiveUser);
+            setStat(SESSION_KEY_ACTIVE_USERS, activeUser - USER_ACTIVATION_COUNT);
+            setStat(SESSION_KEY_INACTIVE_USERS, inactiveUser);
 
             setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
             setStat(SESSION_VARIABLE_INACTIVE_BUZZ_COUNT, inactiveBuzz);
