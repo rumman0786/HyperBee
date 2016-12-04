@@ -2,6 +2,7 @@ package net.therap.hyperbee.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,10 @@ public class ConferenceRoom implements Serializable {
 
     @OneToMany(mappedBy = "conferenceRoom",cascade = {CascadeType.ALL})
     private List<Reservation> reservationList;
+
+    public ConferenceRoom() {
+        this.reservationList = new ArrayList<>();
+    }
 
     public int getId() {
         return id;
