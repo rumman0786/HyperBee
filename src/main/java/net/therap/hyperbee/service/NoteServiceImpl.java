@@ -83,4 +83,10 @@ public class NoteServiceImpl implements NoteService {
 
         return noteDao.getReminderCountTodayForUser(userId);
     }
+
+    @Override
+    public int getNextWeekReminderCountForUser(int userId) {
+
+        return noteDao.getNextWeekReminderCountForUser(userId);
+    }
 }

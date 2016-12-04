@@ -29,4 +29,6 @@ public interface NoteDao {
     int getStickyNoteCountForUser(int userId);
 
     int getReminderCountTodayForUser(int userId);
+
+    public int getNextWeekReminderCountForUser(int userId);
 }

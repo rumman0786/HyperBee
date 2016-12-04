@@ -39,6 +39,7 @@ public interface Constant {
     String SESSION_KEY_STICKY_COUNT = "stickyCount";
     String SESSION_KEY_REMINDER_COUNT = "reminderCount";
     String SESSION_KEY_REMINDER_COUNT_TODAY = "remindCountToday";
+    String SESSION_KEY_REMINDER_COUNT_NEXT_WEEK = "remindCountNextWeek";
 
     String SESSION_VARIABLE_ACTIVE_BUZZ_COUNT = "activeBuzz";
     String SESSION_VARIABLE_INACTIVE_BUZZ_COUNT = "inactiveBuzz";

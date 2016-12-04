@@ -30,14 +30,17 @@ public class NoteDaoImpl implements NoteDao {
             " n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() AND n.date_remind IS NOT NULL;";
 
     private static final String NOTE_REMAINING_REMINDER_COUNT_QUERY = "SELECT COUNT(*) " +
-            " FROM note n WHERE n.type='REMINDER' AND DATE(n.date_remind) >= curdate() AND n.display_status = 'ACTIVE' " +
-            " AND n.user_id=?;";
+            " FROM note n WHERE n.type='REMINDER' AND DATE(n.date_remind) >= curdate() " +
+            " AND n.display_status = 'ACTIVE' AND n.user_id=?;";
 
     private static final String NOTE_STICKY_COUNT_QUERY = "SELECT COUNT(*) FROM note n " +
             " WHERE n.type='STICKY' AND n.display_status= 'ACTIVE' AND n.user_id=?;";
 
     private static final String NOTE_REMINDER_COUNT_TODAY = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
             " AND DATE(n.date_remind)=curdate() AND n.user_id=?;";
+
+    private static final String NOTE_REMINDER_COUNT_WEEK = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
+            " AND DATE(n.date_remind) BETWEEN curdate() AND DATE_ADD(curdate(), INTERVAL 1 WEEK) AND n.user_id=?;";
 
     @PersistenceContext
     EntityManager em;
@@ -124,6 +127,14 @@ public class NoteDaoImpl implements NoteDao {
     @Override
     public int getReminderCountTodayForUser(int userId) {
         Query query = em.createNativeQuery(NOTE_REMINDER_COUNT_TODAY);
+        query.setParameter(1, userId);
+
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public int getNextWeekReminderCountForUser(int userId) {
+        Query query = em.createNativeQuery(NOTE_REMINDER_COUNT_WEEK);
         query.setParameter(1, userId);
 
         return ((BigInteger) query.getSingleResult()).intValue();
