@@ -84,6 +84,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> searchByEntry(String entry) {
+        return userDao.searchUserByEntry(entry);
+    }
+
+    @Override
     public void inactivate(int userId) {
         userDao.inactivate(userId);
     }

@@ -120,6 +120,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> searchUserByEntry(String entry) {
+        return em.createNamedQuery("User.SearchUserByEntry")
+                .setParameter("name", entry+"%")
+                .getResultList();
+    }
+
+    @Override
     @Transactional
     public void inactivate(int userId) {
         em.createQuery(UPDATE_STATUS_TO_INACTIVE)

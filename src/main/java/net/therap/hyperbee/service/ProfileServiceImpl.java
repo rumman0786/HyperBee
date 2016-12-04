@@ -1,15 +1,12 @@
 package net.therap.hyperbee.service;
 
-import net.therap.hyperbee.dao.UserDao;
+import net.therap.hyperbee.dao.ProfileDao;
 import net.therap.hyperbee.domain.Profile;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.web.helper.ImageUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.springframework.web.multipart.MultipartFile;
 
 import static net.therap.hyperbee.utils.constant.Messages.PROFILE_SAVE_MESSAGE;
 
@@ -20,35 +17,44 @@ import static net.therap.hyperbee.utils.constant.Messages.PROFILE_SAVE_MESSAGE;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @Autowired
-    private UserDao userDao;
-
     @Autowired
     private ImageUploader imageUploader;
 
+    @Autowired
+    private ProfileDao profileDao;
+
     @Override
-    public Profile findProfileById(int id) {
-        return em.find(Profile.class, id);
+    public String saveProfileForUser(Profile profile, int userId) {
+        profileDao.save(profile, userId);
+
+        return PROFILE_SAVE_MESSAGE;
     }
 
     @Override
-    @Transactional
-    public String saveProfileForUser(Profile profile, int userId) {
-        User user = userDao.findById(userId);
+    public Profile saveFileForUser(MultipartFile coverFile, MultipartFile profileFile, User user, Profile profile) {
 
-        if (user.getProfile() == null) {
-            user.setProfile(profile);
-            em.persist(user);
-            em.flush();
+        if (profileFile == null || profileFile.isEmpty()) {
+            profile.setImagePath(user.getProfile().getImagePath());
         } else {
-            user.setProfile(profile);
-            em.merge(user);
-            em.flush();
+            String filename = user.getUsername().replaceAll(" ", "") + profileFile.getOriginalFilename();
+            profile.setImagePath(filename);
+            if (!profileFile.isEmpty()) {
+                imageUploader.createImagesDirIfNeeded();
+                imageUploader.createImage(filename, profileFile);
+            }
         }
 
-        return PROFILE_SAVE_MESSAGE;
+        if (coverFile == null || coverFile.isEmpty()) {
+            profile.setCoverImage(user.getProfile().getCoverImage());
+        } else {
+            String coverImageName = user.getUsername().replaceAll(" ", "") + coverFile.getOriginalFilename();
+            profile.setCoverImage(coverImageName);
+            if (!coverFile.isEmpty()) {
+                imageUploader.createImagesDirIfNeeded();
+                imageUploader.createImage(coverImageName, coverFile);
+            }
+        }
+
+        return profile;
     }
 }
