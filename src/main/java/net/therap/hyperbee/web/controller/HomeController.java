@@ -11,6 +11,7 @@ import static net.therap.hyperbee.utils.constant.Url.DONE_VIEW;
  */
 @Controller
 public class HomeController {
+
     @GetMapping(value = DONE_URL)
     public String noticeAccessDenied(Model model) {
         return DONE_VIEW;

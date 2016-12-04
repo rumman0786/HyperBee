@@ -33,4 +33,6 @@ public class PostServiceImpl implements PostService {
         post.setHive(hive);
         postDao.savePost(post);
     }
+
+
 }

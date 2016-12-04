@@ -5,7 +5,6 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.NoteType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,7 @@ import static net.therap.hyperbee.utils.constant.Constant.STICKY_NOTE_COUNT_DASH
 @Repository
 public class NoteDaoImpl implements NoteDao {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(NoteDaoImpl.class);
 
     private static final String NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY = "UPDATE note n SET " +
             " n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() AND n.date_remind IS NOT NULL;";
@@ -37,29 +36,36 @@ public class NoteDaoImpl implements NoteDao {
     private static final String NOTE_STICKY_COUNT_QUERY = "SELECT COUNT(*) FROM note n " +
             " WHERE n.type='STICKY' AND n.display_status= 'ACTIVE' AND n.user_id=?;";
 
+    private static final String NOTE_REMINDER_COUNT_TODAY = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
+            " AND n.date_remind BETWEEN now() AND DATE_ADD(NOW(), INTERVAL 1 DAY) AND n.user_id=?;";
+
     @PersistenceContext
     EntityManager em;
 
     @Override
     @Transactional
-    public void save(Note note) {
+    public Note save(Note note) {
         if (note.isNew()) {
             em.persist(note);
         } else {
             note = em.merge(note);
         }
         em.flush();
+        return note;
     }
 
     @Override
     @Transactional
-    public void markNoteAsInactiveForUser(int userId, int noteId) {
-        em.createNamedQuery("Note.updateDisplayStatusForUser")
+    public int markNoteAsInactiveForUser(int userId, int noteId) {
+        int rowUpdated = em.createNamedQuery("Note.updateDisplayStatusForUser")
                 .setParameter("userId", userId)
                 .setParameter("noteId", noteId)
                 .setParameter("displayStatus", DisplayStatus.INACTIVE)
                 .executeUpdate();
         em.flush();
+        log.trace("markNoteAsInactive- no of rows updated :: ", rowUpdated);
+
+        return rowUpdated;
     }
 
     @Override
@@ -84,8 +90,8 @@ public class NoteDaoImpl implements NoteDao {
 
     @Override
     @Transactional
-    public void markExpiredNoteAsInactive() {
-        em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
+    public int markExpiredNoteAsInactive() {
+        return em.createNativeQuery(NOTE_ARCHIVE_SCHEDULER_NATIVE_QUERY).executeUpdate();
     }
 
     @Override
@@ -99,20 +105,27 @@ public class NoteDaoImpl implements NoteDao {
                 .getResultList();
     }
 
+    @Override
     public int getRemainingReminderCountForUser(int userId) {
         Query query = em.createNativeQuery(NOTE_REMAINING_REMINDER_COUNT_QUERY);
         query.setParameter(1, userId);
 
-        BigInteger count = (BigInteger) query.getSingleResult();
-        return count.intValue();
+        return ((BigInteger) query.getSingleResult()).intValue();
     }
 
+    @Override
     public int getStickyNoteCountForUser(int userId) {
         Query query = em.createNativeQuery(NOTE_STICKY_COUNT_QUERY);
         query.setParameter(1, userId);
 
-        BigInteger count = (BigInteger) query.getSingleResult();
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
 
-        return count.intValue();
+    @Override
+    public int getReminderCountTodayForUser(int userId) {
+        Query query = em.createNativeQuery(NOTE_REMINDER_COUNT_TODAY);
+        query.setParameter(1, userId);
+
+        return ((BigInteger) query.getSingleResult()).intValue();
     }
 }

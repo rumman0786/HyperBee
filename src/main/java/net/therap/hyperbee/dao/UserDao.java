@@ -25,6 +25,8 @@ public interface UserDao {
 
     public List<User> findActiveUser();
 
+    List<User> searchUserByEntry(String entry);
+
     void inactivate(int userId);
 
     void activate(int userId);

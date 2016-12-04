@@ -103,7 +103,7 @@
 </div>
 <div class="row">
     <div class="col-lg-5">
-        <div class="panel panel-default" style="padding: 10px">
+        <div class="panel panel-default" style="padding: 5px">
             <div class="panel-heading">
                 <h3><b><fmt:message key="profile.show.basic.info"/></b></h3>
             </div>
@@ -127,7 +127,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <div class="panel panel-default" style="padding: 10px">
             <div class="panel-heading">
                 <h3><b><fmt:message key="profile.show.workexperience"/></b></h3>
