@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -102,7 +103,7 @@ public class HiveController {
         model.addAttribute("hive", hive);
         model.addAttribute("userList", hiveService.getUserNotInList(id));
         model.addAttribute("userListToRemove", hiveService.getUserListToRemove(id));
-        model.addAttribute("noticeList", hiveService.getLastFiveNotice(hive.getNoticeList()));
+        model.addAttribute("noticeList", hiveService.getLatestNotice(hive.getNoticeList()));
 
         if (!model.containsAttribute("userIdInfo")) {
             model.addAttribute("userIdInfo", new UserIdInfo());
@@ -118,11 +119,9 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_ADD_USER_URL)
-    public String addUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model,
-                          BindingResult result, RedirectAttributes redirectAttributes,
+    public String addUser(@Valid @ModelAttribute("userIdInfo") UserIdInfo userIdInfo, BindingResult result, Model model,
+                          RedirectAttributes redirectAttributes,
                           @PathVariable("hiveId") int hiveId) {
-
-        userIdInfoValidator.validate(userIdInfo, result);
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "userIdInfo", result);
@@ -140,11 +139,8 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_REMOVE_USER_URL)
-    public String RemoveUser(@ModelAttribute("userIdInfo") UserIdInfo userIdInfo, Model model,
-                             BindingResult result, RedirectAttributes redirectAttributes,
-                             @PathVariable("hiveId") int hiveId) {
-
-        userIdInfoValidator.validate(userIdInfo, result);
+    public String RemoveUser(@Valid @ModelAttribute("userIdInfo") UserIdInfo userIdInfo, BindingResult result,
+                             Model model, RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "userIdInfo", result);
@@ -170,7 +166,7 @@ public class HiveController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "hive", result);
             redirectAttributes.addFlashAttribute("hive", hive);
 
-            if (file.getSize() == 0) {
+            if (file == null || file.isEmpty()) {
                 redirectAttributes.addFlashAttribute("fileError", "Please select picture");
             }
 
@@ -185,8 +181,7 @@ public class HiveController {
         Hive newHive = hiveService.saveFirstUserToHive(hive, userId);
         hiveService.saveHive(newHive);
 
-        if (file.isEmpty()) {
-        } else {
+        if (!file.isEmpty()) {
             imageUploader.createImagesDirIfNeeded();
             model.addAttribute("message", imageUploader.createImage(filename, file));
         }

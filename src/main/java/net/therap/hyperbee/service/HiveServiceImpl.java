@@ -29,7 +29,6 @@ public class HiveServiceImpl implements HiveService {
         hiveDao.saveHive(hive);
     }
 
-    @Transactional
     public List<User> getUserListById(List<Integer> idList) {
         List<User> userList = hiveDao.getUserListById(idList);
 
@@ -65,7 +64,6 @@ public class HiveServiceImpl implements HiveService {
         return hiveDao.getHiveByHiveName(name);
     }
 
-    @Transactional
     public List<User> getUserNotInList(int hiveId) {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = hive.getUserList();
@@ -96,13 +94,13 @@ public class HiveServiceImpl implements HiveService {
     }
 
     @Override
-    public List<Notice> getLastFiveNotice(List<Notice> noticeList) {
+    public List<Notice> getLatestNotice(List<Notice> noticeList) {
 
         if (noticeList.isEmpty()) {
             return noticeList;
         }
 
-        return hiveDao.getLastFiveNotice(noticeList, 5);
+        return hiveDao.getLastFiveNotice(noticeList,5);
     }
 
     @Override

@@ -48,8 +48,8 @@ public class Hive implements Serializable {
     private List<Post> postList;
 
     public Hive() {
-        this.userList = new ArrayList<User>();
-        this.noticeList = new ArrayList<Notice>();
+        this.userList = new ArrayList<>();
+        this.noticeList = new ArrayList<>();
     }
 
     public int getId() {
