@@ -12,6 +12,7 @@ import org.springframework.validation.Validator;
  */
 @Component
 public class UserEditValidator implements Validator {
+
     @Override
     public boolean supports(Class<?> userClass) {
         return User.class.isAssignableFrom(userClass);
