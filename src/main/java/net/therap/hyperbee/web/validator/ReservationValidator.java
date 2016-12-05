@@ -15,7 +15,7 @@ public class ReservationValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(Reservation.class);
+        return Reservation.class.isAssignableFrom(clazz);
     }
 
     @Override
