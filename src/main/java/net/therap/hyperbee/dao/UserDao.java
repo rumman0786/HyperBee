@@ -11,8 +11,6 @@ import java.util.List;
  */
 public interface UserDao {
 
-    User createUser(User user);
-
     User findById(int id);
 
     User findByUsername(String username);
@@ -32,4 +30,6 @@ public interface UserDao {
     void activate(int userId);
 
     int findByDisplayStatus(DisplayStatus status);
+
+    User saveOrUpdate(User user);
 }

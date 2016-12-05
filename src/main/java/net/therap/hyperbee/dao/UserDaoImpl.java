@@ -43,17 +43,6 @@ public class UserDaoImpl implements UserDao {
     private EntityManager em;
 
     @Override
-    @Transactional
-    public User createUser(User user) {
-        em.persist(user);
-        em.flush();
-
-        log.debug("User created: " + user.getUsername());
-
-        return user;
-    }
-
-    @Override
     public User findById(int id) {
 
         return em.find(User.class, id);
@@ -152,5 +141,18 @@ public class UserDaoImpl implements UserDao {
                 .setParameter(1, status.getStatus());
 
         return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public User saveOrUpdate(User user) {
+        if (user.isNew()) {
+            em.persist(user);
+        } else {
+            em.merge(user);
+        }
+
+        em.flush();
+
+        return user;
     }
 }

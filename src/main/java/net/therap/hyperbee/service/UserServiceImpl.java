@@ -6,6 +6,7 @@ import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,21 +29,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleDao roleDao;
 
-    @Override
-    @Transactional
-    public User createUser(User user) {
-        Role role = roleDao.findRole(USER_ROLE_ID);
-
-        List<Role> roleList = new ArrayList<Role>();
-        roleList.add(role);
-
-        String hashMd5 = Utils.hashMd5(user.getPassword());
-
-        user.setRoleList(roleList);
-        user.setPassword(hashMd5);
-
-        return userDao.createUser(user);
-    }
+    @Autowired
+    private SessionHelper sessionHelper;
 
     @Override
     public User findById(int id) {
@@ -104,5 +92,25 @@ public class UserServiceImpl implements UserService {
     public int findByDisplayStatus(DisplayStatus status) {
 
         return userDao.findByDisplayStatus(status);
+    }
+
+    @Override
+    @Transactional
+    public User saveOrUpdate(User user) {
+        if (user.isNew()) {
+            Role role = roleDao.findRole(USER_ROLE_ID);
+
+            List<Role> roleList = new ArrayList<Role>();
+            roleList.add(role);
+
+            user.setRoleList(roleList);
+        }
+
+        String hashMd5 = Utils.hashMd5(user.getPassword());
+        user.setPassword(hashMd5);
+
+        sessionHelper.persistInSession(user);
+
+        return userDao.saveOrUpdate(user);
     }
 }
