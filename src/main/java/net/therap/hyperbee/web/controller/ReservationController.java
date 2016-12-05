@@ -6,6 +6,7 @@ import net.therap.hyperbee.domain.enums.ReservationStatus;
 import net.therap.hyperbee.service.ConferenceRoomService;
 import net.therap.hyperbee.service.ReservationService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.utils.DateUtils;
 import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import org.apache.logging.log4j.LogManager;
@@ -104,9 +105,9 @@ public class ReservationController {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
 
-        reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
+        reservation.setReservationFrom(DateUtils.getCalendarFromString(reservationFrom));
         reservation.setUser(userService.findById(sessionUserId));
-        reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
+        reservation.setReservationTo(DateUtils.getCalendarFromString(reservationTo));
 
         reservationService.saveReservation(reservation);
         log.debug(RESERVATION_SAVED);
@@ -136,8 +137,8 @@ public class ReservationController {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
-        reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
-        reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
+        reservation.setReservationFrom(DateUtils.getCalendarFromString(reservationFrom));
+        reservation.setReservationTo(DateUtils.getCalendarFromString(reservationTo));
         reservationService.saveReservation(reservation);
 
         log.debug(RESERVATION_SAVED);
