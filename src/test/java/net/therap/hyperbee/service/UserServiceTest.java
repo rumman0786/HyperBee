@@ -48,7 +48,7 @@ public class UserServiceTest {
         User user = new User();
 
         when(userDao.findById(anyInt())).thenReturn(user);
-        assertEquals(userService.findById(USER_ID), user);
+        assertEquals(user, userService.findById(USER_ID));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class UserServiceTest {
         User user = new User();
 
         when(userDao.findByUsernameOrEmail(anyString(), anyString())).thenReturn(user);
-        assertEquals(userService.findByUsernameOrEmail(USER_NAME, USER_EMAIL), user);
+        assertEquals(user, userService.findByUsernameOrEmail(USER_NAME, USER_EMAIL));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class UserServiceTest {
         user.setPassword(USER_PASSWORD);
 
         when(userDao.findByUsernameAndPassword(any(User.class))).thenReturn(user);
-        assertEquals(userService.findByUsernameAndPassword(user), user);
+        assertEquals(user, userService.findByUsernameAndPassword(user));
     }
 
     @Test
@@ -87,6 +87,6 @@ public class UserServiceTest {
 
         when(roleDao.findRole(anyInt())).thenReturn(role);
         when(userDao.createUser(any(User.class))).thenReturn(user);
-        assertEquals(userService.createUser(user), user);
+        assertEquals(user, userService.createUser(user));
     }
 }
