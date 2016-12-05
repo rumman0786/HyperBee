@@ -242,8 +242,10 @@ public class User implements Serializable {
     @Override
     public String toString() {
 
-        return "Username: " + username + "\nFist Name: " + firstName +
-                "\nLast Name: " + lastName + "\nEmail: " + email +
+        return "Username: " + username +
+                "\nFist Name: " + firstName +
+                "\nLast Name: " + lastName +
+                "\nEmail: " + email +
                 "\nPassword: " + password;
 
     }
