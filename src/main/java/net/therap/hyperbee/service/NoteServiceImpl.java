@@ -4,13 +4,14 @@ import net.therap.hyperbee.dao.NoteDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.Constant.STICKY_NOTE_COUNT_DASHBOARD;
@@ -29,6 +30,9 @@ public class NoteServiceImpl implements NoteService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private SessionHelper sessionHelper;
 
     @Override
     public List<Note> findActiveNotesForUser(int userId) {
@@ -88,5 +92,17 @@ public class NoteServiceImpl implements NoteService {
     public int getNextWeekReminderCountForUser(int userId) {
 
         return noteDao.getNextWeekReminderCountForUser(userId);
+    }
+
+    @Override
+    public List<Note> findStickyNoteByUser(int userId) {
+
+        return noteDao.findStickyNoteByUser(userId);
+    }
+
+    @Override
+    public List<Note> getReminderNoteForTodayByUser(int userId){
+
+        return noteDao.getReminderNoteForTodayByUser(userId);
     }
 }

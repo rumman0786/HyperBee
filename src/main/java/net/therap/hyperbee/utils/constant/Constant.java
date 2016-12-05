@@ -45,8 +45,8 @@ public interface Constant {
     String SESSION_VARIABLE_INACTIVE_BUZZ_COUNT = "inactiveBuzz";
     String SESSION_VARIABLE_PINNED_BUZZ_COUNT = "pinnedBuzz";
     String SESSION_VARIABLE_FLAGGED_BUZZ_COUNT = "flaggedBuzz";
-
     String SESSION_KEY_ACTIVE_USERS = "activeUsers";
     String SESSION_KEY_INACTIVE_USERS = "inactiveUsers";
+
     int USER_ACTIVATION_COUNT = 1;
 }
