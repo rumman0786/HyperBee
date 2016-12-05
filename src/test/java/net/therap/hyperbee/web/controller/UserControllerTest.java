@@ -29,6 +29,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
+    private static final String LOGIN_VIEW = "user/login";
+
     @InjectMocks
     private UserController userController = new UserController();
 
@@ -57,7 +59,7 @@ public class UserControllerTest {
     public void testLoginGet() throws Exception {
         String view = userController.login(model);
 
-        assertEquals("user/login", view);
+        assertEquals(LOGIN_VIEW, view);
     }
 
     @Test
