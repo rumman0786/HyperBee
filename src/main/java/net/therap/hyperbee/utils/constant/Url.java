@@ -9,9 +9,11 @@ package net.therap.hyperbee.utils.constant;
 
 public interface Url {
 
+    // User Constants
     String LOGIN_URL = "/login";
     String USER_DASHBOARD_URL = "/user/dashboard";
 
+    // Activity Constant
     String ACTIVITY_ROOT_URL = "/activity";
 
     //Profile Constant
