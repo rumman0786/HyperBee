@@ -46,7 +46,6 @@ public class User implements Serializable {
 
     private String email;
 
-    @NotNull
     private String password;
 
     @Enumerated(EnumType.STRING)
