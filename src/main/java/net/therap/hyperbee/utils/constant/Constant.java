@@ -49,4 +49,8 @@ public interface Constant {
     String SESSION_KEY_INACTIVE_USERS = "inactiveUsers";
 
     int USER_ACTIVATION_COUNT = 1;
+
+    String DONE_PAGE_KEY_HTML_TITLE = "htmlTitle";
+    String DONE_PAGE_KEY_HTML_MESSAGE = "message";
+    String DONE_PAGE_KEY_HTML_MESSAGE_STYLE = "messageStyle";
 }

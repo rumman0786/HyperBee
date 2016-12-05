@@ -6,11 +6,11 @@ import net.therap.hyperbee.domain.enums.ReservationStatus;
 import net.therap.hyperbee.service.ConferenceRoomService;
 import net.therap.hyperbee.service.ReservationService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.utils.DateUtils;
 import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,17 +21,26 @@ import org.springframework.web.bind.annotation.*;
 import java.beans.PropertyEditorSupport;
 
 import static net.therap.hyperbee.utils.constant.Messages.*;
-import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author rumman
  * @since 11/22/16
  */
 @Controller
-@RequestMapping(value = RESERVATION_BASE_URL)
+@RequestMapping(value = "/reservation")
 public class ReservationController {
 
     private static final Logger log = LogManager.getLogger(ReservationController.class);
+
+    private static final String RESERVATION_BASE_URL = "/reservation";
+    private static final String RESERVATION_LIST_URL = "/list";
+    private static final String RESERVATION_ADD_URL = "/add";
+    private static final String RESERVATION_ROOM_UPDATE_VIEW_URL = "/{id}/**";
+    private static final String RESERVATION_UPDATE_URL = "/update";
+    private static final String RESERVATION_DELETE_URL = "/delete";
+
+    private static final String RESERVATION_LIST_VIEW = "reservation/list_reservation";
+    private static final String RESERVATION_FORM_VIEW = "reservation/form_reservation";
 
     @Autowired
     private ReservationService reservationService;
@@ -96,9 +105,9 @@ public class ReservationController {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
 
-        reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
+        reservation.setReservationFrom(DateUtils.getCalendarFromString(reservationFrom));
         reservation.setUser(userService.findById(sessionUserId));
-        reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
+        reservation.setReservationTo(DateUtils.getCalendarFromString(reservationTo));
 
         reservationService.saveReservation(reservation);
         log.debug(RESERVATION_SAVED);
@@ -128,8 +137,8 @@ public class ReservationController {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
         reservation.setUser(userService.findById(sessionUserId));
-        reservation.setReservationFrom(reservationHelper.getCalendarFromString(reservationFrom));
-        reservation.setReservationTo(reservationHelper.getCalendarFromString(reservationTo));
+        reservation.setReservationFrom(DateUtils.getCalendarFromString(reservationFrom));
+        reservation.setReservationTo(DateUtils.getCalendarFromString(reservationTo));
         reservationService.saveReservation(reservation);
 
         log.debug(RESERVATION_SAVED);
