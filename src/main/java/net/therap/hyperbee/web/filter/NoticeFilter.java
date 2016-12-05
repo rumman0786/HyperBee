@@ -1,6 +1,5 @@
 package net.therap.hyperbee.web.filter;
 
-import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.security.AuthUser;
 
 import javax.servlet.*;

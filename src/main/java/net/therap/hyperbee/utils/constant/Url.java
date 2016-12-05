@@ -41,38 +41,6 @@ public interface Url {
 
     String SUCCESS_VIEW = "success";
 
-    // Notice Constants
-    String NOTICE_BASE_URL = "/notice";
-    String NOTICE_LIST_URL = "/list";
-    String NOTICE_ADD_URL = "/add";
-    String NOTICE_UPDATE_URL = "/update";
-    String NOTICE_DELETE_URL = "/delete";
-
-    String NOTICE_LIST_VIEW = "notice/list_notice";
-    String NOTICE_FORM_VIEW = "notice/form_notice";
-
-    // Conference  Constants
-    String CONFERENCE_ROOM_BASE_URL = "/conference";
-    String CONFERENCE_ROOM_LIST_URL = "/list";
-    String CONFERENCE_ROOM_ADD_URL = "/add";
-    String CONFERENCE_ROOM_UPDATE_VIEW_URL = "/{id}/**";
-    String CONFERENCE_ROOM_UPDATE_URL = "/update";
-    String CONFERENCE_ROOM_DELETE_URL = "/delete";
-
-    String CONFERENCE_LIST_VIEW = "conference_room/list_conference_room";
-    String CONFERENCE_FORM_VIEW = "conference_room/form_conference_room";
-
-    // Reservation Constants
-    String RESERVATION_BASE_URL = "/reservation";
-    String RESERVATION_LIST_URL = "/list";
-    String RESERVATION_ADD_URL = "/add";
-    String RESERVATION_ROOM_UPDATE_VIEW_URL = "/{id}/**";
-    String RESERVATION_UPDATE_URL = "/update";
-    String RESERVATION_DELETE_URL = "/delete";
-
-    String RESERVATION_LIST_VIEW = "reservation/list_reservation";
-    String RESERVATION_FORM_VIEW = "reservation/form_reservation";
-
     //Resource Constants
     String RESOURCE_STYLE = "/css/";
     String RESOURCE_SCRIPT = "/js/";
@@ -80,7 +48,7 @@ public interface Url {
     String RESOURCE_IMAGES = "/images/";
 
     //Common Constants
-    String DONE_URL= "/done";
+    String DONE_URL = "/done";
     String DONE_VIEW = "done";
 
     //Hive Constants

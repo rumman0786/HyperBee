@@ -22,17 +22,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.beans.PropertyEditorSupport;
 
 import static net.therap.hyperbee.utils.constant.Messages.*;
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 
 /**
  * @author rumman
  * @since 11/22/16
  */
 @Controller
-@RequestMapping(value = NOTICE_BASE_URL)
+@RequestMapping(value = "/notice")
 public class NoticeController {
 
     private static final Logger log = LogManager.getLogger(NoticeController.class);
+
+    private static final String NOTICE_BASE_URL = "/notice";
+    private static final String NOTICE_LIST_URL = "/list";
+    private static final String NOTICE_ADD_URL = "/add";
+    private static final String NOTICE_UPDATE_URL = "/update";
+    private static final String NOTICE_DELETE_URL = "/delete";
+
+    private static final String NOTICE_LIST_VIEW = "notice/list_notice";
+    private static final String NOTICE_FORM_VIEW = "notice/form_notice";
 
     @Autowired
     private NoticeService noticeService;
