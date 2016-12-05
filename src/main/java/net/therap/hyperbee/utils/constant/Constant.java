@@ -36,11 +36,17 @@ public interface Constant {
     String USER_ATTRIBUTE = "user";
     String AUTH_USER_ATTRIBUTE = "authUser";
 
-    String SESSION_VARIABLE_STICKY_COUNT = "stickyCount";
-    String SESSION_VARIABLE_REMINDER_COUNT = "reminderCount";
+    String SESSION_KEY_STICKY_COUNT = "stickyCount";
+    String SESSION_KEY_REMINDER_COUNT = "reminderCount";
+    String SESSION_KEY_REMINDER_COUNT_TODAY = "remindCountToday";
+    String SESSION_KEY_REMINDER_COUNT_NEXT_WEEK = "remindCountNextWeek";
 
     String SESSION_VARIABLE_ACTIVE_BUZZ_COUNT = "activeBuzz";
     String SESSION_VARIABLE_INACTIVE_BUZZ_COUNT = "inactiveBuzz";
     String SESSION_VARIABLE_PINNED_BUZZ_COUNT = "pinnedBuzz";
-    String SESSION_VARIABLE_FLAGGED_BUZZ_COUNT = "flaggedBuzz";;
+    String SESSION_VARIABLE_FLAGGED_BUZZ_COUNT = "flaggedBuzz";
+    String SESSION_KEY_ACTIVE_USERS = "activeUsers";
+    String SESSION_KEY_INACTIVE_USERS = "inactiveUsers";
+
+    int USER_ACTIVATION_COUNT = 1;
 }

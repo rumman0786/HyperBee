@@ -12,7 +12,7 @@ public interface NoteService {
 
     List<Note> findActiveNotesForUser(int userId);
 
-    void saveNoteForUser(Note note, int userId);
+    Note saveNoteForUser(Note note, int userId);
 
     void markNoteAsInactiveForUser(int userId, int noteId);
 
@@ -23,4 +23,12 @@ public interface NoteService {
     int getRemainingReminderCountForUser(int userId);
 
     int getStickyNoteCountForUser(int userId);
+
+    int getReminderCountTodayForUser(int userId);
+
+    int getNextWeekReminderCountForUser(int userId);
+
+    List<Note> findStickyNoteByUser(int userId);
+
+    List<Note> getReminderNoteForTodayByUser(int userId);
 }

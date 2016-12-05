@@ -25,11 +25,10 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     @Transactional
-    public void insertHive(Hive hive) {
+    public void saveHive(Hive hive) {
         hiveDao.saveHive(hive);
     }
 
-    @Transactional
     public List<User> getUserListById(List<Integer> idList) {
         List<User> userList = hiveDao.getUserListById(idList);
 
@@ -38,11 +37,10 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     @Transactional
-    public Hive insertFirstUserToHive(Hive hive, int userId) {
+    public Hive saveFirstUserToHive(Hive hive, int userId) {
         List<User> userList = hive.getUserList();
         User user = userService.findById(userId);
         userList.add(user);
-
         hive.setUserList(userList);
 
         return hive;
@@ -50,13 +48,12 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     public Hive retrieveHiveById(int id) {
-
         return hiveDao.retrieveHiveById(id);
     }
 
     @Override
     @Transactional
-    public void insertUsersToHive(int hiveId, List<Integer> userIdList) {
+    public void saveUsersToHive(int hiveId, List<Integer> userIdList) {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
         hiveDao.addUsersToHive(hive, userList);
@@ -67,7 +64,6 @@ public class HiveServiceImpl implements HiveService {
         return hiveDao.getHiveByHiveName(name);
     }
 
-    @Transactional
     public List<User> getUserNotInList(int hiveId) {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = hive.getUserList();
@@ -77,7 +73,6 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     public Hive findById(int hiveId) {
-
         return hiveDao.findById(hiveId);
     }
 
@@ -93,19 +88,19 @@ public class HiveServiceImpl implements HiveService {
     public List<User> getUserListToRemove(int id) {
         Hive hive = retrieveHiveById(id);
         List<User> userList = hive.getUserList();
-        userList.remove(userService.findById(hive.getCreatorId()));
+        userList.remove(userService.findById(hive.getCreator().getId()));
 
         return userList;
     }
 
     @Override
-    public List<Notice> getLastFiveNotice(List<Notice> noticeList) {
+    public List<Notice> getLatestNotice(List<Notice> noticeList) {
 
         if (noticeList.isEmpty()) {
             return noticeList;
         }
 
-        return hiveDao.getLastFiveNotice(noticeList, 5);
+        return hiveDao.getLastFiveNotice(noticeList,5);
     }
 
     @Override

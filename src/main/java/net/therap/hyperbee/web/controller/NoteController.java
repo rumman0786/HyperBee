@@ -9,7 +9,6 @@ import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +31,10 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 public class NoteController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(NoteController.class);
+    private static final String NOTE_VIEW = "note/note_list";
+    private static final String NOTE_VIEW_STICKY_URL = "/note/view/sticky";
+    private static final String NOTE_VIEW_REMINDER_URL = "/note/view/reminder";
 
     @Autowired
     private NoteService noteService;
@@ -82,7 +84,6 @@ public class NoteController {
                            Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
-            log.debug("ERROR IN SAVING NOTE");
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "noteCommand", bindingResult);
             redirectAttributes.addFlashAttribute("noteCommand", note);
             activityService.archive(NOTE_SAVE_FAILED);
@@ -103,14 +104,15 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
         log.debug("Note successfully saved: userId" + userId + "note: " + note);
-        sessionHelper.incrementNoteCountByOne(note.getNoteType());
+        sessionHelper.initializeNoteStatForUser(userId);
 
         return utils.redirectTo(DONE_URL);
     }
 
     @PostMapping(NOTE_DELETE_URL)
-    public String noteDelete(@PathVariable("id") int noteId, @PathVariable("type") String noteType, HttpSession session,
-                             RedirectAttributes redirectAttributes, @ModelAttribute("noteCommand") Note note, Model model) {
+    public String noteDelete(@PathVariable("id") int noteId, @PathVariable("type") String noteType,
+                             HttpSession session, RedirectAttributes redirectAttributes,
+                             @ModelAttribute("noteCommand") Note note, Model model) {
 
         int userId = sessionHelper.getUserIdFromSession();
         noteService.markNoteAsInactiveForUser(userId, noteId);
@@ -119,10 +121,30 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("messageStyle", FAILURE_HTML_CLASS);
 
         activityService.archive(NOTE_DELETE_ACTIVITY + " " + noteType);
-        sessionHelper.decrementNoteCountByOne(noteType);
+        sessionHelper.initializeNoteStatForUser(userId);
 
         log.debug("Note deleted: userId " + userId + " noteId: " + noteId + " noteType: " + noteType);
 
         return utils.redirectTo(DONE_URL);
+    }
+
+    @GetMapping(NOTE_VIEW_STICKY_URL)
+    public String viewAllStickyNote(Model model) {
+
+        int userId = sessionHelper.getUserIdFromSession();
+        List<Note> stickyNoteList = noteService.findStickyNoteByUser(userId);
+        model.addAttribute("selectedNoteList", stickyNoteList);
+        model.addAttribute("page", "Sticky Note");
+        return NOTE_VIEW;
+    }
+
+    @GetMapping(NOTE_VIEW_REMINDER_URL)
+    public String viewAllReminderNote(Model model) {
+
+        int userId = sessionHelper.getUserIdFromSession();
+        List<Note> stickyNoteList = noteService.getReminderNoteForTodayByUser(userId);
+        model.addAttribute("selectedNoteList", stickyNoteList);
+        model.addAttribute("page", "Reminder Note");
+        return NOTE_VIEW;
     }
 }

@@ -28,7 +28,7 @@ import static net.therap.hyperbee.utils.constant.Constant.*;
                         " ORDER BY n.dateRemind"),
         @NamedQuery(name = "Note.updateDisplayStatusForUser",
                 query = "UPDATE Note n SET n.displayStatus = :displayStatus WHERE n.id = :noteId AND n.user.id = :userId"),
-        @NamedQuery(name = "Note.findTopStickyNoteByUserId",
+        @NamedQuery(name = "Note.findStickyNoteByUserId",
                 query = "SELECT n FROM Note n WHERE n.user.id = :userId AND n.displayStatus = :displayStatus " +
                         " AND  n.noteType = :type ORDER BY n.id DESC"),
         @NamedQuery(name = "Note.reminderForUserDash",
@@ -48,7 +48,7 @@ public class Note implements Serializable {
     private String title;
 
     @NotNull
-    @Size(min = 1, max = 250,message = "{note.description.required}")
+    @Size(min = 1, max = 250, message = "{note.description.required}")
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
@@ -174,6 +174,7 @@ public class Note implements Serializable {
         return (noteType == REMINDER) ? NOTE_REMINDER : NOTE_STICKY;
     }
 
+    @Override
     public String toString() {
 
         return "Title: " + getTitle() + "\n Description: " + getDescription();

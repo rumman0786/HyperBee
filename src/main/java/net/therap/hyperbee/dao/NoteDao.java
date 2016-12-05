@@ -12,19 +12,27 @@ import java.util.List;
 @Repository
 public interface NoteDao {
 
-    void save(Note note);
+    Note save(Note note);
 
-    void markNoteAsInactiveForUser(int userId, int noteId);
+    int markNoteAsInactiveForUser(int userId, int noteId);
 
     List<Note> findActiveNoteListByUserId(int userId);
 
     List<Note> findTopStickyNoteByUser(int numberOfNotes, int userId);
 
-    void markExpiredNoteAsInactive();
+    int markExpiredNoteAsInactive();
+
+    public List<Note> findStickyNoteByUser(int userId);
 
     List<Note> findUpcomingReminderNoteByUser(int userId);
 
     int getRemainingReminderCountForUser(int userId);
 
     int getStickyNoteCountForUser(int userId);
+
+    int getReminderCountTodayForUser(int userId);
+
+    public int getNextWeekReminderCountForUser(int userId);
+
+    public List<Note> getReminderNoteForTodayByUser(int userId);
 }
