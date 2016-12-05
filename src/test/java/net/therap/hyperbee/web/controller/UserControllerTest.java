@@ -7,6 +7,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.ui.ModelMap;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -17,13 +22,22 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class UserControllerTest {
 
     @InjectMocks
-    private UserController userController;
+    private UserController userController = new UserController();
 
     @Mock
     private UserService userService;
 
     @Test
-    public void testLoginController() throws Exception {
+    public void testLoginGet() throws Exception {
+        ModelMap modelMap = new ModelMap();
+        String view = userController.login(modelMap);
+        assertEquals("user/login", view);
+    }
+
+    @Test
+    public void testLoginPost() throws Exception {
         User user = new User();
+        when(userService.findByUsernameAndPassword(any(User.class))).thenReturn(user);
+
     }
 }

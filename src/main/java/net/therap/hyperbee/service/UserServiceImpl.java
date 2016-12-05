@@ -28,9 +28,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleDao roleDao;
 
-    @Autowired
-    private Utils utils;
-
     @Override
     @Transactional
     public User createUser(User user) {
@@ -39,7 +36,7 @@ public class UserServiceImpl implements UserService {
         List<Role> roleList = new ArrayList<Role>();
         roleList.add(role);
 
-        String hashMd5 = utils.hashMd5(user.getPassword());
+        String hashMd5 = Utils.hashMd5(user.getPassword());
 
         user.setRoleList(roleList);
         user.setPassword(hashMd5);
@@ -67,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsernameAndPassword(User user) {
-        String hashMd5 = utils.hashMd5(user.getPassword());
+        String hashMd5 = Utils.hashMd5(user.getPassword());
         user.setPassword(hashMd5);
 
         return userDao.findByUsernameAndPassword(user);

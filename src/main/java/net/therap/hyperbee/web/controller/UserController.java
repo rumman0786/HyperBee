@@ -15,6 +15,7 @@ import net.therap.hyperbee.web.validator.SignUpValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -97,8 +98,8 @@ public class UserController {
     }
 
     @GetMapping(LOGIN_URL)
-    public String login(Model model) {
-        model.addAttribute("login", new User());
+    public String login(ModelMap modelMap) {
+        modelMap.put("login", new User());
 
         return LOGIN_VIEW;
     }
