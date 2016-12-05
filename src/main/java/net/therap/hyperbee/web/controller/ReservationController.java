@@ -31,7 +31,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @RequestMapping(value = RESERVATION_BASE_URL)
 public class ReservationController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(ReservationController.class);
 
     @Autowired
     private ReservationService reservationService;
