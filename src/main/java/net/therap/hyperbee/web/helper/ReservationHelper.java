@@ -26,11 +26,13 @@ public class ReservationHelper {
     private static final int RESERVATION_TO_DISPLAY_IN_SIDEBAR = 3;
 
     @Autowired
+    private SessionHelper sessionHelper;
+
+    @Autowired
     private ReservationService reservationService;
 
     public void persistInSession() {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession session = servletRequestAttributes.getRequest().getSession();
+        HttpSession session = sessionHelper.getHttpSession();
         session.setAttribute("cachedReservationList", reservationService.findLatestReservation(RESERVATION_TO_DISPLAY_IN_SIDEBAR));
     }
 }
