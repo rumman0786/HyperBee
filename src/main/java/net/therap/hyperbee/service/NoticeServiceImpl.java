@@ -27,8 +27,14 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     @Transactional
-    public void saveNotice(Notice notice, String archiveMessage) {
+    public void saveNotice(Notice notice) {
         noticeDao.saveOrUpdate(notice);
+    }
+
+    @Override
+    @Transactional
+    public void saveNoticeAndArchive(Notice notice, String archiveMessage) {
+        saveNotice(notice);
         activityService.archive(archiveMessage);
         noticeHelper.persistInSession();
     }
@@ -50,16 +56,19 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     @Transactional
-    public void deleteNotice(Notice notice, String archiveMessage) {
+    public void deleteNotice(Notice notice) {
         noticeDao.delete(notice);
-        activityService.archive(archiveMessage);
-        noticeHelper.persistInSession();
     }
 
     @Override
     @Transactional
-    public void delete(int noticeId, String archiveMessage) {
+    public void delete(int noticeId) {
         noticeDao.delete(noticeId);
+    }
+
+    @Override
+    public void deleteNoticeAndArchive(int noticeId, String archiveMessage) {
+        this.delete(noticeId);
         activityService.archive(archiveMessage);
         noticeHelper.persistInSession();
     }

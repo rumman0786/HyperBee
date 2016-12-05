@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
 
+import static net.therap.hyperbee.utils.constant.Constant.*;
 import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 
@@ -37,6 +38,7 @@ public class NoticeController {
     private static final String NOTICE_BASE_URL = "/notice";
     private static final String NOTICE_LIST_URL = "/list";
     private static final String NOTICE_ADD_URL = "/add";
+    private static final String NOTICE_EDIT_URL = "/{id}/**";
     private static final String NOTICE_UPDATE_URL = "/update";
     private static final String NOTICE_DELETE_URL = "/delete";
 
@@ -125,17 +127,17 @@ public class NoticeController {
             return "redirect:" + NOTICE_BASE_URL;
         }
 
-        noticeService.saveNotice(notice, NOTICE_SAVED);
+        noticeService.saveNoticeAndArchive(notice, NOTICE_SAVED);
         log.debug(NOTICE_SAVED);
 
-        redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
-                .addFlashAttribute("htmlTitle", NOTICE_SAVED)
-                .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
+        redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NOTICE_SUCCESS)
+                .addFlashAttribute(DONE_PAGE_KEY_HTML_TITLE, NOTICE_SAVED)
+                .addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE_STYLE, SUCCESS_HTML_CLASS);
 
         return "redirect:" + DONE_URL;
     }
 
-    @GetMapping(value = "/{id}/**")
+    @GetMapping(value = NOTICE_EDIT_URL)
     public String showEditNoticeForm(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", NOTICE_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_UPDATE_URL)
@@ -167,19 +169,19 @@ public class NoticeController {
             return "redirect:" + NOTICE_BASE_URL;
         }
 
-        noticeService.saveNotice(notice, NOTICE_MODIFIED);
+        noticeService.saveNoticeAndArchive(notice, NOTICE_MODIFIED);
         log.debug(NOTICE_MODIFIED);
 
-        redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
-                .addFlashAttribute("htmlTitle", NOTICE_MODIFIED)
-                .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
+        redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NOTICE_SUCCESS)
+                .addFlashAttribute(DONE_PAGE_KEY_HTML_TITLE, NOTICE_MODIFIED)
+                .addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE_STYLE, SUCCESS_HTML_CLASS);
 
         return "redirect:" + DONE_URL;
     }
 
     @PostMapping(value = NOTICE_DELETE_URL)
     public String deleteNotice(@RequestParam("id") int noticeId) {
-        noticeService.delete(noticeId, NOTICE_DELETED);
+        noticeService.deleteNoticeAndArchive(noticeId, NOTICE_DELETED);
         log.debug(NOTICE_DELETED);
 
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;
