@@ -86,7 +86,7 @@ public class UserServiceTest {
         user.setPassword(USER_PASSWORD);
 
         when(roleDao.findRole(anyInt())).thenReturn(role);
-        when(userDao.createUser(any(User.class))).thenReturn(user);
-        assertEquals(user, userService.createUser(user));
+        when(userDao.saveOrUpdate(any(User.class))).thenReturn(user);
+        assertEquals(user, userService.saveOrUpdate(user));
     }
 }

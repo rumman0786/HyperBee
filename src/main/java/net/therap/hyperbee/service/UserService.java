@@ -11,8 +11,6 @@ import java.util.List;
  */
 public interface UserService {
 
-    User createUser(User user);
-
     User findById(int id);
 
     User findByUsername(String username);
@@ -32,4 +30,6 @@ public interface UserService {
     void activate(int userId);
 
     int findByDisplayStatus(DisplayStatus status);
+
+    User saveOrUpdate(User user);
 }

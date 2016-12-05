@@ -12,9 +12,13 @@ import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.LoginValidator;
 import net.therap.hyperbee.web.validator.SignUpValidator;
+import net.therap.hyperbee.web.validator.UserEditValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,6 +35,8 @@ import static net.therap.hyperbee.utils.constant.Url.*;
  */
 @Controller
 public class UserController {
+
+    private static final Logger log = LogManager.getLogger(UserController.class);
 
     private static final String ROOT_URL = "/";
 
@@ -69,6 +75,9 @@ public class UserController {
     private SignUpValidator signUpValidator;
 
     @Autowired
+    private UserEditValidator userEditValidator;
+
+    @Autowired
     private SessionHelper sessionHelper;
 
     @Autowired
@@ -82,12 +91,17 @@ public class UserController {
 
     @InitBinder("login")
     private void loginValidator(WebDataBinder binder) {
-        binder.setValidator(loginValidator);
+        binder.addValidators(loginValidator);
     }
 
     @InitBinder("signUp")
     private void signUpValidator(WebDataBinder binder) {
-        binder.setValidator(signUpValidator);
+        binder.addValidators(signUpValidator);
+    }
+
+    @InitBinder("userEdit")
+    private void userEditValidator(WebDataBinder binder) {
+        binder.addValidators(userEditValidator);
     }
 
     @GetMapping(ROOT_URL)
@@ -143,7 +157,7 @@ public class UserController {
 
         User user = signUpDto.getUser();
 
-        User retrievedUser = userService.createUser(user);
+        User retrievedUser = userService.saveOrUpdate(user);
         sessionHelper.persistInSession(retrievedUser);
 
         Hive hive = hiveService.retrieveHiveById(1);
@@ -200,5 +214,30 @@ public class UserController {
         sessionHelper.decrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
 
         return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
+    }
+
+    @GetMapping("/user/edit")
+    public String serveUserEditForm(ModelMap map) {
+        int userIdFromSession = sessionHelper.getUserIdFromSession();
+        User currentUser = userService.findById(userIdFromSession);
+        currentUser.setPassword("");
+
+        map.put("userEdit", currentUser);
+
+        return "user/edit";
+    }
+
+    @PostMapping("/user/edit")
+    public String submitUserEditForm(@Validated @ModelAttribute("userEdit") User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+
+            return "user/edit";
+        }
+
+        log.debug("User id: " + user.getId());
+
+        userService.saveOrUpdate(user);
+
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 }

@@ -3,6 +3,7 @@ package net.therap.hyperbee.domain;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class User implements Serializable {
 
     private String email;
 
+    @NotNull
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -237,6 +239,11 @@ public class User implements Serializable {
 
     public void setReservationList(List<Reservation> reservationList) {
         this.reservationList = reservationList;
+    }
+
+    public boolean isNew() {
+
+        return (id == 0);
     }
 
     @Override
