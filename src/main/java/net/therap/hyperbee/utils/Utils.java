@@ -44,4 +44,8 @@ public class Utils {
     public static String formatActivityLogMessage(String message, Object placeholder) {
         return MessageFormat.format(message, placeholder);
     }
+
+    public static String convertQueryStringForCount(String query) {
+        return query.replaceAll("\\*", "COUNT(*)");
+    }
 }

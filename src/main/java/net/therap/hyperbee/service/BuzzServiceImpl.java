@@ -1,9 +1,7 @@
 package net.therap.hyperbee.service;
 
-import net.therap.hyperbee.dao.ActivityDao;
 import net.therap.hyperbee.dao.BuzzDao;
 import net.therap.hyperbee.dao.UserDao;
-import net.therap.hyperbee.domain.Activity;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;

@@ -3,6 +3,7 @@ package net.therap.hyperbee.dao;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.utils.Utils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,18 +25,18 @@ public class BuzzDaoImpl implements BuzzDao {
     private final String QUERY_GET_PINNED = "SELECT b FROM Buzz b WHERE b.pinned = :pinned " +
             "ORDER BY b.id DESC";
 
-    private final String QUERY_GET_FLAGGED_COUNT = "SELECT COUNT(*) FROM buzz WHERE flagged = ? AND " +
-                                                                    "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
-    private final String QUERY_GET_PINNED_COUNT = "SELECT COUNT(*) FROM buzz WHERE pinned = ? AND " +
-                                                                    "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
-    private final String QUERY_GET_STATUS_COUNT = "SELECT COUNT(*) FROM buzz WHERE display_status = ? AND " +
-                                                                    "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+    private final String QUERY_GET_FLAGGED_COUNT = "SELECT * FROM buzz WHERE flagged = ? AND " +
+            "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+    private final String QUERY_GET_PINNED_COUNT = "SELECT * FROM buzz WHERE pinned = ? AND " +
+            "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+    private final String QUERY_GET_STATUS_COUNT = "SELECT * FROM buzz WHERE display_status = ? AND " +
+            "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
 
-    private final String QUERY_GET_ACTIVE_BY_USER = "SELECT COUNT(*) FROM buzz WHERE user_id = ? AND " +
+    private final String QUERY_GET_ACTIVE_BY_USER = "SELECT * FROM buzz WHERE user_id = ? AND " +
             "display_status = 1 AND buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
-    private final String QUERY_GET_PINNED_BY_USER = "SELECT COUNT(*) FROM buzz WHERE user_id = ? AND " +
+    private final String QUERY_GET_PINNED_BY_USER = "SELECT * FROM buzz WHERE user_id = ? AND " +
             "pinned = ? AND buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
-    private final String QUERY_GET_FLAGGED_BY_USER = "SELECT COUNT(*) FROM buzz WHERE user_id = ? AND " +
+    private final String QUERY_GET_FLAGGED_BY_USER = "SELECT * FROM buzz WHERE user_id = ? AND " +
             "flagged = ? AND buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
 
     @PersistenceContext
@@ -88,61 +89,63 @@ public class BuzzDaoImpl implements BuzzDao {
                 .getResultList();
     }
 
+    // TODO RESOLVE COUNT FOR ALL CRITERIA. Inb4 that work out how to display.
+
     @Override
     public int getActiveCountByUser(User user) {
-        Query countQuery = em.createNativeQuery(QUERY_GET_ACTIVE_BY_USER);
+        Query countQuery = em.createNativeQuery(Utils.convertQueryStringForCount(QUERY_GET_ACTIVE_BY_USER));
         countQuery.setParameter(1, user.getId());
 
-        return ((BigInteger)countQuery.getSingleResult()).intValue();
+        return ((BigInteger) countQuery.getSingleResult()).intValue();
     }
 
     @Override
     public int getPinnedCountByUser(User user) {
-        Query countQuery = em.createNativeQuery(QUERY_GET_PINNED_BY_USER);
+        Query countQuery = em.createNativeQuery(Utils.convertQueryStringForCount(QUERY_GET_PINNED_BY_USER));
         countQuery.setParameter(1, user.getId());
         countQuery.setParameter(2, true);
 
-        return ((BigInteger)countQuery.getSingleResult()).intValue();
+        return ((BigInteger) countQuery.getSingleResult()).intValue();
     }
 
     @Override
     public int getFlaggedCountByUser(User user) {
-        Query countQuery = em.createNativeQuery(QUERY_GET_FLAGGED_BY_USER);
+        Query countQuery = em.createNativeQuery(Utils.convertQueryStringForCount(QUERY_GET_FLAGGED_BY_USER));
         countQuery.setParameter(1, user.getId());
         countQuery.setParameter(2, true);
 
-        return ((BigInteger)countQuery.getSingleResult()).intValue();
+        return ((BigInteger) countQuery.getSingleResult()).intValue();
     }
 
     @Override
     public int getActiveCount() {
-        Query countQuery = em.createNativeQuery(QUERY_GET_STATUS_COUNT);
+        Query countQuery = em.createNativeQuery(Utils.convertQueryStringForCount(QUERY_GET_STATUS_COUNT));
         countQuery.setParameter(1, 1);
 
-        return ((BigInteger)countQuery.getSingleResult()).intValue();
+        return ((BigInteger) countQuery.getSingleResult()).intValue();
     }
 
     @Override
     public int getPinnedCount() {
-        Query countQuery = em.createNativeQuery(QUERY_GET_PINNED_COUNT);
+        Query countQuery = em.createNativeQuery(Utils.convertQueryStringForCount(QUERY_GET_PINNED_COUNT));
         countQuery.setParameter(1, true);
 
-        return ((BigInteger)countQuery.getSingleResult()).intValue();
+        return ((BigInteger) countQuery.getSingleResult()).intValue();
     }
 
     @Override
     public int getFlaggedCount() {
-        Query countQuery = em.createNativeQuery(QUERY_GET_FLAGGED_COUNT);
+        Query countQuery = em.createNativeQuery(Utils.convertQueryStringForCount(QUERY_GET_FLAGGED_COUNT));
         countQuery.setParameter(1, true);
 
-        return ((BigInteger)countQuery.getSingleResult()).intValue();
+        return ((BigInteger) countQuery.getSingleResult()).intValue();
     }
 
     @Override
     public int getInactiveCount() {
-        Query countQuery = em.createNativeQuery(QUERY_GET_STATUS_COUNT);
+        Query countQuery = em.createNativeQuery(Utils.convertQueryStringForCount(QUERY_GET_STATUS_COUNT));
         countQuery.setParameter(1, 2);
 
-        return ((BigInteger)countQuery.getSingleResult()).intValue();
+        return ((BigInteger) countQuery.getSingleResult()).intValue();
     }
 }
