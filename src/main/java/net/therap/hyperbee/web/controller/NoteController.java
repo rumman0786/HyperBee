@@ -32,22 +32,16 @@ import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 public class NoteController {
 
     private static final Logger log = LogManager.getLogger(NoteController.class);
+
     private static final String NOTE_VIEW = "note/note_list";
     private static final String NOTE_VIEW_STICKY_URL = "/note/view/sticky";
     private static final String NOTE_VIEW_TODAY_REMINDER_URL = "/note/view/reminder/today";
     private static final String NOTE_VIEW_WEEKLY_REMINDER_URL = "/note/view/reminder/week";
     private static final String NOTE_ALL_REMINDER_URL = "/note/view/reminder/all";
-
-
-
-    //Notes Constant
     private static final String NOTE_VIEW_URL = "/notes";
-    private static final String NOTE_ADD_URL = "/note/add";
     private static final String NOTE_SAVE_URL = "/note/save";
     private static final String NOTE_VIEW_ALL = "note/notes";
-    private static final String NOTE_ADD_VIEW = "note/note_form";
     private static final String NOTE_DELETE_URL = "/note/delete/{type}/{id}";
-
 
     @Autowired
     private NoteService noteService;

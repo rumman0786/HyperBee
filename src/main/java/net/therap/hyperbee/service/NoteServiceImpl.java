@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.Constant.STICKY_NOTE_COUNT_DASHBOARD;
@@ -36,7 +35,6 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<Note> findActiveNotesForUser(int userId) {
-
         return noteDao.findActiveNoteListByUserId(userId);
     }
 
@@ -60,49 +58,41 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public void markNoteAsInactiveForUser(int userId, int noteId) {
-
         noteDao.markNoteAsInactiveForUser(userId, noteId);
     }
 
     @Override
     public List<Note> findUpcomingReminderNoteByUser(int userId) {
-
         return noteDao.findUpcomingReminderNoteByUser(userId);
     }
 
     @Override
     public int getRemainingReminderCountForUser(int userId) {
-
         return noteDao.getRemainingReminderCountForUser(userId);
     }
 
     @Override
     public int getStickyNoteCountForUser(int userId) {
-
         return noteDao.getStickyNoteCountForUser(userId);
     }
 
     @Override
     public int getReminderCountTodayForUser(int userId) {
-
         return noteDao.getReminderCountTodayForUser(userId);
     }
 
     @Override
     public int getNextWeekReminderCountForUser(int userId) {
-
         return noteDao.getNextWeekReminderCountForUser(userId);
     }
 
     @Override
     public List<Note> findStickyNoteByUser(int userId) {
-
         return noteDao.findStickyNoteByUser(userId);
     }
 
     @Override
     public List<Note> getReminderNoteForTodayByUser(int userId) {
-
         return noteDao.getReminderNoteForTodayByUser(userId);
     }
 

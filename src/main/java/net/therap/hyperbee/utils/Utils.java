@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.MessageFormat;
 
 /**
  * @author zoha
@@ -13,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 @Component
 public class Utils {
 
-    public long getCurrentTimeMills() {
+    public static long getCurrentTimeMills() {
         return System.currentTimeMillis();
     }
 
@@ -38,5 +39,13 @@ public class Utils {
 
             return null;
         }
+    }
+
+    public static String formatActivityLogMessage(String message, Object placeholder) {
+        return MessageFormat.format(message, placeholder);
+    }
+
+    public static String convertQueryStringForCount(String query) {
+        return query.replaceAll("\\*", "COUNT(*)");
     }
 }

@@ -26,7 +26,7 @@ public class ConferenceRoomServiceImpl implements ConferenceRoomService {
     @Transactional
     public void saveConferenceRoom(ConferenceRoom conferenceRoom) {
         conferenceRoomDao.save(conferenceRoom);
-    //    reservationHelper.persistInSession();
+        reservationHelper.updateReservationCache();
     }
 
     @Override
@@ -43,6 +43,6 @@ public class ConferenceRoomServiceImpl implements ConferenceRoomService {
     @Transactional
     public void delete(int conferenceRoomId) {
         conferenceRoomDao.delete(conferenceRoomId);
-    //    reservationHelper.persistInSession();
+        reservationHelper.updateReservationCache();
     }
 }

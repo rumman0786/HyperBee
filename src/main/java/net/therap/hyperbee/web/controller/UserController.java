@@ -188,7 +188,7 @@ public class UserController {
         model.addAttribute("latestReminders",
                 noteService.findUpcomingReminderNoteByUser(userId));
 
-        model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
+        model.addAttribute("pinnedBuzzList", buzzService.getLatestPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         sessionHelper.setStatInSession();
