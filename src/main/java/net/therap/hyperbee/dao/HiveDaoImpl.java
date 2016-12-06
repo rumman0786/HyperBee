@@ -31,8 +31,12 @@ public class HiveDaoImpl implements HiveDao {
 
     @Transactional
     public void saveHive(Hive hive) {
-        em.persist(hive);
-        em.flush();
+        List<Hive> hiveList = em.createQuery(QUERY_GET_HIVE_BY_HIVENAME, Hive.class)
+                .setParameter("hiveName", hive.getName()).getResultList();
+        if (hiveList.size() == 0) {
+            em.persist(hive);
+            em.flush();
+        }
     }
 
     public List<User> getUserListById(List<Integer> idList) {
