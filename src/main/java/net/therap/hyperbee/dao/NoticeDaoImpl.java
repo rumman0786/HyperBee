@@ -3,12 +3,15 @@ package net.therap.hyperbee.dao;
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,8 +21,7 @@ import java.util.List;
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
 
-    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n.* FROM notice n INNER JOIN notice_hive nh " +
-            "ON n.id = nh.notice_id WHERE n.display_status= ? AND nh.hive_id = ? ORDER BY n.id DESC LIMIT ?;";
+    private static final int LIST_INDEX_START = 0;
 
     @PersistenceContext
     private EntityManager em;
@@ -72,11 +74,21 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Notice> getNoticeListByHiveId(int hiveId, int range) {
-        Query query = em.createNativeQuery(ACTIVE_NOTICE_LIST_QUERY, Notice.class);
-        query.setParameter(1, DisplayStatus.ACTIVE.getStatus());
-        query.setParameter(2, hiveId);
-        query.setParameter(3, range);
+        Hive hive = em.find(Hive.class, hiveId);
 
-        return  query.getResultList();
+        Hibernate.initialize(hive.getNoticeList());
+
+        List<Notice> noticeList = new ArrayList<>(hive.getNoticeList());
+        Collections.reverse(noticeList);
+        Iterator<Notice> iterator = noticeList.iterator();
+
+        while (iterator.hasNext()) {
+
+            if (iterator.next().getDisplayStatus() != DisplayStatus.ACTIVE) {
+                iterator.remove();
+            }
+        }
+
+        return noticeList.subList(LIST_INDEX_START, range);
     }
 }
