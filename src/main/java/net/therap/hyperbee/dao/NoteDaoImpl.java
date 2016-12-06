@@ -72,7 +72,7 @@ public class NoteDaoImpl implements NoteDao {
                 .setParameter("displayStatus", DisplayStatus.INACTIVE)
                 .executeUpdate();
         em.flush();
-        log.trace("markNoteAsInactive- no of rows updated :: ", rowUpdated);
+        log.trace("markNoteAsInactive- no of rows updated= {}", rowUpdated);
 
         return rowUpdated;
     }

@@ -4,7 +4,6 @@ import net.therap.hyperbee.dao.NoteDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.web.helper.SessionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class NoteServiceImpl implements NoteService {
     private UserDao userDao;
 
     @Autowired
-    private SessionHelper sessionHelper;
+    ActivityService activityService;
 
     @Override
     public List<Note> findActiveNotesForUser(int userId) {
@@ -40,7 +39,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<Note> findTopStickyNoteByUser(int userId) {
-        log.debug("userId sticky note: " + userId);
+        log.debug("userId sticky note: userId={}", userId);
         List<Note> noteList = noteDao.findTopStickyNoteByUser(STICKY_NOTE_COUNT_DASHBOARD, userId);
 
         return noteList;
@@ -50,15 +49,19 @@ public class NoteServiceImpl implements NoteService {
     @Transactional
     public Note saveNoteForUser(Note note, int userId) {
         User user = userDao.findById(userId);
-        note.setUser(user);
 
-        return noteDao.save(note);
+        note.setUser(user);
+        note = noteDao.save(note);
+        activityService.archive("Saved new " + note.getNoteTypeAsString() + " Note. Title: " + note.getTitle());
+
+        return note;
     }
 
     @Override
     @Transactional
     public void markNoteAsInactiveForUser(int userId, int noteId) {
         noteDao.markNoteAsInactiveForUser(userId, noteId);
+        activityService.archive("Note deleted ");
     }
 
     @Override
