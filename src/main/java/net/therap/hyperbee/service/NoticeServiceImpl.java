@@ -36,7 +36,7 @@ public class NoticeServiceImpl implements NoticeService {
     public void saveNoticeAndArchive(Notice notice, String archiveMessage) {
         saveNotice(notice);
         activityService.archive(archiveMessage);
-        noticeHelper.persistInSession();
+        noticeHelper.updateNoticeCache();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class NoticeServiceImpl implements NoticeService {
     public void deleteNoticeAndArchive(int noticeId, String archiveMessage) {
         this.delete(noticeId);
         activityService.archive(archiveMessage);
-        noticeHelper.persistInSession();
+        noticeHelper.updateNoticeCache();
     }
 
     @Override

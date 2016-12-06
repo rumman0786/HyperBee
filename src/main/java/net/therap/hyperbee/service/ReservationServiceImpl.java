@@ -26,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public void saveReservation(Reservation reservation) {
         reservationDao.saveOrUpdate(reservation);
-        reservationHelper.persistInSession();
+        reservationHelper.updateReservationCache();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public void delete(int reservationId) {
         reservationDao.delete(reservationId);
-        reservationHelper.persistInSession();
+        reservationHelper.updateReservationCache();
     }
 
     @Override

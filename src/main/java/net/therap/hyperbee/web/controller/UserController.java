@@ -129,8 +129,8 @@ public class UserController {
 
         if ((retrievedUser != null) && (retrievedUser.getDisplayStatus() == DisplayStatus.ACTIVE)) {
             sessionHelper.persistInSession(retrievedUser);
-            noticeHelper.persistInSession();
-            reservationHelper.persistInSession();
+            noticeHelper.updateNoticeCache();
+            reservationHelper.updateReservationCache();
 
             activityService.archive(LOGGED_IN);
 
