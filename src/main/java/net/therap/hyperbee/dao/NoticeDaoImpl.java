@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ import java.util.List;
 @Repository
 public class NoticeDaoImpl implements NoticeDao {
 
-    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n FROM Notice n where n.displayStatus =:status " +
-            "AND n IN :noticeList ORDER BY n.id DESC";
+    private static final String ACTIVE_NOTICE_LIST_QUERY = "SELECT n.* FROM notice n INNER JOIN notice_hive nh " +
+            "ON n.id = nh.notice_id WHERE n.display_status= ? AND nh.hive_id = ? ORDER BY n.id DESC LIMIT ?;";
 
     @PersistenceContext
     private EntityManager em;
@@ -71,18 +72,11 @@ public class NoticeDaoImpl implements NoticeDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Notice> getNoticeListByHiveId(int hiveId, int range) {
-        Hive hive = em.find(Hive.class, hiveId);
-        List<Notice> noticeList = hive.getNoticeList();
+        Query query = em.createNativeQuery(ACTIVE_NOTICE_LIST_QUERY, Notice.class);
+        query.setParameter(1, DisplayStatus.ACTIVE.getStatus());
+        query.setParameter(2, hiveId);
+        query.setParameter(3, range);
 
-        if (noticeList.isEmpty()) {
-
-            return noticeList;
-        }
-
-        return em.createQuery(ACTIVE_NOTICE_LIST_QUERY, Notice.class)
-                .setParameter("status", DisplayStatus.ACTIVE)
-                .setParameter("noticeList", noticeList)
-                .setMaxResults(range)
-                .getResultList();
+        return  query.getResultList();
     }
 }
