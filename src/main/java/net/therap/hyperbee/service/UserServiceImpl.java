@@ -6,6 +6,7 @@ import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
+import net.therap.hyperbee.utils.constant.Constant;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,7 +110,7 @@ public class UserServiceImpl implements UserService {
         String hashMd5 = Utils.hashMd5(user.getPassword());
         user.setPassword(hashMd5);
 
-        sessionHelper.persistInSession(user);
+        sessionHelper.setSessionAttribute(Constant.SESSION_KEY_AUTH_USER, user);
 
         return userDao.saveOrUpdate(user);
     }

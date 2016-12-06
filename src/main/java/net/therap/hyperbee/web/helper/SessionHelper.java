@@ -1,6 +1,5 @@
 package net.therap.hyperbee.web.helper;
 
-import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.NoteService;
@@ -37,40 +36,13 @@ public class SessionHelper {
     @Autowired
     private NoteService noteService;
 
-    public void persistInSession(User user) {
-        AuthUser authUser = new AuthUser(user.getId(), user.getUsername(), user.getRoleList());
-
-        ServletRequestAttributes servletRequestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession session = servletRequestAttributes.getRequest().getSession();
-        session.setAttribute(SESSION_KEY_AUTH_USER, authUser);
-
-        initializeNoteStatForUser(authUser.getId());
-    }
-
     public AuthUser getAuthUserFromSession() {
-        ServletRequestAttributes servletRequestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
-        HttpSession session = servletRequestAttributes.getRequest().getSession();
-
-        return (AuthUser) session.getAttribute(SESSION_KEY_AUTH_USER);
-    }
-
-    public void invalidateSession() {
-        ServletRequestAttributes servletRequestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
-        HttpSession session = servletRequestAttributes.getRequest().getSession();
-        session.invalidate();
+        return (AuthUser) getSessionAttribute(SESSION_KEY_AUTH_USER);
     }
 
     public int getUserIdFromSession() {
-        ServletRequestAttributes servletRequestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
-        HttpSession session = servletRequestAttributes.getRequest().getSession();
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+        AuthUser authUser = (AuthUser) getSessionAttribute("authUser");
 
         return authUser.getId();
     }
@@ -78,9 +50,21 @@ public class SessionHelper {
     public HttpSession getHttpSession() {
         ServletRequestAttributes servletRequestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession session = servletRequestAttributes.getRequest().getSession();
 
-        return session;
+        return servletRequestAttributes.getRequest().getSession();
+    }
+
+
+    public void setSessionAttribute(String key, Object value) {
+        getHttpSession().setAttribute(key, value);
+    }
+
+    public Object getSessionAttribute(String key) {
+        return getHttpSession().getAttribute(key);
+    }
+
+    public void invalidateSession() {
+        getHttpSession().invalidate();
     }
 
     public void initializeNoteStatForUser(int userId) {
@@ -89,11 +73,10 @@ public class SessionHelper {
         int reminderCountForToday = noteService.getReminderCountTodayForUser(userId);
         int reminderCountForNextWeek = noteService.getNextWeekReminderCountForUser(userId);
 
-        HttpSession session = getHttpSession();
-        session.setAttribute(SESSION_KEY_STICKY_COUNT, stickyNoteCount);
-        session.setAttribute(SESSION_KEY_REMINDER_COUNT, reminderCount);
-        session.setAttribute(SESSION_KEY_REMINDER_COUNT_TODAY, reminderCountForToday);
-        session.setAttribute(SESSION_KEY_REMINDER_COUNT_NEXT_WEEK, reminderCountForNextWeek);
+        setSessionAttribute(SESSION_KEY_STICKY_COUNT, stickyNoteCount);
+        setSessionAttribute(SESSION_KEY_REMINDER_COUNT, reminderCount);
+        setSessionAttribute(SESSION_KEY_REMINDER_COUNT_TODAY, reminderCountForToday);
+        setSessionAttribute(SESSION_KEY_REMINDER_COUNT_NEXT_WEEK, reminderCountForNextWeek);
     }
 
     public void setStatInSession() {
@@ -108,40 +91,32 @@ public class SessionHelper {
             int flaggedBuzz = buzzService.getFlaggedCount();
             int pinnedBuzz = buzzService.getPinnedCount();
 
-            setStat(SESSION_KEY_ACTIVE_USERS, activeUser - USER_ACTIVATION_COUNT);
-            setStat(SESSION_KEY_INACTIVE_USERS, inactiveUser);
+            setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUser - USER_ACTIVATION_COUNT);
+            setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUser);
 
-            setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
-            setStat(SESSION_VARIABLE_INACTIVE_BUZZ_COUNT, inactiveBuzz);
-            setStat(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
-            setStat(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
+            setSessionAttribute(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
+            setSessionAttribute(SESSION_VARIABLE_INACTIVE_BUZZ_COUNT, inactiveBuzz);
+            setSessionAttribute(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
+            setSessionAttribute(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
         } else {
             int activeBuzz = buzzService.getActiveCountByUser(authUserFromSession.getId());
             int flaggedBuzz = buzzService.getFlaggedCountByUser(authUserFromSession.getId());
             int pinnedBuzz = buzzService.getPinnedCountByUser(authUserFromSession.getId());
 
-            setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
-            setStat(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
-            setStat(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
+            setSessionAttribute(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
+            setSessionAttribute(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
+            setSessionAttribute(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
         }
     }
 
-    public void setStat(String key, int value) {
-        HttpSession httpSession = getHttpSession();
-        httpSession.setAttribute(key, value);
-    }
-
-    public int getStat(String key) {
-        return (Integer) getHttpSession().getAttribute(key);
-    }
 
     public void decrementSessionAttribute(String key, int increment) {
-        int count = getStat(key);
-        setStat(key, count - increment);
+        int count = (int) getSessionAttribute(key);
+        setSessionAttribute(key, count - increment);
     }
 
     public void incrementSessionAttribute(String key, int increment) {
-        int count = getStat(key);
-        setStat(key, count + increment);
+        int count = (int) getSessionAttribute(key);
+        setSessionAttribute(key, count + increment);
     }
 }

@@ -6,6 +6,7 @@ import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.utils.Utils;
+import net.therap.hyperbee.utils.constant.Constant;
 import net.therap.hyperbee.web.command.SignUpDto;
 import net.therap.hyperbee.web.helper.NoticeHelper;
 import net.therap.hyperbee.web.helper.ReservationHelper;
@@ -128,7 +129,7 @@ public class UserController {
         User retrievedUser = userService.findByUsernameAndPassword(user);
 
         if ((retrievedUser != null) && (retrievedUser.getDisplayStatus() == DisplayStatus.ACTIVE)) {
-            sessionHelper.persistInSession(retrievedUser);
+            sessionHelper.setSessionAttribute(Constant.SESSION_KEY_AUTH_USER, retrievedUser);
             noticeHelper.updateNoticeCache();
             reservationHelper.updateReservationCache();
 
@@ -161,7 +162,7 @@ public class UserController {
         User user = signUpDto.getUser();
 
         User retrievedUser = userService.saveOrUpdate(user);
-        sessionHelper.persistInSession(retrievedUser);
+        sessionHelper.setSessionAttribute(Constant.SESSION_KEY_AUTH_USER ,retrievedUser);
 
         Hive hive = hiveService.retrieveHiveById(1);
         hiveService.saveFirstUserToHive(hive, retrievedUser.getId());
