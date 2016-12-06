@@ -1,16 +1,13 @@
 package net.therap.hyperbee.web.helper;
 
-import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
-import net.therap.hyperbee.domain.enums.NoteType;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.NoteService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -29,7 +26,7 @@ import static net.therap.hyperbee.utils.constant.Constant.*;
 @Component
 public class SessionHelper {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(SessionHelper.class);
 
     @Autowired
     private BuzzService buzzService;
@@ -41,15 +38,13 @@ public class SessionHelper {
     private NoteService noteService;
 
     public void persistInSession(User user) {
-        AuthUser authUser = new AuthUser();
-        authUser.setId(user.getId());
-        authUser.setUsername(user.getUsername());
-        authUser.setRoleList(user.getRoleList());
+        AuthUser authUser = new AuthUser(user.getId(), user.getUsername(), user.getRoleList());
 
         ServletRequestAttributes servletRequestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
-        session.setAttribute("authUser", authUser);
+        session.setAttribute(SESSION_KEY_AUTH_USER, authUser);
+
         initializeNoteStatForUser(authUser.getId());
     }
 
@@ -59,7 +54,7 @@ public class SessionHelper {
 
         HttpSession session = servletRequestAttributes.getRequest().getSession();
 
-        return (AuthUser) session.getAttribute("authUser");
+        return (AuthUser) session.getAttribute(SESSION_KEY_AUTH_USER);
     }
 
     public void invalidateSession() {
@@ -92,11 +87,13 @@ public class SessionHelper {
         int stickyNoteCount = noteService.getStickyNoteCountForUser(userId);
         int reminderCount = noteService.getRemainingReminderCountForUser(userId);
         int reminderCountForToday = noteService.getReminderCountTodayForUser(userId);
+        int reminderCountForNextWeek = noteService.getNextWeekReminderCountForUser(userId);
 
         HttpSession session = getHttpSession();
         session.setAttribute(SESSION_KEY_STICKY_COUNT, stickyNoteCount);
         session.setAttribute(SESSION_KEY_REMINDER_COUNT, reminderCount);
         session.setAttribute(SESSION_KEY_REMINDER_COUNT_TODAY, reminderCountForToday);
+        session.setAttribute(SESSION_KEY_REMINDER_COUNT_NEXT_WEEK, reminderCountForNextWeek);
     }
 
     public void setStatInSession() {
@@ -111,8 +108,8 @@ public class SessionHelper {
             int flaggedBuzz = buzzService.getFlaggedCount();
             int pinnedBuzz = buzzService.getPinnedCount();
 
-            setStat("activeUsers", activeUser);
-            setStat("inactiveUsers", inactiveUser);
+            setStat(SESSION_KEY_ACTIVE_USERS, activeUser - USER_ACTIVATION_COUNT);
+            setStat(SESSION_KEY_INACTIVE_USERS, inactiveUser);
 
             setStat(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
             setStat(SESSION_VARIABLE_INACTIVE_BUZZ_COUNT, inactiveBuzz);

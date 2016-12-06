@@ -5,7 +5,6 @@ import net.therap.hyperbee.service.ConferenceRoomService;
 import net.therap.hyperbee.web.validator.ConferenceRoomValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
@@ -17,28 +16,36 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import static net.therap.hyperbee.utils.constant.Messages.*;
-import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
  * @author rumman
  * @since 11/27/16
  */
 @Controller
-@RequestMapping(value = CONFERENCE_ROOM_BASE_URL)
+@RequestMapping(value = "/conference")
 public class ConferenceRoomController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(ConferenceRoomController.class);
+
+    private static final String CONFERENCE_ROOM_BASE_URL = "/conference";
+    private static final String CONFERENCE_ROOM_LIST_URL = "/list";
+    private static final String CONFERENCE_ROOM_ADD_URL = "/add";
+    private static final String CONFERENCE_ROOM_UPDATE_VIEW_URL = "/{id}/**";
+    private static final String CONFERENCE_ROOM_UPDATE_URL = "/update";
+    private static final String CONFERENCE_ROOM_DELETE_URL = "/delete";
+
+    private static final String CONFERENCE_LIST_VIEW = "conference_room/list_conference_room";
+    private static final String CONFERENCE_FORM_VIEW = "conference_room/form_conference_room";
 
     @Autowired
     private ConferenceRoomService conferenceRoomService;
-
 
     @Autowired
     private ConferenceRoomValidator validator;
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
+        binder.addValidators(validator);
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
     }
 

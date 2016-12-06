@@ -15,7 +15,9 @@ public class AuthUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
+
     private String username;
+
     private List<Role> roleList;
 
     public AuthUser(int id, String username, List<Role> roleList) {
@@ -24,17 +26,9 @@ public class AuthUser implements Serializable {
         this.roleList = roleList;
     }
 
-    public AuthUser() {
-
-    }
-
     public int getId() {
 
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public List<Role> getRoleList() {
@@ -42,17 +36,9 @@ public class AuthUser implements Serializable {
         return this.roleList;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
-    }
-
     public String getUsername() {
 
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public boolean isAdmin() {

@@ -12,25 +12,25 @@ import java.util.List;
  */
 public interface HiveService {
 
-    public void insertHive(Hive hive);
+    void saveHive(Hive hive);
 
-    public Hive retrieveHiveById(int id);
+    Hive retrieveHiveById(int id);
 
-    public void insertUsersToHive(int hiveId, List<Integer> userIdList);
+    void saveUsersToHive(int hiveId, List<Integer> userIdList);
 
-    public Hive insertFirstUserToHive(Hive hive, int userId);
+    Hive saveFirstUserToHive(Hive hive, int userId);
 
-    public Hive getHiveByHiveName(String name);
+    Hive getHiveByHiveName(String name);
 
-    public List<User> getUserNotInList(int hiveId);
+    List<User> getUserNotInList(int hiveId);
 
-    public Hive findById(int hiveId);
+    Hive findById(int hiveId);
 
-    public void removeUsersFromHive(int hiveId, List<Integer> userIdList);
+    void removeUsersFromHive(int hiveId, List<Integer> userIdList);
 
-    public List<User> getUserListToRemove(int id);
+    List<User> getUserListToRemove(int id);
 
-    public List<Notice> getLastFiveNotice(List<Notice> noticeList);
+    List<Notice> getLatestNotice(List<Notice> noticeList);
 
-    public List<Hive> getAllHive();
+    List<Hive> getAllHive();
 }

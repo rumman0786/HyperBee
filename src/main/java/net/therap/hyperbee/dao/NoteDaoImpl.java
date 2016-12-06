@@ -30,14 +30,20 @@ public class NoteDaoImpl implements NoteDao {
             " n.display_status = 'INACTIVE' WHERE n.date_remind < curdate() AND n.date_remind IS NOT NULL;";
 
     private static final String NOTE_REMAINING_REMINDER_COUNT_QUERY = "SELECT COUNT(*) " +
-            " FROM note n WHERE n.type='REMINDER' AND n.date_remind > now() AND n.display_status = 'ACTIVE' " +
-            " AND n.user_id=?;";
+            " FROM note n WHERE n.type='REMINDER' AND DATE(n.date_remind) >= curdate() " +
+            " AND n.display_status = 'ACTIVE' AND n.user_id=?;";
 
     private static final String NOTE_STICKY_COUNT_QUERY = "SELECT COUNT(*) FROM note n " +
             " WHERE n.type='STICKY' AND n.display_status= 'ACTIVE' AND n.user_id=?;";
 
     private static final String NOTE_REMINDER_COUNT_TODAY = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
-            " AND n.date_remind BETWEEN now() AND DATE_ADD(NOW(), INTERVAL 1 DAY) AND n.user_id=?;";
+            " AND DATE(n.date_remind)=curdate() AND n.user_id=?;";
+
+    private static final String NOTE_REMINDER_LIST_TODAY = "SELECT * FROM note n WHERE n.type = 'REMINDER' " +
+            " AND DATE(n.date_remind)=curdate() AND n.user_id=?;";
+
+    private static final String NOTE_REMINDER_COUNT_WEEK = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
+            " AND DATE(n.date_remind) BETWEEN curdate() AND DATE_ADD(curdate(), INTERVAL 1 WEEK) AND n.user_id=?;";
 
     @PersistenceContext
     EntityManager em;
@@ -80,11 +86,21 @@ public class NoteDaoImpl implements NoteDao {
     @Override
     public List<Note> findTopStickyNoteByUser(int numberOfNotes, int userId) {
 
-        return em.createNamedQuery("Note.findTopStickyNoteByUserId", Note.class)
+        return em.createNamedQuery("Note.findStickyNoteByUserId", Note.class)
                 .setParameter("userId", userId)
                 .setParameter("displayStatus", DisplayStatus.ACTIVE)
                 .setParameter("type", NoteType.STICKY)
                 .setMaxResults(STICKY_NOTE_COUNT_DASHBOARD)
+                .getResultList();
+    }
+
+    @Override
+    public List<Note> findStickyNoteByUser(int userId) {
+
+        return em.createNamedQuery("Note.findStickyNoteByUserId", Note.class)
+                .setParameter("userId", userId)
+                .setParameter("displayStatus", DisplayStatus.ACTIVE)
+                .setParameter("type", NoteType.STICKY)
                 .getResultList();
     }
 
@@ -127,5 +143,22 @@ public class NoteDaoImpl implements NoteDao {
         query.setParameter(1, userId);
 
         return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public int getNextWeekReminderCountForUser(int userId) {
+        Query query = em.createNativeQuery(NOTE_REMINDER_COUNT_WEEK);
+        query.setParameter(1, userId);
+
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public List<Note> getReminderNoteForTodayByUser(int userId) {
+        Query query = em.createNativeQuery(NOTE_REMINDER_LIST_TODAY, Note.class);
+        query.setParameter(1, userId);
+
+        List<Note> noteList = query.getResultList();
+        return noteList;
     }
 }

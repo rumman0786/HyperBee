@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostService {
 
-    public void savePost(int userId, int hiveId, Post post);
+   void savePost(int userId, int hiveId, Post post);
 }

@@ -11,7 +11,6 @@ import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,18 +21,29 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
 
+import static net.therap.hyperbee.utils.constant.Constant.*;
 import static net.therap.hyperbee.utils.constant.Messages.*;
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 
 /**
  * @author rumman
  * @since 11/22/16
  */
 @Controller
-@RequestMapping(value = NOTICE_BASE_URL)
+@RequestMapping(value = "/notice")
 public class NoticeController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(NoticeController.class);
+
+    private static final String NOTICE_BASE_URL = "/notice";
+    private static final String NOTICE_LIST_URL = "/list";
+    private static final String NOTICE_ADD_URL = "/add";
+    private static final String NOTICE_EDIT_URL = "/{id}/**";
+    private static final String NOTICE_UPDATE_URL = "/update";
+    private static final String NOTICE_DELETE_URL = "/delete";
+
+    private static final String NOTICE_LIST_VIEW = "notice/list_notice";
+    private static final String NOTICE_FORM_VIEW = "notice/form_notice";
 
     @Autowired
     private NoticeService noticeService;
@@ -55,7 +65,7 @@ public class NoticeController {
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
+        binder.addValidators(validator);
 
         binder.registerCustomEditor(Hive.class, "hiveList", new PropertyEditorSupport() {
             @Override
@@ -117,18 +127,17 @@ public class NoticeController {
             return "redirect:" + NOTICE_BASE_URL;
         }
 
-        noticeService.saveNotice(notice);
-        activityService.archive(NOTICE_SAVED);
+        noticeService.saveNoticeAndArchive(notice, NOTICE_SAVED);
         log.debug(NOTICE_SAVED);
 
-        redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
-                .addFlashAttribute("htmlTitle", NOTICE_SAVED)
-                .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
+        redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NOTICE_SUCCESS)
+                .addFlashAttribute(DONE_PAGE_KEY_HTML_TITLE, NOTICE_SAVED)
+                .addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE_STYLE, SUCCESS_HTML_CLASS);
 
         return "redirect:" + DONE_URL;
     }
 
-    @GetMapping(value = "/{id}/**")
+    @GetMapping(value = NOTICE_EDIT_URL)
     public String showEditNoticeForm(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("page", NOTICE_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("action", NOTICE_BASE_URL + NOTICE_UPDATE_URL)
@@ -160,21 +169,19 @@ public class NoticeController {
             return "redirect:" + NOTICE_BASE_URL;
         }
 
-        noticeService.saveNotice(notice);
-        activityService.archive(NOTICE_MODIFIED);
+        noticeService.saveNoticeAndArchive(notice, NOTICE_MODIFIED);
         log.debug(NOTICE_MODIFIED);
 
-        redirectAttributes.addFlashAttribute("message", NOTICE_SUCCESS)
-                .addFlashAttribute("htmlTitle", NOTICE_MODIFIED)
-                .addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
+        redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NOTICE_SUCCESS)
+                .addFlashAttribute(DONE_PAGE_KEY_HTML_TITLE, NOTICE_MODIFIED)
+                .addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE_STYLE, SUCCESS_HTML_CLASS);
 
         return "redirect:" + DONE_URL;
     }
 
     @PostMapping(value = NOTICE_DELETE_URL)
     public String deleteNotice(@RequestParam("id") int noticeId) {
-        noticeService.delete(noticeId);
-        activityService.archive(NOTICE_DELETED);
+        noticeService.deleteNoticeAndArchive(noticeId, NOTICE_DELETED);
         log.debug(NOTICE_DELETED);
 
         return "redirect:" + NOTICE_BASE_URL + NOTICE_LIST_URL;

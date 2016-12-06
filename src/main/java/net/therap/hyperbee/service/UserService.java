@@ -11,19 +11,17 @@ import java.util.List;
  */
 public interface UserService {
 
-    public User createUser(User user);
+    User findById(int id);
 
-    public User findById(int id);
+    User findByUsername(String username);
 
-    public User findByUsername(String username);
+    User findByUsernameOrEmail(String username, String email);
 
-    public User findByUsernameOrEmail(String username, String email);
+    User findByUsernameAndPassword(User user);
 
-    public User findByUsernameAndPassword(User user);
+    List<User> findAll();
 
-    public List<User> findAll();
-
-    public List<User> findActiveUsers();
+    List<User> findActiveUsers();
 
     List<User> searchByEntry(String entry);
 
@@ -31,5 +29,7 @@ public interface UserService {
 
     void activate(int userId);
 
-    public int findByDisplayStatus(DisplayStatus status);
+    int findByDisplayStatus(DisplayStatus status);
+
+    User saveOrUpdate(User user);
 }

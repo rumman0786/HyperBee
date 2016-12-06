@@ -56,7 +56,7 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/profile/user"><span class="glyphicon glyphicon-user"></span> ${authUser.getUsername()}</a>
+                <li><a href="/user/edit"><span class="glyphicon glyphicon-user"></span> ${authUser.getUsername()}</a>
                 </li>
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span><fmt:message
                         key="dashboard.view.topbar.logout"/></a></li>

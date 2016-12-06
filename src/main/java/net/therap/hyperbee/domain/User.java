@@ -3,6 +3,7 @@ package net.therap.hyperbee.domain;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,9 @@ import static net.therap.hyperbee.utils.constant.Constant.DISPLAY_STATUS_FIELD;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "User.findByUsernameOrEmail",
-                    query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email ")
+                    query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email "),
+        @NamedQuery(name = "User.SearchByUserInput",
+                    query = "SELECT u FROM User u WHERE u.username like :name")
 })
 @Table(name = "user")
 public class User implements Serializable {
@@ -43,6 +46,7 @@ public class User implements Serializable {
 
     private String email;
 
+    @NotNull
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -237,11 +241,18 @@ public class User implements Serializable {
         this.reservationList = reservationList;
     }
 
+    public boolean isNew() {
+
+        return (id == 0);
+    }
+
     @Override
     public String toString() {
 
-        return "Username: " + username + "\nFist Name: " + firstName +
-                "\nLast Name: " + lastName + "\nEmail: " + email +
+        return "Username: " + username +
+                "\nFist Name: " + firstName +
+                "\nLast Name: " + lastName +
+                "\nEmail: " + email +
                 "\nPassword: " + password;
 
     }

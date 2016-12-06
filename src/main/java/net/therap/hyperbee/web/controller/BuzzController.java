@@ -54,9 +54,6 @@ public class BuzzController {
     @Autowired
     private BuzzValidator buzzValidator;
 
-    @Autowired
-    private Utils utils;
-
     @InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.addValidators(buzzValidator);
@@ -80,7 +77,7 @@ public class BuzzController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "newBuzz", result);
             redirectAttributes.addFlashAttribute("newBuzz", newBuzz);
 
-            return utils.redirectTo(USER_DASHBOARD_URL);
+            return Utils.redirectTo(USER_DASHBOARD_URL);
         }
 
         AuthUser authUser = sessionHelper.getAuthUserFromSession();
@@ -92,7 +89,7 @@ public class BuzzController {
 
         model.addAttribute("newBuzz", new Buzz());
 
-        return utils.redirectTo(USER_DASHBOARD_URL);
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_FLAG_URL)
@@ -100,7 +97,7 @@ public class BuzzController {
         Buzz flagBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
         log.debug("Flagged buzz with id = {} and logged in activity log.", id);
 
-        return utils.redirectTo(USER_DASHBOARD_URL);
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_DEACTIVATE_URL)
@@ -108,7 +105,7 @@ public class BuzzController {
         Buzz deactivateBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
         log.debug("Deactivated buzz with id = {} and logged in activity log.", id);
 
-        return utils.redirectTo(USER_DASHBOARD_URL);
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_PIN_URL)
@@ -116,7 +113,7 @@ public class BuzzController {
         Buzz pinBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
         log.debug("Pinned buzz with id = {} and logged in activity log.", id);
 
-        return utils.redirectTo(USER_DASHBOARD_URL);
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_HISTORY_URL)

@@ -18,6 +18,10 @@ import static net.therap.hyperbee.utils.constant.Constant.DATE_TIME_FIELD;
  */
 @Entity
 @Table(name = "activity")
+@NamedQuery(
+        name = "Activity.findByUserIdOrderDesc",
+        query = "SELECT a FROM Activity a WHERE a.user.id = :userId ORDER BY a.activityTime DESC"
+)
 public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1;
