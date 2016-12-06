@@ -1,17 +1,14 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Buzz;
-import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.utils.Utils;
-import net.therap.hyperbee.utils.constant.Messages;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.BuzzValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.Url.BUZZ_BASE_URL;
+import static net.therap.hyperbee.utils.constant.Url.USER_DASHBOARD_URL;
 
 /**
  * @author zoha
@@ -35,7 +33,14 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 
 public class BuzzController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final String BUZZ_VIEW_URL = "/buzzList";
+    private static final String BUZZ_CREATE_URL = "/sendBuzz";
+    private static final String BUZZ_FLAG_URL = "/flagBuzz";
+    private static final String BUZZ_DEACTIVATE_URL = "/deactivateBuzz";
+    private static final String BUZZ_PIN_URL = "/pinBuzz";
+    private static final String BUZZ_HISTORY_URL = "/buzzHistory";
+
+    private static final Logger log = LogManager.getLogger(BuzzController.class);
 
     @Autowired
     private BuzzService buzzService;
@@ -49,17 +54,14 @@ public class BuzzController {
     @Autowired
     private BuzzValidator buzzValidator;
 
-    @Autowired
-    private ActivityService activityService;
-
     @InitBinder
     private void initBinder(WebDataBinder binder) {
-        binder.setValidator(buzzValidator);
+        binder.addValidators(buzzValidator);
     }
 
     @GetMapping(BUZZ_VIEW_URL)
     public void viewLatestBuzz(Model model) {
-        model.addAttribute("pinnedBuzzList", buzzService.getPinnedBuzz());
+        model.addAttribute("pinnedBuzzList", buzzService.getLatestPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
         log.debug("Passing Buzz Lists to view for displaying.");
@@ -82,10 +84,8 @@ public class BuzzController {
 
         newBuzz.setUser(userService.findByUsername(authUser.getUsername()));
         buzzService.saveBuzz(newBuzz);
-        log.debug("Created new buzz.");
 
-        activityService.archive(Messages.BUZZ_SEND_SUCCESS.replaceAll("<message>", newBuzz.getMessage()));
-        log.debug("Creation of buzz logged in activity log.");
+        log.debug("Created new buzz and logged in activity log.");
 
         model.addAttribute("newBuzz", new Buzz());
 
@@ -94,33 +94,24 @@ public class BuzzController {
 
     @GetMapping(BUZZ_FLAG_URL)
     public String flagBuzz(int id) {
-        Buzz tempBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
-        log.debug("Flagged buzz with id = " + id + ".");
-
-        activityService.archive(Messages.BUZZ_FLAG_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
-        log.debug("Flagging of buzz logged in activity log.");
+        Buzz flagBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
+        log.debug("Flagged buzz with id = {} and logged in activity log.", id);
 
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_DEACTIVATE_URL)
     public String deactivateBuzz(int id) {
-        Buzz tempBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
-        log.debug("Deactivated buzz with id = " + id + ".");
-
-        activityService.archive(Messages.BUZZ_DELETE_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
-        log.debug("Deactivation of buzz logged in activity log.");
+        Buzz deactivateBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
+        log.debug("Deactivated buzz with id = {} and logged in activity log.", id);
 
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(BUZZ_PIN_URL)
     public String pinBuzz(int id) {
-        Buzz tempBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
-        log.debug("Pinned buzz with id = " + id + ".");
-
-        activityService.archive(Messages.BUZZ_PINNED_SUCCESS.replaceAll("<message>", tempBuzz.getMessage()));
-        log.debug("Pinning of buzz logged in activity log.");
+        Buzz pinBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
+        log.debug("Pinned buzz with id = {} and logged in activity log.", id);
 
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
@@ -142,9 +133,6 @@ public class BuzzController {
         model.addAttribute("page", "buzz");
 
         log.debug("Sending buzz list as per requirement for viewing history.");
-
-        activityService.archive(Messages.BUZZ_HISTORY_REQUEST);
-        log.debug("Retrieval of buzz history logged in activity log");
 
         return BUZZ_BASE_URL + BUZZ_HISTORY_URL;
     }
