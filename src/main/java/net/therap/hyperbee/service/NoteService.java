@@ -31,4 +31,8 @@ public interface NoteService {
     List<Note> findStickyNoteByUser(int userId);
 
     List<Note> getReminderNoteForTodayByUser(int userId);
+
+    List<Note> getReminderNoteForNextWeekByUser(int userId);
+
+    List<Note> findAllReminderNoteByUser(int userId);
 }
