@@ -10,7 +10,7 @@
     <div class="panel panel-success">
         <div class="panel-heading">
             <h2>${type} <fmt:message key="buzzToday.view.title"/></h2>
-            <h4><span class="label label-success">Buzz Count: ${buzzList.size()}</span></h4>
+            <h4><span class="label label-success"><fmt:message key="buzz.count.label"/> ${buzzList.size()}</span></h4>
         </div>
 
         <div class="panel-body">

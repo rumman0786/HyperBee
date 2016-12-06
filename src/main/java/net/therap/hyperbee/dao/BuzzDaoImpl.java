@@ -7,7 +7,9 @@ import net.therap.hyperbee.utils.Utils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -148,7 +150,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getPinnedByUser(User user) {
-        Query query= em.createNativeQuery(QUERY_GET_PINNED_BY_USER, Buzz.class);
+        Query query = em.createNativeQuery(QUERY_GET_PINNED_BY_USER, Buzz.class);
         query.setParameter(1, user.getId());
         query.setParameter(2, true);
 
@@ -157,7 +159,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getFlaggedByUser(User user) {
-        Query query= em.createNativeQuery(QUERY_GET_FLAGGED_BY_USER, Buzz.class);
+        Query query = em.createNativeQuery(QUERY_GET_FLAGGED_BY_USER, Buzz.class);
         query.setParameter(1, user.getId());
         query.setParameter(2, true);
 
@@ -166,7 +168,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getActive() {
-        Query query= em.createNativeQuery(QUERY_GET_STATUS, Buzz.class);
+        Query query = em.createNativeQuery(QUERY_GET_STATUS, Buzz.class);
         query.setParameter(1, 1);
 
         return (List<Buzz>) query.getResultList();
@@ -174,7 +176,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getPinned() {
-        Query query= em.createNativeQuery(QUERY_GET_PINNED, Buzz.class);
+        Query query = em.createNativeQuery(QUERY_GET_PINNED, Buzz.class);
         query.setParameter(1, true);
 
         return (List<Buzz>) query.getResultList();
@@ -182,7 +184,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getFlagged() {
-        Query query= em.createNativeQuery(QUERY_GET_FLAGGED, Buzz.class);
+        Query query = em.createNativeQuery(QUERY_GET_FLAGGED, Buzz.class);
         query.setParameter(1, true);
 
         return (List<Buzz>) query.getResultList();
@@ -190,7 +192,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getInactive() {
-        Query query= em.createNativeQuery(QUERY_GET_STATUS, Buzz.class);
+        Query query = em.createNativeQuery(QUERY_GET_STATUS, Buzz.class);
         query.setParameter(1, 2);
 
         return (List<Buzz>) query.getResultList();

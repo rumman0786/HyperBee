@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.Url.BUZZ_BASE_URL;
@@ -98,7 +97,7 @@ public class BuzzController {
 
     @GetMapping(BUZZ_SELECT_VIEW_URL)
     public String viewBuzzByType(@PathVariable("type") String type, Model model) {
-        if(sessionHelper.getAuthUserFromSession().isAdmin()) {
+        if (sessionHelper.getAuthUserFromSession().isAdmin()) {
             model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzHelper.getListByType(type));
         } else {
             model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzHelper.getListByTypeAndUser(type,
