@@ -3,6 +3,7 @@ package net.therap.hyperbee.domain;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +27,7 @@ public class Buzz implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotNull(message = "buzz.message.required")
     @Column(columnDefinition = TEXT_FIELD, nullable = false)
     private String message;
 

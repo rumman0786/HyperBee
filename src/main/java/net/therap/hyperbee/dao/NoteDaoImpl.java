@@ -39,10 +39,13 @@ public class NoteDaoImpl implements NoteDao {
     private static final String NOTE_REMINDER_COUNT_TODAY = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
             " AND DATE(n.date_remind)=curdate() AND n.user_id=?;";
 
+    private static final String NOTE_REMINDER_COUNT_WEEK = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
+            " AND DATE(n.date_remind) BETWEEN curdate() AND DATE_ADD(curdate(), INTERVAL 1 WEEK) AND n.user_id=?;";
+
     private static final String NOTE_REMINDER_LIST_TODAY = "SELECT * FROM note n WHERE n.type = 'REMINDER' " +
             " AND DATE(n.date_remind)=curdate() AND n.user_id=?;";
 
-    private static final String NOTE_REMINDER_COUNT_WEEK = "SELECT COUNT(*) FROM note n WHERE n.type = 'REMINDER' " +
+    private static final String NOTE_REMINDER_LIST_NEXT_WEEK = "SELECT * FROM note n WHERE n.type = 'REMINDER' " +
             " AND DATE(n.date_remind) BETWEEN curdate() AND DATE_ADD(curdate(), INTERVAL 1 WEEK) AND n.user_id=?;";
 
     @PersistenceContext
@@ -69,7 +72,7 @@ public class NoteDaoImpl implements NoteDao {
                 .setParameter("displayStatus", DisplayStatus.INACTIVE)
                 .executeUpdate();
         em.flush();
-        log.trace("markNoteAsInactive- no of rows updated :: ", rowUpdated);
+        log.trace("markNoteAsInactive- no of rows updated= {}", rowUpdated);
 
         return rowUpdated;
     }
@@ -160,5 +163,24 @@ public class NoteDaoImpl implements NoteDao {
 
         List<Note> noteList = query.getResultList();
         return noteList;
+    }
+
+    @Override
+    public List<Note> getReminderNoteForNextWeekByUser(int userId) {
+        Query query = em.createNativeQuery(NOTE_REMINDER_LIST_NEXT_WEEK, Note.class);
+        query.setParameter(1, userId);
+
+        List<Note> noteList = query.getResultList();
+        return noteList;
+    }
+
+    @Override
+    public List<Note> findAllReminderNoteByUser(int userId) {
+
+        return em.createNamedQuery("Note.reminderForUserDash", Note.class)
+                .setParameter("userId", userId)
+                .setParameter("displayStatus", DisplayStatus.ACTIVE)
+                .setParameter("type", NoteType.REMINDER)
+                .getResultList();
     }
 }

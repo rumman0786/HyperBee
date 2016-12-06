@@ -17,8 +17,6 @@ public interface BuzzService {
 
     Buzz getBuzzById(int buzzId);
 
-    List<Buzz> getBuzzByStatus(DisplayStatus displayStatus);
-
     List<Buzz> getLatestBuzz();
 
     List<Buzz> getLatestPinnedBuzz();
@@ -31,15 +29,29 @@ public interface BuzzService {
 
     int getActiveCountByUser(int userId);
 
+    List<Buzz> getActiveByUser(int userId);
+
     int getPinnedCountByUser(int userId);
+
+    List<Buzz> getPinnedByUser(int userId);
 
     int getFlaggedCountByUser(int userId);
 
+    List<Buzz> getFlaggedByUser(int userId);
+
     int getActiveCount();
 
-    int getInactiveCount();
+    List<Buzz> getActive();
 
     int getPinnedCount();
 
+    List<Buzz> getPinned();
+
     int getFlaggedCount();
+
+    List<Buzz> getFlagged();
+
+    int getInactiveCount();
+
+    List<Buzz> getInactive();
 }
