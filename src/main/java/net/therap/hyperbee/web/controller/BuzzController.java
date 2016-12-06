@@ -96,7 +96,7 @@ public class BuzzController {
     }
 
     @GetMapping(BUZZ_SELECT_VIEW_URL)
-    public String viewBuzzByType(@PathVariable("type") String type, Model model) {
+    public String viewBuzzByType(@PathVariable(BUZZ_TYPE_ATTR_NAME) String type, Model model) {
         if (sessionHelper.getAuthUserFromSession().isAdmin()) {
             model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzHelper.getListByType(type));
         } else {

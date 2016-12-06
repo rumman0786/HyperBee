@@ -15,14 +15,24 @@
 
         <div class="panel-body">
             <table class="table table-bordered table-striped">
-                <c:forEach items="${buzzList}" var="buzz">
-                    <tr>
-                        <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.getBuzzTime()}" var="buzzDateTime"/>
-                        <td>
-                            <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <c:choose>
+                    <c:when test="${buzzList.isEmpty()}">
+                        <tr>
+                            <td><fmt:message key="buzzToday.view.no.message"/></td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${buzzList}" var="buzz">
+                            <tr>
+                                <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.getBuzzTime()}"
+                                                var="buzzDateTime"/>
+                                <td>
+                                    <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </table>
         </div>
 

@@ -18,10 +18,11 @@ import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
  * @author zoha
  * @since 12/1/16
  */
-public class BuzzHistoryFilter implements Filter {
+public class BuzzFilter implements Filter {
 
-    private static final Logger log = LogManager.getLogger(BuzzHistoryFilter.class);
+    private static final Logger log = LogManager.getLogger(BuzzFilter.class);
 
+    // Log Message Constants
     private static final String BUZZ_FILTER_INIT_LOG = "Buzz History Filter Initialized";
     private static final String BUZZ_FILTER_ACCESS_LOG = "Buzz History Filter Destroyed";
     private static final String BUZZ_FILTER_DESTROY_LOG = "Attempt of access by {}";
