@@ -53,11 +53,9 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="ApplicationResources"/>
     </bean>
-
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="validationMessageSource" ref="messageSource"/>
