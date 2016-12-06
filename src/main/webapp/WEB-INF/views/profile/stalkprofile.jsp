@@ -6,7 +6,7 @@
     <title>${user.firstName} ${user.lastName}</title>
 </head>
 <body>
-<div class="col-lg-10 container"
+<div class="col-sm-10 container"
      style="background-image: url(http://localhost:8080/profile/cover/${profile.coverImage})">
     <div class="row">
         <div class="col-lg-2 container" style="padding-top: 150px">
@@ -23,13 +23,13 @@
         </div>
     </div>
 </div>
-<div class="col-lg-10 container" style="padding-top: 10px">
+<div class="col-sm-10 container" style="padding-top: 10px">
     <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
         <b>${user.firstName} ${user.lastName}</b>
         <c:if test="${authUser.isAdmin()}">
             <c:choose>
                 <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
-                    <span class="label label-warning"><a href="/user/inactivate/<c:out value="${user.getId()}"/>"/>Deactivate</span>
+                    <span class="label label-warning"><a href="/user/deactivate/<c:out value="${user.getId()}"/>"/>Deactivate</span>
                 </c:when>
                 <c:otherwise>
                     <span class="label label-warning"><a href="/user/activate/<c:out value="${user.getId()}"/>"/>Activate</span>
@@ -39,7 +39,7 @@
     </h1>
 </div>
 <div class="row">
-    <div class="col-lg-5">
+    <div class="col-sm-5">
         <div class="panel panel-default" style="padding: 20px">
             <div class="panel-heading">
                 <h3><b><fmt:message key="profile.show.general"/></b></h3>
@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-5 panel panel-default" style="padding: 10px">
+    <div class="col-sm-5 panel panel-default" style="padding: 10px">
         <div class="panel-heading">
             <h3><b><fmt:message key="profile.show.education"/></b></h3>
         </div>
@@ -102,7 +102,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-5">
+    <div class="col-sm-5">
         <div class="panel panel-default" style="padding: 10px">
             <div class="panel-heading">
                 <h3><b><fmt:message key="profile.show.basic.info"/></b></h3>
@@ -127,7 +127,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-sm-6">
         <div class="panel panel-default" style="padding: 10px">
             <div class="panel-heading">
                 <h3><b><fmt:message key="profile.show.workexperience"/></b></h3>
