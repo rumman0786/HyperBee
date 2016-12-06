@@ -67,7 +67,7 @@ public class ProfileController {
 
     @InitBinder("profile")
     private void initBinder(WebDataBinder binder) {
-        binder.setValidator(profileValidator);
+        binder.addValidators(profileValidator);
     }
 
     @GetMapping(value = PROFILE_EDIT_URL)
@@ -76,17 +76,16 @@ public class ProfileController {
         AuthUser authUser = sessionHelper.getAuthUserFromSession();
         int id = authUser.getId();
         User user = userService.findById(id);
+        Profile profile;
 
         if (user.getProfile() == null) {
-            Profile profile = new Profile();
-            model.addAttribute(PROFILE_ATTRIBUTE, profile);
+            profile = new Profile();
             profileService.saveProfileForUser(profile, authUser.getId());
-            model.addAttribute(USER_ATTRIBUTE, user);
         } else {
-            Profile profile = user.getProfile();
-            model.addAttribute(PROFILE_ATTRIBUTE, profile);
-            model.addAttribute(USER_ATTRIBUTE, user);
+            profile = user.getProfile();
         }
+        model.addAttribute(PROFILE_ATTRIBUTE, profile);
+        model.addAttribute(USER_ATTRIBUTE, user);
         activityService.archive(VISIT_EDIT_PROFILE_ACTIVITY);
 
         log.debug("AuthUser ID:", authUser.getId());
@@ -105,7 +104,7 @@ public class ProfileController {
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "profile", result)
-                              .addFlashAttribute("profile", profile);
+                    .addFlashAttribute("profile", profile);
 
             return utils.redirectTo(PROFILE_URL + PROFILE_EDIT_URL);
         }
@@ -124,7 +123,7 @@ public class ProfileController {
         return CREATE_PROFILE_URL;
     }
 
-    @GetMapping(value = USER_PROFILE_URL)
+    @RequestMapping(value = USER_PROFILE_URL, method = {RequestMethod.POST, RequestMethod.GET})
     public String getViewProfile(Model model) {
         model.addAttribute("page", "profile");
         AuthUser authUser = sessionHelper.getAuthUserFromSession();
@@ -136,19 +135,6 @@ public class ProfileController {
         }
         model.addAttribute(USER_ATTRIBUTE, user);
         activityService.archive(VISITED_PROFILE_ACTIVITY);
-
-        return VIEW_PROFILE_URL;
-    }
-
-    @PostMapping(value = USER_PROFILE_URL)
-    public String viewProfile(Model model) {
-        model.addAttribute("page", "profile");
-        AuthUser authUser = sessionHelper.getAuthUserFromSession();
-        String username = authUser.getUsername();
-        User user = userService.findByUsername(username);
-        Profile profile = user.getProfile();
-        model.addAttribute(PROFILE_ATTRIBUTE, profile);
-        model.addAttribute(USER_ATTRIBUTE, user);
 
         return VIEW_PROFILE_URL;
     }

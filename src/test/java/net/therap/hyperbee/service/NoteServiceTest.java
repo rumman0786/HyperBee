@@ -35,8 +35,6 @@ public class NoteServiceTest {
     @Mock
     private UserDao userDao;
 
-    private Mock mock;
-
     @Before
     public void setup() {
         noteService = new NoteServiceImpl();
