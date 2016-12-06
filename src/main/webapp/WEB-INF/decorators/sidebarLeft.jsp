@@ -25,7 +25,7 @@
             <div class="panel-body">
                 <a href="/note/view/sticky"><fmt:message key="sidebar.left.note.stickyCount"/> ${stickyCount}</a> <br>
                 <a href="/note/view/reminder/all"><fmt:message key="sidebar.left.note.reminderCount"/>
-                ${reminderCount}
+                    ${reminderCount}
                 </a><br>
                 <a href="/note/view/reminder/today"><fmt:message key="sidebar.left.note.reminderCountToday"/>
                     ${remindCountToday}
@@ -41,13 +41,25 @@
         <div class="panel panel-info">
             <div class="panel-heading"><fmt:message key="sidebar.left.buzz.title"/></div>
             <div class="panel-body">
-                <strong><fmt:message key="sidebar.left.buzz.active"/></strong> <c:out value="${activeBuzz}"/><br>
+                <strong><fmt:message key="sidebar.left.buzz.active"/></strong>
+                <a href="/buzz/buzzList/active" data-toggle="tooltip" data-placement="left" title="Click to view Buzz">
+                    <span class="badge">${activeBuzz}</span>
+                </a><br>
                 <c:if test="${authUser.isAdmin()}">
-                    <strong><fmt:message key="sidebar.left.buzz.inactive"/></strong> <c:out
-                        value="${inactiveBuzz}"/><br>
+                    <strong><fmt:message key="sidebar.left.buzz.inactive"/></strong>
+                    <a href="/buzz/buzzList/inactive" data-toggle="tooltip" data-placement="left"
+                       title="Click to view Buzz">
+                        <span class="badge">${inactiveBuzz}</span>
+                    </a><br>
                 </c:if>
-                <strong><fmt:message key="sidebar.left.buzz.flagged"/></strong> <c:out value="${flaggedBuzz}"/><br>
-                <strong><fmt:message key="sidebar.left.buzz.pinned"/></strong> <c:out value="${pinnedBuzz}"/><br>
+                <strong><fmt:message key="sidebar.left.buzz.flagged"/></strong>
+                <a href="/buzz/buzzList/flagged" data-toggle="tooltip" data-placement="left" title="Click to view Buzz">
+                    <span class="badge">${flaggedBuzz}</span>
+                </a><br>
+                <strong><fmt:message key="sidebar.left.buzz.pinned"/></strong>
+                <a href="/buzz/buzzList/pinned" data-toggle="tooltip" data-placement="left" title="Click to view Buzz">
+                    <span class="badge">${pinnedBuzz}</span>
+                </a><br>
             </div>
         </div>
     </div>
