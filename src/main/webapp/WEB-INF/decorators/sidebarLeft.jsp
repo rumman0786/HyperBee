@@ -24,11 +24,15 @@
             <div class="panel-heading"><fmt:message key="sidebar.left.note.label.stats"/></div>
             <div class="panel-body">
                 <a href="/note/view/sticky"><fmt:message key="sidebar.left.note.stickyCount"/> ${stickyCount}</a> <br>
-                <fmt:message key="sidebar.left.note.reminderCount"/> ${reminderCount}<br>
-                <a href="/note/view/reminder"><fmt:message key="sidebar.left.note.reminderCountToday"/>
-                 ${remindCountToday}
+                <a href="/note/view/reminder/all"><fmt:message key="sidebar.left.note.reminderCount"/>
+                ${reminderCount}
                 </a><br>
-                <fmt:message key="sidebar.left.note.reminderCountNextWeek"/> ${remindCountNextWeek}<br>
+                <a href="/note/view/reminder/today"><fmt:message key="sidebar.left.note.reminderCountToday"/>
+                    ${remindCountToday}
+                </a><br>
+                <a href="/note/view/reminder/week"><fmt:message key="sidebar.left.note.reminderCountNextWeek"/>
+                    ${remindCountNextWeek}
+                </a><br>
             </div>
         </div>
     </div>
@@ -39,7 +43,8 @@
             <div class="panel-body">
                 <strong><fmt:message key="sidebar.left.buzz.active"/></strong> <c:out value="${activeBuzz}"/><br>
                 <c:if test="${authUser.isAdmin()}">
-                    <strong><fmt:message key="sidebar.left.buzz.inactive"/></strong> <c:out value="${inactiveBuzz}"/><br>
+                    <strong><fmt:message key="sidebar.left.buzz.inactive"/></strong> <c:out
+                        value="${inactiveBuzz}"/><br>
                 </c:if>
                 <strong><fmt:message key="sidebar.left.buzz.flagged"/></strong> <c:out value="${flaggedBuzz}"/><br>
                 <strong><fmt:message key="sidebar.left.buzz.pinned"/></strong> <c:out value="${pinnedBuzz}"/><br>

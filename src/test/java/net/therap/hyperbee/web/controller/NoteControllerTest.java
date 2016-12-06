@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.Url.NOTE_SAVE_URL;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -29,6 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 12/1/16
  */
 public class NoteControllerTest {
+
+    private static final String NOTE_SAVE_URL = "/note/save";
 
     @InjectMocks
     private NoteController noteController;

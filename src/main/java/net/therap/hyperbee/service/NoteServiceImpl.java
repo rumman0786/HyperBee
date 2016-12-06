@@ -101,8 +101,18 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<Note> getReminderNoteForTodayByUser(int userId){
+    public List<Note> getReminderNoteForTodayByUser(int userId) {
 
         return noteDao.getReminderNoteForTodayByUser(userId);
+    }
+
+    @Override
+    public List<Note> getReminderNoteForNextWeekByUser(int userId) {
+        return noteDao.getReminderNoteForNextWeekByUser(userId);
+    }
+
+    @Override
+    public List<Note> findAllReminderNoteByUser(int userId) {
+        return noteDao.findAllReminderNoteByUser(userId);
     }
 }

@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.Messages.*;
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 
 /**
  * @author bashir
@@ -34,7 +34,20 @@ public class NoteController {
     private static final Logger log = LogManager.getLogger(NoteController.class);
     private static final String NOTE_VIEW = "note/note_list";
     private static final String NOTE_VIEW_STICKY_URL = "/note/view/sticky";
-    private static final String NOTE_VIEW_REMINDER_URL = "/note/view/reminder";
+    private static final String NOTE_VIEW_TODAY_REMINDER_URL = "/note/view/reminder/today";
+    private static final String NOTE_VIEW_WEEKLY_REMINDER_URL = "/note/view/reminder/week";
+    private static final String NOTE_ALL_REMINDER_URL = "/note/view/reminder/all";
+
+
+
+    //Notes Constant
+    private static final String NOTE_VIEW_URL = "/notes";
+    private static final String NOTE_ADD_URL = "/note/add";
+    private static final String NOTE_SAVE_URL = "/note/save";
+    private static final String NOTE_VIEW_ALL = "note/notes";
+    private static final String NOTE_ADD_VIEW = "note/note_form";
+    private static final String NOTE_DELETE_URL = "/note/delete/{type}/{id}";
+
 
     @Autowired
     private NoteService noteService;
@@ -138,11 +151,31 @@ public class NoteController {
         return NOTE_VIEW;
     }
 
-    @GetMapping(NOTE_VIEW_REMINDER_URL)
-    public String viewAllReminderNote(Model model) {
+    @GetMapping(NOTE_VIEW_TODAY_REMINDER_URL)
+    public String viewReminderNoteToday(Model model) {
 
         int userId = sessionHelper.getUserIdFromSession();
         List<Note> stickyNoteList = noteService.getReminderNoteForTodayByUser(userId);
+        model.addAttribute("selectedNoteList", stickyNoteList);
+        model.addAttribute("page", "Reminder Note");
+        return NOTE_VIEW;
+    }
+
+    @GetMapping(NOTE_VIEW_WEEKLY_REMINDER_URL)
+    public String viewReminderNoteNextWeek(Model model) {
+
+        int userId = sessionHelper.getUserIdFromSession();
+        List<Note> stickyNoteList = noteService.getReminderNoteForNextWeekByUser(userId);
+        model.addAttribute("selectedNoteList", stickyNoteList);
+        model.addAttribute("page", "Reminder Note");
+        return NOTE_VIEW;
+    }
+
+    @GetMapping(NOTE_ALL_REMINDER_URL)
+    public String getAllReminder(Model model) {
+
+        int userId = sessionHelper.getUserIdFromSession();
+        List<Note> stickyNoteList = noteService.findAllReminderNoteByUser(userId);
         model.addAttribute("selectedNoteList", stickyNoteList);
         model.addAttribute("page", "Reminder Note");
         return NOTE_VIEW;
