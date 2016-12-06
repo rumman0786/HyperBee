@@ -57,10 +57,10 @@ public class UserController {
     private static final String USER_DEACTIVATE_URL = "/user/deactivate/{userId}";
 
     @Autowired
-    BuzzService buzzService;
+    private BuzzService buzzService;
 
     @Autowired
-    NoteService noteService;
+    private NoteService noteService;
 
     @Autowired
     private UserService userService;
@@ -119,6 +119,7 @@ public class UserController {
 
     @PostMapping(LOGIN_URL)
     public String loginUser(@Validated @ModelAttribute("login") User user, BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
 
             return LOGIN_VIEW;
@@ -135,6 +136,8 @@ public class UserController {
 
             return Utils.redirectTo(USER_DASHBOARD_URL);
         }
+
+        user.setPassword("");
 
         return LOGIN_VIEW;
     }

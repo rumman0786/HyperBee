@@ -29,13 +29,16 @@ public class UserEditValidator implements Validator {
 
         User user = (User) target;
 
-        User retrievedUser = userService.findByUsernameOrEmail(user.getUsername(), user.getEmail());
+        User retrievedUser = userService.findByUsername(user.getUsername());
 
-        if (retrievedUser != null) {
-            if (retrievedUser.getUsername().equals(user.getUsername())) {
+        //TODO Check for multiple db results
+
+        if ((retrievedUser != null)) {
+
+            if (!retrievedUser.getUsername().equals(user.getUsername())) {
                 errors.rejectValue("username", "username.unique");
             }
-            if (retrievedUser.getEmail().equals(user.getEmail())) {
+            if (!retrievedUser.getEmail().equals(user.getEmail())) {
                 errors.rejectValue("email", "email.unique");
             }
         }

@@ -4,13 +4,11 @@ import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -72,7 +70,7 @@ public class UserDaoImpl implements UserDao {
                     .setParameter("username", username)
                     .setParameter("email", email)
                     .getSingleResult();
-        } catch (NoResultException e) {
+        } catch (NoResultException | NonUniqueResultException e) {
             log.debug("Find by username or email exception", e);
         }
 
