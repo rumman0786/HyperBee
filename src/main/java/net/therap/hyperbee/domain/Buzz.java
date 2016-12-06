@@ -19,6 +19,10 @@ import static net.therap.hyperbee.utils.constant.Constant.*;
  */
 @Entity
 @Table(name = "buzz")
+@NamedQueries({
+        @NamedQuery(name = "buzz.getPinned", query="SELECT b FROM Buzz b WHERE b.pinned = :pinned ORDER BY b.id DESC"),
+        @NamedQuery(name = "buzz.getAll", query = "FROM Buzz")
+})
 public class Buzz implements Serializable {
 
     private static final long serialVersionUID = 1;

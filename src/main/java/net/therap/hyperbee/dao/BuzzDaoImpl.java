@@ -55,7 +55,7 @@ public class BuzzDaoImpl implements BuzzDao {
 
     @Override
     public List<Buzz> getAll() {
-        return em.createQuery("FROM Buzz", Buzz.class).getResultList();
+        return em.createNamedQuery("buzz.getAll", Buzz.class).getResultList();
     }
 
     @Override
