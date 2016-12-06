@@ -62,7 +62,7 @@ public class NoteController {
     @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
 
         model.addAttribute("noteList", noteList);
@@ -93,7 +93,7 @@ public class NoteController {
             return utils.redirectTo(NOTE_VIEW_URL);
         }
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
 
         noteHelper.processNoteForSaving(note, dateRemindString);
         noteService.saveNoteForUser(note, userId);
@@ -104,7 +104,7 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
         log.debug("Note successfully saved: userId" + userId + "note: " + note);
-        sessionHelper.initializeNoteStatForUser(userId);
+        sessionHelper.initializeNoteStatForUser();
 
         return utils.redirectTo(DONE_URL);
     }
@@ -114,14 +114,14 @@ public class NoteController {
                              HttpSession session, RedirectAttributes redirectAttributes,
                              @ModelAttribute("noteCommand") Note note, Model model) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         noteService.markNoteAsInactiveForUser(userId, noteId);
 
         redirectAttributes.addFlashAttribute("message", NOTE_DELETE_SUCCESS);
         redirectAttributes.addFlashAttribute("messageStyle", FAILURE_HTML_CLASS);
 
         activityService.archive(NOTE_DELETE_ACTIVITY + " " + noteType);
-        sessionHelper.initializeNoteStatForUser(userId);
+        sessionHelper.initializeNoteStatForUser();
 
         log.debug("Note deleted: userId " + userId + " noteId: " + noteId + " noteType: " + noteType);
 
@@ -131,7 +131,7 @@ public class NoteController {
     @GetMapping(NOTE_VIEW_STICKY_URL)
     public String viewAllStickyNote(Model model) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> stickyNoteList = noteService.findStickyNoteByUser(userId);
         model.addAttribute("selectedNoteList", stickyNoteList);
         model.addAttribute("page", "Sticky Note");
@@ -141,7 +141,7 @@ public class NoteController {
     @GetMapping(NOTE_VIEW_REMINDER_URL)
     public String viewAllReminderNote(Model model) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> stickyNoteList = noteService.getReminderNoteForTodayByUser(userId);
         model.addAttribute("selectedNoteList", stickyNoteList);
         model.addAttribute("page", "Reminder Note");

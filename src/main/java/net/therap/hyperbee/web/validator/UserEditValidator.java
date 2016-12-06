@@ -5,7 +5,6 @@ import net.therap.hyperbee.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
@@ -25,15 +24,15 @@ public class UserEditValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.edit.password");
 
         User user = (User) target;
 
         User retrievedUser = userService.findByUsername(user.getUsername());
 
-        //TODO Check for multiple db results
+//        System.out.println(retrievedUser);
 
-        if ((retrievedUser != null)) {
+
+        if (retrievedUser != null && (retrievedUser.getId() != user.getId())) {
 
             if (!retrievedUser.getUsername().equals(user.getUsername())) {
                 errors.rejectValue("username", "username.unique");

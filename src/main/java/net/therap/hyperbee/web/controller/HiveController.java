@@ -83,7 +83,7 @@ public class HiveController {
 
     @GetMapping
     public String viewHive(ModelMap model) {
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
 
         model.addAttribute("hiveList", userService.findById(userId).getHiveList());
         model.addAttribute("userIdInfo", new UserIdInfo());
@@ -176,7 +176,7 @@ public class HiveController {
         model.addAttribute("hiveName", hive.getName());
         String filename = hive.getName().replaceAll(" ", "") + file.getOriginalFilename();
         hive.setImagePath(filename);
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         hive.setCreator(userService.findById(userId));
         Hive newHive = hiveService.saveFirstUserToHive(hive, userId);
         hiveService.saveHive(newHive);
@@ -203,7 +203,7 @@ public class HiveController {
             return "redirect:" + HIVE_VIEW + hiveId;
         }
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         postService.savePost(userId, hiveId, post);
 
         log.debug("AuthUser ID: " + userId);

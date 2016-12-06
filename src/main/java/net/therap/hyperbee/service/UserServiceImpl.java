@@ -6,8 +6,11 @@ import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
-import net.therap.hyperbee.utils.constant.Constant;
+import net.therap.hyperbee.web.helper.NoticeHelper;
+import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,8 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final Logger log = LogManager.getLogger(UserServiceImpl.class);
+
     private static final int USER_ROLE_ID = 2;
 
     @Autowired
@@ -32,6 +37,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private SessionHelper sessionHelper;
+
+    @Autowired
+    private NoticeHelper noticeHelper;
+
+    @Autowired
+    private ReservationHelper reservationHelper;
 
     @Override
     public User findById(int id) {
@@ -110,8 +121,10 @@ public class UserServiceImpl implements UserService {
         String hashMd5 = Utils.hashMd5(user.getPassword());
         user.setPassword(hashMd5);
 
-        sessionHelper.setSessionAttribute(Constant.SESSION_KEY_AUTH_USER, user);
+        log.debug("\nUser at saveOrUpdate:\n" + user);
 
-        return userDao.saveOrUpdate(user);
+        User retrievedUser = userDao.saveOrUpdate(user);
+
+        return retrievedUser;
     }
 }

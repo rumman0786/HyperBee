@@ -30,7 +30,6 @@
             <label for="password">Password</label>
             <form:input type="password" class="form-control" id="password" path="password"/>
         </div>
-        <form:hidden path="id"/>
         <button type="submit" class="btn btn-default">Submit</button>
     </form:form>
 </body>

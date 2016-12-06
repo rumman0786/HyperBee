@@ -6,12 +6,12 @@
     <div class="page-header">
         <h1 class="text-center">Welcome back Beeee!!!</h1>
     </div>
-    <form:form class="form-signin" action="/login" method="POST" commandName="login">
+    <form:form class="form-signin" action="/login" method="POST" modelAttribute="login">
         <h2 class="form-signin-heading">Please log in</h2>
         <form:errors path="*" element="div" cssClass="alert alert-danger fade in"/>
-        <form:input type="text" id="inputEmail" name="email" class="form-control" placeholder="Username"
+        <form:input type="text" class="form-control" placeholder="Username"
                     path="username"/>
-        <form:input type="password" class="form-control" placeholder="Password" value=""
+        <form:input type="password" class="form-control" placeholder="Password"
                     path="password"/>
         <div class="checkbox">
             <label>

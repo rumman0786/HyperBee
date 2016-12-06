@@ -5,7 +5,7 @@
 <div class="container">
     <form:form class="form-signin" action="/signUp" method="POST" modelAttribute="signUp">
         <h2 class="form-signin-heading">Please sign up</h2>
-        <form:errors path="*" element="div" cssClass="alert alert-danger fade in"/>
+        <form:errors element="div" path="*" cssClass="alert alert-danger fade in"/>
         <form:input type="text" class="form-control" path="firstName" placeholder="First Name"/>
         <form:input type="text" class="form-control" path="lastName" placeholder="Last Name"/>
         <form:input type="text" class="form-control" path="username" placeholder="Username"/>

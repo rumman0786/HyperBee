@@ -41,7 +41,7 @@ public class SessionHelper {
         return (AuthUser) getSessionAttribute(SESSION_KEY_AUTH_USER);
     }
 
-    public int getUserIdFromSession() {
+    public int getAuthUserIdFromSession() {
         AuthUser authUser = (AuthUser) getSessionAttribute("authUser");
 
         return authUser.getId();
@@ -67,7 +67,9 @@ public class SessionHelper {
         getHttpSession().invalidate();
     }
 
-    public void initializeNoteStatForUser(int userId) {
+    public void initializeNoteStatForUser() {
+        int userId = getAuthUserIdFromSession();
+
         int stickyNoteCount = noteService.getStickyNoteCountForUser(userId);
         int reminderCount = noteService.getRemainingReminderCountForUser(userId);
         int reminderCountForToday = noteService.getReminderCountTodayForUser(userId);

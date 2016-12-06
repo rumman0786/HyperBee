@@ -61,4 +61,8 @@ public class Role implements Serializable {
     public void setUserList(List<User> userList) {
         this.userList = userList;
     }
+
+    public String toString() {
+        return roleType.getRole();
+    }
 }
