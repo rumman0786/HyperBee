@@ -79,11 +79,9 @@ public class NoticeDaoImpl implements NoticeDao {
         Hibernate.initialize(hive.getNoticeList());
 
         List<Notice> noticeList = new ArrayList<>(hive.getNoticeList());
-        Collections.reverse(noticeList);
         Iterator<Notice> iterator = noticeList.iterator();
 
         while (iterator.hasNext()) {
-
             if (iterator.next().getDisplayStatus() != DisplayStatus.ACTIVE) {
                 iterator.remove();
             }
