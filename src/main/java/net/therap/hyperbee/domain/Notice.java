@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -64,6 +65,7 @@ public class Notice implements Serializable {
     private List<Hive> hiveList;
 
     public Notice() {
+        hiveList = new ArrayList<>();
         this.dateCreated = new GregorianCalendar();
     }
 

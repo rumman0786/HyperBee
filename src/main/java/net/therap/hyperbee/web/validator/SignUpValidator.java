@@ -3,7 +3,7 @@ package net.therap.hyperbee.web.validator;
 
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.web.command.SignUpInfo;
+import net.therap.hyperbee.web.command.SignUpDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -22,7 +22,7 @@ public class SignUpValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> signUpValidationClass) {
-        return SignUpInfo.class.isAssignableFrom(signUpValidationClass);
+        return SignUpDto.class.isAssignableFrom(signUpValidationClass);
     }
 
     @Override
@@ -34,19 +34,19 @@ public class SignUpValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password1", "password.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password2", "verifyPassword.required");
 
-        SignUpInfo signUpInfo = (SignUpInfo) target;
+        SignUpDto signUpDto = (SignUpDto) target;
 
-        if (!signUpInfo.getPassword1().equals(signUpInfo.getPassword2())) {
+        if (!signUpDto.getPassword1().equals(signUpDto.getPassword2())) {
             errors.rejectValue("password1", "password.mismatch");
         }
 
-        User user = userService.findByUsernameOrEmail(signUpInfo.getUsername(), signUpInfo.getEmail());
+        User user = userService.findByUsernameOrEmail(signUpDto.getUsername(), signUpDto.getEmail());
 
         if (user != null) {
-            if (user.getUsername().equals(signUpInfo.getUsername())) {
+            if (user.getUsername().equals(signUpDto.getUsername())) {
                 errors.rejectValue("username", "username.unique");
             }
-            if (user.getEmail().equals(signUpInfo.getEmail())) {
+            if (user.getEmail().equals(signUpDto.getEmail())) {
                 errors.rejectValue("email", "email.unique");
             }
         }

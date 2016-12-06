@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author rayed
  * @since 11/27/16 12:01 PM
  */
-public class SignUpInfo implements Serializable {
+public class SignUpDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

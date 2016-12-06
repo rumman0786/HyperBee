@@ -15,7 +15,7 @@ public class NoticeValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(Notice.class);
+        return Notice.class.isAssignableFrom(clazz);
     }
 
     @Override

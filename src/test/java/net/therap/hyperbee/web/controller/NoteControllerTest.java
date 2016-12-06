@@ -1,40 +1,35 @@
 package net.therap.hyperbee.web.controller;
 
-import net.therap.hyperbee.domain.Note;
+import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.NoteService;
 import net.therap.hyperbee.utils.Utils;
-import net.therap.hyperbee.utils.constant.Url;
 import net.therap.hyperbee.web.helper.NoteHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
-import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
-import static net.therap.hyperbee.utils.constant.Url.NOTE_SAVE_URL;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
  * @author bashir
  * @since 12/1/16
  */
 public class NoteControllerTest {
+
+    private static final String NOTE_SAVE_URL = "/note/save";
 
     @InjectMocks
     private NoteController noteController;
@@ -66,16 +61,16 @@ public class NoteControllerTest {
     @Test
     public void insertTest() throws Exception {
 
-        AuthUser authUser = new AuthUser();
-        authUser.setUsername("admin");
-        authUser.setId(1);
+        List<Role> roleList = new ArrayList<>();
+
+        AuthUser authUser = new AuthUser(1, "admin", roleList);
 
         mockMvc.perform(post(NOTE_SAVE_URL)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("title", "Mock Note Title")
-                .param("description", "Mock Note Description")
-                .param("dateRemindString", "")
-                .sessionAttr("authUser", authUser)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("title", "Mock Note Title")
+                        .param("description", "Mock Note Description")
+                        .param("dateRemindString", "")
+                        .sessionAttr("authUser", authUser)
         )
                 .andExpect(status().isOk())
                 .andExpect(view().name("note/save"))

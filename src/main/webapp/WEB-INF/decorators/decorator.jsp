@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="sitemesh" %>
 
 <html lang="en">

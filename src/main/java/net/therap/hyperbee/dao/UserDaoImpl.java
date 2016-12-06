@@ -4,13 +4,14 @@ import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -20,11 +21,11 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(UserDaoImpl.class);
 
     private static final String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = :username";
 
-    private static final String FIND_BY_USRNAME_AND_EMAIL = "User.findByUsernameOrEmail";
+    private static final String FIND_BY_USERNAME_AND_EMAIL = "User.findByUsernameOrEmail";
 
     private static final String FIND_BY_USERNAME_AND_PASSWORD = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
 
@@ -36,21 +37,10 @@ public class UserDaoImpl implements UserDao {
 
     private static final String UPDATE_STATUS_TO_INACTIVE = "UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE id = :userId";
 
-    private static final String FIND_BY_DISPLAY_STATUS = "SELECT u FROM User u WHERE u.displayStatus = :status";
+    private static final String FIND_BY_DISPLAY_STATUS = "SELECT COUNT(*) FROM user WHERE display_status = ?";
 
     @PersistenceContext
     private EntityManager em;
-
-    @Override
-    @Transactional
-    public User createUser(User user) {
-        em.persist(user);
-        em.flush();
-
-        log.debug("User created: " + user.getUsername());
-
-        return user;
-    }
 
     @Override
     public User findById(int id) {
@@ -78,7 +68,7 @@ public class UserDaoImpl implements UserDao {
         User user = null;
 
         try {
-            user = em.createNamedQuery(FIND_BY_USRNAME_AND_EMAIL, User.class)
+            user = em.createNamedQuery(FIND_BY_USERNAME_AND_EMAIL, User.class)
                     .setParameter("username", username)
                     .setParameter("email", email)
                     .getSingleResult();
@@ -121,10 +111,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> searchUserByEntry(String entry) {
-        return em.createNamedQuery("User.SearchUserByEntry")
-                .setParameter("name", entry+"%")
+
+        return em.createNamedQuery("User.SearchByUserInput")
+                .setParameter("name", entry + "%")
                 .getResultList();
-    }
+    } // written by duity
 
     @Override
     @Transactional
@@ -146,9 +137,22 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int findByDisplayStatus(DisplayStatus status) {
+        Query query = em.createNativeQuery(FIND_BY_DISPLAY_STATUS)
+                .setParameter(1, status.getStatus());
 
-        return em.createQuery(FIND_BY_DISPLAY_STATUS, User.class)
-                .setParameter("status", status)
-                .getResultList().size();
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public User saveOrUpdate(User user) {
+        if (user.isNew()) {
+            em.persist(user);
+        } else {
+            em.merge(user);
+        }
+
+        em.flush();
+
+        return user;
     }
 }

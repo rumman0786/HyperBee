@@ -12,29 +12,29 @@ import java.util.List;
  */
 public interface BuzzDao {
 
-    public Buzz saveOrUpdate(Buzz newBuzz);
+    Buzz saveOrUpdate(Buzz newBuzz);
 
-    public List<Buzz> getAll();
+    List<Buzz> getAll();
 
-    public Buzz getById(int buzzId);
+    Buzz getById(int buzzId);
 
-    public List<Buzz> getByDisplayStatus(DisplayStatus displayStatus);
+    List<Buzz> getByDisplayStatus(DisplayStatus displayStatus);
 
-    public List<Buzz> getLatest(int range);
+    List<Buzz> getLatest(int range);
 
-    List<Buzz> getPinnedBuzz(int range);
+    List<Buzz> getLatestPinnedBuzz(int range);
 
-    public int getActiveCountByUser(User user);
+    int getActiveCountByUser(User user);
 
-    public int getPinnedCountByUser(User user);
+    int getPinnedCountByUser(User user);
 
-    public int getFlaggedCountByUser(User user);
+    int getFlaggedCountByUser(User user);
 
-    public int getActiveCount();
+    int getActiveCount();
 
-    public int getPinnedCount();
+    int getPinnedCount();
 
-    public int getFlaggedCount();
+    int getFlaggedCount();
 
-    public int getInactiveCount();
+    int getInactiveCount();
 }

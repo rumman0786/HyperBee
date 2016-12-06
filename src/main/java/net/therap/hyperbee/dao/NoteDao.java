@@ -14,7 +14,7 @@ public interface NoteDao {
 
     Note save(Note note);
 
-    void markNoteAsInactiveForUser(int userId, int noteId);
+    int markNoteAsInactiveForUser(int userId, int noteId);
 
     List<Note> findActiveNoteListByUserId(int userId);
 
@@ -22,9 +22,21 @@ public interface NoteDao {
 
     int markExpiredNoteAsInactive();
 
+    List<Note> findStickyNoteByUser(int userId);
+
     List<Note> findUpcomingReminderNoteByUser(int userId);
 
     int getRemainingReminderCountForUser(int userId);
 
     int getStickyNoteCountForUser(int userId);
+
+    int getReminderCountTodayForUser(int userId);
+
+    int getNextWeekReminderCountForUser(int userId);
+
+    List<Note> getReminderNoteForTodayByUser(int userId);
+
+    List<Note> getReminderNoteForNextWeekByUser(int userId);
+
+    List<Note> findAllReminderNoteByUser(int userId);
 }

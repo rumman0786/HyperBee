@@ -3,6 +3,7 @@ package net.therap.hyperbee.web.command;
 import net.therap.hyperbee.domain.User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class UserInfo implements Serializable{
     private int userId;
 
     public UserInfo() {
-
+        userList = new ArrayList<>();
     }
 
     public UserInfo(List<User> userList) {

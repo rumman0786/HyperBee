@@ -22,11 +22,21 @@ public class NoticeServiceImpl implements NoticeService {
     @Autowired
     private NoticeHelper noticeHelper;
 
+    @Autowired
+    private ActivityService activityService;
+
     @Override
     @Transactional
     public void saveNotice(Notice notice) {
         noticeDao.saveOrUpdate(notice);
-        noticeHelper.persistInSession();
+    }
+
+    @Override
+    @Transactional
+    public void saveNoticeAndArchive(Notice notice, String archiveMessage) {
+        saveNotice(notice);
+        activityService.archive(archiveMessage);
+        noticeHelper.updateNoticeCache();
     }
 
     @Override
@@ -48,14 +58,19 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional
     public void deleteNotice(Notice notice) {
         noticeDao.delete(notice);
-        noticeHelper.persistInSession();
     }
 
     @Override
     @Transactional
     public void delete(int noticeId) {
         noticeDao.delete(noticeId);
-        noticeHelper.persistInSession();
+    }
+
+    @Override
+    public void deleteNoticeAndArchive(int noticeId, String archiveMessage) {
+        this.delete(noticeId);
+        activityService.archive(archiveMessage);
+        noticeHelper.updateNoticeCache();
     }
 
     @Override

@@ -11,19 +11,17 @@ import java.util.List;
  */
 public interface UserDao {
 
-    public User createUser(User user);
+    User findById(int id);
 
-    public User findById(int id);
+    User findByUsername(String username);
 
-    public User findByUsername(String username);
+    User findByUsernameAndPassword(User user);
 
-    public User findByUsernameAndPassword(User user);
+    User findByUsernameOrEmail(String username, String email);
 
-    public User findByUsernameOrEmail(String username, String email);
+    List<User> findAll();
 
-    public List<User> findAll();
-
-    public List<User> findActiveUser();
+    List<User> findActiveUser();
 
     List<User> searchUserByEntry(String entry);
 
@@ -32,4 +30,6 @@ public interface UserDao {
     void activate(int userId);
 
     int findByDisplayStatus(DisplayStatus status);
+
+    User saveOrUpdate(User user);
 }

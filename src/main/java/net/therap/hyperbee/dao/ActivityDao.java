@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ActivityDao {
 
-    public void create(Activity activity);
+    void create(Activity activity);
 
-    public List<Activity> findByUserId(int userId);
+    List<Activity> findByUserId(int userId);
 }

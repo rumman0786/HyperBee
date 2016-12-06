@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ActivityService {
 
-    public List<Activity> findByUserId(int userId);
+    List<Activity> findByUserId(int userId);
 
-    public void archive(String summary);
+    void archive(String summary);
 }

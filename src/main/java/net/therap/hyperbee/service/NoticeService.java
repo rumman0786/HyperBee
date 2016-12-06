@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface NoticeService {
 
+    void saveNoticeAndArchive(Notice notice, String archiveMessage);
+
     void saveNotice(Notice notice);
 
     Notice findNoticeById(int noticeId);
@@ -17,6 +19,8 @@ public interface NoticeService {
     List<Notice> findAllNotice();
 
     List<Notice> findLatestNotices(int range);
+
+    void deleteNoticeAndArchive(int noticeId, String archiveMessage);
 
     void deleteNotice(Notice notice);
 

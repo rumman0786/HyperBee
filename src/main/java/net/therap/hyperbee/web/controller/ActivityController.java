@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.Url.ACTIVITY_ROOT_URL;
 
 /**
  * @author rayed
@@ -25,6 +25,12 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 @RequestMapping(ACTIVITY_ROOT_URL)
 public class ActivityController {
+
+    private static final String ACTIVITY_LOG_URL = "/log";
+
+    private static final String ACTIVITY_VIEW = "activity/log";
+
+    private static final String ACTIVITY_ADMIN_VIEW = "activity/userLog";
 
     @Autowired
     private ActivityService activityService;
@@ -50,7 +56,7 @@ public class ActivityController {
     }
 
     @PostMapping(ACTIVITY_LOG_URL)
-    public String selectActivity(UserInfo userInfo, BindingResult bindingResult, Model model){
+    public String selectActivity(UserInfo userInfo, BindingResult bindingResult, Model model) {
         int userId = userInfo.getUserId();
 
         User user = userService.findById(userId);

@@ -15,7 +15,7 @@ public class ConferenceRoomValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(ConferenceRoom.class);
+        return ConferenceRoom.class.isAssignableFrom(clazz);
     }
 
     @Override

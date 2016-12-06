@@ -6,6 +6,7 @@ import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,8 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final int USER_ROLE_ID = 2;
+
     @Autowired
     private UserDao userDao;
 
@@ -27,23 +30,7 @@ public class UserServiceImpl implements UserService {
     private RoleDao roleDao;
 
     @Autowired
-    private Utils utils;
-
-    @Override
-    @Transactional
-    public User createUser(User user) {
-        Role role = roleDao.findRole(2);
-
-        List<Role> roleList = new ArrayList<Role>();
-        roleList.add(role);
-
-        String hashMd5 = utils.hashMd5(user.getPassword());
-
-        user.setRoleList(roleList);
-        user.setPassword(hashMd5);
-
-        return userDao.createUser(user);
-    }
+    private SessionHelper sessionHelper;
 
     @Override
     public User findById(int id) {
@@ -65,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsernameAndPassword(User user) {
-        String hashMd5 = utils.hashMd5(user.getPassword());
+        String hashMd5 = Utils.hashMd5(user.getPassword());
         user.setPassword(hashMd5);
 
         return userDao.findByUsernameAndPassword(user);
@@ -85,15 +72,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> searchByEntry(String entry) {
+
         return userDao.searchUserByEntry(entry);
     }
 
     @Override
+    @Transactional
     public void inactivate(int userId) {
         userDao.inactivate(userId);
     }
 
     @Override
+    @Transactional
     public void activate(int userId) {
         userDao.activate(userId);
     }
@@ -102,5 +92,25 @@ public class UserServiceImpl implements UserService {
     public int findByDisplayStatus(DisplayStatus status) {
 
         return userDao.findByDisplayStatus(status);
+    }
+
+    @Override
+    @Transactional
+    public User saveOrUpdate(User user) {
+        if (user.isNew()) {
+            Role role = roleDao.findRole(USER_ROLE_ID);
+
+            List<Role> roleList = new ArrayList<Role>();
+            roleList.add(role);
+
+            user.setRoleList(roleList);
+        }
+
+        String hashMd5 = Utils.hashMd5(user.getPassword());
+        user.setPassword(hashMd5);
+
+        sessionHelper.persistInSession(user);
+
+        return userDao.saveOrUpdate(user);
     }
 }

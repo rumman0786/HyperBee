@@ -8,5 +8,5 @@ import net.therap.hyperbee.domain.Role;
  */
 public interface RoleService {
 
-    public Role findRole(int id);
+    Role findRole(int id);
 }
