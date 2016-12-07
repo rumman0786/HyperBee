@@ -26,18 +26,18 @@ public class BuzzDaoImpl implements BuzzDao {
             "ORDER BY b.id DESC";
 
     private final String QUERY_GET_FLAGGED = "SELECT * FROM buzz WHERE flagged = ? AND " +
-            "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+            "buzz_time > CURRENT_DATE";
     private final String QUERY_GET_PINNED = "SELECT * FROM buzz WHERE pinned = ? AND " +
-            "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+            "buzz_time > CURRENT_DATE";
     private final String QUERY_GET_STATUS = "SELECT * FROM buzz WHERE display_status = ? AND " +
-            "buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+            "buzz_time > CURRENT_DATE";
 
     private final String QUERY_GET_ACTIVE_BY_USER = "SELECT * FROM buzz WHERE user_id = ? AND " +
-            "display_status = 1 AND buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+            "display_status = 1 AND buzz_time > CURRENT_DATE";
     private final String QUERY_GET_PINNED_BY_USER = "SELECT * FROM buzz WHERE user_id = ? AND " +
-            "pinned = ? AND buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+            "pinned = ? AND buzz_time > CURRENT_DATE";
     private final String QUERY_GET_FLAGGED_BY_USER = "SELECT * FROM buzz WHERE user_id = ? AND " +
-            "flagged = ? AND buzz_time > CURRENT_DATE - INTERVAL 1 DAY";
+            "flagged = ? AND buzz_time > CURRENT_DATE";
 
     @PersistenceContext
     private EntityManager em;
