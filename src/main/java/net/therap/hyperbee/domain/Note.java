@@ -50,7 +50,6 @@ public class Note implements Serializable {
 
     @NotNull
     @Size(min = 1, max = 250, message = "{note.description.required}")
-    @Pattern(regexp = "^\\S*$", message = "{note.description.required}")
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)
