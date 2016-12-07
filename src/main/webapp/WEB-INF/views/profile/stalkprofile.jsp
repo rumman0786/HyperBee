@@ -29,10 +29,35 @@
         <c:if test="${authUser.isAdmin()}">
             <c:choose>
                 <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
-                    <span class="label label-warning"><a href="/user/deactivate/<c:out value="${user.getId()}"/>"/>Deactivate</span>
+                    <span class="label label-warning">
+                        <a href="/user/deactivate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>">
+                            Deactivate
+                        </a>
+                    </span>
                 </c:when>
                 <c:otherwise>
-                    <span class="label label-warning"><a href="/user/activate/<c:out value="${user.getId()}"/>"/>Activate</span>
+                    <span class="label label-warning">
+                        <a href="/user/activate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>">
+                            Activate
+                        </a>
+                    </span>
+                </c:otherwise>
+            </c:choose>
+            &nbsp;
+            <c:choose>
+                <c:when test="${user.isAdmin()}">
+                    <span class="label label-warning">
+                        <a href="/user/make/user/<c:out value="${user.getId()}"/>">
+                            Make User
+                        </a>
+                    </span>
+                </c:when>
+                <c:otherwise>
+                    <span class="label label-warning">
+                        <a href="/user/make/admin/<c:out value="${user.getId()}"/>">
+                            Make Admin
+                        </a>
+                    </span>
                 </c:otherwise>
             </c:choose>
         </c:if>

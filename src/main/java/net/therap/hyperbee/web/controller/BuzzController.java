@@ -103,7 +103,7 @@ public class BuzzController {
             model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzHelper.getListByType(type));
         } else {
             model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzHelper.getListByTypeAndUser(type,
-                    sessionHelper.getUserIdFromSession()));
+                    sessionHelper.getAuthUserIdFromSession()));
         }
 
         log.debug(BUZZ_TODAY_LOG, type);

@@ -46,7 +46,7 @@ public class NoteController {
     private NoteService noteService;
 
     @Autowired
-    private SessionHelper sessionHelper;
+    private SessionHelper   sessionHelper;
 
     @Autowired
     private NoteHelper noteHelper;
@@ -62,7 +62,7 @@ public class NoteController {
     @GetMapping(NOTE_VIEW_URL)
     public String viewNotes(Model model, HttpSession session) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
 
         model.addAttribute("noteList", noteList);
@@ -91,7 +91,7 @@ public class NoteController {
             return redirectTo(NOTE_VIEW_URL);
         }
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
 
         noteHelper.processNoteForSaving(note, dateRemindString);
         noteService.saveNoteForUser(note, userId);
@@ -99,8 +99,8 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("message", NOTE_SAVE_SUCCESS);
         redirectAttributes.addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
-        log.debug("Note successfully saved: userId={}, note={}", userId, note);
-        sessionHelper.initializeNoteStatForUser(userId);
+        log.debug("Note successfully saved: userId" + userId + "note: " + note);
+        sessionHelper.initializeNoteStatForUser();
 
         return redirectTo(DONE_URL);
     }
@@ -110,13 +110,13 @@ public class NoteController {
                              HttpSession session, RedirectAttributes redirectAttributes,
                              @ModelAttribute("noteCommand") Note note, Model model) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         noteService.markNoteAsInactiveForUser(userId, noteId);
 
         redirectAttributes.addFlashAttribute("message", NOTE_DELETE_SUCCESS);
         redirectAttributes.addFlashAttribute("messageStyle", FAILURE_HTML_CLASS);
 
-        sessionHelper.initializeNoteStatForUser(userId);
+        sessionHelper.initializeNoteStatForUser();
 
         log.debug("Note deleted: userId={}, noteId={}, noteType={} ", userId, noteId, noteType);
 
@@ -126,7 +126,7 @@ public class NoteController {
     @GetMapping(NOTE_VIEW_STICKY_URL)
     public String viewAllStickyNote(Model model) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> stickyNoteList = noteService.findStickyNoteByUser(userId);
         model.addAttribute("selectedNoteList", stickyNoteList);
         model.addAttribute("page", "Sticky Note");
@@ -136,7 +136,7 @@ public class NoteController {
     @GetMapping(NOTE_VIEW_TODAY_REMINDER_URL)
     public String viewReminderNoteToday(Model model) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> stickyNoteList = noteService.getReminderNoteForTodayByUser(userId);
         model.addAttribute("selectedNoteList", stickyNoteList);
         model.addAttribute("page", "Reminder Note");
@@ -146,7 +146,7 @@ public class NoteController {
     @GetMapping(NOTE_VIEW_WEEKLY_REMINDER_URL)
     public String viewReminderNoteNextWeek(Model model) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> stickyNoteList = noteService.getReminderNoteForNextWeekByUser(userId);
         model.addAttribute("selectedNoteList", stickyNoteList);
         model.addAttribute("page", "Reminder Note");
@@ -156,7 +156,7 @@ public class NoteController {
     @GetMapping(NOTE_ALL_REMINDER_URL)
     public String getAllReminder(Model model) {
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> stickyNoteList = noteService.findAllReminderNoteByUser(userId);
         model.addAttribute("selectedNoteList", stickyNoteList);
         model.addAttribute("page", "Reminder Note");

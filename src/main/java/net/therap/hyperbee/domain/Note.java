@@ -76,12 +76,12 @@ public class Note implements Serializable {
     private User user;
 
     public Note() {
-
         priority = NotePriority.LOW;
         displayStatus = displayStatus.ACTIVE;
     }
 
     public int getId() {
+
         return id;
     }
 

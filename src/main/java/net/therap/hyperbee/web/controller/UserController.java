@@ -3,7 +3,6 @@ package net.therap.hyperbee.web.controller;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.command.SignUpDto;
@@ -24,8 +23,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static net.therap.hyperbee.utils.constant.Constant.*;
-import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
 import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
@@ -33,34 +33,33 @@ import static net.therap.hyperbee.utils.constant.Url.*;
  * @author rayed
  * @since 11/22/16 10:59 AM
  */
+@SessionAttributes("userEdit")
 @Controller
 public class UserController {
 
     private static final Logger log = LogManager.getLogger(UserController.class);
 
     private static final String ROOT_URL = "/";
-
     private static final String LOGIN_URL = "/login";
-
     private static final String LOGIN_VIEW = "user/login";
-
     private static final String LOGOUT_URL = "/logout";
-
     private static final String SIGN_UP_URL = "/signUp";
-
     private static final String SIGN_UP_VIEW = "user/signUp";
-
     private static final String USER_DASHBOARD_VIEW = "dashboard";
+    private static final String USER_ACTIVATE_URL = "/user/activate/{userId}/{username}";
+    private static final String USER_DEACTIVATE_URL = "/user/deactivate/{userId}/{username}";
+    private static final String MAKE_ADMIN_URL = "/user/make/admin/{userId}";
+    private static final String MAKE_USER_URL = "/user/make/user/{userId}";
+    private static final String LOGGED_IN = "Logged In";
 
-    private static final String USER_ACTIVATE_URL = "/user/activate/{userId}";
-
-    private static final String USER_DEACTIVATE_URL = "/user/deactivate/{userId}";
+    private static final int ADMIN_ROLE_ID = 1;
+    private static final int USER_ROLE_ID = 2;
 
     @Autowired
-    BuzzService buzzService;
+    private BuzzService buzzService;
 
     @Autowired
-    NoteService noteService;
+    private NoteService noteService;
 
     @Autowired
     private UserService userService;
@@ -118,25 +117,23 @@ public class UserController {
     }
 
     @PostMapping(LOGIN_URL)
-    public String loginUser(@Validated @ModelAttribute("login") User user, BindingResult bindingResult) {
+    public String loginUser(@Valid @ModelAttribute("login") User loginUser, BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
 
             return LOGIN_VIEW;
         }
 
-        User retrievedUser = userService.findByUsernameAndPassword(user);
+        User user = userService.findByUsername(loginUser.getUsername());
 
-        if ((retrievedUser != null) && (retrievedUser.getDisplayStatus() == DisplayStatus.ACTIVE)) {
-            sessionHelper.persistInSession(retrievedUser);
-            noticeHelper.updateNoticeCache();
-            reservationHelper.updateReservationCache();
+        sessionHelper.setSessionAttribute(SESSION_KEY_AUTH_USER, user.getAuthUser());
+        sessionHelper.initializeNoteStatForUser();
+        noticeHelper.updateNoticeCache();
+        reservationHelper.updateReservationCache();
 
-            activityService.archive(LOGGED_IN);
+        activityService.archive(LOGGED_IN);
 
-            return Utils.redirectTo(USER_DASHBOARD_URL);
-        }
-
-        return LOGIN_VIEW;
+        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(SIGN_UP_URL)
@@ -158,7 +155,8 @@ public class UserController {
         User user = signUpDto.getUser();
 
         User retrievedUser = userService.saveOrUpdate(user);
-        sessionHelper.persistInSession(retrievedUser);
+
+        sessionHelper.setSessionAttribute(SESSION_KEY_AUTH_USER, retrievedUser.getAuthUser());
 
         Hive hive = hiveService.retrieveHiveById(1);
         hiveService.saveFirstUserToHive(hive, retrievedUser.getId());
@@ -181,7 +179,7 @@ public class UserController {
             model.addAttribute("newBuzz", new Buzz());
         }
 
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
 
         model.addAttribute("topStickyNote",
                 noteService.findTopStickyNoteByUser(userId));
@@ -197,8 +195,8 @@ public class UserController {
     }
 
     @GetMapping(USER_DEACTIVATE_URL)
-    public String inactivateUser(@PathVariable int userId) {
-        userService.inactivate(userId);
+    public String inactivateUser(@PathVariable int userId, @PathVariable String username) {
+        userService.inactivate(userId, username);
 
         sessionHelper.decrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
         sessionHelper.incrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
@@ -207,8 +205,8 @@ public class UserController {
     }
 
     @GetMapping(USER_ACTIVATE_URL)
-    public String activateUser(@PathVariable int userId) {
-        userService.activate(userId);
+    public String activateUser(@PathVariable int userId, @PathVariable String username) {
+        userService.activate(userId, username);
 
         sessionHelper.incrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
         sessionHelper.decrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
@@ -218,26 +216,45 @@ public class UserController {
 
     @GetMapping("/user/edit")
     public String serveUserEditForm(ModelMap map) {
-        int userIdFromSession = sessionHelper.getUserIdFromSession();
-        User currentUser = userService.findById(userIdFromSession);
-        currentUser.setPassword("");
+        int userIdFromSession = sessionHelper.getAuthUserIdFromSession();
+        User user = userService.findById(userIdFromSession);
+        user.setPassword("");
 
-        map.put("userEdit", currentUser);
+        log.debug("\nUser at Get Mapping Edit:\n" + user);
+
+        map.put("userEdit", user);
 
         return "user/edit";
     }
 
     @PostMapping("/user/edit")
-    public String submitUserEditForm(@Validated @ModelAttribute("userEdit") User user, BindingResult bindingResult) {
+    public String submitUserEditForm(@Valid @ModelAttribute("userEdit") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
 
             return "user/edit";
         }
 
-        log.debug("User id: " + user.getId());
+        log.debug("\nUser at User controller:\n" + user);
 
         userService.saveOrUpdate(user);
 
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
+
+    @GetMapping(MAKE_ADMIN_URL)
+    public String makeUserAdmin(@PathVariable int userId) {
+        return changeRole(userId, ADMIN_ROLE_ID);
+    }
+
+    @GetMapping(MAKE_USER_URL)
+    public String makeAdminUser(@PathVariable int userId) {
+        return changeRole(userId, USER_ROLE_ID);
+    }
+
+    private String changeRole(int userId, int role) {
+        userService.changeRole(userId, role);
+
+        return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
+    }
 }
+
