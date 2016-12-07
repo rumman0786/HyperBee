@@ -1,92 +1,55 @@
 package net.therap.hyperbee.web.controller;
 
-import net.therap.hyperbee.domain.Role;
+import net.therap.hyperbee.domain.Profile;
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.web.security.AuthUser;
-import org.junit.Before;
+import net.therap.hyperbee.service.ProfileService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author duity
  * @since 12/4/16.
  */
 @RunWith(MockitoJUnitRunner.class)
-@WebAppConfiguration
 public class ProfileControllerTest {
 
     @InjectMocks
     private ProfileController profileController;
 
     @Mock
-    private UserService userService;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup() {
-        profileController = new ProfileController();
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();;
-    }
+    private ProfileService profileService;
 
     @Test
-    public void update() throws Exception {
+    public void testSaveProfileForUser() throws Exception {
         User user = new User();
+        Profile profile = new Profile();
+        profile.setDesignation("Developer");
 
-        List<Role> roleList = new ArrayList<>();
+        File imagePath = new File(System.getProperty("user.home") + File.separator + "Images");
 
-        AuthUser authUser = new AuthUser(1, "admin", roleList);
+        FileInputStream inputFile1 = new FileInputStream(imagePath.getAbsolutePath() + File.separator + "sansaCover.png");
+        FileInputStream inputFile2 = new FileInputStream(imagePath.getAbsolutePath() + File.separator + "neddCover.png");
 
-        FileInputStream file1 = new FileInputStream(new File("/home/duity/Desktop/large.png"));
-        FileInputStream file2 = new FileInputStream(new File("/home/duity/Desktop/download.png"));
+        MockMultipartFile profilePicture = new MockMultipartFile("file", "sansaCover.png", "multipart/form-data", inputFile1);
+        MockMultipartFile coverPicture = new MockMultipartFile("coverFile", "neddCover.png", "multipart/form-data", inputFile2);
 
-        MockMultipartFile firstFile = new MockMultipartFile("file", "large.png", "multipart/form-data", file1);
-        MockMultipartFile secondFile = new MockMultipartFile("coverFile", "download.png", "multipart/form-data", file2);
+        Mockito.when(profileService.saveFileForUser(coverPicture, profilePicture, user, profile)).thenReturn(profile);
+        assertEquals(profileService.saveFileForUser(coverPicture, profilePicture, user, profile), profile);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.fileUpload("/profile")
-                        .file(firstFile)
-                        .file(secondFile)
-                        .param("designation", "developer")
-                        .param("datOfBirth", "")
-                        .param("skills", "coding")
-                        .param("joiningDate", "")
-                        .param("address","abd")
-                        .param("contactNo","678")
-                        .param("workHistory", "worked atr het")
-                        .param("school","ddd")
-                        .param("college", "gg")
-                        .param("university", "mmm")
-                        .param("jobExperienceYears","8")
-                        .param("gender","female")
-                .sessionAttr("authUser", authUser)
-        )
-                .andExpect(status().is(200))
-                .andExpect(view().name("profile/createprofile"));
+        Mockito.when(profileService.saveProfileForUser(profile, 1)).thenReturn("profile is saved");
+        assertEquals(profileService.saveProfileForUser(profile, 1), "profile is saved");
     }
-
-
 }
+
+
+

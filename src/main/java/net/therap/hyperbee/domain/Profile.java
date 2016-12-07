@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -39,6 +40,7 @@ public class Profile implements Serializable {
     private String address;
 
     @Column(name = "contact_no")
+    @Size(max = 20, message = "{profile.contact.required}")
     private String contactNo;
 
     private String skills;

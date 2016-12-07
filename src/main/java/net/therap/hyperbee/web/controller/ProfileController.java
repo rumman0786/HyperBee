@@ -6,6 +6,7 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.ProfileService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.helper.ImageUploader;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
@@ -113,10 +114,10 @@ public class ProfileController {
                               RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "profile", result)
-                    .addFlashAttribute("profile", profile);
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + PROFILE_ATTRIBUTE, result)
+                    .addFlashAttribute(PROFILE_ATTRIBUTE, profile);
 
-            return "redirect:" + PROFILE_URL + PROFILE_EDIT_URL;
+            return Utils.redirectTo(PROFILE_URL + PROFILE_EDIT_URL);
         }
         model.addAttribute("page", "profile");
         AuthUser authUser = sessionHelper.getAuthUserFromSession();

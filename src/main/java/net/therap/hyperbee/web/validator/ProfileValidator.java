@@ -20,5 +20,6 @@ public class ProfileValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "designation", "profile.designation.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "gender", "profile.gender.required");
     }
 }
