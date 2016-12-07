@@ -1,7 +1,6 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Buzz;
-import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.BuzzService;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +23,14 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BuzzControllerTest {
+
+    //Log Message Constants
+    public static final String TEST_FOR_BUZZ_SAVE_SUCCESS = "Test for Buzz Save: Success";
+    public static final String TEST_FOR_GET_ALL_BUZZ_SUCCESS = "Test for Get All Buzz: Success";
+    public static final String TEST_FOR_GET_BUZZ_BY_ID_SUCCESS = "Test for Get Buzz By ID: Success";
+    public static final String TEST_FOR_FLAGGING_BUZZ_SUCCESS = "Test for Flagging Buzz: Success";
+    public static final String TEST_FOR_PINNING_BUZZ_SUCCESS = "Test for Pinning Buzz: Success";
+    public static final String TEST_FOR_DEACTIVATING_BUZZ_SUCCESS = "Test for Deactivating Buzz: Success";
 
     private static final Logger log = LogManager.getLogger(BuzzControllerTest.class);
 
@@ -39,70 +45,69 @@ public class BuzzControllerTest {
 
     @Test
     public void testSaveBuzz() {
-        Buzz buzz = new Buzz("Hello World!", DisplayStatus.ACTIVE, false);
+        Buzz buzz = createBuzz();
 
         when(buzzService.saveBuzz(buzz)).thenReturn(buzz);
         assertEquals(buzzService.saveBuzz(buzz), buzz);
 
-        log.debug("Test for Buzz Save: Success");
+        log.debug(TEST_FOR_BUZZ_SAVE_SUCCESS);
     }
 
     @Test
     public void testGetAllBuzz() {
-        List<Buzz> buzzList = Arrays.asList(new Buzz[]{new Buzz(), new Buzz()});
+        List<Buzz> buzzList = createBuzzList();
 
         when(buzzService.getAllBuzz()).thenReturn(buzzList);
         assertEquals(2, buzzService.getAllBuzz().size());
 
-        log.debug("Test for Get All Buzz: Success");
+        log.debug(TEST_FOR_GET_ALL_BUZZ_SUCCESS);
     }
 
     @Test
     public void testGetBuzzById() {
-        List<Buzz> buzzList = new ArrayList<>();
+        List<Buzz> buzzList = createBuzzList();
 
-        Buzz buzz1 = new Buzz("Message One", DisplayStatus.ACTIVE, false);
-        buzzList.add(buzz1);
+        when(buzzService.getBuzzById(0)).thenReturn(buzzList.get(0));
+        assertEquals(buzzService.getBuzzById(0), buzzList.get(0));
 
-        Buzz buzz2 = new Buzz("Message Two", DisplayStatus.ACTIVE, false);
-        buzzList.add(buzz2);
-
-        when(buzzService.getBuzzById(0)).thenReturn(buzz1);
-        assertEquals(buzzService.getBuzzById(0), buzz1);
-
-        log.debug("Test for Get Buzz By ID: Success");
+        log.debug(TEST_FOR_GET_BUZZ_BY_ID_SUCCESS);
     }
 
     @Test
     public void testFlagBuzz() {
-        Buzz buzz = new Buzz();
-        buzz.setFlagged(true);
+        Buzz buzz = createBuzz();
 
         when(buzzService.flagBuzz(buzz)).thenReturn(buzz);
         assertEquals(buzzService.flagBuzz(buzz), buzz);
 
-        log.debug("Test for Flagging Buzz: Success");
+        log.debug(TEST_FOR_FLAGGING_BUZZ_SUCCESS);
     }
 
     @Test
     public void testPinBuzz() {
-        Buzz buzz = new Buzz();
-        buzz.setPinned(true);
+        Buzz buzz = createBuzz();
 
         when(buzzService.pinBuzz(buzz)).thenReturn(buzz);
         assertEquals(buzzService.pinBuzz(buzz), buzz);
 
-        log.debug("Test for Pinning Buzz: Success");
+        log.debug(TEST_FOR_PINNING_BUZZ_SUCCESS);
     }
 
     @Test
     public void deactivateBuzz() {
-        Buzz buzz = new Buzz();
-        buzz.setDisplayStatus(DisplayStatus.INACTIVE);
+        Buzz buzz = createBuzz();
 
         when(buzzService.deactivateBuzz(buzz)).thenReturn(buzz);
         assertEquals(buzzService.deactivateBuzz(buzz), buzz);
 
-        log.debug("Test for Deactivating Buzz: Success");
+        log.debug(TEST_FOR_DEACTIVATING_BUZZ_SUCCESS);
+    }
+
+    private static Buzz createBuzz() {
+        return new Buzz();
+    }
+
+    private static List<Buzz> createBuzzList() {
+        return Arrays.asList(createBuzz(), createBuzz());
     }
 }
