@@ -2,12 +2,16 @@ package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.RoleType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -21,20 +25,14 @@ public class UserDaoImpl implements UserDao {
     private static final Logger log = LogManager.getLogger(UserDaoImpl.class);
 
     private static final String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = :username";
-
     private static final String FIND_BY_USERNAME_AND_EMAIL = "User.findByUsernameOrEmail";
-
     private static final String FIND_BY_USERNAME_AND_PASSWORD = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
-
     private static final String FIND_ALL = "SELECT u FROM User u";
-
     private static final String FIND_USER_ACTIVE = "SELECT u FROM User u WHERE u.displayStatus = :status";
-
     private static final String UPDATE_STATUS_TO_ACTIVE = "UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE u.id = :userId";
-
     private static final String UPDATE_STATUS_TO_INACTIVE = "UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE u.id = :userId";
-
     private static final String FIND_BY_DISPLAY_STATUS = "SELECT COUNT(*) FROM user WHERE display_status = ?";
+    private static final String FIND_BY_ROLE = "SELECT COUNT(*) FROM user_role WHERE role_id = ?";
 
     @PersistenceContext
     private EntityManager em;
@@ -109,7 +107,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> searchUserByEntry(String entry) {
 
-        return em.createNamedQuery("User.SearchByUserInput")
+        return em.createNamedQuery("User.SearchByUserInput", User.class)
                 .setParameter("name", entry + "%")
                 .getResultList();
     } // written by duity
@@ -152,5 +150,13 @@ public class UserDaoImpl implements UserDao {
         em.flush();
 
         return user;
+    }
+
+    @Override
+    public int findByRole(int role) {
+        Query query = em.createNativeQuery(FIND_BY_ROLE)
+                .setParameter(1, role);
+
+        return ((BigInteger) query.getSingleResult()).intValue();
     }
 }

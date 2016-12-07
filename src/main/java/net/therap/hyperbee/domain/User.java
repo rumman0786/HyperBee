@@ -38,6 +38,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotNull
     @Size(min = 1, message = "{username.required}")
     @Column(name = "username")
     private String username;
@@ -50,6 +51,7 @@ public class User implements Serializable {
 
     private String email;
 
+    @NotNull
     @Size(min = 1, message = "{password.required}")
     private String password;
 
@@ -70,7 +72,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Post> postList;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),
@@ -263,20 +265,6 @@ public class User implements Serializable {
         }
 
         return false;
-    }
-
-    public void addRole(RoleType roleType) {
-        Role role = new Role();
-        role.setRoleType(roleType);
-
-        roleList.add(role);
-    }
-
-    public void removeRole(RoleType roleType) {
-        Role role = new Role();
-        role.setRoleType(roleType);
-
-        roleList.remove(role);
     }
 
     @Override

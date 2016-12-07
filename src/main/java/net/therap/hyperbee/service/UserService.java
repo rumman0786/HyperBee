@@ -2,6 +2,7 @@ package net.therap.hyperbee.service;
 
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.RoleType;
 
 import java.util.List;
 
@@ -34,4 +35,6 @@ public interface UserService {
     User saveOrUpdate(User user);
 
     void changeRole(int userId, int role);
+
+    int findByRole(RoleType admin);
 }

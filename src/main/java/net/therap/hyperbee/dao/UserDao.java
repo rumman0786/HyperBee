@@ -32,4 +32,6 @@ public interface UserDao {
     int findByDisplayStatus(DisplayStatus status);
 
     User saveOrUpdate(User user);
+
+    int findByRole(int role);
 }

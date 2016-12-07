@@ -1,6 +1,7 @@
 package net.therap.hyperbee.web.helper;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.RoleType;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.NoteService;
 import net.therap.hyperbee.service.UserService;
@@ -87,13 +88,14 @@ public class SessionHelper {
         if (authUserFromSession.isAdmin()) {
             int activeUser = userService.findByDisplayStatus(DisplayStatus.ACTIVE);
             int inactiveUser = userService.findByDisplayStatus(DisplayStatus.INACTIVE);
+            int adminUsers = userService.findByRole(RoleType.ADMIN);
 
             int activeBuzz = buzzService.getActiveCount();
             int inactiveBuzz = buzzService.getInactiveCount();
             int flaggedBuzz = buzzService.getFlaggedCount();
             int pinnedBuzz = buzzService.getPinnedCount();
 
-            setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUser - USER_ACTIVATION_COUNT);
+            setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUser - adminUsers);
             setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUser);
 
             setSessionAttribute(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);

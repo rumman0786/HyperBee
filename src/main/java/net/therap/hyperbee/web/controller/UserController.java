@@ -198,18 +198,12 @@ public class UserController {
     public String inactivateUser(@PathVariable int userId, @PathVariable String username) {
         userService.inactivate(userId, username);
 
-        sessionHelper.decrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
-        sessionHelper.incrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
-
         return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }
 
     @GetMapping(USER_ACTIVATE_URL)
     public String activateUser(@PathVariable int userId, @PathVariable String username) {
         userService.activate(userId, username);
-
-        sessionHelper.incrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
-        sessionHelper.decrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
 
         return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }

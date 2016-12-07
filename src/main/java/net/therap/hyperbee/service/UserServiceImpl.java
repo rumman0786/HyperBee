@@ -19,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.constant.Constant.SESSION_KEY_ACTIVE_USERS;
+import static net.therap.hyperbee.utils.constant.Constant.SESSION_KEY_INACTIVE_USERS;
+
 /**
  * @author rayed
  * @since 11/22/16 10:49 AM
@@ -30,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     private static final int USER_ROLE_ID = 2;
     private static final int ADMIN_ROLE_ID = 1;
+
+    private static final int INCREMENT = 1;
+    private static final int DECREMENT = 1;
 
     @Autowired
     private ActivityService activityService;
@@ -97,6 +103,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void inactivate(int userId, String username) {
         userDao.inactivate(userId);
+
+        int activeUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
+        int inactiveUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_INACTIVE_USERS);
+
+        sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers - DECREMENT);
+        sessionHelper.setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUsers + INCREMENT);
+
         activityService.archive("Deactivated user [" + username + "]");
     }
 
@@ -104,6 +117,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void activate(int userId, String username) {
         userDao.activate(userId);
+
+        int activeUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
+        int inactiveUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_INACTIVE_USERS);
+
+        sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers + INCREMENT);
+        sessionHelper.setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUsers - DECREMENT);
+
         activityService.archive("Activated user [" + username + "]");
     }
 
@@ -137,17 +157,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void changeRole(int userId, int role) {
+    public void changeRole(int userId, int roleId) {
         User user = userDao.findById(userId);
+        Role role = roleDao.findRole(ADMIN_ROLE_ID);
 
-        if (role == ADMIN_ROLE_ID) {
-            user.addRole(RoleType.ADMIN);
+        if (roleId == ADMIN_ROLE_ID) {
+            user.getRoleList().add(role);
+            log.debug("Change role to admin: " + user);
+            int number = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
+            sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, number - DECREMENT);
             activityService.archive("Promoted [" + user.getUsername() + "] from User to Admin");
         } else {
-            user.removeRole(RoleType.ADMIN);
+            user.getRoleList().remove(role);
+            log.debug("Change role to user: " + user);
+            int number = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
+            sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, number + INCREMENT);
             activityService.archive("Demoted [" + user.getUsername() + "] from Admin to User");
         }
 
         userDao.saveOrUpdate(user);
+    }
+
+    @Override
+    public int findByRole(RoleType type) {
+        int count = 0;
+        if (type == RoleType.ADMIN){
+            count = userDao.findByRole(ADMIN_ROLE_ID);
+            log.debug("Number of admin users: " + count);
+        }
+        return count;
     }
 }
