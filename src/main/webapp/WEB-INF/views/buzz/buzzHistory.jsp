@@ -28,8 +28,13 @@
                 <fmt:message key="buzzHistory.view.label.inactive"/>
             </div>
 
+            <div class="alert alert-success" style="display:inline-block; float: right">
+                <c:out value="Total Buzz: ${buzzListSize}"/>
+            </div>
+
             <table class="table table-striped">
                 <c:forEach items="${buzzList}" var="buzz">
+                    <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.getBuzzTime()}" var="buzzDateTime"/>
                     <c:choose>
                         <c:when test="${buzz.isFlagged()}">
                             <tr class="warning">
@@ -45,7 +50,7 @@
                     </c:choose>
 
                     <td>
-                        <c:out value="${buzz.user.username} [${buzz.buzzTime.getTime()}]: ${buzz.message}"/>
+                        <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
                     </td>
 
                     </tr>

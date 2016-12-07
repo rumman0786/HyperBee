@@ -11,35 +11,47 @@ import java.util.List;
  */
 public interface BuzzService {
 
-    public Buzz saveBuzz(Buzz newBuzz);
+    Buzz saveBuzz(Buzz newBuzz);
 
-    public List<Buzz> getAllBuzz();
+    List<Buzz> getAllBuzz();
 
-    public Buzz getBuzzById(int buzzId);
-
-    public List<Buzz> getBuzzByStatus(DisplayStatus displayStatus);
+    Buzz getBuzzById(int buzzId);
 
     List<Buzz> getLatestBuzz();
 
-    public List<Buzz> getPinnedBuzz();
+    List<Buzz> getLatestPinnedBuzz();
 
-    public Buzz flagBuzz(Buzz buzzToFlag);
+    Buzz flagBuzz(Buzz buzzToFlag);
 
-    public Buzz deactivateBuzz(Buzz buzzToDeactivate);
+    Buzz deactivateBuzz(Buzz buzzToDeactivate);
 
-    public Buzz pinBuzz(Buzz buzzToPin);
+    Buzz pinBuzz(Buzz buzzToPin);
 
-    public int getActiveCountByUser(int userId);
+    int getActiveCountByUser(int userId);
 
-    public int getPinnedCountByUser(int userId);
+    List<Buzz> getActiveByUser(int userId);
 
-    public int getFlaggedCountByUser(int userId);
+    int getPinnedCountByUser(int userId);
 
-    public int getActiveCount();
+    List<Buzz> getPinnedByUser(int userId);
 
-    public int getInactiveCount();
+    int getFlaggedCountByUser(int userId);
 
-    public int getPinnedCount();
+    List<Buzz> getFlaggedByUser(int userId);
 
-    public int getFlaggedCount();
+    int getActiveCount();
+
+    List<Buzz> getActive();
+
+    int getPinnedCount();
+
+    List<Buzz> getPinned();
+
+    int getFlaggedCount();
+
+    List<Buzz> getFlagged();
+
+    int getInactiveCount();
+
+    List<Buzz> getInactive();
 }

@@ -1,9 +1,7 @@
 package net.therap.hyperbee.web.controller;
 
 import net.therap.hyperbee.domain.Note;
-import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.NoteService;
-import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.helper.NoteHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoteDateTimeValidator;
@@ -21,8 +19,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
+import static net.therap.hyperbee.utils.Utils.redirectTo;
 import static net.therap.hyperbee.utils.constant.Messages.*;
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
 
 /**
  * @author bashir
@@ -32,27 +31,28 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 public class NoteController {
 
     private static final Logger log = LogManager.getLogger(NoteController.class);
+
     private static final String NOTE_VIEW = "note/note_list";
     private static final String NOTE_VIEW_STICKY_URL = "/note/view/sticky";
-    private static final String NOTE_VIEW_REMINDER_URL = "/note/view/reminder";
+    private static final String NOTE_VIEW_TODAY_REMINDER_URL = "/note/view/reminder/today";
+    private static final String NOTE_VIEW_WEEKLY_REMINDER_URL = "/note/view/reminder/week";
+    private static final String NOTE_ALL_REMINDER_URL = "/note/view/reminder/all";
+    private static final String NOTE_VIEW_URL = "/notes";
+    private static final String NOTE_SAVE_URL = "/note/save";
+    private static final String NOTE_VIEW_ALL = "note/notes";
+    private static final String NOTE_DELETE_URL = "/note/delete/{type}/{id}";
 
     @Autowired
     private NoteService noteService;
 
     @Autowired
-    ActivityService activityService;
-
-    @Autowired
-    private SessionHelper sessionHelper;
+    private SessionHelper   sessionHelper;
 
     @Autowired
     private NoteHelper noteHelper;
 
     @Autowired
     private NoteDateTimeValidator noteDateTimeValidator;
-
-    @Autowired
-    private Utils utils;
 
     @InitBinder("noteCommand")
     private void noteInputInitBinder(WebDataBinder binder) {
@@ -72,7 +72,6 @@ public class NoteController {
         }
 
         model.addAttribute("page", "note");
-        activityService.archive(NOTE_PAGE_VIEW_ACTIVITY);
 
         return NOTE_VIEW_ALL;
     }
@@ -86,11 +85,10 @@ public class NoteController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "noteCommand", bindingResult);
             redirectAttributes.addFlashAttribute("noteCommand", note);
-            activityService.archive(NOTE_SAVE_FAILED);
 
-            log.debug("Note save failed: " + bindingResult);
+            log.debug("Note save failed, errors= {} ", bindingResult);
 
-            return utils.redirectTo(NOTE_VIEW_URL);
+            return redirectTo(NOTE_VIEW_URL);
         }
 
         int userId = sessionHelper.getAuthUserIdFromSession();
@@ -98,15 +96,13 @@ public class NoteController {
         noteHelper.processNoteForSaving(note, dateRemindString);
         noteService.saveNoteForUser(note, userId);
 
-        activityService.archive(NOTE_SAVE_ACTIVITY + " type: " + note.getNoteTypeAsString() + " Title:" + note.getTitle());
-
         redirectAttributes.addFlashAttribute("message", NOTE_SAVE_SUCCESS);
         redirectAttributes.addFlashAttribute("messageStyle", SUCCESS_HTML_CLASS);
 
         log.debug("Note successfully saved: userId" + userId + "note: " + note);
         sessionHelper.initializeNoteStatForUser();
 
-        return utils.redirectTo(DONE_URL);
+        return redirectTo(DONE_URL);
     }
 
     @PostMapping(NOTE_DELETE_URL)
@@ -120,12 +116,11 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("message", NOTE_DELETE_SUCCESS);
         redirectAttributes.addFlashAttribute("messageStyle", FAILURE_HTML_CLASS);
 
-        activityService.archive(NOTE_DELETE_ACTIVITY + " " + noteType);
         sessionHelper.initializeNoteStatForUser();
 
-        log.debug("Note deleted: userId " + userId + " noteId: " + noteId + " noteType: " + noteType);
+        log.debug("Note deleted: userId={}, noteId={}, noteType={} ", userId, noteId, noteType);
 
-        return utils.redirectTo(DONE_URL);
+        return redirectTo(DONE_URL);
     }
 
     @GetMapping(NOTE_VIEW_STICKY_URL)
@@ -138,11 +133,31 @@ public class NoteController {
         return NOTE_VIEW;
     }
 
-    @GetMapping(NOTE_VIEW_REMINDER_URL)
-    public String viewAllReminderNote(Model model) {
+    @GetMapping(NOTE_VIEW_TODAY_REMINDER_URL)
+    public String viewReminderNoteToday(Model model) {
 
         int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> stickyNoteList = noteService.getReminderNoteForTodayByUser(userId);
+        model.addAttribute("selectedNoteList", stickyNoteList);
+        model.addAttribute("page", "Reminder Note");
+        return NOTE_VIEW;
+    }
+
+    @GetMapping(NOTE_VIEW_WEEKLY_REMINDER_URL)
+    public String viewReminderNoteNextWeek(Model model) {
+
+        int userId = sessionHelper.getAuthUserIdFromSession();
+        List<Note> stickyNoteList = noteService.getReminderNoteForNextWeekByUser(userId);
+        model.addAttribute("selectedNoteList", stickyNoteList);
+        model.addAttribute("page", "Reminder Note");
+        return NOTE_VIEW;
+    }
+
+    @GetMapping(NOTE_ALL_REMINDER_URL)
+    public String getAllReminder(Model model) {
+
+        int userId = sessionHelper.getAuthUserIdFromSession();
+        List<Note> stickyNoteList = noteService.findAllReminderNoteByUser(userId);
         model.addAttribute("selectedNoteList", stickyNoteList);
         model.addAttribute("page", "Reminder Note");
         return NOTE_VIEW;

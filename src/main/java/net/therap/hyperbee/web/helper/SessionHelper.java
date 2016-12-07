@@ -42,7 +42,7 @@ public class SessionHelper {
     }
 
     public int getAuthUserIdFromSession() {
-        AuthUser authUser = (AuthUser) getSessionAttribute("authUser");
+        AuthUser authUser = (AuthUser) getSessionAttribute(SESSION_KEY_AUTH_USER);
 
         return authUser.getId();
     }

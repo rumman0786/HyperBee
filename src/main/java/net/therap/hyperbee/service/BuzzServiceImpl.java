@@ -5,6 +5,7 @@ import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.utils.Utils;
+import net.therap.hyperbee.utils.constant.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ import java.util.List;
 @Service
 public class BuzzServiceImpl implements BuzzService {
 
+    public static final int LATEST_RANGE = 15;
+    public static final int PINNED_RANGE = 5;
+
     @Autowired
     private BuzzDao buzzDao;
 
@@ -25,15 +29,7 @@ public class BuzzServiceImpl implements BuzzService {
     private UserDao userDao;
 
     @Autowired
-    private Utils utils;
-
-    @Override
-    @Transactional
-    public Buzz saveBuzz(Buzz newBuzz) {
-        newBuzz.getBuzzTime().setTimeInMillis(utils.getCurrentTimeMills());
-
-        return buzzDao.saveOrUpdate(newBuzz);
-    }
+    private ActivityService activityService;
 
     @Override
     public List<Buzz> getAllBuzz() {
@@ -81,28 +77,67 @@ public class BuzzServiceImpl implements BuzzService {
     }
 
     @Override
-    public List<Buzz> getBuzzByStatus(DisplayStatus displayStatus) {
-        return buzzDao.getByDisplayStatus(displayStatus);
-    }
-
-    @Override
     public List<Buzz> getLatestBuzz() {
-        return buzzDao.getLatest(15);
+        return buzzDao.getLatest(LATEST_RANGE);
     }
 
     @Override
-    public List<Buzz> getPinnedBuzz() {
-        return buzzDao.getPinnedBuzz(5);
+    public List<Buzz> getLatestPinnedBuzz() {
+        return buzzDao.getLatestPinnedBuzz(PINNED_RANGE);
+    }
+
+    @Override
+    public List<Buzz> getActiveByUser(int userId) {
+        return buzzDao.getActiveByUser(userDao.findById(userId));
+    }
+
+    @Override
+    public List<Buzz> getPinnedByUser(int userId) {
+        return buzzDao.getPinnedByUser(userDao.findById(userId));
+    }
+
+    @Override
+    public List<Buzz> getFlaggedByUser(int userId) {
+        return buzzDao.getFlaggedByUser(userDao.findById(userId));
+    }
+
+    @Override
+    public List<Buzz> getActive() {
+        return buzzDao.getActive();
+    }
+
+    @Override
+    public List<Buzz> getPinned() {
+        return buzzDao.getPinned();
+    }
+
+    @Override
+    public List<Buzz> getFlagged() {
+        return buzzDao.getFlagged();
+    }
+
+    @Override
+    public List<Buzz> getInactive() {
+        return buzzDao.getInactive();
+    }
+
+    @Override
+    @Transactional
+    public Buzz saveBuzz(Buzz newBuzz) {
+        newBuzz.setBuzzTime(Utils.getCurrentTimeMills());
+        buzzDao.saveOrUpdate(newBuzz);
+
+        activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_SEND_SUCCESS, newBuzz.getMessage()));
+
+        return newBuzz;
     }
 
     @Override
     @Transactional
     public Buzz flagBuzz(Buzz buzzToFlag) {
-        if (buzzToFlag.isFlagged()) {
-            buzzToFlag.setFlagged(false);
-        } else {
-            buzzToFlag.setFlagged(true);
-        }
+        buzzToFlag.setFlagged(!buzzToFlag.isFlagged());
+
+        activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_FLAG_SUCCESS, buzzToFlag.getId()));
 
         return buzzDao.saveOrUpdate(buzzToFlag);
     }
@@ -114,17 +149,17 @@ public class BuzzServiceImpl implements BuzzService {
         buzzToDeactivate.setFlagged(false);
         buzzToDeactivate.setPinned(false);
 
+        activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_DELETE_SUCCESS, buzzToDeactivate.getId()));
+
         return buzzDao.saveOrUpdate(buzzToDeactivate);
     }
 
     @Override
     @Transactional
     public Buzz pinBuzz(Buzz buzzToPin) {
-        if (buzzToPin.isPinned()) {
-            buzzToPin.setPinned(false);
-        } else {
-            buzzToPin.setPinned(true);
-        }
+        buzzToPin.setPinned(!buzzToPin.isPinned());
+
+        activityService.archive(Utils.formatActivityLogMessage(Messages.BUZZ_PINNED_SUCCESS, buzzToPin.getId()));
 
         return buzzDao.saveOrUpdate(buzzToPin);
     }

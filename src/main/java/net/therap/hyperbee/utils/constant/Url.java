@@ -33,14 +33,6 @@ public interface Url {
     String STALK_PROFILE_URL = "/stalk/{username}";
     String PROFILE_STALK_URL = "profile/stalkprofile";
 
-    //Notes Constant
-    String NOTE_VIEW_URL = "/notes";
-    String NOTE_ADD_URL = "/note/add";
-    String NOTE_SAVE_URL = "/note/save";
-    String NOTE_VIEW_ALL = "note/notes";
-    String NOTE_ADD_VIEW = "note/note_form";
-    String NOTE_DELETE_URL = "/note/delete/{type}/{id}";
-
     String SUCCESS_VIEW = "success";
 
     //Resource Constants
@@ -67,10 +59,4 @@ public interface Url {
 
     //Buzz Constants
     String BUZZ_BASE_URL = "/buzz";
-    String BUZZ_VIEW_URL = "/buzzList";
-    String BUZZ_CREATE_URL = "/sendBuzz";
-    String BUZZ_FLAG_URL = "/flagBuzz";
-    String BUZZ_DEACTIVATE_URL = "/deactivateBuzz";
-    String BUZZ_PIN_URL = "/pinBuzz";
-    String BUZZ_HISTORY_URL = "/buzzHistory";
 }

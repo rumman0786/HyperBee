@@ -42,3 +42,7 @@ footer {
     color: white;
     padding: 15px;
 }
+a {
+    text-decoration: none !important;
+    color: #000000;
+}

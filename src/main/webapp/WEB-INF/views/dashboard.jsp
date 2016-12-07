@@ -8,11 +8,11 @@
     <title><fmt:message key="dashboard.view.title"/></title>
     <script>
         function refreshList() {
-            $("#buzzList").load("/buzz/buzzList")
+            $("#buzzList").load("/buzz/buzzList");
         }
 
         $(document).ready(function () {
-            $("#buzzList").load("/buzz/buzzList")
+            $("#buzzList").load("/buzz/buzzList");
             setInterval(refreshList, 5000);
         });
     </script>
@@ -33,9 +33,9 @@
             <input type="submit" class="btn btn-primary" value="Send"/>
         </div>
         <div class="panel-footer clearfix">
-            <form:errors path="message" cssClass="alert-danger"/>
+            <form:errors path="message" cssClass="alert alert-danger"/>
             <c:if test="${authUser.isAdmin()}">
-                <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-info" role="button" style="float:right">
+                <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-lg btn-info" role="button" style="float:right">
                     <span class="glyphicon glyphicon glyphicon-time"/>
                 </a>
             </c:if>

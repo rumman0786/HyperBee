@@ -3,9 +3,9 @@ package net.therap.hyperbee.domain;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 
 import static net.therap.hyperbee.utils.constant.Constant.*;
 
@@ -27,33 +27,35 @@ public class Buzz implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotNull(message = "buzz.message.required")
     @Column(columnDefinition = TEXT_FIELD, nullable = false)
     private String message;
 
     @Column(name = "buzz_time", columnDefinition = DATE_TIME_FIELD, nullable = false)
-    private Calendar buzzTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date buzzTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = DISPLAY_STATUS_FIELD, columnDefinition = DISPLAY_STATUS_ENUM, nullable = false)
     private DisplayStatus displayStatus = DisplayStatus.ACTIVE;
 
-    @Column(columnDefinition = "BIT(1)", nullable = false)
-    private boolean pinned = false;
+    @Column(columnDefinition = "INT(1)", nullable = false)
+    private boolean pinned;
 
-    @Column(columnDefinition = "BIT(1)", nullable = false)
-    private boolean flagged = false;
+    @Column(columnDefinition = "INT(1)", nullable = false)
+    private boolean flagged;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Buzz() {
-        this.buzzTime = new GregorianCalendar();
+        buzzTime = new Date();
     }
 
     public Buzz(String message, DisplayStatus displayStatus, boolean pinned) {
         this.message = message;
-        this.buzzTime = new GregorianCalendar();
+        this.buzzTime = new Date();
         this.displayStatus = displayStatus;
         this.pinned = pinned;
     }
@@ -74,12 +76,12 @@ public class Buzz implements Serializable {
         this.message = message;
     }
 
-    public Calendar getBuzzTime() {
+    public Date getBuzzTime() {
         return buzzTime;
     }
 
-    public void setBuzzTime(Calendar buzzTime) {
-        this.buzzTime = buzzTime;
+    public void setBuzzTime(long buzzTime) {
+        this.buzzTime.setTime(buzzTime);
     }
 
     public DisplayStatus getDisplayStatus() {
