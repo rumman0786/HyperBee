@@ -51,7 +51,7 @@ public class BuzzController {
     private static final String BUZZ_REMOVE_LOG = "Deactivated buzz with id = {} and logged in activity log.";
     private static final String BUZZ_PIN_LOG = "Pinned buzz with id = {} and logged in activity log.";
     private static final String BUZZ_HISTORY_LOG = "Sending buzz list as per requirement for buzz history.";
-    private static final String BUZZ_TODAY_LOG = "Sending {} buzz list as per requirement.";
+    private static final String BUZZ_TODAY_LOG = "Sending {} buzz list as per requirement of sidebar counter.";
     private static final String BUZZ_ERROR_LOG = "Encountered an error. Propagating message to view.";
 
     // Attribute alias and value Constants

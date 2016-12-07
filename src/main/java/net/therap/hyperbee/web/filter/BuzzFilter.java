@@ -24,8 +24,8 @@ public class BuzzFilter implements Filter {
 
     // Log Message Constants
     private static final String BUZZ_FILTER_INIT_LOG = "Buzz History Filter Initialized";
-    private static final String BUZZ_FILTER_ACCESS_LOG = "Buzz History Filter Destroyed";
-    private static final String BUZZ_FILTER_DESTROY_LOG = "Attempt of access by {}";
+    private static final String BUZZ_FILTER_DESTROY_LOG = "Buzz History Filter Destroyed";
+    private static final String BUZZ_FILTER_ACCESS_LOG = "Attempt of access by {}";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
