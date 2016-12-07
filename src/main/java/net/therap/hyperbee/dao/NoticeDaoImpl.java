@@ -87,6 +87,10 @@ public class NoticeDaoImpl implements NoticeDao {
             }
         }
 
-        return noticeList.subList(LIST_INDEX_START, range);
+        if (noticeList.size() >= range){
+            return noticeList.subList(LIST_INDEX_START, range);
+        }
+
+        return noticeList;
     }
 }
