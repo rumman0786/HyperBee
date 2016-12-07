@@ -13,7 +13,6 @@ import net.therap.hyperbee.web.validator.PostValidator;
 import net.therap.hyperbee.web.validator.UserIdInfoValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +39,7 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @RequestMapping("/user/hive")
 public class HiveController {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(HiveController.class);
 
     @Autowired
     private HiveService hiveService;
@@ -68,17 +67,17 @@ public class HiveController {
 
     @InitBinder("post")
     private void initPostBinder(WebDataBinder binder) {
-        binder.setValidator(postValidator);
+        binder.addValidators(postValidator);
     }
 
     @InitBinder("userIdInfo")
     private void initUserIdInfoBinder(WebDataBinder binder) {
-        binder.setValidator(userIdInfoValidator);
+        binder.addValidators(userIdInfoValidator);
     }
 
     @InitBinder("hive")
     private void hiveBinder(WebDataBinder binder) {
-        binder.setValidator(hiveValidator);
+        binder.addValidators(hiveValidator);
     }
 
     @GetMapping
@@ -92,7 +91,7 @@ public class HiveController {
             model.addAttribute("hive", new Hive());
         }
 
-        log.debug("AuthUser ID: " + userId);
+        log.debug("AuthUser ID: {}", userId);
 
         return HIVE;
     }
@@ -113,7 +112,7 @@ public class HiveController {
             model.addAttribute("post", new Post());
         }
 
-        log.debug("Created Hive: " + hive.getName());
+        log.debug("Created Hive: {}", hive.getName());
 
         return SHOW_HIVE;
     }
@@ -133,7 +132,7 @@ public class HiveController {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.saveUsersToHive(hiveId, userIdInfo.getUserIdList());
 
-        log.debug("Member Added to hive : " + userIdInfo.getUserIdList());
+        log.debug("Member Added to hive : {}", userIdInfo.getUserIdList());
 
         return "redirect:" + HIVE_VIEW + hiveId;
     }
@@ -152,13 +151,13 @@ public class HiveController {
         model.addAttribute("userInfoId", userIdInfo);
         hiveService.removeUsersFromHive(hiveId, userIdInfo.getUserIdList());
 
-        log.debug("Member Removed from hive : " + userIdInfo.getUserIdList());
+        log.debug("Member Removed from hive : {}", userIdInfo.getUserIdList());
 
         return "redirect:" + HIVE_VIEW + hiveId;
     }
 
     @PostMapping(value = HIVE_CREATE_URL)
-    public String saveHive(@Validated @ModelAttribute("hive") Hive hive, BindingResult result,
+    public String saveHive(@Valid @ModelAttribute("hive") Hive hive, BindingResult result,
                            RedirectAttributes redirectAttributes,
                            @RequestParam MultipartFile file, Model model) throws IOException {
 
@@ -186,8 +185,8 @@ public class HiveController {
             model.addAttribute("message", imageUploader.createImage(filename, file));
         }
 
-        log.debug("AuthUser ID: " + userId);
-        log.debug("New Hive Name: " + hive.getName());
+        log.debug("AuthUser ID: {}", userId);
+        log.debug("New Hive Name: {}", hive.getName());
 
         return "redirect:" + HIVE_VIEW + hiveService.getHiveByHiveName(newHive.getName()).getId();
     }
@@ -206,8 +205,8 @@ public class HiveController {
         int userId = sessionHelper.getUserIdFromSession();
         postService.savePost(userId, hiveId, post);
 
-        log.debug("AuthUser ID: " + userId);
-        log.debug("Post: " + post.getDescription());
+        log.debug("AuthUser ID: {}", userId);
+        log.debug("Post: {}", post.getDescription());
 
         return "redirect:" + HIVE_VIEW + hiveId;
     }

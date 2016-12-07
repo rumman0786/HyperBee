@@ -107,4 +107,9 @@ public class HiveServiceImpl implements HiveService {
     public List<Hive> getAllHive() {
         return hiveDao.findAll();
     }
+
+    @Override
+    public boolean alreadyExist(Hive hive) {
+        return hiveDao.alreadyExist(hive);
+    }
 }

@@ -31,4 +31,6 @@ public interface HiveDao {
     List<Notice> getLastFiveNotice(List<Notice> noticeList, int range);
 
     List<Hive> findAll();
+
+    boolean alreadyExist(Hive hive);
 }
