@@ -5,8 +5,13 @@ import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.RoleType;
 import net.therap.hyperbee.utils.Utils;
+import net.therap.hyperbee.web.helper.NoticeHelper;
+import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +26,13 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final Logger log = LogManager.getLogger(UserServiceImpl.class);
+
     private static final int USER_ROLE_ID = 2;
+    private static final int ADMIN_ROLE_ID = 1;
+
+    @Autowired
+    private ActivityService activityService;
 
     @Autowired
     private UserDao userDao;
@@ -31,6 +42,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private SessionHelper sessionHelper;
+
+    @Autowired
+    private NoticeHelper noticeHelper;
+
+    @Autowired
+    private ReservationHelper reservationHelper;
 
     @Override
     public User findById(int id) {
@@ -78,14 +95,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void inactivate(int userId) {
+    public void inactivate(int userId, String username) {
         userDao.inactivate(userId);
+        activityService.archive("Deactivated user [" + username + "]");
     }
 
     @Override
     @Transactional
-    public void activate(int userId) {
+    public void activate(int userId, String username) {
         userDao.activate(userId);
+        activityService.archive("Activated user [" + username + "]");
     }
 
     @Override
@@ -109,8 +128,26 @@ public class UserServiceImpl implements UserService {
         String hashMd5 = Utils.hashMd5(user.getPassword());
         user.setPassword(hashMd5);
 
-        sessionHelper.persistInSession(user);
+        log.debug("\nUser at saveOrUpdate:\n" + user);
 
-        return userDao.saveOrUpdate(user);
+        User retrievedUser = userDao.saveOrUpdate(user);
+
+        return retrievedUser;
+    }
+
+    @Override
+    @Transactional
+    public void changeRole(int userId, int role) {
+        User user = userDao.findById(userId);
+
+        if (role == ADMIN_ROLE_ID) {
+            user.addRole(RoleType.ADMIN);
+            activityService.archive("Promoted [" + user.getUsername() + "] from User to Admin");
+        } else {
+            user.removeRole(RoleType.ADMIN);
+            activityService.archive("Demoted [" + user.getUsername() + "] from Admin to User");
+        }
+
+        userDao.saveOrUpdate(user);
     }
 }

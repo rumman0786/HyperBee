@@ -1,9 +1,12 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.RoleType;
+import net.therap.hyperbee.web.security.AuthUser;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Size(min = 1, message = "{username.required}")
     @Column(name = "username")
     private String username;
 
@@ -46,7 +50,7 @@ public class User implements Serializable {
 
     private String email;
 
-    @NotNull
+    @Size(min = 1, message = "{password.required}")
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -246,14 +250,45 @@ public class User implements Serializable {
         return (id == 0);
     }
 
+    public AuthUser getAuthUser() {
+        return new AuthUser(id, username, roleList);
+    }
+
+    public boolean isAdmin() {
+        for (Role role : roleList) {
+            if (role.getRoleType() == RoleType.ADMIN) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void addRole(RoleType roleType) {
+        Role role = new Role();
+        role.setRoleType(roleType);
+
+        roleList.add(role);
+    }
+
+    public void removeRole(RoleType roleType) {
+        Role role = new Role();
+        role.setRoleType(roleType);
+
+        roleList.remove(role);
+    }
+
     @Override
     public String toString() {
 
-        return "Username: " + username +
+        return "id: " + id +
+                "\nUsername: " + username +
                 "\nFist Name: " + firstName +
                 "\nLast Name: " + lastName +
                 "\nEmail: " + email +
-                "\nPassword: " + password;
+                "\nPassword: " + password +
+                "\nRole List: " + roleList;
 
     }
 }

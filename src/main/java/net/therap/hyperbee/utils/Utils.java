@@ -48,4 +48,12 @@ public class Utils {
     public static String convertQueryStringForCount(String query) {
         return query.replaceAll("\\*", "COUNT(*)");
     }
+
+    public static String convertToSentenceCase(String word) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(word.substring(0, 1).toUpperCase());
+        stringBuilder.append(word.substring(1, word.length()));
+
+        return stringBuilder.toString();
+    }
 }

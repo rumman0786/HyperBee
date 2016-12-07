@@ -77,11 +77,6 @@ public class BuzzServiceImpl implements BuzzService {
     }
 
     @Override
-    public List<Buzz> getBuzzByStatus(DisplayStatus displayStatus) {
-        return buzzDao.getByDisplayStatus(displayStatus);
-    }
-
-    @Override
     public List<Buzz> getLatestBuzz() {
         return buzzDao.getLatest(LATEST_RANGE);
     }
@@ -89,6 +84,41 @@ public class BuzzServiceImpl implements BuzzService {
     @Override
     public List<Buzz> getLatestPinnedBuzz() {
         return buzzDao.getLatestPinnedBuzz(PINNED_RANGE);
+    }
+
+    @Override
+    public List<Buzz> getActiveByUser(int userId) {
+        return buzzDao.getActiveByUser(userDao.findById(userId));
+    }
+
+    @Override
+    public List<Buzz> getPinnedByUser(int userId) {
+        return buzzDao.getPinnedByUser(userDao.findById(userId));
+    }
+
+    @Override
+    public List<Buzz> getFlaggedByUser(int userId) {
+        return buzzDao.getFlaggedByUser(userDao.findById(userId));
+    }
+
+    @Override
+    public List<Buzz> getActive() {
+        return buzzDao.getActive();
+    }
+
+    @Override
+    public List<Buzz> getPinned() {
+        return buzzDao.getPinned();
+    }
+
+    @Override
+    public List<Buzz> getFlagged() {
+        return buzzDao.getFlagged();
+    }
+
+    @Override
+    public List<Buzz> getInactive() {
+        return buzzDao.getInactive();
     }
 
     @Override

@@ -38,7 +38,7 @@ public class ActivityServiceImpl implements ActivityService {
     public void archive(String summary) {
         Activity activity = new Activity();
 
-        int userIdFromSession = sessionHelper.getUserIdFromSession();
+        int userIdFromSession = sessionHelper.getAuthUserIdFromSession();
         User user = userDao.findById(userIdFromSession);
 
         activity.setUser(user);

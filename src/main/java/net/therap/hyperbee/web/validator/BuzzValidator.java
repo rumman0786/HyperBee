@@ -15,7 +15,7 @@ public class BuzzValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> referenceClass) {
-        return referenceClass.isAssignableFrom(Buzz.class);
+        return Buzz.class.isAssignableFrom(referenceClass);
     }
 
     @Override
