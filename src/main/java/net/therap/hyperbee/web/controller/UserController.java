@@ -46,9 +46,14 @@ public class UserController {
     private static final String SIGN_UP_URL = "/signUp";
     private static final String SIGN_UP_VIEW = "user/signUp";
     private static final String USER_DASHBOARD_VIEW = "dashboard";
-    private static final String USER_ACTIVATE_URL = "/user/activate/{userId}";
-    private static final String USER_DEACTIVATE_URL = "/user/deactivate/{userId}";
+    private static final String USER_ACTIVATE_URL = "/user/activate/{userId}/{username}";
+    private static final String USER_DEACTIVATE_URL = "/user/deactivate/{userId}/{username}";
+    private static final String MAKE_ADMIN_URL = "/user/make/admin/{userId}";
+    private static final String MAKE_USER_URL = "/user/make/user/{userId}";
     private static final String LOGGED_IN = "Logged In";
+
+    private static final int ADMIN_ROLE_ID = 1;
+    private static final int USER_ROLE_ID = 2;
 
     @Autowired
     private BuzzService buzzService;
@@ -190,8 +195,8 @@ public class UserController {
     }
 
     @GetMapping(USER_DEACTIVATE_URL)
-    public String inactivateUser(@PathVariable int userId) {
-        userService.inactivate(userId);
+    public String inactivateUser(@PathVariable int userId, @PathVariable String username) {
+        userService.inactivate(userId, username);
 
         sessionHelper.decrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
         sessionHelper.incrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
@@ -200,8 +205,8 @@ public class UserController {
     }
 
     @GetMapping(USER_ACTIVATE_URL)
-    public String activateUser(@PathVariable int userId) {
-        userService.activate(userId);
+    public String activateUser(@PathVariable int userId, @PathVariable String username) {
+        userService.activate(userId, username);
 
         sessionHelper.incrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
         sessionHelper.decrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
@@ -235,4 +240,21 @@ public class UserController {
 
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
+
+    @GetMapping(MAKE_ADMIN_URL)
+    public String makeUserAdmin(@PathVariable int userId) {
+        return changeRole(userId, ADMIN_ROLE_ID);
+    }
+
+    @GetMapping(MAKE_USER_URL)
+    public String makeAdminUser(@PathVariable int userId) {
+        return changeRole(userId, USER_ROLE_ID);
+    }
+
+    private String changeRole(int userId, int role) {
+        userService.changeRole(userId, role);
+
+        return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
+    }
 }
+

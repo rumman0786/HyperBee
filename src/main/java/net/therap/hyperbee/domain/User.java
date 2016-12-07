@@ -1,6 +1,7 @@
 package net.therap.hyperbee.domain;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.RoleType;
 import net.therap.hyperbee.web.security.AuthUser;
 
 import javax.persistence.*;
@@ -251,6 +252,31 @@ public class User implements Serializable {
 
     public AuthUser getAuthUser() {
         return new AuthUser(id, username, roleList);
+    }
+
+    public boolean isAdmin() {
+        for (Role role : roleList) {
+            if (role.getRoleType() == RoleType.ADMIN) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void addRole(RoleType roleType) {
+        Role role = new Role();
+        role.setRoleType(roleType);
+
+        roleList.add(role);
+    }
+
+    public void removeRole(RoleType roleType) {
+        Role role = new Role();
+        role.setRoleType(roleType);
+
+        roleList.remove(role);
     }
 
     @Override

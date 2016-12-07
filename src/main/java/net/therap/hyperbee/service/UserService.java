@@ -25,11 +25,13 @@ public interface UserService {
 
     List<User> searchByEntry(String entry);
 
-    void inactivate(int userId);
+    void inactivate(int userId, String username);
 
-    void activate(int userId);
+    void activate(int userId, String username);
 
     int findByDisplayStatus(DisplayStatus status);
 
     User saveOrUpdate(User user);
+
+    void changeRole(int userId, int role);
 }

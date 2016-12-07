@@ -30,9 +30,9 @@ public class UserDaoImpl implements UserDao {
 
     private static final String FIND_USER_ACTIVE = "SELECT u FROM User u WHERE u.displayStatus = :status";
 
-    private static final String UPDATE_STATUS_TO_ACTIVE = "UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE id = :userId";
+    private static final String UPDATE_STATUS_TO_ACTIVE = "UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE u.id = :userId";
 
-    private static final String UPDATE_STATUS_TO_INACTIVE = "UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE id = :userId";
+    private static final String UPDATE_STATUS_TO_INACTIVE = "UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE u.id = :userId";
 
     private static final String FIND_BY_DISPLAY_STATUS = "SELECT COUNT(*) FROM user WHERE display_status = ?";
 
