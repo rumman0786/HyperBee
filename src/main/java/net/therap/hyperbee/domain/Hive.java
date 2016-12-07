@@ -42,6 +42,7 @@ public class Hive implements Serializable {
     private List<User> userList;
 
     @ManyToMany(mappedBy = "hiveList")
+    @OrderBy("id DESC")
     private List<Notice> noticeList;
 
     @OneToMany(mappedBy = "hive")

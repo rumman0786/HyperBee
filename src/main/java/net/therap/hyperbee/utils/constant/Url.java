@@ -18,20 +18,9 @@ public interface Url {
 
     //Profile Constant
     String PROFILE_URL = "/profile";
-    String PROFILE_EDIT_URL = "/edit";
-    String CREATE_PROFILE_URL = "profile/createprofile";
-    String USER_PROFILE_URL = "/user";
-    String VIEW_PROFILE_URL = "profile/viewprofile";
-
-    //Image Constants
-    String PROFILE_IMAGE_URL = "/image/{imagePath}";
-    String COVER_IMAGE_URL = "/cover/{coverImage}";
 
     //Stalk Therap Constant
     String SEARCH_URL = "/search";
-    String PROFILE_SEARCH_URL = "profile/searchprofile";
-    String STALK_PROFILE_URL = "/stalk/{username}";
-    String PROFILE_STALK_URL = "profile/stalkprofile";
 
     String SUCCESS_VIEW = "success";
 
