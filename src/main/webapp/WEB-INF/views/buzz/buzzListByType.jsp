@@ -10,18 +10,29 @@
     <div class="panel panel-success">
         <div class="panel-heading">
             <h2>${type} <fmt:message key="buzzToday.view.title"/></h2>
+            <h4><span class="label label-success"><fmt:message key="buzz.count.label"/> ${buzzList.size()}</span></h4>
         </div>
 
         <div class="panel-body">
             <table class="table table-bordered table-striped">
-                <c:forEach items="${buzzList}" var="buzz">
-                    <tr>
-                        <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.getBuzzTime()}" var="buzzDateTime"/>
-                        <td>
-                            <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <c:choose>
+                    <c:when test="${buzzList.isEmpty()}">
+                        <tr>
+                            <td><fmt:message key="buzzToday.view.no.message"/></td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${buzzList}" var="buzz">
+                            <tr>
+                                <fmt:formatDate pattern="MM/dd/yyyy hh:mm a" value="${buzz.getBuzzTime()}"
+                                                var="buzzDateTime"/>
+                                <td>
+                                    <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </table>
         </div>
 

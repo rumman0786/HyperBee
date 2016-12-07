@@ -83,7 +83,10 @@ ${message}
 
                                             <p>${userList.profile.designation}</p>
 
-                                            <p>${userList.displayStatus}</p>
+                                            <p style="font-family: 'lucida grande'">${userList.displayStatus}</p>
+                                            <c:forEach items="${userList.roleList}" var="role">
+                                                <p style="font-family: 'lucida grande'">${role.roleType}</p>
+                                            </c:forEach>
                                         </td>
                                     </tr>
                                 </table>

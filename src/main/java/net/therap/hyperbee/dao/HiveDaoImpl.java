@@ -3,6 +3,9 @@ package net.therap.hyperbee.dao;
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.simple.SimpleLogger;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +34,12 @@ public class HiveDaoImpl implements HiveDao {
 
     @Transactional
     public void saveHive(Hive hive) {
-        em.persist(hive);
-        em.flush();
+        List<Hive> hiveList = em.createQuery(QUERY_GET_HIVE_BY_HIVENAME, Hive.class)
+                .setParameter("hiveName", hive.getName()).getResultList();
+        if (hiveList.size() == 0) {
+            em.persist(hive);
+            em.flush();
+        }
     }
 
     public List<User> getUserListById(List<Integer> idList) {
@@ -76,7 +83,7 @@ public class HiveDaoImpl implements HiveDao {
     }
 
     @Override
-    public List<Notice> getLastFiveNotice(List<Notice> noticeList, int range) {
+    public List<Notice> getLastNNotice(List<Notice> noticeList, int range) {
         return em.createQuery(QUERY_GET_LAST_FIVE_NOTICE, Notice.class)
                 .setParameter("noticeList", noticeList).getResultList();
     }
@@ -84,5 +91,18 @@ public class HiveDaoImpl implements HiveDao {
     @Override
     public List<Hive> findAll() {
         return em.createQuery("From Hive", Hive.class).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public boolean alreadyExist(Hive hive) {
+        List<Hive> hiveList = em.createQuery(QUERY_GET_HIVE_BY_HIVENAME, Hive.class)
+                .setParameter("hiveName", hive.getName()).getResultList();
+
+        if (hiveList.size() != 0) {
+            return true;
+        }
+
+        return false;
     }
 }

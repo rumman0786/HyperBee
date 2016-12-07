@@ -29,7 +29,7 @@
             </div>
 
             <div class="alert alert-success" style="display:inline-block; float: right">
-                <c:out value="Total Buzz: ${buzzListSize}"/>
+                <fmt:message key="buzz.count.label"/> <c:out value="${buzzListSize}"/>
             </div>
 
             <table class="table table-striped">

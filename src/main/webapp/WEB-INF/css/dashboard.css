@@ -2,6 +2,27 @@
 .navbar {
     margin-bottom: 0;
     border-radius: 0;
+    box-shadow: 0 0 5px black;
+    text-shadow: 1px 1px black;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #c0c0c0;
+}
+
+.navbar-inverse .navbar-brand {
+    color: silver;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: ghostwhite;
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */

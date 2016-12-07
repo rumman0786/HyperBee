@@ -58,6 +58,14 @@ public class NoteServiceTest {
         assertEquals(1, noteDao.findUpcomingReminderNoteByUser(1).size());
     }
 
+    @Test
+    public void saveNote() {
+        Note note = new Note();
+        note.setTitle("TestNote");
+        when(noteDao.save(note)).thenReturn(note);
+        assertEquals("TestNote", note.getTitle());
+    }
+
     private List<Note> createDummyNoteList() {
         Note note = new Note();
         note.setTitle("Test Note");
