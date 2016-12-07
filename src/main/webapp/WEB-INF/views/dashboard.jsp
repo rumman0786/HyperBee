@@ -8,11 +8,11 @@
     <title><fmt:message key="dashboard.view.title"/></title>
     <script>
         function refreshList() {
-            $("#buzzList").load("/buzz/buzzList")
+            $("#buzzList").load("/buzz/buzzList");
         }
 
         $(document).ready(function () {
-            $("#buzzList").load("/buzz/buzzList")
+            $("#buzzList").load("/buzz/buzzList");
             setInterval(refreshList, 5000);
         });
     </script>
