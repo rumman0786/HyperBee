@@ -1,6 +1,5 @@
 /* Remove the navbar's default margin-bottom and rounded borders */
 .navbar {
-    background-image: linear-gradient(midnightblue 75%, dodgerblue);
     text-shadow: 1px 1px black;
     margin-bottom: 0;
     border-radius: 0;
