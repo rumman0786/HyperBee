@@ -35,7 +35,8 @@
         <div class="panel-footer clearfix">
             <form:errors path="message" cssClass="alert alert-danger"/>
             <c:if test="${authUser.isAdmin()}">
-                <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-lg btn-info" role="button" style="float:right">
+                <a href="/buzz/buzzHistory?prev=0&next=20" class="btn btn-lg btn-info" role="button"
+                   style="float:right">
                     <span class="glyphicon glyphicon glyphicon-time"/>
                 </a>
             </c:if>
@@ -56,9 +57,10 @@
                         <c:choose>
                             <c:when test="${fn:length(item.description) gt 102}">
                                 <p>${fn:substring(item.description, 0, 102)}...
-                                    <a href="/notes#${item.id}"><strong><fmt:message key="dashboard.view.note.readMore"/></strong></a>
+                                    <a href="/notes#${item.id}"><strong><fmt:message
+                                            key="dashboard.view.note.readMore"/></strong></a>
                                 </p>
-                             </c:when>
+                            </c:when>
                             <c:when test="${fn:length(item.description) lt 103}">
                                 <p>${item.description}</p>
                             </c:when>
@@ -85,7 +87,7 @@
                                 <p>${fn:substring(item.description, 0, 102)}...
                                     <a href="/notes"><strong><fmt:message key="dashboard.view.note.readMore"/></strong></a>
                                 </p>
-                             </c:when>
+                            </c:when>
                             <c:when test="${fn:length(item.description) lt 103}">
                                 <p>${item.description}</p>
                             </c:when>

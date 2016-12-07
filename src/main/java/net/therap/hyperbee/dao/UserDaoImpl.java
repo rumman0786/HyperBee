@@ -7,10 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -33,9 +30,9 @@ public class UserDaoImpl implements UserDao {
 
     private static final String FIND_USER_ACTIVE = "SELECT u FROM User u WHERE u.displayStatus = :status";
 
-    private static final String UPDATE_STATUS_TO_ACTIVE = "UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE id = :userId";
+    private static final String UPDATE_STATUS_TO_ACTIVE = "UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE u.id = :userId";
 
-    private static final String UPDATE_STATUS_TO_INACTIVE = "UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE id = :userId";
+    private static final String UPDATE_STATUS_TO_INACTIVE = "UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE u.id = :userId";
 
     private static final String FIND_BY_DISPLAY_STATUS = "SELECT COUNT(*) FROM user WHERE display_status = ?";
 
@@ -72,7 +69,7 @@ public class UserDaoImpl implements UserDao {
                     .setParameter("username", username)
                     .setParameter("email", email)
                     .getSingleResult();
-        } catch (NoResultException e) {
+        } catch (NoResultException | NonUniqueResultException e) {
             log.debug("Find by username or email exception", e);
         }
 
@@ -145,6 +142,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User saveOrUpdate(User user) {
+
         if (user.isNew()) {
             em.persist(user);
         } else {

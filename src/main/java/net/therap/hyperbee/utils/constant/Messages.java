@@ -42,7 +42,6 @@ public interface Messages {
     String BUZZ_FLAG_SUCCESS = "Successfully flagged buzz: {0}";
     String BUZZ_DELETE_SUCCESS = "Successfully removed buzz: {0}";
     String BUZZ_PINNED_SUCCESS = "Successfully pinned buzz: {0}";
-    String BUZZ_HISTORY_REQUEST = "Retrieved complete buzz list for viewing history";
     String BUZZ_ACCESS_DENIED = "Only administrators can view Buzz History!";
 
     //Conference Messages
