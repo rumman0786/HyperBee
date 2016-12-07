@@ -28,6 +28,7 @@
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.contact"/></th>
             <td><form:input path="contactNo" type="text" cssClass="form-control"/></td>
+            <td><form:errors path="contactNo" cssClass="alert-danger"/></td>
         </tr>
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.joining.date"/></th>
@@ -63,6 +64,7 @@
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.gender"/></th>
             <td><form:input path="gender" type="text" cssClass="form-control"/></td>
+            <td><form:errors path="gender" cssClass="alert-danger"/></td>
         </tr>
         <tr>
             <th class="panel-heading" style="color: #122b40"><fmt:message key="profile.dateofbirth"/></th>

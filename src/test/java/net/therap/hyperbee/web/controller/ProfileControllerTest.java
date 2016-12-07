@@ -1,22 +1,20 @@
 package net.therap.hyperbee.web.controller;
 
+import net.therap.hyperbee.domain.Profile;
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.service.UserService;
-import org.junit.Before;
+import net.therap.hyperbee.service.ProfileService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.mock.web.MockMultipartFile;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.io.File;
+import java.io.FileInputStream;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author duity
@@ -29,28 +27,29 @@ public class ProfileControllerTest {
     private ProfileController profileController;
 
     @Mock
-    private UserService userService;
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup() {
-        profileController = new ProfileController();
-        MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(profileController).build();
-    }
+    private ProfileService profileService;
 
     @Test
-    public void update() throws Exception {
-        User user=new User();
+    public void testSaveProfileForUser() throws Exception {
+        User user = new User();
+        Profile profile = new Profile();
+        profile.setDesignation("Developer");
 
-        when(userService.findByUsername(any(String.class))).thenReturn(user);
+        File imagePath = new File(System.getProperty("user.home") + File.separator + "Images");
 
-        this.mockMvc.perform(get("/profile/stalk/admin"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("User", user))
-                .andExpect(model().attribute("profile", user.getProfile()));
+        FileInputStream inputFile1 = new FileInputStream(imagePath.getAbsolutePath() + File.separator + "sansaCover.png");
+        FileInputStream inputFile2 = new FileInputStream(imagePath.getAbsolutePath() + File.separator + "neddCover.png");
+
+        MockMultipartFile profilePicture = new MockMultipartFile("file", "sansaCover.png", "multipart/form-data", inputFile1);
+        MockMultipartFile coverPicture = new MockMultipartFile("coverFile", "neddCover.png", "multipart/form-data", inputFile2);
+
+        Mockito.when(profileService.saveFileForUser(coverPicture, profilePicture, user, profile)).thenReturn(profile);
+        assertEquals(profileService.saveFileForUser(coverPicture, profilePicture, user, profile), profile);
+
+        Mockito.when(profileService.saveProfileForUser(profile, 1)).thenReturn("profile is saved");
+        assertEquals(profileService.saveProfileForUser(profile, 1), "profile is saved");
     }
-
-
 }
+
+
+
