@@ -28,7 +28,9 @@ public interface HiveDao {
 
     void removeUsersFromHive(Hive hive, List<User> userList);
 
-    List<Notice> getLastFiveNotice(List<Notice> noticeList, int range);
+    List<Notice> getLastNNotice(List<Notice> noticeList, int range);
 
     List<Hive> findAll();
+
+    boolean alreadyExist(Hive hive);
 }
