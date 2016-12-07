@@ -82,14 +82,12 @@ public class ProfileController {
     @GetMapping(value = PROFILE_EDIT_URL)
     public String getProfile(Model model) {
         model.addAttribute("page", "profile");
-        AuthUser authUser = sessionHelper.getAuthUserFromSession();
-        int id = authUser.getId();
-        User user = userService.findById(id);
-        Profile profile;
+        int userId = sessionHelper.getAuthUserIdFromSession();
+        User user = userService.findById(userId);
+        Profile profile = new Profile();
 
         if (user.getProfile() == null) {
-            profile = new Profile();
-            profileService.saveProfileForUser(profile, authUser.getId());
+            profileService.saveProfileForUser(profile, userId);
         } else {
             profile = user.getProfile();
         }
@@ -99,8 +97,8 @@ public class ProfileController {
         model.addAttribute(USER_ATTRIBUTE, user);
         activityService.archive(VISIT_EDIT_PROFILE_ACTIVITY);
 
-        log.debug("AuthUser ID:", authUser.getId());
-        log.debug("AuthUser Name:", authUser.getUsername());
+        log.debug("AuthUser ID:", userId);
+        log.debug("AuthUser Name:", user.getUsername());
 
         return CREATE_PROFILE_URL;
     }
@@ -120,8 +118,7 @@ public class ProfileController {
             return Utils.redirectTo(PROFILE_URL + PROFILE_EDIT_URL);
         }
         model.addAttribute("page", "profile");
-        AuthUser authUser = sessionHelper.getAuthUserFromSession();
-        int userId = authUser.getId();
+        int userId = sessionHelper.getAuthUserIdFromSession();
         User user = userService.findById(userId);
         profile = profileService.saveFileForUser(coverFile, file, user, profile);
         String message = profileService.saveProfileForUser(profile, userId);

@@ -36,7 +36,6 @@ public class Profile implements Serializable {
     @DateTimeFormat(pattern = "dd-MM-yy")
     private Calendar dateOfBirth;
 
-
     private String address;
 
     @Column(name = "contact_no")
