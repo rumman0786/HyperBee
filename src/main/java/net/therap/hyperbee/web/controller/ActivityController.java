@@ -43,7 +43,7 @@ public class ActivityController {
 
     @GetMapping(ACTIVITY_LOG_URL)
     public String viewActivity(Model model) {
-        int userId = sessionHelper.getUserIdFromSession();
+        int userId = sessionHelper.getAuthUserIdFromSession();
 
         List<Activity> activityList = activityService.findByUserId(userId);
         List<User> userList = userService.findAll();

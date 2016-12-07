@@ -8,8 +8,10 @@ import net.therap.hyperbee.web.helper.BuzzHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.BuzzValidator;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 import static net.therap.hyperbee.utils.constant.Url.BUZZ_BASE_URL;
@@ -52,7 +53,7 @@ public class BuzzController {
     private static final String BUZZ_REMOVE_LOG = "Deactivated buzz with id = {} and logged in activity log.";
     private static final String BUZZ_PIN_LOG = "Pinned buzz with id = {} and logged in activity log.";
     private static final String BUZZ_HISTORY_LOG = "Sending buzz list as per requirement for buzz history.";
-    private static final String BUZZ_TODAY_LOG = "Sending {} buzz list as per requirement.";
+    private static final String BUZZ_TODAY_LOG = "Sending {} buzz list as per requirement of sidebar counter.";
     private static final String BUZZ_ERROR_LOG = "Encountered an error. Propagating message to view.";
 
     // Attribute alias and value Constants
@@ -97,12 +98,12 @@ public class BuzzController {
     }
 
     @GetMapping(BUZZ_SELECT_VIEW_URL)
-    public String viewBuzzByType(@PathVariable("type") String type, Model model) {
-        if(sessionHelper.getAuthUserFromSession().isAdmin()) {
+    public String viewBuzzByType(@PathVariable(BUZZ_TYPE_ATTR_NAME) String type, Model model) {
+        if (sessionHelper.getAuthUserFromSession().isAdmin()) {
             model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzHelper.getListByType(type));
         } else {
             model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzHelper.getListByTypeAndUser(type,
-                    sessionHelper.getUserIdFromSession()));
+                    sessionHelper.getAuthUserIdFromSession()));
         }
 
         log.debug(BUZZ_TODAY_LOG, type);

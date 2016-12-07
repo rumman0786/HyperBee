@@ -51,7 +51,7 @@
 
     <filter>
         <filter-name>buzzHistoryFilter</filter-name>
-        <filter-class>net.therap.hyperbee.web.filter.BuzzHistoryFilter</filter-class>
+        <filter-class>net.therap.hyperbee.web.filter.BuzzFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -73,5 +73,6 @@
     <filter-mapping>
         <filter-name>buzzHistoryFilter</filter-name>
         <url-pattern>/buzz/buzzHistory</url-pattern>
+        <url-pattern>/buzz/buzzList/inactive</url-pattern>
     </filter-mapping>
 </web-app>
