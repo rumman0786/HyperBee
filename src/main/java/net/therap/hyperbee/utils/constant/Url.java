@@ -45,18 +45,6 @@ public interface Url {
     String DONE_URL = "/done";
     String DONE_VIEW = "done";
 
-    //Hive Constants
-    String HIVE_CREATE_URL = "/create";
-    String HIVE_VIEW_URL = "/show/{id}";
-    String HIVE_ADD_USER_URL = "/insertuser/{hiveId}";
-    String HIVE_REMOVE_USER_URL = "/removeuser/{hiveId}";
-    String HIVE_ADD_POST_URL = "/post/{hiveId}";
-    String SHOW_HIVE = "hive/showHive";
-    String HIVE = "hive/hive";
-    String HIVE_VIEW = "/user/hive/show/";
-    String HIVE_IMAGE = "/image/{imagePath}";
-    String HIVE_URL = "/user/hive";
-
     //Buzz Constants
     String BUZZ_BASE_URL = "/buzz";
 }

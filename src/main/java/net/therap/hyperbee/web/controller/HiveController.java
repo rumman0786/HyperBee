@@ -10,7 +10,6 @@ import net.therap.hyperbee.web.helper.ImageUploader;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.HiveValidator;
 import net.therap.hyperbee.web.validator.PostValidator;
-import net.therap.hyperbee.web.validator.UserIdInfoValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.Utils.redirectTo;
 
 /**
  * @author azim
@@ -37,6 +36,17 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 @Controller
 @RequestMapping("/user/hive")
 public class HiveController {
+
+    private static final String HIVE_CREATE_URL = "/create";
+    private static final String HIVE_VIEW_URL = "/show/{id}";
+    private static final String HIVE_ADD_USER_URL = "/insertuser/{hiveId}";
+    private static final String HIVE_REMOVE_USER_URL = "/removeuser/{hiveId}";
+    private static final String HIVE_ADD_POST_URL = "/post/{hiveId}";
+    private static final String SHOW_HIVE = "hive/showHive";
+    private static final String HIVE = "hive/hive";
+    private static final String HIVE_VIEW = "/user/hive/show/";
+    private static final String HIVE_IMAGE = "/image/{imagePath}";
+    private static final String HIVE_URL = "/user/hive";
 
     private static final Logger log = LogManager.getLogger(HiveController.class);
 
@@ -56,9 +66,6 @@ public class HiveController {
     private SessionHelper sessionHelper;
 
     @Autowired
-    private UserIdInfoValidator userIdInfoValidator;
-
-    @Autowired
     private PostValidator postValidator;
 
     @Autowired
@@ -67,11 +74,6 @@ public class HiveController {
     @InitBinder("post")
     private void initPostBinder(WebDataBinder binder) {
         binder.addValidators(postValidator);
-    }
-
-    @InitBinder("userIdInfo")
-    private void initUserIdInfoBinder(WebDataBinder binder) {
-        binder.addValidators(userIdInfoValidator);
     }
 
     @InitBinder("hive")
@@ -125,7 +127,7 @@ public class HiveController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "userIdInfo", result);
             redirectAttributes.addFlashAttribute("userIdInfo", userIdInfo);
 
-            return "redirect:" + HIVE_VIEW + hiveId;
+            return redirectTo(HIVE_VIEW + hiveId);
         }
 
         model.addAttribute("userInfoId", userIdInfo);
@@ -133,7 +135,7 @@ public class HiveController {
 
         log.debug("Member Added to hive : {}", userIdInfo.getUserIdList());
 
-        return "redirect:" + HIVE_VIEW + hiveId;
+        return redirectTo(HIVE_VIEW + hiveId);
     }
 
     @PostMapping(value = HIVE_REMOVE_USER_URL)
@@ -144,7 +146,7 @@ public class HiveController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "userIdInfo", result);
             redirectAttributes.addFlashAttribute("userIdInfo", userIdInfo);
 
-            return "redirect:" + HIVE_VIEW + hiveId;
+            return redirectTo(HIVE_VIEW + hiveId);
         }
 
         model.addAttribute("userInfoId", userIdInfo);
@@ -152,7 +154,7 @@ public class HiveController {
 
         log.debug("Member Removed from hive : {}", userIdInfo.getUserIdList());
 
-        return "redirect:" + HIVE_VIEW + hiveId;
+        return redirectTo(HIVE_VIEW + hiveId);
     }
 
     @PostMapping(value = HIVE_CREATE_URL)
@@ -168,7 +170,7 @@ public class HiveController {
                 redirectAttributes.addFlashAttribute("fileError", "Please select picture");
             }
 
-            return "redirect:" + HIVE_URL;
+            return redirectTo(HIVE_URL);
         }
 
         model.addAttribute("hiveName", hive.getName());
@@ -187,7 +189,7 @@ public class HiveController {
         log.debug("AuthUser ID: {}", userId);
         log.debug("New Hive Name: {}", hive.getName());
 
-        return "redirect:" + HIVE_VIEW + hiveService.getHiveByHiveName(newHive.getName()).getId();
+        return redirectTo(HIVE_VIEW + hiveService.getHiveByHiveName(newHive.getName()).getId());
     }
 
     @PostMapping(value = HIVE_ADD_POST_URL)
@@ -198,7 +200,7 @@ public class HiveController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "post", result);
             redirectAttributes.addFlashAttribute("post", post);
 
-            return "redirect:" + HIVE_VIEW + hiveId;
+            return redirectTo(HIVE_VIEW + hiveId);
         }
 
         int userId = sessionHelper.getAuthUserIdFromSession();
@@ -207,7 +209,7 @@ public class HiveController {
         log.debug("AuthUser ID: {}", userId);
         log.debug("Post: {}", post.getDescription());
 
-        return "redirect:" + HIVE_VIEW + hiveId;
+        return redirectTo(HIVE_VIEW + hiveId);
     }
 
     @RequestMapping(value = HIVE_IMAGE)

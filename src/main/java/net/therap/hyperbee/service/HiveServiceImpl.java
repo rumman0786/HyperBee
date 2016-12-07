@@ -23,10 +23,14 @@ public class HiveServiceImpl implements HiveService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ActivityService activityService;
+
     @Override
     @Transactional
     public void saveHive(Hive hive) {
         hiveDao.saveHive(hive);
+        activityService.archive("Created New Hive");
     }
 
     public List<User> getUserListById(List<Integer> idList) {
@@ -42,6 +46,7 @@ public class HiveServiceImpl implements HiveService {
         User user = userService.findById(userId);
         userList.add(user);
         hive.setUserList(userList);
+        activityService.archive("Added Hive creator to user List");
 
         return hive;
     }
@@ -57,6 +62,7 @@ public class HiveServiceImpl implements HiveService {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
         hiveDao.addUsersToHive(hive, userList);
+        activityService.archive("Saved User to Hive");
     }
 
     @Override
@@ -82,6 +88,7 @@ public class HiveServiceImpl implements HiveService {
         Hive hive = retrieveHiveById(hiveId);
         List<User> userList = getUserListById(userIdList);
         hiveDao.removeUsersFromHive(hive, userList);
+        activityService.archive("Removed user from Hive");
     }
 
     @Override
@@ -99,8 +106,9 @@ public class HiveServiceImpl implements HiveService {
         if (noticeList.isEmpty()) {
             return noticeList;
         }
+        activityService.archive("View Latest Notice");
 
-        return hiveDao.getLastFiveNotice(noticeList,5);
+        return hiveDao.getLastNNotice(noticeList,5);
     }
 
     @Override
