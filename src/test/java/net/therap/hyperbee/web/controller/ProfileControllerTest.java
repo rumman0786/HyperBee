@@ -11,9 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mock.web.MockMultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,13 +32,8 @@ public class ProfileControllerTest {
         Profile profile = new Profile();
         profile.setDesignation("Developer");
 
-        File imagePath = new File(System.getProperty("user.home") + File.separator + "Images");
-
-        FileInputStream inputFile1 = new FileInputStream(imagePath.getAbsolutePath() + File.separator + "sansaCover.png");
-        FileInputStream inputFile2 = new FileInputStream(imagePath.getAbsolutePath() + File.separator + "neddCover.png");
-
-        MockMultipartFile profilePicture = new MockMultipartFile("file", "sansaCover.png", "multipart/form-data", inputFile1);
-        MockMultipartFile coverPicture = new MockMultipartFile("coverFile", "neddCover.png", "multipart/form-data", inputFile2);
+        MockMultipartFile profilePicture = new MockMultipartFile("testFile1", new byte[1]);
+        MockMultipartFile coverPicture = new MockMultipartFile("testFile2", new byte[1]);
 
         Mockito.when(profileService.saveFileForUser(coverPicture, profilePicture, user, profile)).thenReturn(profile);
         assertEquals(profileService.saveFileForUser(coverPicture, profilePicture, user, profile), profile);
