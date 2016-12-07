@@ -14,6 +14,11 @@ import java.util.List;
 @Component
 public class BuzzHelper {
 
+    public static final String BUZZ_TYPE_ACTIVE = "active";
+    public static final String BUZZ_TYPE_INACTIVE = "inactive";
+    public static final String BUZZ_TYPE_PINNED = "pinned";
+    public static final String BUZZ_TYPE_FLAGGED = "flagged";
+
     @Autowired
     BuzzService buzzService;
 
@@ -21,19 +26,19 @@ public class BuzzHelper {
         List<Buzz> buzzList = null;
 
         switch (type) {
-            case "active":
+            case BUZZ_TYPE_ACTIVE:
                 buzzList = buzzService.getActive();
                 break;
 
-            case "inactive":
+            case BUZZ_TYPE_INACTIVE:
                 buzzList = buzzService.getInactive();
                 break;
 
-            case "pinned":
+            case BUZZ_TYPE_PINNED:
                 buzzList = buzzService.getPinned();
                 break;
 
-            case "flagged":
+            case BUZZ_TYPE_FLAGGED:
                 buzzList = buzzService.getFlagged();
                 break;
 
@@ -48,15 +53,15 @@ public class BuzzHelper {
         List<Buzz> buzzList = null;
 
         switch (type) {
-            case "active":
+            case BUZZ_TYPE_ACTIVE:
                 buzzList = buzzService.getActiveByUser(userId);
                 break;
 
-            case "pinned":
+            case BUZZ_TYPE_PINNED:
                 buzzList = buzzService.getPinnedByUser(userId);
                 break;
 
-            case "flagged":
+            case BUZZ_TYPE_FLAGGED:
                 buzzList = buzzService.getFlaggedByUser(userId);
                 break;
 

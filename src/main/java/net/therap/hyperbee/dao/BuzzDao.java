@@ -2,7 +2,6 @@ package net.therap.hyperbee.dao;
 
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.User;
-import net.therap.hyperbee.domain.enums.DisplayStatus;
 
 import java.util.List;
 
