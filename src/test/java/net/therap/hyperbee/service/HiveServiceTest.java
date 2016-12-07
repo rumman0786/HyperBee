@@ -36,8 +36,7 @@ public class HiveServiceTest {
     public void setup() {
         hiveService = new HiveServiceImpl();
         MockitoAnnotations.initMocks(this);
-        when(hiveDao.retrieveHiveById(1))
-                .thenReturn(createDummyHive());
+        when(hiveDao.retrieveHiveById(1)).thenReturn(createDummyHive());
     }
 
     @Test

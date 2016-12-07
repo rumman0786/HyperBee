@@ -1,5 +1,6 @@
 package net.therap.hyperbee.web.controller;
 
+import net.therap.hyperbee.domain.Notice;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.UserService;
@@ -36,7 +37,7 @@ public class HiveControllerTest {
     SessionHelper sessionHelper;
 
     @Test
-    public void testUserList() throws Exception {
+    public void testUserNotInList() throws Exception {
         User user1 = new User();
         User user2 = new User();
 
@@ -48,5 +49,29 @@ public class HiveControllerTest {
         assertEquals(hiveService.getUserNotInList(1), userList);
     }
 
+    @Test
+    public void testUserListToRemove() throws Exception {
+        User user1 = new User();
+        User user2 = new User();
 
+        List<User> userList = new ArrayList<>();
+        userList.add(user1);
+        userList.add(user2);
+
+        Mockito.when(hiveService.getUserListToRemove(1)).thenReturn(userList);
+        assertEquals(hiveService.getUserListToRemove(1), userList);
+    }
+
+    @Test
+    public void testLatestNoticeList() throws Exception {
+        Notice notice1 = new Notice();
+        Notice notice2 = new Notice();
+
+        List<Notice> noticeList = new ArrayList<>();
+        noticeList.add(notice1);
+        noticeList.add(notice2);
+
+        Mockito.when( hiveService.getLatestNotice(noticeList)).thenReturn(noticeList);
+        assertEquals(hiveService.getLatestNotice(noticeList).size(), 2);
+    }
 }
