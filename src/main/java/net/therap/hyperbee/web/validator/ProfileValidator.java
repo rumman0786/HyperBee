@@ -13,8 +13,8 @@ import org.springframework.validation.Validator;
 @Component
 public class ProfileValidator implements Validator {
     @Override
-    public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(Profile.class);
+    public boolean supports(Class clazz) {
+        return Profile.class.equals(clazz);
     }
 
     @Override

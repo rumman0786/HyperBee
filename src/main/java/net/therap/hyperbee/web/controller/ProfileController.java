@@ -6,7 +6,6 @@ import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.ProfileService;
 import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.helper.ImageUploader;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
@@ -18,12 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,7 +31,8 @@ import java.util.List;
 import static net.therap.hyperbee.utils.constant.Constant.PROFILE_ATTRIBUTE;
 import static net.therap.hyperbee.utils.constant.Constant.USER_ATTRIBUTE;
 import static net.therap.hyperbee.utils.constant.Messages.*;
-import static net.therap.hyperbee.utils.constant.Url.*;
+import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
+import static net.therap.hyperbee.utils.constant.Url.PROFILE_URL;
 
 /**
  * @author duity
@@ -43,6 +43,17 @@ import static net.therap.hyperbee.utils.constant.Url.*;
 public class ProfileController {
 
     private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+
+    public static final String PROFILE_EDIT_URL = "/edit";
+    public static final String CREATE_PROFILE_URL = "profile/createprofile";
+    public static final String USER_PROFILE_URL = "/user";
+    public static final String VIEW_PROFILE_URL = "profile/viewprofile";
+    public static final String PROFILE_IMAGE_URL = "/image/{imagePath}";
+    public static final String COVER_IMAGE_URL = "/cover/{coverImage}";
+    public static final String SEARCH_URL = "/search";
+    public static final String PROFILE_SEARCH_URL = "profile/searchprofile";
+    public static final String STALK_PROFILE_URL = "/stalk/{username}";
+    public static final String PROFILE_STALK_URL = "profile/stalkprofile";
 
     @Autowired
     private SessionHelper sessionHelper;
@@ -61,9 +72,6 @@ public class ProfileController {
 
     @Autowired
     private ProfileValidator profileValidator;
-
-    @Autowired
-    private Utils utils;
 
     @InitBinder("profile")
     private void initBinder(WebDataBinder binder) {
@@ -84,7 +92,9 @@ public class ProfileController {
         } else {
             profile = user.getProfile();
         }
-        model.addAttribute(PROFILE_ATTRIBUTE, profile);
+        if (!model.containsAttribute(PROFILE_ATTRIBUTE)) {
+            model.addAttribute(PROFILE_ATTRIBUTE, profile);
+        }
         model.addAttribute(USER_ATTRIBUTE, user);
         activityService.archive(VISIT_EDIT_PROFILE_ACTIVITY);
 
@@ -95,7 +105,7 @@ public class ProfileController {
     }
 
     @PostMapping
-    public String postProfile(@ModelAttribute("profile") @Validated Profile profile,
+    public String postProfile(@ModelAttribute("profile") @Valid Profile profile,
                               BindingResult result,
                               Model model,
                               @RequestParam MultipartFile file,
@@ -106,7 +116,7 @@ public class ProfileController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "profile", result)
                     .addFlashAttribute("profile", profile);
 
-            return utils.redirectTo(PROFILE_URL + PROFILE_EDIT_URL);
+            return "redirect:" + PROFILE_URL + PROFILE_EDIT_URL;
         }
         model.addAttribute("page", "profile");
         AuthUser authUser = sessionHelper.getAuthUserFromSession();
