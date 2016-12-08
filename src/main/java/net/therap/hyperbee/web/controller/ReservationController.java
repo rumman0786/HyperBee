@@ -87,6 +87,7 @@ public class ReservationController {
 
         modelMap.addAttribute("page", RESERVATION_HTML_PAGE_ACTIVE_KEY)
                 .addAttribute("reservation", new Reservation())
+                .addAttribute("isAdmin", sessionHelper.getAuthUserFromSession().isAdmin())
                 .addAttribute("pageHeader", RESERVATION_PAGE_ADD_HEADER)
                 .addAttribute("action", RESERVATION_BASE_URL + RESERVATION_ADD_URL)
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
@@ -105,9 +106,15 @@ public class ReservationController {
 
         int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
 
+
+        if (!sessionHelper.getAuthUserFromSession().isAdmin()){
+            reservation.setReservationStatus(ReservationStatus.PENDING);
+        }
+
         reservation.setReservationFrom(DateUtils.getCalendarFromString(reservationFrom));
         reservation.setUser(userService.findById(sessionUserId));
         reservation.setReservationTo(DateUtils.getCalendarFromString(reservationTo));
+
 
         reservationService.saveReservation(reservation);
         log.debug(RESERVATION_SAVED);
@@ -121,6 +128,7 @@ public class ReservationController {
                 .addAttribute("pageHeader", RESERVATION_PAGE_EDIT_HEADER)
                 .addAttribute("action", RESERVATION_BASE_URL + RESERVATION_UPDATE_URL)
                 .addAttribute("reservation", reservationService.findReservationById(id))
+                .addAttribute("isAdmin", sessionHelper.getAuthUserFromSession().isAdmin())
                 .addAttribute("roomList", conferenceRoomService.findAllConferenceRoom())
                 .addAttribute("reservationStatusOptions", ReservationStatus.values());
 
@@ -135,11 +143,11 @@ public class ReservationController {
                                   @RequestParam("reservationFrom") String reservationFrom,
                                   @RequestParam("reservationTo") String reservationTo) {
 
-        int sessionUserId = (sessionHelper.getAuthUserFromSession()).getId();
-        reservation.setUser(userService.findById(sessionUserId));
-        reservation.setReservationFrom(DateUtils.getCalendarFromString(reservationFrom));
-        reservation.setReservationTo(DateUtils.getCalendarFromString(reservationTo));
-        reservationService.saveReservation(reservation);
+        Reservation oldreservation = reservationService.findReservationById(reservation.getId());
+        oldreservation.setReservationStatus(reservation.getReservationStatus());
+        oldreservation.setReservationFrom(DateUtils.getCalendarFromString(reservationFrom));
+        oldreservation.setReservationTo(DateUtils.getCalendarFromString(reservationTo));
+        reservationService.saveReservation(oldreservation);
 
         log.debug(RESERVATION_SAVED);
 

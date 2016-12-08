@@ -11,10 +11,9 @@
 <body>
 
 <div class="container-fluid">
-    <c:if test="${authUser.isAdmin()}">
-        <a href="${pageContext.request.contextPath}${actionUrl}" class="btn btn-success pull-right"><fmt:message
+
+    <a href="${pageContext.request.contextPath}${actionUrl}" class="btn btn-success pull-right"><fmt:message
                 key="reservation.list.btn.text"/></a>
-    </c:if>
 </div>
 <br/>
 
