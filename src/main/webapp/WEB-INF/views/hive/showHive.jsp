@@ -29,7 +29,7 @@
 
 <div class=" col-sm-10 tab-content">
 <div id="post" class="tab-pane in active">
-    <form:form action="/user/hive/post/${hive.id}" method="POST" commandName="post">
+    <form:form action="/user/hive/post/${hive.id}" method="POST" commandName="discussion">
         <div class="panel panel-success">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><fmt:message
@@ -227,7 +227,8 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
-                                            <td style="padding: 8px"><c:out value="${user.firstName} ${user.lastName}"/></td>
+                                            <td style="padding: 8px"><c:out
+                                                    value="${user.firstName} ${user.lastName}"/></td>
                                         </tr>
                                     </table>
                                 </li>
