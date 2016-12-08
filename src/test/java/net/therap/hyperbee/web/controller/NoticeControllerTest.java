@@ -10,7 +10,6 @@ import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.NoticeService;
 import net.therap.hyperbee.service.UserService;
-import net.therap.hyperbee.utils.constant.Url;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.NoticeValidator;
@@ -18,20 +17,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -73,21 +68,18 @@ public class NoticeControllerTest {
     @Before
     public void setup() {
         initMocks(this);
-        
+
+        redirectAttributes = new RedirectAttributesModelMap();
         notice = getCreatedNotice();
-        List<Role> roleList = getRoleList();
 
-        AuthUser user = new AuthUser(1, "admin", roleList);
+        when(sessionHelper.getAuthUserFromSession()).thenReturn(getAuthUser());
 
-        when(sessionHelper.getAuthUserFromSession()).thenReturn(user);
-        when(noticeController.addNotice(notice, bindingResult, redirectAttributes))
-                .thenReturn("redirect:/notice");
     }
 
     @Test
     public void test_addNotice() {
-        String url = noticeController.addNotice(notice, bindingResult,redirectAttributes);
-        assertEquals("redirect:/notice", url);
+        String url = noticeController.addNotice(notice, bindingResult, redirectAttributes);
+        assertEquals("redirect:/done", url);
     }
 
     private Notice getCreatedNotice() {
@@ -113,7 +105,13 @@ public class NoticeControllerTest {
         return notice;
     }
 
-    private List<Role> getRoleList(){
+    private AuthUser getAuthUser() {
+        List<Role> roleList = getRoleList();
+
+        return new AuthUser(1, "admin", roleList);
+    }
+
+    private List<Role> getRoleList() {
         List<Role> roleList = new ArrayList<>();
 
         Role role1 = new Role();
