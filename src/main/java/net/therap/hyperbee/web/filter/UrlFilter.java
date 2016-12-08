@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
+import static net.therap.hyperbee.utils.constant.Constant.SESSION_KEY_AUTH_USER;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -29,7 +30,9 @@ public class UrlFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
+                         FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
@@ -38,16 +41,14 @@ public class UrlFilter implements Filter {
 
         if (ALLOWED_PATHS.contains(requestURI) || containsResource(servletPath)){
             chain.doFilter(request, response);
-
             return;
         }
 
         HttpSession session = ((HttpServletRequest) request).getSession();
-        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
+        AuthUser authUser = (AuthUser) session.getAttribute(SESSION_KEY_AUTH_USER);
 
         if (authUser != null){
             chain.doFilter(request, response);
-
             return;
         }
 
@@ -56,10 +57,9 @@ public class UrlFilter implements Filter {
     }
 
     private boolean containsResource(String servletPath) {
-        Iterator<String> iterator = RESOURCES.iterator();
 
-        while (iterator.hasNext()) {
-            if(servletPath.startsWith(iterator.next())){
+        for (String RESOURCE : RESOURCES) {
+            if (servletPath.startsWith(RESOURCE)) {
 
                 return true;
             }

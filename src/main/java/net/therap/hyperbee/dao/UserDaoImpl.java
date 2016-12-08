@@ -35,7 +35,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(int id) {
-
         return em.find(User.class, id);
     }
 
@@ -88,13 +87,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() {
-
         return em.createQuery(FIND_ALL, User.class).getResultList();
     }
 
     @Override
     public List<User> findActiveUser() {
-
         return em.createQuery(FIND_USER_ACTIVE, User.class)
                 .setParameter("status", DisplayStatus.ACTIVE)
                 .getResultList();
@@ -103,7 +100,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public int updateStatus(int userId, DisplayStatus status) {
-
         return em.createQuery(UPDATE_STATUS)
                 .setParameter("userId", userId)
                 .setParameter("status", status)
@@ -120,6 +116,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User saveOrUpdate(User user) {
+
         if (user.isNew()) {
             em.persist(user);
             log.debug("New User: " + user);

@@ -12,12 +12,6 @@ public interface Messages {
     String NOTE_DELETE_SUCCESS = "Note has been deleted";
     String NOTE_SAVE_SUCCESS = "Note has been saved";
     String NOTICE_LIST_VIEWED = "Notice List View";
-    String NOTE_SAVE_FAILURE = "Note was not saved. Please Try Again";
-
-    String NOTE_PAGE_VIEW_ACTIVITY = "Visited own notes page";
-    String NOTE_SAVE_ACTIVITY = "Saved a new note";
-    String NOTE_SAVE_FAILED = "Tried to save an invalid note";
-    String NOTE_DELETE_ACTIVITY = "Deleted a note";
 
     //Notice Messages
     String NOTICE_VIEWED = "Notice Home Page Viewed";
@@ -34,12 +28,16 @@ public interface Messages {
     String NOTICE_PAGE_EDIT_HEADER = "Edit Notice";
     String SUCCESS_HTML_CLASS = "alert alert-success";
     String FAILURE_HTML_CLASS = "alert alert-danger";
+
+    //User Messages
     String LOGGED_IN = "Logged In";
     String SIGNED_UP = "Signed Up";
     String USER_ACTIVATED = "Activated";
     String USER_DEACTIVATED = "Deactivated";
     String ROLE_CHANGED_TO_ADMIN = "'s role changed to admin";
     String ROLE_CHANGED_TO_USER = "'s role changed to user";
+    String EDIT_ACCOUNT_INFO = "Edited account info";
+
     //Buzz Messages
     String BUZZ_SEND_SUCCESS = "Successfully sent buzz: {0}";
     String BUZZ_FLAG_SUCCESS = "Successfully flagged buzz: {0}";
@@ -69,9 +67,8 @@ public interface Messages {
     String RESERVATION_PAGE_ADD_HEADER = "Add Reservation";
     String RESERVATION_PAGE_EDIT_HEADER = "Edit Reservation";
 
-
+    //Profile Messages
     String VISIT_EDIT_PROFILE_ACTIVITY= "Visited profile field entry form.";
-
     String EDITED_PROFILE_ACTIVITY= "Profile is edited";
     String VISITED_PROFILE_ACTIVITY="Profile has been visited";
     String VISIT_STALKUSER_ACTIVITY="Visited stalk user page";
@@ -80,7 +77,5 @@ public interface Messages {
     String NO_USER_FOUND = "No user Found with This username.";
 
     //HTML Title for Done
-    String TITLE_SUCCESS = "Success";
-    String TITLE_FAILURE = "Failure";
     String TITLE_ACCESS_DENIED = "Access Denied";
 }

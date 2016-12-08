@@ -26,8 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import static net.therap.hyperbee.utils.constant.Constant.SESSION_KEY_AUTH_USER;
-import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
-import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
+import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
 /**
@@ -57,6 +56,7 @@ public class UserController {
 
     private static final int ADMIN_ROLE_ID = 1;
     private static final int USER_ROLE_ID = 2;
+    private static final int HIVE_GLOBAL_ID = 1;
 
     @Autowired
     private BuzzService buzzService;
@@ -108,67 +108,24 @@ public class UserController {
 
     @GetMapping(ROOT_URL)
     public String entry() {
-
         return Utils.redirectTo(LOGIN_URL);
     }
 
     @GetMapping(LOGIN_URL)
     public String login(Model model) {
         model.addAttribute("login", new User());
-
         return LOGIN_VIEW;
-    }
-
-    @PostMapping(LOGIN_URL)
-    public String loginUser(@Valid @ModelAttribute("login") User loginUser, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-
-            return LOGIN_VIEW;
-        }
-
-        User user = userService.findByUsername(loginUser.getUsername());
-
-        sessionHelper.setSessionAttribute(SESSION_KEY_AUTH_USER, user.getAuthUser());
-        sessionHelper.initializeNoteStatForUser();
-        noticeHelper.updateNoticeCache();
-        reservationHelper.updateReservationCache();
-
-        activityService.archive(LOGGED_IN);
-
-        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(SIGN_UP_URL)
     public String signUp(Model model) {
         model.addAttribute("signUp", new SignUpDto());
-
         return SIGN_UP_VIEW;
-    }
-
-    @PostMapping(SIGN_UP_URL)
-    public String signUpDash(@Valid @ModelAttribute("signUp") SignUpDto signUpDto,
-                             BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-
-            return SIGN_UP_VIEW;
-        }
-
-        User user = signUpDto.getUser();
-        User retrievedUser = userService.saveOrUpdate(user);
-
-        Hive hive = hiveService.retrieveHiveById(1);
-        hiveService.saveFirstUserToHive(hive, retrievedUser.getId());
-
-        activityService.archive(SIGNED_UP);
-
-        return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @GetMapping(LOGOUT_URL)
     public String logout() {
         sessionHelper.invalidateSession();
-
         return Utils.redirectTo(LOGIN_URL);
     }
 
@@ -202,52 +159,86 @@ public class UserController {
         return USER_EDIT_VIEW;
     }
 
+    @PostMapping(LOGIN_URL)
+    public String loginUser(@Valid @ModelAttribute("login") User loginUser, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return LOGIN_VIEW;
+        }
+
+        User user = userService.findByUsername(loginUser.getUsername());
+
+        sessionHelper.setSessionAttribute(SESSION_KEY_AUTH_USER, user.getAuthUser());
+        sessionHelper.initializeNoteStatForUser();
+        noticeHelper.updateNoticeCache();
+        reservationHelper.updateReservationCache();
+
+        activityService.archive(LOGGED_IN);
+        log.debug("User logged in {}", user);
+
+        return Utils.redirectTo(USER_DASHBOARD_URL);
+    }
+
+    @PostMapping(SIGN_UP_URL)
+    public String signUpDash(@Valid @ModelAttribute("signUp") SignUpDto signUpDto,
+                             BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return SIGN_UP_VIEW;
+        }
+
+        User user = signUpDto.getUser();
+        User retrievedUser = userService.saveOrUpdate(user);
+
+        Hive hive = hiveService.retrieveHiveById(HIVE_GLOBAL_ID);
+        hiveService.saveFirstUserToHive(hive, retrievedUser.getId());
+
+        activityService.archive(SIGNED_UP);
+        log.debug("User signed in {}", retrievedUser);
+
+        return Utils.redirectTo(USER_DASHBOARD_URL);
+    }
+
     @PostMapping(USER_EDIT_URL)
     public String submitUserEditForm(@Valid @ModelAttribute("userEdit") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-
             return USER_EDIT_VIEW;
         }
 
-        userService.saveOrUpdate(user);
+        User updatedUser = userService.saveOrUpdate(user);
+
+        activityService.archive(EDIT_ACCOUNT_INFO);
+        log.debug("User accout edited {}", updatedUser);
 
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
     @PostMapping(MAKE_ADMIN_URL)
     public String makeUserAdmin(@PathVariable int userId) {
-
         return changeRole(userId, ADMIN_ROLE_ID);
     }
 
     @PostMapping(MAKE_USER_URL)
     public String makeAdminUser(@PathVariable int userId) {
-
         return changeRole(userId, USER_ROLE_ID);
     }
 
     @PostMapping(USER_DEACTIVATE_URL)
     public String inactivateUser(@PathVariable int userId, @PathVariable String username) {
-
         return changeDisplayStatus(userId, username, DisplayStatus.INACTIVE);
     }
 
     @PostMapping(USER_ACTIVATE_URL)
     public String activateUser(@PathVariable int userId, @PathVariable String username) {
-
         return changeDisplayStatus(userId, username, DisplayStatus.ACTIVE);
     }
 
     private String changeDisplayStatus(int userId, String username, DisplayStatus status) {
         userService.updateStatus(userId, username, status);
-
         return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }
 
     private String changeRole(int userId, int role) {
         userService.updateRole(userId, role);
-
         return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }
 }
-

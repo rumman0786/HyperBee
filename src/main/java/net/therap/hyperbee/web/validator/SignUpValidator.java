@@ -38,15 +38,11 @@ public class SignUpValidator implements Validator {
         }
 
         User user = userService.findByUsername(signUpDto.getUsername());
-
         if (user != null) {
             errors.rejectValue("username", "username.wrong");
         }
 
         user = userService.findByEmail(signUpDto.getEmail());
-
-        System.out.println(user);
-
         if (user != null) {
             errors.rejectValue("email", "email.unique");
         }
