@@ -6,6 +6,10 @@
     text-shadow: 1px 1px black;
 }
 
+.btn-link {
+    padding: 0px;
+}
+
 .navbar-inverse .navbar-nav > li > a {
     color: #c0c0c0;
 }

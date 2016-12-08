@@ -3,7 +3,6 @@ package net.therap.hyperbee.service;
 import net.therap.hyperbee.dao.NoteDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.simple.SimpleLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 @EnableScheduling
 public class Scheduler {
 
-    private static final Logger log = LogManager.getLogger(SimpleLogger.class);
+    private static final Logger log = LogManager.getLogger(Scheduler.class);
 
     @Autowired
     NoteDao noteDao;
@@ -25,7 +24,7 @@ public class Scheduler {
     @Scheduled(cron = "0 0 0 ? * *")
     public void scheduleNoteExpireJob() {
 
-        log.debug("Archiving expired notes....");
-        noteDao.markExpiredNoteAsInactive();
+        int noteArchiveCount = noteDao.markExpiredNoteAsInactive();
+        log.debug("Note Archived:{}",noteArchiveCount);
     }
 }
