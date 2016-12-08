@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-import static net.therap.hyperbee.utils.constant.Constant.PROFILE_ATTRIBUTE;
+import static net.therap.hyperbee.utils.constant.Constant.*;
 import static net.therap.hyperbee.utils.constant.Constant.USER_ATTRIBUTE;
 import static net.therap.hyperbee.utils.constant.Messages.*;
 import static net.therap.hyperbee.utils.constant.Url.DONE_URL;
@@ -55,6 +55,7 @@ public class ProfileController {
     public static final String PROFILE_SEARCH_URL = "profile/searchprofile";
     public static final String STALK_PROFILE_URL = "/stalk/{username}";
     public static final String PROFILE_STALK_URL = "profile/stalkprofile";
+    public static final String USERLIST_ATTRIBUTE = "userList";
 
     @Autowired
     private SessionHelper sessionHelper;
@@ -74,7 +75,7 @@ public class ProfileController {
     @Autowired
     private ProfileValidator profileValidator;
 
-    @InitBinder("profile")
+    @InitBinder(PROFILE_ATTRIBUTE)
     private void initBinder(WebDataBinder binder) {
         binder.addValidators(profileValidator);
     }
@@ -104,7 +105,7 @@ public class ProfileController {
     }
 
     @PostMapping
-    public String postProfile(@ModelAttribute("profile") @Valid Profile profile,
+    public String postProfile(@ModelAttribute(PROFILE_ATTRIBUTE) @Valid Profile profile,
                               BindingResult result,
                               Model model,
                               @RequestParam MultipartFile file,
@@ -122,7 +123,7 @@ public class ProfileController {
         User user = userService.findById(userId);
         profile = profileService.saveFileForUser(coverFile, file, user, profile);
         String message = profileService.saveProfileForUser(profile, userId);
-        model.addAttribute("message", message);
+        model.addAttribute(DONE_PAGE_KEY_HTML_MESSAGE, message);
         model.addAttribute(USER_ATTRIBUTE, user);
         activityService.archive(EDITED_PROFILE_ACTIVITY);
 
@@ -138,6 +139,7 @@ public class ProfileController {
         String username = authUser.getUsername();
         User user = userService.findByUsername(username);
         Profile profile = user.getProfile();
+
         if (!model.containsAttribute(PROFILE_ATTRIBUTE)) {
             model.addAttribute(PROFILE_ATTRIBUTE, profile);
         }
@@ -151,13 +153,10 @@ public class ProfileController {
     public String searchProfilePage(Model model) {
         model.addAttribute("page", "stalk");
         List<User> userList;
-
-        if (sessionHelper.getAuthUserFromSession().isAdmin()) {
-            userList = userService.findAll();
-        } else {
-            userList = userService.findActiveUsers();
-        }
-        model.addAttribute("userList", userList);
+        userList = (sessionHelper.getAuthUserFromSession().isAdmin())
+                ? userService.findAll()
+                : userService.findActiveUsers();
+        model.addAttribute(USERLIST_ATTRIBUTE, userList);
         activityService.archive(VISIT_STALKUSER_ACTIVITY);
 
         return PROFILE_SEARCH_URL;
@@ -173,7 +172,7 @@ public class ProfileController {
         if (authUser.isAdmin()) {
             userList = userService.findAll();
             if (user == null) {
-                model.addAttribute("message", NO_USER_FOUND);
+                model.addAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND);
             } else {
                 Profile profile = user.getProfile();
                 model.addAttribute(PROFILE_ATTRIBUTE, profile);
@@ -182,14 +181,14 @@ public class ProfileController {
         } else {
             userList = userService.findActiveUsers();
             if (user == null || user.getDisplayStatus() == DisplayStatus.INACTIVE) {
-                model.addAttribute("message", NO_USER_FOUND);
+                model.addAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND);
             } else {
                 Profile profile = user.getProfile();
                 model.addAttribute(PROFILE_ATTRIBUTE, profile);
                 model.addAttribute(USER_ATTRIBUTE, user);
             }
         }
-        model.addAttribute("userList", userList);
+        model.addAttribute(USERLIST_ATTRIBUTE, userList);
         activityService.archive(STALK_PROFILE_ACTIVITY);
 
         return PROFILE_SEARCH_URL;
@@ -201,9 +200,9 @@ public class ProfileController {
         User user = userService.findByUsername(username);
 
         if (user == null) {
-            redirectAttributes.addFlashAttribute("message", NO_USER_FOUND);
+            redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND);
             redirectAttributes.addFlashAttribute("messageStyle", "alert alert-success");
-            return "redirect:" + DONE_URL;
+            return Utils.redirectTo(DONE_URL);
         }
         Profile profile = user.getProfile();
         model.addAttribute(PROFILE_ATTRIBUTE, profile);
