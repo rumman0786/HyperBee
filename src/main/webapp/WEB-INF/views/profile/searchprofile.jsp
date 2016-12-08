@@ -84,8 +84,21 @@ ${message}
                                         </a>
 
                                         <p>${userList.profile.designation}</p>
+                                        <c:choose>
+                                            <c:when test="${userList.displayStatus == 'ACTIVE'}">
+                                                <p style="font-family: 'lucida grande';
+                                                          color: green;
+                                                          font-size: 15">
+                                                ${userList.displayStatus}</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p style="font-family: 'lucida grande';
+                                                          color: #ff0000;
+                                                          font-size: 15">
+                                                ${userList.displayStatus}</p>
+                                            </c:otherwise>
+                                        </c:choose>
 
-                                        <p style="font-family: 'lucida grande'">${userList.displayStatus}</p>
                                         <c:forEach items="${userList.roleList}" var="role" varStatus="loopStatus">
                                             <c:if test="${loopStatus.index == 1}">
                                                 <p style="font-family: 'lucida grande'">${role.roleType}</p>
