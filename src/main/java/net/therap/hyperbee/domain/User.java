@@ -17,17 +17,12 @@ import static net.therap.hyperbee.utils.constant.Constant.DISPLAY_STATUS_FIELD;
 /**
  * @author bashir
  * @author rayed
- * @author duity
- * @author azim
- * @author zoha
  * @since 11/21/16
  */
 @Entity
 @NamedQueries({
         @NamedQuery(name = "User.findByUsernameOrEmail",
-                    query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email "),
-        @NamedQuery(name = "User.SearchByUserInput",
-                    query = "SELECT u FROM User u WHERE u.username like :name")
+                query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email ")
 })
 @Table(name = "user")
 public class User implements Serializable {
@@ -38,6 +33,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotNull
     @Size(min = 1, message = "{username.required}")
     @Column(name = "username")
     private String username;
@@ -50,6 +46,7 @@ public class User implements Serializable {
 
     private String email;
 
+    @NotNull
     @Size(min = 1, message = "{password.required}")
     private String password;
 
@@ -70,7 +67,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Post> postList;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),
@@ -91,7 +88,7 @@ public class User implements Serializable {
     private List<Reservation> reservationList;
 
     public User() {
-        profile=new Profile();
+        profile = new Profile();
         displayStatus = DisplayStatus.ACTIVE;
         activityList = new ArrayList<Activity>();
         noteList = new ArrayList<Note>();
@@ -104,6 +101,7 @@ public class User implements Serializable {
     }
 
     public int getId() {
+
         return id;
     }
 
@@ -112,6 +110,7 @@ public class User implements Serializable {
     }
 
     public String getUsername() {
+
         return username;
     }
 
@@ -251,6 +250,7 @@ public class User implements Serializable {
     }
 
     public AuthUser getAuthUser() {
+
         return new AuthUser(id, username, roleList);
     }
 
@@ -263,20 +263,6 @@ public class User implements Serializable {
         }
 
         return false;
-    }
-
-    public void addRole(RoleType roleType) {
-        Role role = new Role();
-        role.setRoleType(roleType);
-
-        roleList.add(role);
-    }
-
-    public void removeRole(RoleType roleType) {
-        Role role = new Role();
-        role.setRoleType(roleType);
-
-        roleList.remove(role);
     }
 
     @Override

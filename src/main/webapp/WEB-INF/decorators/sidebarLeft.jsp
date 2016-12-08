@@ -14,6 +14,8 @@
                     <h4><c:out value="${activeUsers}"/></h4>
                     <h4><fmt:message key="sidebar.left.user.inactive"/></h4>
                     <h4><c:out value="${inactiveUsers}"/></h4>
+                    <h4><fmt:message key="sidebar.left.admin.users"/></h4>
+                    <h4><c:out value="${adminUsers}"/></h4>
                 </div>
             </div>
         </div>

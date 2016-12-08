@@ -36,7 +36,10 @@ public interface Messages {
     String FAILURE_HTML_CLASS = "alert alert-danger";
     String LOGGED_IN = "Logged In";
     String SIGNED_UP = "Signed Up";
-
+    String USER_ACTIVATED = "Activated";
+    String USER_DEACTIVATED = "Deactivated";
+    String ROLE_CHANGED_TO_ADMIN = "'s role changed to admin";
+    String ROLE_CHANGED_TO_USER = "'s role changed to user";
     //Buzz Messages
     String BUZZ_SEND_SUCCESS = "Successfully sent buzz: {0}";
     String BUZZ_FLAG_SUCCESS = "Successfully flagged buzz: {0}";

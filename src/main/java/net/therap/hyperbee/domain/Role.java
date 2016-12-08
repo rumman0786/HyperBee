@@ -11,8 +11,6 @@ import static net.therap.hyperbee.utils.constant.Constant.USER_STATUS_ENUM;
 /**
  * @author bashir
  * @author rayed
- * @author azim
- * @author zoha
  * @since 11/21/16
  */
 @Entity
@@ -33,6 +31,7 @@ public class Role implements Serializable {
     private List<User> userList;
 
     public Role() {
+
     }
 
     public int getId() {
@@ -76,11 +75,13 @@ public class Role implements Serializable {
 
     @Override
     public int hashCode() {
+
         return roleType.hashCode();
     }
 
     @Override
     public String toString() {
+
         return roleType.getRole();
     }
 }

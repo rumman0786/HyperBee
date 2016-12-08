@@ -24,20 +24,14 @@ public class UserEditValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-
         User user = (User) target;
-
         User retrievedUser = userService.findByUsername(user.getUsername());
 
-//        System.out.println(retrievedUser);
-
-
         if (retrievedUser != null && (retrievedUser.getId() != user.getId())) {
-
-            if (!retrievedUser.getUsername().equals(user.getUsername())) {
+            if (retrievedUser.getUsername().equals(user.getUsername())) {
                 errors.rejectValue("username", "username.unique");
             }
-            if (!retrievedUser.getEmail().equals(user.getEmail())) {
+            if (retrievedUser.getEmail().equals(user.getEmail())) {
                 errors.rejectValue("email", "email.unique");
             }
         }
