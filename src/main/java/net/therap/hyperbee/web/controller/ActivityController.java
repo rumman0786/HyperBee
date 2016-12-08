@@ -9,7 +9,6 @@ import net.therap.hyperbee.web.helper.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +26,9 @@ import static net.therap.hyperbee.utils.constant.Url.ACTIVITY_ROOT_URL;
 public class ActivityController {
 
     private static final String ACTIVITY_LOG_URL = "/log";
-
     private static final String ACTIVITY_VIEW = "activity/log";
-
     private static final String ACTIVITY_ADMIN_VIEW = "activity/userLog";
+    private static final String ACTIVITY = "activity";
 
     @Autowired
     private ActivityService activityService;
@@ -50,13 +48,13 @@ public class ActivityController {
 
         model.addAttribute("activityList", activityList);
         model.addAttribute("userInfo", new UserInfo(userList));
-        model.addAttribute("page", "activity");
+        model.addAttribute("page", ACTIVITY);
 
         return ACTIVITY_VIEW;
     }
 
     @PostMapping(ACTIVITY_LOG_URL)
-    public String selectActivity(UserInfo userInfo, BindingResult bindingResult, Model model) {
+    public String selectActivity(UserInfo userInfo, Model model) {
         int userId = userInfo.getUserId();
 
         User user = userService.findById(userId);
@@ -64,7 +62,7 @@ public class ActivityController {
 
         model.addAttribute("user", user);
         model.addAttribute("activityList", activityList);
-        model.addAttribute("page", "activity");
+        model.addAttribute("page", ACTIVITY);
 
         return ACTIVITY_ADMIN_VIEW;
     }

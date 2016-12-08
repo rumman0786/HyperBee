@@ -3,6 +3,7 @@ package net.therap.hyperbee.web.controller;
 import net.therap.hyperbee.domain.Buzz;
 import net.therap.hyperbee.domain.Hive;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.service.*;
 import net.therap.hyperbee.utils.Utils;
 import net.therap.hyperbee.web.command.SignUpDto;
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static net.therap.hyperbee.utils.constant.Constant.*;
+import static net.therap.hyperbee.utils.constant.Constant.SESSION_KEY_AUTH_USER;
+import static net.therap.hyperbee.utils.constant.Messages.LOGGED_IN;
 import static net.therap.hyperbee.utils.constant.Messages.SIGNED_UP;
 import static net.therap.hyperbee.utils.constant.Url.*;
 
@@ -39,18 +41,20 @@ public class UserController {
 
     private static final Logger log = LogManager.getLogger(UserController.class);
 
-    private static final String ROOT_URL = "/";
-    private static final String LOGIN_URL = "/login";
     private static final String LOGIN_VIEW = "user/login";
-    private static final String LOGOUT_URL = "/logout";
-    private static final String SIGN_UP_URL = "/signUp";
     private static final String SIGN_UP_VIEW = "user/signUp";
     private static final String USER_DASHBOARD_VIEW = "dashboard";
+    private static final String USER_EDIT_VIEW = "user/edit";
+
+    private static final String ROOT_URL = "/";
+    private static final String LOGIN_URL = "/login";
+    private static final String LOGOUT_URL = "/logout";
+    private static final String SIGN_UP_URL = "/signUp";
     private static final String USER_ACTIVATE_URL = "/user/activate/{userId}/{username}";
     private static final String USER_DEACTIVATE_URL = "/user/deactivate/{userId}/{username}";
     private static final String MAKE_ADMIN_URL = "/user/make/admin/{userId}";
     private static final String MAKE_USER_URL = "/user/make/user/{userId}";
-    private static final String LOGGED_IN = "Logged In";
+    private static final String USER_EDIT_URL = "/user/edit";
 
     private static final int ADMIN_ROLE_ID = 1;
     private static final int USER_ROLE_ID = 2;
@@ -118,7 +122,6 @@ public class UserController {
 
     @PostMapping(LOGIN_URL)
     public String loginUser(@Valid @ModelAttribute("login") User loginUser, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
 
             return LOGIN_VIEW;
@@ -153,10 +156,7 @@ public class UserController {
         }
 
         User user = signUpDto.getUser();
-
         User retrievedUser = userService.saveOrUpdate(user);
-
-        sessionHelper.setSessionAttribute(SESSION_KEY_AUTH_USER, retrievedUser.getAuthUser());
 
         Hive hive = hiveService.retrieveHiveById(1);
         hiveService.saveFirstUserToHive(hive, retrievedUser.getId());
@@ -181,60 +181,34 @@ public class UserController {
 
         int userId = sessionHelper.getAuthUserIdFromSession();
 
-        model.addAttribute("topStickyNote",
-                noteService.findTopStickyNoteByUser(userId));
-        model.addAttribute("latestReminders",
-                noteService.findUpcomingReminderNoteByUser(userId));
-
+        model.addAttribute("topStickyNote", noteService.findTopStickyNoteByUser(userId));
+        model.addAttribute("latestReminders", noteService.findUpcomingReminderNoteByUser(userId));
         model.addAttribute("pinnedBuzzList", buzzService.getLatestPinnedBuzz());
         model.addAttribute("buzzList", buzzService.getLatestBuzz());
 
-        sessionHelper.setStatInSession();
+        sessionHelper.setSessionAttributes();
 
         return USER_DASHBOARD_VIEW;
     }
 
-    @GetMapping(USER_DEACTIVATE_URL)
-    public String inactivateUser(@PathVariable int userId, @PathVariable String username) {
-        userService.inactivate(userId, username);
-
-        sessionHelper.decrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
-        sessionHelper.incrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
-
-        return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
-    }
-
-    @GetMapping(USER_ACTIVATE_URL)
-    public String activateUser(@PathVariable int userId, @PathVariable String username) {
-        userService.activate(userId, username);
-
-        sessionHelper.incrementSessionAttribute(SESSION_KEY_ACTIVE_USERS, USER_ACTIVATION_COUNT);
-        sessionHelper.decrementSessionAttribute(SESSION_KEY_INACTIVE_USERS, USER_ACTIVATION_COUNT);
-
-        return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
-    }
-
-    @GetMapping("/user/edit")
+    @GetMapping(USER_EDIT_URL)
     public String serveUserEditForm(ModelMap map) {
         int userIdFromSession = sessionHelper.getAuthUserIdFromSession();
+
         User user = userService.findById(userIdFromSession);
         user.setPassword("");
 
-        log.debug("\nUser at Get Mapping Edit:\n" + user);
-
         map.put("userEdit", user);
 
-        return "user/edit";
+        return USER_EDIT_VIEW;
     }
 
-    @PostMapping("/user/edit")
+    @PostMapping(USER_EDIT_URL)
     public String submitUserEditForm(@Valid @ModelAttribute("userEdit") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
 
-            return "user/edit";
+            return USER_EDIT_VIEW;
         }
-
-        log.debug("\nUser at User controller:\n" + user);
 
         userService.saveOrUpdate(user);
 
@@ -243,12 +217,32 @@ public class UserController {
 
     @GetMapping(MAKE_ADMIN_URL)
     public String makeUserAdmin(@PathVariable int userId) {
+
         return changeRole(userId, ADMIN_ROLE_ID);
     }
 
     @GetMapping(MAKE_USER_URL)
     public String makeAdminUser(@PathVariable int userId) {
+
         return changeRole(userId, USER_ROLE_ID);
+    }
+
+    @GetMapping(USER_DEACTIVATE_URL)
+    public String inactivateUser(@PathVariable int userId, @PathVariable String username) {
+
+        return changeDisplayStatus(userId, username, DisplayStatus.INACTIVE);
+    }
+
+    @GetMapping(USER_ACTIVATE_URL)
+    public String activateUser(@PathVariable int userId, @PathVariable String username) {
+
+        return changeDisplayStatus(userId, username, DisplayStatus.ACTIVE);
+    }
+
+    private String changeDisplayStatus(int userId, String username, DisplayStatus status) {
+        userService.updateStatus(userId, username, status);
+
+        return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }
 
     private String changeRole(int userId, int role) {

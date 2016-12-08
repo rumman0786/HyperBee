@@ -21,20 +21,13 @@ public class UserDaoImpl implements UserDao {
     private static final Logger log = LogManager.getLogger(UserDaoImpl.class);
 
     private static final String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = :username";
-
     private static final String FIND_BY_USERNAME_AND_EMAIL = "User.findByUsernameOrEmail";
-
     private static final String FIND_BY_USERNAME_AND_PASSWORD = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
-
     private static final String FIND_ALL = "SELECT u FROM User u";
-
     private static final String FIND_USER_ACTIVE = "SELECT u FROM User u WHERE u.displayStatus = :status";
-
-    private static final String UPDATE_STATUS_TO_ACTIVE = "UPDATE User u SET u.displayStatus = 'ACTIVE' WHERE u.id = :userId";
-
-    private static final String UPDATE_STATUS_TO_INACTIVE = "UPDATE User u SET u.displayStatus = 'INACTIVE' WHERE u.id = :userId";
-
+    private static final String UPDATE_STATUS = "UPDATE User u SET u.displayStatus = :status WHERE u.id = :userId";
     private static final String FIND_BY_DISPLAY_STATUS = "SELECT COUNT(*) FROM user WHERE display_status = ?";
+    private static final String FIND_BY_ROLE = "SELECT COUNT(*) FROM user_role WHERE role_id = ?";
 
     @PersistenceContext
     private EntityManager em;
@@ -107,27 +100,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> searchUserByEntry(String entry) {
-
-        return em.createNamedQuery("User.SearchByUserInput")
-                .setParameter("name", entry + "%")
-                .getResultList();
-    } // written by duity
-
-    @Override
     @Transactional
-    public void inactivate(int userId) {
-        em.createQuery(UPDATE_STATUS_TO_INACTIVE)
+    public void updateStatus(int userId, DisplayStatus status) {
+        em.createQuery(UPDATE_STATUS)
                 .setParameter("userId", userId)
-                .executeUpdate();
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void activate(int userId) {
-        em.createQuery(UPDATE_STATUS_TO_ACTIVE)
-                .setParameter("userId", userId)
+                .setParameter("status", status)
                 .executeUpdate();
         em.flush();
     }
@@ -142,15 +119,24 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User saveOrUpdate(User user) {
-
         if (user.isNew()) {
             em.persist(user);
+            log.debug("New User: " + user);
         } else {
             em.merge(user);
+            log.debug("Update User: " + user);
         }
 
         em.flush();
 
         return user;
+    }
+
+    @Override
+    public int findByRole(int role) {
+        Query query = em.createNativeQuery(FIND_BY_ROLE)
+                .setParameter(1, role);
+
+        return ((BigInteger) query.getSingleResult()).intValue();
     }
 }
