@@ -199,7 +199,7 @@ public class ProfileController {
         model.addAttribute("page", "stalk");
         User user = userService.findByUsername(username);
 
-        if (user == null) {
+        if (user == null || user.getDisplayStatus() == DisplayStatus.INACTIVE) {
             redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND)
                     .addFlashAttribute("messageStyle", "alert alert-success");
             return Utils.redirectTo(DONE_URL);
