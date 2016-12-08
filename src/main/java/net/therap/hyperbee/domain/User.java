@@ -17,17 +17,12 @@ import static net.therap.hyperbee.utils.constant.Constant.DISPLAY_STATUS_FIELD;
 /**
  * @author bashir
  * @author rayed
- * @author duity
- * @author azim
- * @author zoha
  * @since 11/21/16
  */
 @Entity
 @NamedQueries({
         @NamedQuery(name = "User.findByUsernameOrEmail",
-                    query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email "),
-        @NamedQuery(name = "User.SearchByUserInput",
-                    query = "SELECT u FROM User u WHERE u.username like :name")
+                query = "SELECT u FROM User u WHERE u.username = :username OR u.email = :email ")
 })
 @Table(name = "user")
 public class User implements Serializable {
@@ -93,7 +88,7 @@ public class User implements Serializable {
     private List<Reservation> reservationList;
 
     public User() {
-        profile=new Profile();
+        profile = new Profile();
         displayStatus = DisplayStatus.ACTIVE;
         activityList = new ArrayList<Activity>();
         noteList = new ArrayList<Note>();
@@ -106,6 +101,7 @@ public class User implements Serializable {
     }
 
     public int getId() {
+
         return id;
     }
 
@@ -114,6 +110,7 @@ public class User implements Serializable {
     }
 
     public String getUsername() {
+
         return username;
     }
 
@@ -253,6 +250,7 @@ public class User implements Serializable {
     }
 
     public AuthUser getAuthUser() {
+
         return new AuthUser(id, username, roleList);
     }
 

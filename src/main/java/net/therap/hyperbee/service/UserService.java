@@ -24,12 +24,6 @@ public interface UserService {
 
     List<User> findActiveUsers();
 
-    List<User> searchByEntry(String entry);
-
-    void inactivate(int userId, String username);
-
-    void activate(int userId, String username);
-
     int findByDisplayStatus(DisplayStatus status);
 
     User saveOrUpdate(User user);
@@ -37,4 +31,6 @@ public interface UserService {
     void changeRole(int userId, int role);
 
     int findByRole(RoleType admin);
+
+    void updateStatus(int userId, String username, DisplayStatus status);
 }

@@ -19,7 +19,7 @@ import org.springframework.validation.BindingResult;
 import static net.therap.hyperbee.utils.constant.Url.USER_DASHBOARD_URL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 
@@ -67,8 +67,10 @@ public class UserControllerTest {
     public void testLoginPost() throws Exception {
         User user = new User();
         user.setDisplayStatus(DisplayStatus.ACTIVE);
+        user.setUsername("rayed");
+        user.setId(111);
 
-        when(userService.findByUsernameAndPassword(any(User.class))).thenReturn(user);
+        when(userService.findByUsername(anyString())).thenReturn(user);
         assertEquals(Utils.redirectTo(USER_DASHBOARD_URL), userController.loginUser(user, bindingResult));
         assertNotEquals(LOGIN_VIEW, userController.loginUser(user, bindingResult));
     }
