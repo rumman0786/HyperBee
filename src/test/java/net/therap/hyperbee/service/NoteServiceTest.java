@@ -5,7 +5,6 @@ import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Note;
 import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.NoteType;
-import net.therap.hyperbee.utils.constant.Constant;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -54,8 +53,14 @@ public class NoteServiceTest {
 
     @Test
     public void findTopDashBoardNoteForUserTest() {
-        assertEquals(1, noteDao.findTopStickyNoteByUser(STICKY_NOTE_COUNT_DASHBOARD,1).size());
+        assertEquals(1, noteDao.findTopStickyNoteByUser(STICKY_NOTE_COUNT_DASHBOARD, 1).size());
         assertEquals(1, noteDao.findUpcomingReminderNoteByUser(1).size());
+    }
+
+    @Test
+    public void markNoteInactiveForUserTest() {
+        when(noteDao.markNoteAsInactiveForUser(1, 1)).thenReturn(1);
+        assertEquals(noteDao.markNoteAsInactiveForUser(1, 1), 1);
     }
 
     @Test
@@ -94,8 +99,8 @@ public class NoteServiceTest {
     private List<Note> getTopNoteByUser(NoteType noteType) {
         List<Note> noteList = createDummyNoteList();
         List<Note> typedNoteList = new ArrayList<>();
-        for (Note note: noteList) {
-            if (note.getNoteType()==noteType) {
+        for (Note note : noteList) {
+            if (note.getNoteType() == noteType) {
                 typedNoteList.add(note);
             }
         }
