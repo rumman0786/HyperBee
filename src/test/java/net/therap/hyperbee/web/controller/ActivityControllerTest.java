@@ -1,12 +1,21 @@
 package net.therap.hyperbee.web.controller;
 
+import net.therap.hyperbee.domain.Activity;
+import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 /**
  * @author rayed
@@ -27,5 +36,20 @@ public class ActivityControllerTest {
     @Mock
     private SessionHelper sessionHelper;
 
+    @Test
+    public void testViewActivity() {
+        List<Activity> activityList = new ArrayList<>();
+        activityList.add(new Activity());
+        activityList.add(new Activity());
 
+        List<User> userList = new ArrayList<>();
+        userList.add(new User());
+        userList.add(new User());
+
+        when(sessionHelper.getAuthUserIdFromSession()).thenReturn(anyInt());
+        when(activityService.findByUserId(anyInt())).thenReturn(activityList);
+        when(userService.findAll()).thenReturn(userList);
+
+//        assertEquals("activity/log", activityController.viewActivity());
+    }
 }

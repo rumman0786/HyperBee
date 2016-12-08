@@ -4,6 +4,7 @@ import net.therap.hyperbee.dao.RoleDao;
 import net.therap.hyperbee.dao.UserDao;
 import net.therap.hyperbee.domain.Role;
 import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.web.helper.SessionHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,11 +28,8 @@ public class UserServiceTest {
     private static final int USER_ID = 1;
 
     private static final String USER_NAME = "rayed";
-
     private static final String USER_EMAIL = "rayed@gmail.com";
-
     private static final String USER_PASSWORD = "123";
-
     private static final int USER_ROLE_ID = 2;
 
     @InjectMocks
@@ -42,6 +40,9 @@ public class UserServiceTest {
 
     @Mock
     private RoleDao roleDao;
+
+    @Mock
+    private SessionHelper sessionHelper;
 
     @Test
     public void testFindById() {

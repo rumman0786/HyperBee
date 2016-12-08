@@ -57,8 +57,7 @@ public class NoteController {
 
     @InitBinder("noteCommand")
     private void noteInputInitBinder(WebDataBinder binder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-        binder.registerCustomEditor(String.class, stringTrimmerEditor);
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.addValidators(noteDateTimeValidator);
     }
 

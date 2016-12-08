@@ -11,7 +11,6 @@
     <input type="text" name="search" placeholder="Enter Username">
     <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="search.button"/></button>
     <br>
-
     <div class="container">
         <table>
             <tr>
@@ -29,6 +28,11 @@
                                      width="80px" height="80px"/>
                             </c:otherwise>
                         </c:choose>
+                    </c:if>
+                    <c:if test="${profile != null && profile.imagePath == null}">
+                        <img src="/images/dummyprofilepic.png" class="img-circle"
+                             alt="Cinque Terre"
+                             width="80px" height="80px"/>
                     </c:if>
                 </td>
                 <td>
@@ -80,9 +84,7 @@ ${message}
                                                 <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
                                                               escapeXml="false"/></b></h4>
                                             </a>
-
                                             <p>${userList.profile.designation}</p>
-
                                             <p style="font-family: 'lucida grande'">${userList.displayStatus}</p>
                                             <c:forEach items="${userList.roleList}" var="role">
                                                 <p style="font-family: 'lucida grande'">${role.roleType}</p>
@@ -130,7 +132,6 @@ ${message}
                                                 <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
                                                               escapeXml="false"/></b></h4>
                                             </a>
-
                                             <p>${userList.profile.designation}</p>
                                         </td>
                                     </tr>
