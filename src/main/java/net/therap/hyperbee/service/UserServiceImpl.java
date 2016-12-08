@@ -7,8 +7,6 @@ import net.therap.hyperbee.domain.User;
 import net.therap.hyperbee.domain.enums.DisplayStatus;
 import net.therap.hyperbee.domain.enums.RoleType;
 import net.therap.hyperbee.utils.Utils;
-import net.therap.hyperbee.web.helper.NoticeHelper;
-import net.therap.hyperbee.web.helper.ReservationHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.therap.hyperbee.utils.constant.Constant.*;
+import static net.therap.hyperbee.utils.constant.Messages.*;
 
 /**
  * @author rayed
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserService {
     private static final int USER_ROLE_ID = 2;
     private static final int ADMIN_ROLE_ID = 1;
 
+    private static final int INCREMENT = 1;
+    private static final int DECREMENT = 1;
+
     @Autowired
     private ActivityService activityService;
 
@@ -42,12 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private SessionHelper sessionHelper;
-
-    @Autowired
-    private NoticeHelper noticeHelper;
-
-    @Autowired
-    private ReservationHelper reservationHelper;
 
     @Override
     public User findById(int id) {
@@ -88,23 +86,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> searchByEntry(String entry) {
-
-        return userDao.searchUserByEntry(entry);
-    }
-
-    @Override
     @Transactional
-    public void inactivate(int userId, String username) {
-        userDao.inactivate(userId);
-        activityService.archive("Deactivated user [" + username + "]");
-    }
+    public void updateStatus(int userId, String username, DisplayStatus status) {
+        int i = userDao.updateStatus(userId, status);
 
-    @Override
-    @Transactional
-    public void activate(int userId, String username) {
-        userDao.activate(userId);
-        activityService.archive("Activated user [" + username + "]");
+        if (i > 0) {
+            int activeUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
+            int inactiveUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_INACTIVE_USERS);
+
+            if (status == DisplayStatus.ACTIVE){
+                sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers + INCREMENT);
+                sessionHelper.setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUsers - DECREMENT);
+
+                activityService.archive(USER_ACTIVATED + username);
+            } else {
+                sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers - DECREMENT);
+                sessionHelper.setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUsers + INCREMENT);
+
+                activityService.archive(USER_DEACTIVATED + username);
+            }
+        }
     }
 
     @Override
@@ -128,26 +129,52 @@ public class UserServiceImpl implements UserService {
         String hashMd5 = Utils.hashMd5(user.getPassword());
         user.setPassword(hashMd5);
 
-        log.debug("\nUser at saveOrUpdate:\n" + user);
-
         User retrievedUser = userDao.saveOrUpdate(user);
+
+        sessionHelper.setSessionAttribute(SESSION_KEY_AUTH_USER, retrievedUser.getAuthUser());
 
         return retrievedUser;
     }
 
     @Override
     @Transactional
-    public void changeRole(int userId, int role) {
+    public void updateRole(int userId, int roleId) {
         User user = userDao.findById(userId);
-
-        if (role == ADMIN_ROLE_ID) {
-            user.addRole(RoleType.ADMIN);
-            activityService.archive("Promoted [" + user.getUsername() + "] from User to Admin");
-        } else {
-            user.removeRole(RoleType.ADMIN);
-            activityService.archive("Demoted [" + user.getUsername() + "] from Admin to User");
-        }
+        Role role = roleDao.findRole(ADMIN_ROLE_ID);
 
         userDao.saveOrUpdate(user);
+
+        int activeUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
+        int adminUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ADMIN_USERS);
+
+        if (roleId == ADMIN_ROLE_ID) {
+            user.getRoleList().add(role);
+
+            sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers - DECREMENT);
+            sessionHelper.setSessionAttribute(SESSION_KEY_ADMIN_USERS, adminUsers + INCREMENT);
+
+            activityService.archive(user.getUsername() + ROLE_CHANGED_TO_ADMIN);
+        } else {
+            user.getRoleList().remove(role);
+
+            sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers + INCREMENT);
+            sessionHelper.setSessionAttribute(SESSION_KEY_ADMIN_USERS, adminUsers - DECREMENT);
+
+            activityService.archive(user.getUsername() + ROLE_CHANGED_TO_USER);
+        }
+
+    }
+
+    @Override
+    public int findByRole(RoleType type) {
+        int count = 0;
+
+        if (type == RoleType.ADMIN){
+            count = userDao.findByRole(ADMIN_ROLE_ID);
+        } else {
+            count = userDao.findByRole(USER_ROLE_ID);
+        }
+
+        return count;
     }
 }

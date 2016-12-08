@@ -33,4 +33,6 @@ public interface HiveService {
     List<Notice> getLatestNotice(List<Notice> noticeList);
 
     List<Hive> getAllHive();
+
+    boolean alreadyExist(Hive hive);
 }

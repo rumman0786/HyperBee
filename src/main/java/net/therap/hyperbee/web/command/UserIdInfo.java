@@ -14,7 +14,7 @@ public class UserIdInfo implements Serializable {
 
     private static final long serialVersionUID = 1;
 
-    @Size(min = 1)
+    @Size(min = 1, message = "{userIdInfo.userList.required}")
     List<Integer> userIdList;
 
     public UserIdInfo() {

@@ -23,13 +23,11 @@ public interface UserDao {
 
     List<User> findActiveUser();
 
-    List<User> searchUserByEntry(String entry);
-
-    void inactivate(int userId);
-
-    void activate(int userId);
+    int updateStatus(int userId, DisplayStatus status);
 
     int findByDisplayStatus(DisplayStatus status);
 
     User saveOrUpdate(User user);
+
+    int findByRole(int role);
 }

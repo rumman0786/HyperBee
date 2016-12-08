@@ -1,12 +1,11 @@
 package net.therap.hyperbee.web.helper;
 
 import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.RoleType;
 import net.therap.hyperbee.service.BuzzService;
 import net.therap.hyperbee.service.NoteService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.security.AuthUser;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -24,8 +23,6 @@ import static net.therap.hyperbee.utils.constant.Constant.*;
  */
 @Component
 public class SessionHelper {
-
-    private static final Logger log = LogManager.getLogger(SessionHelper.class);
 
     @Autowired
     private BuzzService buzzService;
@@ -60,6 +57,7 @@ public class SessionHelper {
     }
 
     public Object getSessionAttribute(String key) {
+
         return getHttpSession().getAttribute(key);
     }
 
@@ -81,20 +79,22 @@ public class SessionHelper {
         setSessionAttribute(SESSION_KEY_REMINDER_COUNT_NEXT_WEEK, reminderCountForNextWeek);
     }
 
-    public void setStatInSession() {
+    public void setSessionAttributes() {
         AuthUser authUserFromSession = getAuthUserFromSession();
 
         if (authUserFromSession.isAdmin()) {
             int activeUser = userService.findByDisplayStatus(DisplayStatus.ACTIVE);
             int inactiveUser = userService.findByDisplayStatus(DisplayStatus.INACTIVE);
+            int adminUsers = userService.findByRole(RoleType.ADMIN);
 
             int activeBuzz = buzzService.getActiveCount();
             int inactiveBuzz = buzzService.getInactiveCount();
             int flaggedBuzz = buzzService.getFlaggedCount();
             int pinnedBuzz = buzzService.getPinnedCount();
 
-            setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUser - USER_ACTIVATION_COUNT);
+            setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUser - adminUsers);
             setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUser);
+            setSessionAttribute(SESSION_KEY_ADMIN_USERS, adminUsers);
 
             setSessionAttribute(SESSION_VARIABLE_ACTIVE_BUZZ_COUNT, activeBuzz);
             setSessionAttribute(SESSION_VARIABLE_INACTIVE_BUZZ_COUNT, inactiveBuzz);
@@ -109,16 +109,5 @@ public class SessionHelper {
             setSessionAttribute(SESSION_VARIABLE_FLAGGED_BUZZ_COUNT, flaggedBuzz);
             setSessionAttribute(SESSION_VARIABLE_PINNED_BUZZ_COUNT, pinnedBuzz);
         }
-    }
-
-
-    public void decrementSessionAttribute(String key, int increment) {
-        int count = (int) getSessionAttribute(key);
-        setSessionAttribute(key, count - increment);
-    }
-
-    public void incrementSessionAttribute(String key, int increment) {
-        int count = (int) getSessionAttribute(key);
-        setSessionAttribute(key, count + increment);
     }
 }

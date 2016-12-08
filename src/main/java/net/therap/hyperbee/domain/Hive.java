@@ -13,7 +13,7 @@ import java.util.List;
  * @since 11/21/16
  */
 @Entity
-@Table(name = "hive")
+@Table(name = "hive", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Hive implements Serializable {
 
     private static final long serialVersionUID = 1;
