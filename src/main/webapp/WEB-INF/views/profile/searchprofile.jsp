@@ -89,19 +89,19 @@ ${message}
                                                 <p style="font-family: 'lucida grande';
                                                           color: green;
                                                           font-size: 15">
-                                                ${userList.displayStatus}</p>
+                                                        ${userList.displayStatus}</p>
                                             </c:when>
                                             <c:otherwise>
                                                 <p style="font-family: 'lucida grande';
                                                           color: #ff0000;
                                                           font-size: 15">
-                                                ${userList.displayStatus}</p>
+                                                        ${userList.displayStatus}</p>
                                             </c:otherwise>
                                         </c:choose>
-
-                                        <c:forEach items="${userList.roleList}" var="role" varStatus="loopStatus">
-                                            <c:if test="${loopStatus.index == 1}">
-                                                <p style="font-family: 'lucida grande'">${role.roleType}</p>
+                                        <c:forEach items="${userList.roleList}" var="role">
+                                            <c:if test="${role.roleType =='ADMIN'}">
+                                                <p style="font-family: 'lucida grande'; color: #2aabd2">
+                                                ${role.roleType}</p>
                                             </c:if>
                                         </c:forEach>
                                     </td>
