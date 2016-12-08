@@ -88,21 +88,23 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateStatus(int userId, String username, DisplayStatus status) {
-        userDao.updateStatus(userId, status);
+        int i = userDao.updateStatus(userId, status);
 
-        int activeUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
-        int inactiveUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_INACTIVE_USERS);
+        if (i > 0) {
+            int activeUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
+            int inactiveUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_INACTIVE_USERS);
 
-        if (status == DisplayStatus.ACTIVE){
-            sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers + INCREMENT);
-            sessionHelper.setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUsers - DECREMENT);
+            if (status == DisplayStatus.ACTIVE){
+                sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers + INCREMENT);
+                sessionHelper.setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUsers - DECREMENT);
 
-            activityService.archive(USER_ACTIVATED + username);
-        } else {
-            sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers - DECREMENT);
-            sessionHelper.setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUsers + INCREMENT);
+                activityService.archive(USER_ACTIVATED + username);
+            } else {
+                sessionHelper.setSessionAttribute(SESSION_KEY_ACTIVE_USERS, activeUsers - DECREMENT);
+                sessionHelper.setSessionAttribute(SESSION_KEY_INACTIVE_USERS, inactiveUsers + INCREMENT);
 
-            activityService.archive(USER_DEACTIVATED + username);
+                activityService.archive(USER_DEACTIVATED + username);
+            }
         }
     }
 
@@ -136,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void changeRole(int userId, int roleId) {
+    public void updateRole(int userId, int roleId) {
         User user = userDao.findById(userId);
         Role role = roleDao.findRole(ADMIN_ROLE_ID);
 

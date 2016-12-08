@@ -28,7 +28,7 @@ public interface UserService {
 
     User saveOrUpdate(User user);
 
-    void changeRole(int userId, int role);
+    void updateRole(int userId, int role);
 
     int findByRole(RoleType admin);
 
