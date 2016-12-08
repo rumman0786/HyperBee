@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container-fluid">
-<div class="container" style="background-image: url(http://localhost:8080/user/hive/image/${hive.imagePath})">
+<div class="container" style="background-image: url(/user/hive/image/${hive.imagePath})">
     <div class="row">
         <div class="col-lg-10" style="padding-top: 200; padding-bottom: 50; padding-left: 25">
             <h1>${hive.name}</h1>
