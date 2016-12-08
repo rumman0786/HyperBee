@@ -176,7 +176,7 @@ public class HiveController {
         }
 
         int userId = sessionHelper.getAuthUserIdFromSession();
-        Hive newHive = hiveService.saveHive(newHive(hive, file, userId));
+        Hive newHive = hiveService.saveHive(createNewHive(hive, file, userId));
 
         if (!file.isEmpty()) {
             imageUploader.createImagesDirIfNeeded();
@@ -218,7 +218,7 @@ public class HiveController {
         return Files.readAllBytes(serverFile.toPath());
     }
 
-    private Hive newHive(Hive hive, MultipartFile file, int userId) {
+    private Hive createNewHive(Hive hive, MultipartFile file, int userId) {
         hive.setImagePath(hive.getName().replaceAll(" ", "") + file.getOriginalFilename());
         hive.setCreator(userService.findById(userId));
 
