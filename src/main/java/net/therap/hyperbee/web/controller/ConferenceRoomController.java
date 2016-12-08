@@ -46,7 +46,6 @@ public class ConferenceRoomController {
     @InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.addValidators(validator);
-        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
     }
 
     @GetMapping(value = CONFERENCE_ROOM_LIST_URL)

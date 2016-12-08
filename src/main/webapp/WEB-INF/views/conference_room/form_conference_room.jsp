@@ -29,7 +29,7 @@
 
                 <div class="form-group">
                     <label for="capacity"><fmt:message key="conference.capacity"/></label>
-                    <form:input type="text" id="capacity" class="form-control" name="Capacity" placeholder="Capacity"
+                    <form:input type="number" min="1" id="capacity" class="form-control" name="Capacity" placeholder="Capacity"
                                 path="capacity" required="required"/>
                     <form:errors path="capacity" cssClass="error"/>
                 </div>

@@ -68,7 +68,6 @@ public class ReservationController {
         });
     }
 
-
     @GetMapping(value = RESERVATION_LIST_URL)
     public String showReservationList(ModelMap modelMap) {
 
