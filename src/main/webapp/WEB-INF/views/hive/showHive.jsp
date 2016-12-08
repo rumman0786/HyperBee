@@ -101,47 +101,53 @@
 </div>
 <div id="member" class="tab-pane">
     <c:choose>
-    <c:when test="${hive.creator.id==authUser.id}">
-    <div class="col-sm-4 table-responsive">
-        </c:when>
-        <c:otherwise>
-        <div class="col-sm-12 table-responsive">
-            </c:otherwise>
-            </c:choose>
-            <div class="panel panel-info">
-                <div class="panel-heading"><h3><fmt:message key="hive.member"/> ${hive.userList.size()} </h3>
-                    <h4><fmt:message key="hive.admin"/>
-                        <small>${hive.creator.username}</small>
-                    </h4>
-                </div>
-                <div class="panel-body">
-                    <table>
-                        <c:forEach items="${hive.userList}" var="user">
-                            <tr style="border: 1">
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${empty user.profile.imagePath}">
-                                            <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                 alt="Cinque Terre"
-                                                 width="40px" height="40px"/>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img src="/profile/image/${user.profile.imagePath}"
-                                                 class="img-circle"
-                                                 alt="Cinque Terre"
-                                                 width="40px" height="40px"/>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td><c:out value="${user.username}"/></td>
-                            </tr>
-                        </c:forEach>
-                    </table>
+        <c:when test="${hive.creator.id==authUser.id}">
+            <div class="col-sm-6 table-responsive">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h3><fmt:message key="hive.member"/> ${hive.userList.size()} </h3>
+                        <h4><fmt:message key="hive.admin"/>
+                            <small>${hive.creator.username}</small>
+                        </h4>
+                    </div>
+                    <form:form method="POST" action="/user/hive/removeuser/${hive.id}" commandName="userIdInfo">
+                        <div class="panel-body">
+                            <table>
+                                <c:forEach var="user" items="${userListToRemove}" varStatus="loop">
+                                    <tr style="border: 1">
+                                        <td>
+                                            <form:checkbox path="userIdList" value="${user.id}"/>
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${empty user.profile.imagePath}">
+                                                    <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                         alt="Cinque Terre"
+                                                         width="40px" height="40px"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="/profile/image/${user.profile.imagePath}"
+                                                         class="img-circle"
+                                                         alt="Cinque Terre"
+                                                         width="40px" height="40px"/>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>${user.username}</td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </div>
+                        <div class="panel-footer clearfix">
+                            <div class="pull-right">
+                                <form:errors path="userIdList" cssClass="alert-danger"/>
+                                <button class="btn btn-warning btn-sm" type="submit"><fmt:message
+                                        key="hive.remove.button"/></button>
+                            </div>
+                        </div>
+                    </form:form>
                 </div>
             </div>
-        </div>
-        <c:if test="${hive.creator.id==authUser.id}">
-            <div class="col-sm-4 table-responsive">
+            <div class="col-sm-6 table-responsive">
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3><fmt:message key="hive.add.member"/></h3>
                     </div>
@@ -183,57 +189,51 @@
                     </form:form>
                 </div>
             </div>
-            <div class="col-sm-4 table-responsive">
+        </c:when>
+        <c:otherwise>
+            <div class="col-sm-12 table-responsive">
                 <div class="panel panel-info">
-                    <div class="panel-heading"><h3><fmt:message key="hive.remove.member"/></h3>
+                    <div class="panel-heading"><h3><fmt:message key="hive.member"/> ${hive.userList.size()} </h3>
+                        <h4><fmt:message key="hive.admin"/>
+                            <small>${hive.creator.username}</small>
+                        </h4>
                     </div>
-                    <form:form method="POST" action="/user/hive/removeuser/${hive.id}" commandName="userIdInfo">
-                        <div class="panel-body">
-                            <table>
-                                <c:forEach var="user" items="${userListToRemove}" varStatus="loop">
-                                    <tr style="border: 1">
-                                        <td>
-                                            <form:checkbox path="userIdList" value="${user.id}"/>
-                                        </td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${empty user.profile.imagePath}">
-                                                    <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="40px" height="40px"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="/profile/image/${user.profile.imagePath}"
-                                                         class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="40px" height="40px"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>${user.username}</td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </div>
-                        <div class="panel-footer clearfix">
-                            <div class="pull-right">
-                                <form:errors path="userIdList" cssClass="alert-danger"/>
-                                <button class="btn btn-warning btn-sm" type="submit"><fmt:message
-                                        key="hive.remove.button"/></button>
-                            </div>
-                        </div>
-                    </form:form>
+                    <div class="panel-body">
+                        <table>
+                            <c:forEach items="${hive.userList}" var="user">
+                                <tr style="border: 1">
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${empty user.profile.imagePath}">
+                                                <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                     alt="Cinque Terre"
+                                                     width="40px" height="40px"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="/profile/image/${user.profile.imagePath}"
+                                                     class="img-circle"
+                                                     alt="Cinque Terre"
+                                                     width="40px" height="40px"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td><c:out value="${user.username}"/></td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </c:if>
-    </div>
-    <div id="about" class="tab-pane">
-        <div class="panel panel-info">
-            <div class="panel-heading clearfix">
-            </div>
-            <div class="panel-body">${hive.description}</div>
+        </c:otherwise>
+    </c:choose>
+</div>
+<div id="about" class="tab-pane">
+    <div class="panel panel-info">
+        <div class="panel-heading clearfix">
         </div>
+        <div class="panel-body">${hive.description}</div>
     </div>
+</div>
 </div>
 </div>
 </body>
