@@ -43,7 +43,6 @@ public class BuzzFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-
         log.trace(BUZZ_FILTER_ACCESS_LOG, authUser.getUsername());
 
         session.setAttribute(DONE_PAGE_KEY_HTML_MESSAGE, BUZZ_ACCESS_DENIED);
