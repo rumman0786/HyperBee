@@ -1,14 +1,33 @@
 package net.therap.hyperbee.web.controller;
 
+import net.therap.hyperbee.domain.Hive;
+import net.therap.hyperbee.domain.Notice;
+import net.therap.hyperbee.domain.Role;
+import net.therap.hyperbee.domain.User;
+import net.therap.hyperbee.domain.enums.DisplayStatus;
+import net.therap.hyperbee.domain.enums.RoleType;
 import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.NoticeService;
 import net.therap.hyperbee.service.UserService;
 import net.therap.hyperbee.web.helper.SessionHelper;
+import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * @author rumman
@@ -37,8 +56,73 @@ public class NoticeControllerTest {
     @Mock
     private NoticeValidator validator;
 
+    @Mock
+    Notice notice;
+
+    @Mock
+    BindingResult bindingResult;
+
+    @Mock
+    RedirectAttributes redirectAttributes;
+
     @Before
-    private void setup() {
-        
+    public void setup() {
+        initMocks(this);
+
+        redirectAttributes = new RedirectAttributesModelMap();
+        notice = getCreatedNotice();
+
+        when(sessionHelper.getAuthUserFromSession()).thenReturn(getAuthUser());
+
+    }
+
+    @Test
+    public void test_addNotice() {
+        String url = noticeController.addNotice(notice, bindingResult, redirectAttributes);
+        assertEquals("redirect:/done", url);
+    }
+
+    private Notice getCreatedNotice() {
+        User user = new User();
+        user.setId(1);
+
+        Hive hive = new Hive();
+        hive.setId(1);
+
+        List<Hive> hiveList = new ArrayList<>();
+        hiveList.add(hive);
+
+        notice = new Notice();
+        notice.setId(1);
+        notice.setUser(user);
+        notice.setDateCreated(new GregorianCalendar());
+        notice.setDateExpired(new GregorianCalendar());
+        notice.setTitle("New notice");
+        notice.setDescription("Description For Notice 1");
+        notice.setDisplayStatus(DisplayStatus.ACTIVE);
+        notice.setHiveList(hiveList);
+
+        return notice;
+    }
+
+    private AuthUser getAuthUser() {
+        List<Role> roleList = getRoleList();
+
+        return new AuthUser(1, "admin", roleList);
+    }
+
+    private List<Role> getRoleList() {
+        List<Role> roleList = new ArrayList<>();
+
+        Role role1 = new Role();
+        Role role2 = new Role();
+
+        role1.setRoleType(RoleType.ADMIN);
+        role2.setRoleType(RoleType.USER);
+
+        roleList.add(role1);
+        roleList.add(role2);
+
+        return roleList;
     }
 }

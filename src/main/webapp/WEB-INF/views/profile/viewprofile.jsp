@@ -7,7 +7,7 @@
     <title><fmt:message key="create.profile.title"/></title>
 </head>
 <body>
-<div class="col-sm-10 container"
+<div class="col-lg-10 container"
      style="background-image: url(/profile/cover/${profile.coverImage})">
     <div class="row">
         <div class="col-lg-2 container" style="padding-top: 150px">

@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
  * @author rumman
  * @since 11/29/16
@@ -19,14 +20,14 @@
                 <h2 class="form-signin-heading">${pageHeader}</h2>
 
                 <form:hidden path="id"/>
-
+                <c:if test="${isAdmin == true}">
                 <div class="form-group">
                     <label for="reservationStatus"><fmt:message key="reservation.displayStatus"/></label>
                     <form:select path="reservationStatus" id="reservationStatus">
                         <form:options items="${reservationStatusOptions}" itemValue="status" itemLabel="status"/>
                     </form:select>
                 </div>
-
+                </c:if>
                 <div class="form-group input-group date" id='datetimepicker1'>
                     <label for="reservationFrom"><fmt:message key="reservation.from"/></label>
                     <form:input type="text" id="reservationFrom" class="form-control" name="reservationFrom"
