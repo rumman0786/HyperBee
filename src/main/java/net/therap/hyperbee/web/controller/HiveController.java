@@ -71,7 +71,7 @@ public class HiveController {
     @Autowired
     private HiveValidator hiveValidator;
 
-    @InitBinder("post")
+    @InitBinder("discussion")
     private void initPostBinder(WebDataBinder binder) {
         binder.addValidators(postValidator);
     }
@@ -109,8 +109,8 @@ public class HiveController {
             model.addAttribute("userIdInfo", new UserIdInfo());
         }
 
-        if (!model.containsAttribute("post")) {
-            model.addAttribute("post", new Post());
+        if (!model.containsAttribute("discussion")) {
+            model.addAttribute("discussion", new Post());
         }
 
         log.debug("Created Hive: {}", hive.getName());
@@ -120,8 +120,7 @@ public class HiveController {
 
     @PostMapping(value = HIVE_ADD_USER_URL)
     public String addUser(@Valid @ModelAttribute("userIdInfo") UserIdInfo userIdInfo, BindingResult result, Model model,
-                          RedirectAttributes redirectAttributes,
-                          @PathVariable("hiveId") int hiveId) {
+                          RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
 
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "userIdInfo", result);
@@ -193,12 +192,12 @@ public class HiveController {
     }
 
     @PostMapping(value = HIVE_ADD_POST_URL)
-    public String savePost(@Valid @ModelAttribute("post") Post post, BindingResult result,
+    public String savePost(@Valid @ModelAttribute("discussion") Post post, BindingResult result,
                            RedirectAttributes redirectAttributes, @PathVariable("hiveId") int hiveId) {
 
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "post", result);
-            redirectAttributes.addFlashAttribute("post", post);
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "discussion", result);
+            redirectAttributes.addFlashAttribute("discussion", post);
 
             return redirectTo(HIVE_VIEW + hiveId);
         }

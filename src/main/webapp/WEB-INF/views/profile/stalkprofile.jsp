@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -7,7 +8,7 @@
 </head>
 <body>
 <div class="col-sm-10 container"
-     style="background-image: url(http://localhost:8080/profile/cover/${profile.coverImage})">
+     style="background-image: url(/profile/cover/${profile.coverImage})">
     <div class="row">
         <div class="col-lg-2 container" style="padding-top: 150px">
             <c:choose>
@@ -26,42 +27,55 @@
 <div class="col-sm-10 container" style="padding-top: 10px">
     <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
         <b>${user.firstName} ${user.lastName}</b>
-        <c:if test="${authUser.isAdmin()}">
-            <c:choose>
-                <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
-                    <span class="label label-warning">
-                        <a href="/user/deactivate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>">
-                            Deactivate
-                        </a>
-                    </span>
-                </c:when>
-                <c:otherwise>
-                    <span class="label label-warning">
-                        <a href="/user/activate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>">
-                            Activate
-                        </a>
-                    </span>
-                </c:otherwise>
-            </c:choose>
-            &nbsp;
-            <c:choose>
-                <c:when test="${user.isAdmin()}">
-                    <span class="label label-warning">
-                        <a href="/user/make/user/<c:out value="${user.getId()}"/>">
-                            Make User
-                        </a>
-                    </span>
-                </c:when>
-                <c:otherwise>
-                    <span class="label label-warning">
-                        <a href="/user/make/admin/<c:out value="${user.getId()}"/>">
-                            Make Admin
-                        </a>
-                    </span>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
     </h1>
+</div>
+<div class="col-sm-10 container pull-left" style="padding-left: 900px">
+    <c:if test="${authUser.isAdmin() && !user.isAdmin()}">
+        <c:choose>
+            <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
+                <div class="pull-right">
+                    <form action="/user/deactivate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>"
+                          method="post">
+                        <button type="submit" class="btn btn-danger">
+                            <ftm:message key="user.deactivate"/>
+                        </button>
+                    </form>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="pull-right">
+                    <form action="/user/activate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>"
+                          method="post">
+                        <button type="submit" class="btn btn-success">
+                            <ftm:message key="user.activate"/>
+                        </button>
+                    </form>
+                </div>
+            </c:otherwise>
+        </c:choose>
+        <c:choose>
+            <c:when test="${user.isAdmin()}">
+                <div class="pull-right">
+                    <form action="/user/make/user/<c:out value="${user.getId()}"/>"
+                          method="post">
+                        <button type="submit" class="btn btn-primary">
+                            <ftm:message key="user.make.user"/>
+                        </button>
+                    </form>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="pull-right">
+                    <form action="/user/make/admin/<c:out value="${user.getId()}"/>"
+                          method="post">
+                        <button type="submit" class="btn btn-warning">
+                            <ftm:message key="user.make.admin"/>
+                        </button>
+                    </form>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
 </div>
 <div class="row">
     <div class="col-sm-5">

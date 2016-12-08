@@ -23,7 +23,7 @@ public interface UserDao {
 
     List<User> findActiveUser();
 
-    void updateStatus(int userId, DisplayStatus status);
+    int updateStatus(int userId, DisplayStatus status);
 
     int findByDisplayStatus(DisplayStatus status);
 

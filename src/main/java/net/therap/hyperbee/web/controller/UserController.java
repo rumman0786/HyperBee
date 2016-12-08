@@ -215,25 +215,25 @@ public class UserController {
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
-    @GetMapping(MAKE_ADMIN_URL)
+    @PostMapping(MAKE_ADMIN_URL)
     public String makeUserAdmin(@PathVariable int userId) {
 
         return changeRole(userId, ADMIN_ROLE_ID);
     }
 
-    @GetMapping(MAKE_USER_URL)
+    @PostMapping(MAKE_USER_URL)
     public String makeAdminUser(@PathVariable int userId) {
 
         return changeRole(userId, USER_ROLE_ID);
     }
 
-    @GetMapping(USER_DEACTIVATE_URL)
+    @PostMapping(USER_DEACTIVATE_URL)
     public String inactivateUser(@PathVariable int userId, @PathVariable String username) {
 
         return changeDisplayStatus(userId, username, DisplayStatus.INACTIVE);
     }
 
-    @GetMapping(USER_ACTIVATE_URL)
+    @PostMapping(USER_ACTIVATE_URL)
     public String activateUser(@PathVariable int userId, @PathVariable String username) {
 
         return changeDisplayStatus(userId, username, DisplayStatus.ACTIVE);
@@ -246,7 +246,7 @@ public class UserController {
     }
 
     private String changeRole(int userId, int role) {
-        userService.changeRole(userId, role);
+        userService.updateRole(userId, role);
 
         return Utils.redirectTo(PROFILE_URL + SEARCH_URL);
     }

@@ -101,12 +101,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public void updateStatus(int userId, DisplayStatus status) {
-        em.createQuery(UPDATE_STATUS)
+    public int updateStatus(int userId, DisplayStatus status) {
+
+        return em.createQuery(UPDATE_STATUS)
                 .setParameter("userId", userId)
                 .setParameter("status", status)
                 .executeUpdate();
-        em.flush();
     }
 
     @Override
