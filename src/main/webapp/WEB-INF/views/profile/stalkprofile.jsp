@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,18 +10,22 @@
 <div class="col-sm-10 container"
      style="background-image: url(http://localhost:8080/profile/cover/${profile.coverImage})">
     <div class="row">
-        <c:if test="${authUser.isAdmin()}">
+        <c:if test="${authUser.isAdmin() && !user.isAdmin()}">
             <c:choose>
                 <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
                     <form action="/user/deactivate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>"
                           method="post">
-                        <button type="submit" class="btn btn-danger">Deactivate</button>
+                        <button type="submit" class="btn btn-danger">
+                            <ftm:message key="user.deactivate"/>
+                        </button>
                     </form>
                 </c:when>
                 <c:otherwise>
                     <form action="/user/activate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>"
                           method="post">
-                        <button type="submit" class="btn btn-primary">Activate</button>
+                        <button type="submit" class="btn btn-success">
+                            <ftm:message key="user.activate"/>
+                        </button>
                     </form>
                 </c:otherwise>
             </c:choose>
@@ -28,13 +33,17 @@
                 <c:when test="${user.isAdmin()}">
                     <form action="/user/make/user/<c:out value="${user.getId()}"/>"
                           method="post">
-                        <button type="submit" class="btn btn-info">Make User</button>
+                        <button type="submit" class="btn btn-primary">
+                            <ftm:message key="user.make.user"/>
+                        </button>
                     </form>
                 </c:when>
                 <c:otherwise>
                     <form action="/user/make/admin/<c:out value="${user.getId()}"/>"
                           method="post">
-                        <button type="submit" class="btn btn-info">Make Admin</button>
+                        <button type="submit" class="btn btn-warning">
+                            <ftm:message key="user.make.admin"/>
+                        </button>
                     </form>
                 </c:otherwise>
             </c:choose>

@@ -142,6 +142,8 @@ public class UserServiceImpl implements UserService {
         User user = userDao.findById(userId);
         Role role = roleDao.findRole(ADMIN_ROLE_ID);
 
+        userDao.saveOrUpdate(user);
+
         int activeUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ACTIVE_USERS);
         int adminUsers = (int) sessionHelper.getSessionAttribute(SESSION_KEY_ADMIN_USERS);
 
@@ -161,7 +163,6 @@ public class UserServiceImpl implements UserService {
             activityService.archive(user.getUsername() + ROLE_CHANGED_TO_USER);
         }
 
-        userDao.saveOrUpdate(user);
     }
 
     @Override
