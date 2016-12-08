@@ -123,8 +123,8 @@ public class ProfileController {
         User user = userService.findById(userId);
         profile = profileService.saveFileForUser(coverFile, file, user, profile);
         String message = profileService.saveProfileForUser(profile, userId);
-        model.addAttribute(DONE_PAGE_KEY_HTML_MESSAGE, message);
-        model.addAttribute(USER_ATTRIBUTE, user);
+        model.addAttribute(DONE_PAGE_KEY_HTML_MESSAGE, message)
+                .addAttribute(USER_ATTRIBUTE, user);
         activityService.archive(EDITED_PROFILE_ACTIVITY);
 
         log.debug("Edited User Profile:", user.getId() + ":" + user.getUsername());
@@ -175,8 +175,8 @@ public class ProfileController {
                 model.addAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND);
             } else {
                 Profile profile = user.getProfile();
-                model.addAttribute(PROFILE_ATTRIBUTE, profile);
-                model.addAttribute(USER_ATTRIBUTE, user);
+                model.addAttribute(PROFILE_ATTRIBUTE, profile)
+                        .addAttribute(USER_ATTRIBUTE, user);
             }
         } else {
             userList = userService.findActiveUsers();
@@ -184,8 +184,8 @@ public class ProfileController {
                 model.addAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND);
             } else {
                 Profile profile = user.getProfile();
-                model.addAttribute(PROFILE_ATTRIBUTE, profile);
-                model.addAttribute(USER_ATTRIBUTE, user);
+                model.addAttribute(PROFILE_ATTRIBUTE, profile)
+                        .addAttribute(USER_ATTRIBUTE, user);
             }
         }
         model.addAttribute(USERLIST_ATTRIBUTE, userList);
@@ -200,13 +200,13 @@ public class ProfileController {
         User user = userService.findByUsername(username);
 
         if (user == null) {
-            redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND);
-            redirectAttributes.addFlashAttribute("messageStyle", "alert alert-success");
+            redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND)
+                    .addFlashAttribute("messageStyle", "alert alert-success");
             return Utils.redirectTo(DONE_URL);
         }
         Profile profile = user.getProfile();
-        model.addAttribute(PROFILE_ATTRIBUTE, profile);
-        model.addAttribute(USER_ATTRIBUTE, user);
+        model.addAttribute(PROFILE_ATTRIBUTE, profile)
+                .addAttribute(USER_ATTRIBUTE, user);
         activityService.archive(STALK_USER_PROFILE_ACTIVITY);
 
         return PROFILE_STALK_URL;
