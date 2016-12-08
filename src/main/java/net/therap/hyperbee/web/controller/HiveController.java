@@ -30,6 +30,8 @@ import java.nio.file.Files;
 import static net.therap.hyperbee.utils.Utils.redirectTo;
 
 /**
+ * +
+ *
  * @author azim
  * @since 11/22/16
  */
@@ -100,6 +102,7 @@ public class HiveController {
     @GetMapping(value = HIVE_VIEW_URL)
     public String viewHivePage(Model model, @PathVariable("id") int id) {
         Hive hive = hiveService.retrieveHiveById(id);
+
         model.addAttribute("hive", hive);
         model.addAttribute("userList", hiveService.getUserNotInList(id));
         model.addAttribute("userListToRemove", hiveService.getUserListToRemove(id));
@@ -172,17 +175,12 @@ public class HiveController {
             return redirectTo(HIVE_URL);
         }
 
-        model.addAttribute("hiveName", hive.getName());
-        String filename = hive.getName().replaceAll(" ", "") + file.getOriginalFilename();
-        hive.setImagePath(filename);
         int userId = sessionHelper.getAuthUserIdFromSession();
-        hive.setCreator(userService.findById(userId));
-        Hive newHive = hiveService.saveFirstUserToHive(hive, userId);
-        hiveService.saveHive(newHive);
+        Hive newHive = hiveService.saveHive(createNewHive(hive, file, userId));
 
         if (!file.isEmpty()) {
             imageUploader.createImagesDirIfNeeded();
-            model.addAttribute("message", imageUploader.createImage(filename, file));
+            model.addAttribute("message", imageUploader.createImage(newHive.getImagePath(), file));
         }
 
         log.debug("AuthUser ID: {}", userId);
@@ -218,5 +216,12 @@ public class HiveController {
         File serverFile = new File(imageUploader.getImagesDirAbsolutePath() + imageName + ".png");
 
         return Files.readAllBytes(serverFile.toPath());
+    }
+
+    private Hive createNewHive(Hive hive, MultipartFile file, int userId) {
+        hive.setImagePath(hive.getName().replaceAll(" ", "") + file.getOriginalFilename());
+        hive.setCreator(userService.findById(userId));
+
+        return hiveService.saveFirstUserToHive(hive, userId);
     }
 }

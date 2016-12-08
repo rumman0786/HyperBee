@@ -43,7 +43,7 @@ public interface Messages {
     String BUZZ_FLAG_SUCCESS = "Successfully flagged buzz: {0}";
     String BUZZ_DELETE_SUCCESS = "Successfully removed buzz: {0}";
     String BUZZ_PINNED_SUCCESS = "Successfully pinned buzz: {0}";
-    String BUZZ_ACCESS_DENIED = "Only administrators can view Buzz History!";
+    String BUZZ_INVALID_ACTION = "Only administrators can perform such action!";
 
     //Conference Messages
     String CONFERENCE_LIST_VIEWED = "Conference Home Page Viewed";

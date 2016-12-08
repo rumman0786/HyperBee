@@ -28,9 +28,11 @@ public class HiveServiceImpl implements HiveService {
 
     @Override
     @Transactional
-    public void saveHive(Hive hive) {
+    public Hive saveHive(Hive hive) {
         hiveDao.saveHive(hive);
         activityService.archive("Created New Hive");
+
+        return hive;
     }
 
     public List<User> getUserListById(List<Integer> idList) {

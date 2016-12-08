@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface HiveDao {
 
-    void saveHive(Hive hive);
+    Hive saveHive(Hive hive);
 
     List<User> getUserListById(List<Integer> idList);
 
