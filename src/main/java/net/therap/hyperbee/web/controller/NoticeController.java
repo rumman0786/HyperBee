@@ -7,6 +7,7 @@ import net.therap.hyperbee.service.ActivityService;
 import net.therap.hyperbee.service.HiveService;
 import net.therap.hyperbee.service.NoticeService;
 import net.therap.hyperbee.service.UserService;
+import net.therap.hyperbee.web.editor.HiveEditor;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.validator.NoticeValidator;
 import org.apache.logging.log4j.LogManager;
@@ -67,13 +68,7 @@ public class NoticeController {
     private void initBinder(WebDataBinder binder) {
         binder.addValidators(validator);
 
-        binder.registerCustomEditor(Hive.class, "hiveList", new PropertyEditorSupport() {
-            @Override
-            public void setAsText(String text) {
-                Hive hive = hiveService.retrieveHiveById(Integer.parseInt(text));
-                setValue(hive);
-            }
-        });
+        binder.registerCustomEditor(Hive.class, "hiveList", new HiveEditor());
     }
 
 
