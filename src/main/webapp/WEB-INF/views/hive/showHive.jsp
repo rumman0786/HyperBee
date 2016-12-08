@@ -111,31 +111,35 @@
                     </div>
                     <form:form method="POST" action="/user/hive/removeuser/${hive.id}" commandName="userIdInfo">
                         <div class="panel-body">
-                            <table>
+                            <ul class="list-group">
                                 <c:forEach var="user" items="${userListToRemove}" varStatus="loop">
-                                    <tr style="border: 1">
-                                        <td>
-                                            <form:checkbox path="userIdList" value="${user.id}"/>
-                                        </td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${empty user.profile.imagePath}">
-                                                    <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="40px" height="40px"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="/profile/image/${user.profile.imagePath}"
-                                                         class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="40px" height="40px"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>${user.username}</td>
-                                    </tr>
+                                    <li class="list-group-item">
+                                        <table>
+                                            <tr style="border: 1">
+                                                <td>
+                                                    <form:checkbox path="userIdList" value="${user.id}"/>
+                                                </td>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${empty user.profile.imagePath}">
+                                                            <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                                 alt="Cinque Terre"
+                                                                 width="40px" height="40px"/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="/profile/image/${user.profile.imagePath}"
+                                                                 class="img-circle"
+                                                                 alt="Cinque Terre"
+                                                                 width="40px" height="40px"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td>${user.username}</td>
+                                            </tr>
+                                        </table>
+                                    </li>
                                 </c:forEach>
-                            </table>
+                            </ul>
                         </div>
                         <div class="panel-footer clearfix">
                             <div class="pull-right">
@@ -153,31 +157,35 @@
                     </div>
                     <form:form method="POST" action="/user/hive/insertuser/${hive.id}" commandName="userIdInfo">
                         <div class="panel-body">
-                            <table>
+                            <ul class="list-group">
                                 <c:forEach var="user" items="${userList}" varStatus="loop">
-                                    <tr style="border: 1">
-                                        <td>
-                                            <form:checkbox path="userIdList" value="${user.id}"/>
-                                        </td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${empty user.profile.imagePath}">
-                                                    <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="40px" height="40px"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="/profile/image/${user.profile.imagePath}"
-                                                         class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="40px" height="40px"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>${user.username}</td>
-                                    </tr>
+                                    <li class="list-group-item">
+                                        <table>
+                                            <tr style="border: 1">
+                                                <td>
+                                                    <form:checkbox path="userIdList" value="${user.id}"/>
+                                                </td>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${empty user.profile.imagePath}">
+                                                            <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                                 alt="Cinque Terre"
+                                                                 width="40px" height="40px"/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="/profile/image/${user.profile.imagePath}"
+                                                                 class="img-circle"
+                                                                 alt="Cinque Terre"
+                                                                 width="40px" height="40px"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td>${user.username}</td>
+                                            </tr>
+                                        </table>
+                                    </li>
                                 </c:forEach>
-                            </table>
+                            </ul>
                         </div>
                         <div class="panel-footer clearfix">
                             <div class="pull-right">
@@ -199,28 +207,32 @@
                         </h4>
                     </div>
                     <div class="panel-body">
-                        <table>
+                        <ul class="list-group">
                             <c:forEach items="${hive.userList}" var="user">
-                                <tr style="border: 1">
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${empty user.profile.imagePath}">
-                                                <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                     alt="Cinque Terre"
-                                                     width="40px" height="40px"/>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <img src="/profile/image/${user.profile.imagePath}"
-                                                     class="img-circle"
-                                                     alt="Cinque Terre"
-                                                     width="40px" height="40px"/>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td><c:out value="${user.username}"/></td>
-                                </tr>
+                                <li class="list-group-item">
+                                    <table>
+                                        <tr style="border: 1">
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${empty user.profile.imagePath}">
+                                                        <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                             alt="Cinque Terre"
+                                                             width="40px" height="40px"/>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="/profile/image/${user.profile.imagePath}"
+                                                             class="img-circle"
+                                                             alt="Cinque Terre"
+                                                             width="40px" height="40px"/>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td><c:out value="${user.username}"/></td>
+                                        </tr>
+                                    </table>
+                                </li>
                             </c:forEach>
-                        </table>
+                        </ul>
                     </div>
                 </div>
             </div>
