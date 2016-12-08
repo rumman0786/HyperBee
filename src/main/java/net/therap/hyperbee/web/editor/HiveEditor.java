@@ -20,9 +20,4 @@ public class HiveEditor extends PropertyEditorSupport {
         Hive hive = hiveService.retrieveHiveById(Integer.parseInt(text));
         setValue(hive);
     }
-
-    @Override
-    public String getAsText() {
-        return super.getAsText();
-    }
 }
