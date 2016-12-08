@@ -13,8 +13,17 @@
                     <tr class="info">
                         <td>
                             <c:if test="${authUser.isAdmin()}">
-                                <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
-                                <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
+                                <form action="/buzz/flagBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-flag"/>
+                                    </button>
+                                </form>
+
+                                <form action="/buzz/pinBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-pushpin"/>
+                                    </button>
+                                </form>
                             </c:if>
                             <font color="#191970"><i><fmt:message key="buzz.view.label.flagMessage"/></i></font>
                         </td>
@@ -24,8 +33,17 @@
                     <tr class="info">
                         <td>
                             <c:if test="${authUser.isAdmin()}">
-                                <a href="/buzz/flagBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-flag"/></a>
-                                <a href="/buzz/pinBuzz?id=${buzz.id}"><span class="glyphicon glyphicon-pushpin"/></a>
+                                <form action="/buzz/flagBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-flag"/>
+                                    </button>
+                                </form>
+
+                                <form action="/buzz/pinBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-pushpin"/>
+                                    </button>
+                                </form>
                             </c:if>
                             <i><font color="#191970"><fmt:message key="buzz.view.label.pinnedTag"/></font></i>
                             <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
@@ -42,13 +60,17 @@
                     <tr>
                         <td>
                             <c:if test="${authUser.isAdmin()}">
-                                <a href="/buzz/flagBuzz?id=${buzz.id}">
-                                    <span class="glyphicon glyphicon-flag"/>
-                                </a>
+                                <form action="/buzz/flagBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-flag"/>
+                                    </button>
+                                </form>
 
-                                <a href="/buzz/deactivateBuzz?id=${buzz.id}">
-                                    <span class="glyphicon glyphicon-remove"/>
-                                </a>
+                                <form action="/buzz/deactivateBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-remove"/>
+                                    </button>
+                                </form>
                             </c:if>
                             <font color="#191970"><i><fmt:message key="buzz.view.label.flagMessage"/></i></font>
                         </td>
@@ -58,17 +80,23 @@
                     <tr>
                         <td>
                             <c:if test="${authUser.isAdmin()}">
-                                <a href="/buzz/flagBuzz?id=${buzz.id}">
-                                    <span class="glyphicon glyphicon-flag"/>
-                                </a>
+                                <form action="/buzz/flagBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-flag"/>
+                                    </button>
+                                </form>
 
-                                <a href="/buzz/deactivateBuzz?id=${buzz.id}">
-                                    <span class="glyphicon glyphicon-remove"/>
-                                </a>
+                                <form action="/buzz/pinBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-pushpin"/>
+                                    </button>
+                                </form>
 
-                                <a href="/buzz/pinBuzz?id=${buzz.id}">
-                                    <span class="glyphicon glyphicon-pushpin"/>
-                                </a>
+                                <form action="/buzz/deactivateBuzz?id=${buzz.id}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-link" style="display:inline-block">
+                                        <span class="glyphicon glyphicon-remove"/>
+                                    </button>
+                                </form>
                             </c:if>
                             <c:out value="${buzz.user.username} [${buzzDateTime}]: ${buzz.message}"/>
                         </td>

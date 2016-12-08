@@ -11,3 +11,4 @@ INSERT INTO hyperTest.hive(id, creator_id, description, image_path, name)
 VALUES (1, 1, 'General Hive For All user', 'AllHivecover.png', 'All Hive');
 
 INSERT INTO hyperTest.user_hive (hive_id,user_id) VALUES (1, 1);
+

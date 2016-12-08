@@ -8,47 +8,7 @@
 </head>
 <body>
 <div class="col-sm-10 container"
-     style="background-image: url(http://localhost:8080/profile/cover/${profile.coverImage})">
-    <div class="row">
-        <c:if test="${authUser.isAdmin() && !user.isAdmin()}">
-            <c:choose>
-                <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
-                    <form action="/user/deactivate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>"
-                          method="post">
-                        <button type="submit" class="btn btn-danger">
-                            <ftm:message key="user.deactivate"/>
-                        </button>
-                    </form>
-                </c:when>
-                <c:otherwise>
-                    <form action="/user/activate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>"
-                          method="post">
-                        <button type="submit" class="btn btn-success">
-                            <ftm:message key="user.activate"/>
-                        </button>
-                    </form>
-                </c:otherwise>
-            </c:choose>
-            <c:choose>
-                <c:when test="${user.isAdmin()}">
-                    <form action="/user/make/user/<c:out value="${user.getId()}"/>"
-                          method="post">
-                        <button type="submit" class="btn btn-primary">
-                            <ftm:message key="user.make.user"/>
-                        </button>
-                    </form>
-                </c:when>
-                <c:otherwise>
-                    <form action="/user/make/admin/<c:out value="${user.getId()}"/>"
-                          method="post">
-                        <button type="submit" class="btn btn-warning">
-                            <ftm:message key="user.make.admin"/>
-                        </button>
-                    </form>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
-    </div>
+     style="background-image: url(/profile/cover/${profile.coverImage})">
     <div class="row">
         <div class="col-lg-2 container" style="padding-top: 150px">
             <c:choose>
@@ -68,6 +28,54 @@
     <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
         <b>${user.firstName} ${user.lastName}</b>
     </h1>
+</div>
+<div class="col-sm-10 container pull-left" style="padding-left: 900px">
+    <c:if test="${authUser.isAdmin() && !user.isAdmin()}">
+        <c:choose>
+            <c:when test="${user.getDisplayStatus() == 'ACTIVE'}">
+                <div class="pull-right">
+                    <form action="/user/deactivate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>"
+                          method="post">
+                        <button type="submit" class="btn btn-danger">
+                            <ftm:message key="user.deactivate"/>
+                        </button>
+                    </form>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="pull-right">
+                    <form action="/user/activate/<c:out value="${user.getId()}"/>/<c:out value="${user.getUsername()}"/>"
+                          method="post">
+                        <button type="submit" class="btn btn-success">
+                            <ftm:message key="user.activate"/>
+                        </button>
+                    </form>
+                </div>
+            </c:otherwise>
+        </c:choose>
+        <c:choose>
+            <c:when test="${user.isAdmin()}">
+                <div class="pull-right">
+                    <form action="/user/make/user/<c:out value="${user.getId()}"/>"
+                          method="post">
+                        <button type="submit" class="btn btn-primary">
+                            <ftm:message key="user.make.user"/>
+                        </button>
+                    </form>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="pull-right">
+                    <form action="/user/make/admin/<c:out value="${user.getId()}"/>"
+                          method="post">
+                        <button type="submit" class="btn btn-warning">
+                            <ftm:message key="user.make.admin"/>
+                        </button>
+                    </form>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
 </div>
 <div class="row">
     <div class="col-sm-5">
