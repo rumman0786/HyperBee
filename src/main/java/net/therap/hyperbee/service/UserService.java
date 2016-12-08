@@ -33,4 +33,6 @@ public interface UserService {
     int findByRole(RoleType admin);
 
     void updateStatus(int userId, String username, DisplayStatus status);
+
+    User findByEmail(String email);
 }

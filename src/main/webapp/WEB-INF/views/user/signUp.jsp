@@ -13,10 +13,8 @@
         <form:input type="password" class="form-control" path="password1" placeholder="Enter Password"/>
         <form:input type="password" class="form-control" path="password2" placeholder="Confirm Password"/>
         <form:button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</form:button>
-        <br>    
-        <div class="center-block">
-            <a href="/login">Back to Login</a>
-        </div>
+        <br>
+        <a href="/login">Back to Login</a>
     </form:form>
 </div>
 <%@ include file="../footer.jsp" %>

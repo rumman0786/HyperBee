@@ -73,6 +73,9 @@
     <filter-mapping>
         <filter-name>buzzHistoryFilter</filter-name>
         <url-pattern>/buzz/buzzHistory</url-pattern>
+        <url-pattern>/buzz/pinBuzz</url-pattern>
+        <url-pattern>/buzz/flagBuzz</url-pattern>
+        <url-pattern>/buzz/deactivateBuzz</url-pattern>
         <url-pattern>/buzz/buzzList/inactive</url-pattern>
     </filter-mapping>
 

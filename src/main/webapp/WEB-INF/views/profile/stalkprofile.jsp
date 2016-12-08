@@ -24,10 +24,10 @@
         </div>
     </div>
 </div>
-<div class="col-sm-10 container" style="padding-top: 10px">
-    <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
+<div class="col-sm-3 container" style="padding-top: 10px">
+    <h2 style="color: #269abc; font-family: 'fontawesome'">
         <b>${user.firstName} ${user.lastName}</b>
-    </h1>
+    </h2>
 </div>
 <div class="col-sm-10 container pull-left" style="padding-left: 900px">
     <c:if test="${authUser.isAdmin() && !user.isAdmin()}">

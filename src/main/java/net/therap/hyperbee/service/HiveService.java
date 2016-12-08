@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface HiveService {
 
-    void saveHive(Hive hive);
+    Hive saveHive(Hive hive);
 
     Hive retrieveHiveById(int id);
 

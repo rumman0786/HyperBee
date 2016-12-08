@@ -24,15 +24,15 @@
         </div>
     </div>
 </div>
-<div class="col-sm-10 container" style="padding-top: 10px">
+<div class="col-sm-12 container" style="padding-top: 10px">
     <table>
         <tr>
-            <td>
-                <h1 style="color: #269abc; font-family: 'Glyphicons Halflings'">
+            <td style="padding-right: 650px">
+                <h1 style="color: #269abc; font-family: 'fontawesome'">
                     <b>${user.firstName} ${user.lastName}</b>
                 </h1>
             </td>
-            <td style="padding-left: 650"><a href="/profile/edit" class=" btn navbar-btn"/>
+            <td class="pull-right"><a href="/profile/edit" class=" btn navbar-btn"/>
                 <fmt:message key="profile.edit.button"/>
             </td>
         </tr>

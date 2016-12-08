@@ -28,13 +28,13 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE_STATUS = "UPDATE User u SET u.displayStatus = :status WHERE u.id = :userId";
     private static final String FIND_BY_DISPLAY_STATUS = "SELECT COUNT(*) FROM user WHERE display_status = ?";
     private static final String FIND_BY_ROLE = "SELECT COUNT(*) FROM user_role WHERE role_id = ?";
+    private static final String FIND_BY_EMAIL = "SELECT u FROM User u WHERE u.email = :email";
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
     public User findById(int id) {
-
         return em.find(User.class, id);
     }
 
@@ -87,13 +87,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() {
-
         return em.createQuery(FIND_ALL, User.class).getResultList();
     }
 
     @Override
     public List<User> findActiveUser() {
-
         return em.createQuery(FIND_USER_ACTIVE, User.class)
                 .setParameter("status", DisplayStatus.ACTIVE)
                 .getResultList();
@@ -102,7 +100,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public int updateStatus(int userId, DisplayStatus status) {
-
         return em.createQuery(UPDATE_STATUS)
                 .setParameter("userId", userId)
                 .setParameter("status", status)
@@ -119,6 +116,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User saveOrUpdate(User user) {
+
         if (user.isNew()) {
             em.persist(user);
             log.debug("New User: " + user);
@@ -138,5 +136,20 @@ public class UserDaoImpl implements UserDao {
                 .setParameter(1, role);
 
         return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        User user = null;
+
+        try {
+            user = em.createQuery(FIND_BY_EMAIL, User.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            log.debug("User not found with email", e);
+        }
+
+        return user;
     }
 }
