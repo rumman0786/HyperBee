@@ -10,10 +10,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -36,6 +38,9 @@ public class ActivityControllerTest {
     @Mock
     private SessionHelper sessionHelper;
 
+    @Mock
+    private Model model;
+
     @Test
     public void testViewActivity() {
         List<Activity> activityList = new ArrayList<>();
@@ -46,10 +51,10 @@ public class ActivityControllerTest {
         userList.add(new User());
         userList.add(new User());
 
-        when(sessionHelper.getAuthUserIdFromSession()).thenReturn(anyInt());
+        when(sessionHelper.getAuthUserIdFromSession()).thenReturn(1);
         when(activityService.findByUserId(anyInt())).thenReturn(activityList);
         when(userService.findAll()).thenReturn(userList);
 
-//        assertEquals("activity/log", activityController.viewActivity());
+        assertEquals("activity/log", activityController.viewActivity(model));
     }
 }

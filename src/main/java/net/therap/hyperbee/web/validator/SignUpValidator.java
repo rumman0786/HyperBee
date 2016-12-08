@@ -27,6 +27,10 @@ public class SignUpValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 
+        if (errors.hasErrors()) {
+            return;
+        }
+
         SignUpDto signUpDto = (SignUpDto) target;
 
         if (!signUpDto.getPassword1().equals(signUpDto.getPassword2())) {
@@ -37,6 +41,14 @@ public class SignUpValidator implements Validator {
 
         if (user != null) {
             errors.rejectValue("username", "username.wrong");
+        }
+
+        user = userService.findByEmail(signUpDto.getEmail());
+
+        System.out.println(user);
+
+        if (user != null) {
+            errors.rejectValue("email", "email.unique");
         }
     }
 }

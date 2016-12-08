@@ -30,4 +30,6 @@ public interface UserDao {
     User saveOrUpdate(User user);
 
     int findByRole(int role);
+
+    User findByEmail(String email);
 }

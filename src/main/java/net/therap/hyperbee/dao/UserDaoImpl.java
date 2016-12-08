@@ -28,6 +28,7 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE_STATUS = "UPDATE User u SET u.displayStatus = :status WHERE u.id = :userId";
     private static final String FIND_BY_DISPLAY_STATUS = "SELECT COUNT(*) FROM user WHERE display_status = ?";
     private static final String FIND_BY_ROLE = "SELECT COUNT(*) FROM user_role WHERE role_id = ?";
+    private static final String FIND_BY_EMAIL = "SELECT u FROM User u WHERE u.email = :email";
 
     @PersistenceContext
     private EntityManager em;
@@ -138,5 +139,20 @@ public class UserDaoImpl implements UserDao {
                 .setParameter(1, role);
 
         return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        User user = null;
+
+        try {
+            user = em.createQuery(FIND_BY_EMAIL, User.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            log.debug("User not found with email", e);
+        }
+
+        return user;
     }
 }

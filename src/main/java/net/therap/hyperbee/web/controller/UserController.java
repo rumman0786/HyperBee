@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -147,7 +146,7 @@ public class UserController {
     }
 
     @PostMapping(SIGN_UP_URL)
-    public String signUpDash(@Validated @ModelAttribute("signUp") SignUpDto signUpDto,
+    public String signUpDash(@Valid @ModelAttribute("signUp") SignUpDto signUpDto,
                              BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -174,17 +173,17 @@ public class UserController {
     }
 
     @GetMapping(USER_DASHBOARD_URL)
-    public String welcome(Model model) {
-        if (!model.containsAttribute("newBuzz")) {
-            model.addAttribute("newBuzz", new Buzz());
+    public String welcome(ModelMap map) {
+        if (!map.containsAttribute("newBuzz")) {
+            map.put("newBuzz", new Buzz());
         }
 
         int userId = sessionHelper.getAuthUserIdFromSession();
 
-        model.addAttribute("topStickyNote", noteService.findTopStickyNoteByUser(userId));
-        model.addAttribute("latestReminders", noteService.findUpcomingReminderNoteByUser(userId));
-        model.addAttribute("pinnedBuzzList", buzzService.getLatestPinnedBuzz());
-        model.addAttribute("buzzList", buzzService.getLatestBuzz());
+        map.put("topStickyNote", noteService.findTopStickyNoteByUser(userId));
+        map.put("latestReminders", noteService.findUpcomingReminderNoteByUser(userId));
+        map.put("pinnedBuzzList", buzzService.getLatestPinnedBuzz());
+        map.put("buzzList", buzzService.getLatestBuzz());
 
         sessionHelper.setSessionAttributes();
 

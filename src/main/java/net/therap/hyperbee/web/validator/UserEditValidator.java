@@ -31,6 +31,11 @@ public class UserEditValidator implements Validator {
             if (retrievedUser.getUsername().equals(user.getUsername())) {
                 errors.rejectValue("username", "username.unique");
             }
+        }
+
+        retrievedUser = userService.findByEmail(user.getEmail());
+
+        if (retrievedUser != null && (retrievedUser.getId() != user.getId())){
             if (retrievedUser.getEmail().equals(user.getEmail())) {
                 errors.rejectValue("email", "email.unique");
             }
