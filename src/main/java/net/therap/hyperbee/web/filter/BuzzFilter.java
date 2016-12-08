@@ -23,9 +23,9 @@ public class BuzzFilter implements Filter {
     private static final Logger log = LogManager.getLogger(BuzzFilter.class);
 
     // Log Message Constants
-    private static final String BUZZ_FILTER_INIT_LOG = "Buzz History Filter Initialized";
-    private static final String BUZZ_FILTER_DESTROY_LOG = "Buzz History Filter Destroyed";
-    private static final String BUZZ_FILTER_ACCESS_LOG = "Attempt of access by {}";
+    private static final String BUZZ_FILTER_INIT_LOG = "Buzz Filter Initialized";
+    private static final String BUZZ_FILTER_DESTROY_LOG = "Buzz Filter Destroyed";
+    private static final String BUZZ_FILTER_ACCESS_LOG = "Attempt of improper action by {}";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -43,9 +43,10 @@ public class BuzzFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
+
         log.trace(BUZZ_FILTER_ACCESS_LOG, authUser.getUsername());
 
-        session.setAttribute(DONE_PAGE_KEY_HTML_MESSAGE, BUZZ_ACCESS_DENIED);
+        session.setAttribute(DONE_PAGE_KEY_HTML_MESSAGE, BUZZ_INVALID_ACTION);
         session.setAttribute(DONE_PAGE_KEY_HTML_TITLE, TITLE_ACCESS_DENIED);
         session.setAttribute(DONE_PAGE_KEY_HTML_MESSAGE_STYLE, FAILURE_HTML_CLASS);
 
