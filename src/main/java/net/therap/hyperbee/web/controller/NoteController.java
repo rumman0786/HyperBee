@@ -62,7 +62,7 @@ public class NoteController {
     }
 
     @GetMapping(NOTE_VIEW_URL)
-    public String viewNotes(Model model, HttpSession session) {
+    public String viewNotes(Model model) {
 
         int userId = sessionHelper.getAuthUserIdFromSession();
         List<Note> noteList = noteService.findActiveNotesForUser(userId);
