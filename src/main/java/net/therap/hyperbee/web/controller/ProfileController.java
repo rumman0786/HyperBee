@@ -198,12 +198,22 @@ public class ProfileController {
     public String stalkProfile(Model model, @PathVariable String username, RedirectAttributes redirectAttributes) {
         model.addAttribute("page", "stalk");
         User user = userService.findByUsername(username);
+        AuthUser authUser = sessionHelper.getAuthUserFromSession();
 
-        if (user == null || user.getDisplayStatus() == DisplayStatus.INACTIVE) {
-            redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND)
-                    .addFlashAttribute("messageStyle", "alert alert-success");
-            return Utils.redirectTo(DONE_URL);
+        if (authUser.isAdmin()) {
+            if (user == null) {
+                redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND)
+                        .addFlashAttribute("messageStyle", "alert alert-success");
+                return Utils.redirectTo(DONE_URL);
+            }
+        } else {
+            if (user == null || user.getDisplayStatus() == DisplayStatus.INACTIVE) {
+                redirectAttributes.addFlashAttribute(DONE_PAGE_KEY_HTML_MESSAGE, NO_USER_FOUND)
+                        .addFlashAttribute("messageStyle", "alert alert-success");
+                return Utils.redirectTo(DONE_URL);
+            }
         }
+
         Profile profile = user.getProfile();
         model.addAttribute(PROFILE_ATTRIBUTE, profile)
                 .addAttribute(USER_ATTRIBUTE, user);

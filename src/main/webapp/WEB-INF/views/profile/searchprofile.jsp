@@ -11,6 +11,7 @@
     <input type="text" name="search" placeholder="Enter Username">
     <button class="btn btn-warning btn-sm" type="submit"><fmt:message key="search.button"/></button>
     <br>
+
     <div class="container">
         <table>
             <tr>
@@ -57,44 +58,44 @@ ${message}
         <div class="panel-body">
             <ul class="list-group">
                 <c:forEach items="${userList}" var="userList">
-                    <c:choose>
-                        <c:when test="${userList.username == authUser.username}">
-                        </c:when>
-                        <c:otherwise>
-                            <li class="list-group-item">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${empty userList.profile.imagePath}">
-                                                    <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="80px" height="80px"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="/profile/image/${userList.profile.imagePath}"
-                                                         class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="80px" height="80px"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>
-                                            <a href="/profile/stalk/${userList.username}">
-                                                <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
-                                                              escapeXml="false"/></b></h4>
-                                            </a>
-                                            <p>${userList.profile.designation}</p>
-                                            <p style="font-family: 'lucida grande'">${userList.displayStatus}</p>
-                                            <c:forEach items="${userList.roleList}" var="role">
+                    <c:if test="${userList.username != authUser.username}">
+                        <li class="list-group-item">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${empty userList.profile.imagePath}">
+                                                <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                     alt="Cinque Terre"
+                                                     width="80px" height="80px"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="/profile/image/${userList.profile.imagePath}"
+                                                     class="img-circle"
+                                                     alt="Cinque Terre"
+                                                     width="80px" height="80px"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <a href="/profile/stalk/${userList.username}">
+                                            <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
+                                                          escapeXml="false"/></b></h4>
+                                        </a>
+
+                                        <p>${userList.profile.designation}</p>
+
+                                        <p style="font-family: 'lucida grande'">${userList.displayStatus}</p>
+                                        <c:forEach items="${userList.roleList}" var="role" varStatus="loopStatus">
+                                            <c:if test="${loopStatus.index == 1}">
                                                 <p style="font-family: 'lucida grande'">${role.roleType}</p>
-                                            </c:forEach>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
+                                            </c:if>
+                                        </c:forEach>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+                    </c:if>
                 </c:forEach>
             </ul>
         </div>
@@ -103,42 +104,37 @@ ${message}
         <div class="panel-body">
             <ul class="list-group">
                 <c:forEach items="${userList}" var="userList">
-                    <c:choose>
-                        <c:when test="${userList.username == authUser.username}">
+                    <c:if test="${userList.username != authUser.username}">
+                        <li class="list-group-item">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${empty userList.profile.imagePath}">
+                                                <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                     alt="Cinque Terre"
+                                                     width="80px" height="80px"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="/profile/image/${userList.profile.imagePath}"
+                                                     class="img-circle"
+                                                     alt="Cinque Terre"
+                                                     width="80px" height="80px"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <a href="/profile/stalk/${userList.username}">
+                                            <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
+                                                          escapeXml="false"/></b></h4>
+                                        </a>
 
-                        </c:when>
-                        <c:otherwise>
-                            <li class="list-group-item">
-
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${empty userList.profile.imagePath}">
-                                                    <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="80px" height="80px"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="/profile/image/${userList.profile.imagePath}"
-                                                         class="img-circle"
-                                                         alt="Cinque Terre"
-                                                         width="80px" height="80px"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>
-                                            <a href="/profile/stalk/${userList.username}">
-                                                <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
-                                                              escapeXml="false"/></b></h4>
-                                            </a>
-                                            <p>${userList.profile.designation}</p>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
+                                        <p>${userList.profile.designation}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+                    </c:if>
                 </c:forEach>
             </ul>
         </div>
