@@ -5,6 +5,20 @@
 <head>
     <title><fmt:message key="create.profile.title"/></title>
 </head>
+<script>
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            format: 'DD-MM-YY'
+        });
+    });
+</script>
+<script>
+    $(function () {
+        $('#datetimepicker2').datetimepicker({
+            format: 'DD-MM-YY'
+        });
+    });
+</script>
 <body>
 <form:form action="/profile" method="post" commandName="profile" cssClass=" panel-primary"
            enctype="multipart/form-data">
@@ -117,19 +131,5 @@
         </tr>
     </table>
 </form:form>
-<script>
-    $(function () {
-        $('#datetimepicker1').datetimepicker({
-            format: 'DD-MM-YY'
-        });
-    });
-</script>
-<script>
-    $(function () {
-        $('#datetimepicker2').datetimepicker({
-            format: 'DD-MM-YY'
-        });
-    });
-</script>
 </body>
 </html>

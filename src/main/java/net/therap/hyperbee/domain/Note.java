@@ -6,7 +6,6 @@ import net.therap.hyperbee.domain.enums.NoteType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -48,8 +47,8 @@ public class Note implements Serializable {
     @Size(max = 20, message = "{note.title.long}")
     private String title;
 
-    @NotNull
-    @Size(min = 1, max = 250, message = "{note.description.required}")
+    @NotNull(message = "{note.description.notEmpty}")
+    @Size(min = 1, max = 250, message = "{note.description.size}")
     private String description;
 
     @Column(name = "date_created", columnDefinition = DATE_TIME_FIELD)

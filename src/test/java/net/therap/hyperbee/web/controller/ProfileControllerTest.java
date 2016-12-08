@@ -32,8 +32,8 @@ public class ProfileControllerTest {
         Profile profile = new Profile();
         profile.setDesignation("Developer");
 
-        MockMultipartFile profilePicture = new MockMultipartFile("testFile1", new byte[1]);
-        MockMultipartFile coverPicture = new MockMultipartFile("testFile2", new byte[1]);
+        MockMultipartFile profilePicture = new MockMultipartFile("profilePic", new byte[1]);
+        MockMultipartFile coverPicture = new MockMultipartFile("coverPic", new byte[1]);
 
         Mockito.when(profileService.saveFileForUser(coverPicture, profilePicture, user, profile)).thenReturn(profile);
         assertEquals(profileService.saveFileForUser(coverPicture, profilePicture, user, profile), profile);
