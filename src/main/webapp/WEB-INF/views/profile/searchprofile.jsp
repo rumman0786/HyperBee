@@ -60,57 +60,55 @@ ${message}
                 <c:forEach items="${userList}" var="userList">
                     <c:if test="${userList.username != authUser.username}">
                         <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <c:choose>
+                                        <c:when test="${empty userList.profile.imagePath}">
+                                            <img src="/images/dummyprofilepic.png" class="img-circle"
+                                                 alt="Cinque Terre"
+                                                 width="80px" height="80px"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="/profile/image/${userList.profile.imagePath}"
+                                                 class="img-circle"
+                                                 alt="Cinque Terre"
+                                                 width="80px" height="80px"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <div class="col-sm-7 pull-left" style="padding-top: 10px">
+                                    <a href="/profile/stalk/${userList.username}">
+                                        <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
+                                                      escapeXml="false"/></b></h4>
+                                    </a>
 
-                                <div class="row">
-                                    <div class="col-sm-1">
+                                    <p>${userList.profile.designation}</p>
+                                </div>
+                                <div class="col-sm-4 pull-right" style="padding-left: 300px;padding-top: 30px">
+                                    <c:forEach items="${userList.roleList}" var="role">
+                                        <c:if test="${role.roleType == 'ADMIN'}">
+                                            <p style="font-family: 'lucida grande'; color: #2aabd2">
+                                                    ${role.roleType}</p>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:if test="${userList.roleList.size() == 1}">
                                         <c:choose>
-                                            <c:when test="${empty userList.profile.imagePath}">
-                                                <img src="/images/dummyprofilepic.png" class="img-circle"
-                                                     alt="Cinque Terre"
-                                                     width="80px" height="80px"/>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <img src="/profile/image/${userList.profile.imagePath}"
-                                                     class="img-circle"
-                                                     alt="Cinque Terre"
-                                                     width="80px" height="80px"/>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                    <div class="col-sm-7 pull-left" style="padding-top: 10px">
-                                        <a href="/profile/stalk/${userList.username}">
-                                            <h4><b><c:out value="${userList.firstName} ${userList.lastName}"
-                                                          escapeXml="false"/></b></h4>
-                                        </a>
-
-                                        <p>${userList.profile.designation}</p>
-                                    </div>
-                                    <div class="col-sm-4 pull-right" style="padding-left: 300px;padding-top: 30px">
-                                        <c:forEach items="${userList.roleList}" var="role">
-                                            <c:if test="${role.roleType == 'ADMIN'}">
-                                                <p style="font-family: 'lucida grande'; color: #2aabd2">
-                                                ${role.roleType}</p>
-                                            </c:if>
-                                        </c:forEach>
-                                        <c:if test="${userList.roleList.size() == 1}">
-                                            <c:choose>
-                                                <c:when test="${userList.displayStatus == 'ACTIVE'}">
-                                                    <p style="font-family: 'lucida grande';
+                                            <c:when test="${userList.displayStatus == 'ACTIVE'}">
+                                                <p style="font-family: 'lucida grande';
                                                           color: green;
                                                           font-size: 15">
-                                                            ${userList.displayStatus}</p>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <p style="font-family: 'lucida grande';
+                                                        ${userList.displayStatus}</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p style="font-family: 'lucida grande';
                                                           color: #ff0000;
                                                           font-size: 15">
-                                                            ${userList.displayStatus}</p>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:if>
-                                    </div>
+                                                        ${userList.displayStatus}</p>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:if>
                                 </div>
-
+                            </div>
                         </li>
                     </c:if>
                 </c:forEach>
