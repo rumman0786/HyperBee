@@ -52,7 +52,7 @@
             <div class="panel-heading clearfix">
                 <table>
                     <tr>
-                        <td>
+                        <td style="padding: 8px">
                             <c:choose>
                                 <c:when test="${empty item.user.profile.imagePath}">
                                     <img src="/images/dummyprofilepic.png" class="img-circle"
@@ -67,7 +67,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td>
+                        <td style="padding: 8px">
                             <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
                                 <b>${item.user.firstName} ${item.user.lastName}</b></h4>
                         </td>
@@ -106,7 +106,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3><fmt:message key="hive.member"/> ${hive.userList.size()} </h3>
                         <h4><fmt:message key="hive.admin"/>
-                            <small>${hive.creator.username}</small>
+                            <small>${hive.creator.firstName} ${hive.creator.lastName}</small>
                         </h4>
                     </div>
                     <form:form method="POST" action="/user/hive/removeuser/${hive.id}" commandName="userIdInfo">
@@ -116,10 +116,10 @@
                                     <li class="list-group-item">
                                         <table>
                                             <tr style="border: 1">
-                                                <td>
+                                                <td style="padding: 8px">
                                                     <form:checkbox path="userIdList" value="${user.id}"/>
                                                 </td>
-                                                <td>
+                                                <td style="padding: 8px">
                                                     <c:choose>
                                                         <c:when test="${empty user.profile.imagePath}">
                                                             <img src="/images/dummyprofilepic.png" class="img-circle"
@@ -134,7 +134,7 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </td>
-                                                <td>${user.username}</td>
+                                                <td style="padding: 8px">${user.firstName} ${user.lastName}</td>
                                             </tr>
                                         </table>
                                     </li>
@@ -162,10 +162,10 @@
                                     <li class="list-group-item">
                                         <table>
                                             <tr style="border: 1">
-                                                <td>
+                                                <td style="padding: 8px">
                                                     <form:checkbox path="userIdList" value="${user.id}"/>
                                                 </td>
-                                                <td>
+                                                <td style="padding: 8px">
                                                     <c:choose>
                                                         <c:when test="${empty user.profile.imagePath}">
                                                             <img src="/images/dummyprofilepic.png" class="img-circle"
@@ -180,7 +180,7 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </td>
-                                                <td>${user.username}</td>
+                                                <td style="padding: 8px">${user.firstName} ${user.lastName}</td>
                                             </tr>
                                         </table>
                                     </li>
@@ -203,7 +203,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3><fmt:message key="hive.member"/> ${hive.userList.size()} </h3>
                         <h4><fmt:message key="hive.admin"/>
-                            <small>${hive.creator.username}</small>
+                            <small>${hive.creator.firstName} ${hive.creator.lastName}</small>
                         </h4>
                     </div>
                     <div class="panel-body">
@@ -212,7 +212,7 @@
                                 <li class="list-group-item">
                                     <table>
                                         <tr style="border: 1">
-                                            <td>
+                                            <td style="padding: 8px">
                                                 <c:choose>
                                                     <c:when test="${empty user.profile.imagePath}">
                                                         <img src="/images/dummyprofilepic.png" class="img-circle"
@@ -227,7 +227,7 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
-                                            <td><c:out value="${user.username}"/></td>
+                                            <td style="padding: 8px"><c:out value="${user.firstName} ${user.lastName}"/></td>
                                         </tr>
                                     </table>
                                 </li>
