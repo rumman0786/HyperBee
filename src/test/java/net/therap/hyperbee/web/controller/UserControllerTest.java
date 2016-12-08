@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-
 /**
  * @author rayed
  * @since 12/1/16 4:42 PM
