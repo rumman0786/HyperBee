@@ -8,13 +8,11 @@ import net.therap.hyperbee.web.helper.BuzzHelper;
 import net.therap.hyperbee.web.helper.SessionHelper;
 import net.therap.hyperbee.web.security.AuthUser;
 import net.therap.hyperbee.web.validator.BuzzValidator;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -52,8 +50,8 @@ public class BuzzController {
     private static final String BUZZ_FLAG_LOG = "Flagged buzz with id = {} and logged in activity log.";
     private static final String BUZZ_REMOVE_LOG = "Deactivated buzz with id = {} and logged in activity log.";
     private static final String BUZZ_PIN_LOG = "Pinned buzz with id = {} and logged in activity log.";
-    private static final String BUZZ_HISTORY_LOG = "Sending buzz list as per requirement for buzz history.";
-    private static final String BUZZ_TODAY_LOG = "Sending {} buzz list as per requirement of sidebar counter.";
+    private static final String BUZZ_HISTORY_LOG = "Sending buzz list as per requirement.";
+    private static final String BUZZ_TODAY_LOG = "Sending {} buzz list as per requirement.";
     private static final String BUZZ_ERROR_LOG = "Encountered an error. Propagating message to view.";
 
     // Attribute alias and value Constants
@@ -90,7 +88,7 @@ public class BuzzController {
     }
 
     @GetMapping(BUZZ_VIEW_URL)
-    public void viewLatestBuzz(Model model) {
+    public void viewLatestBuzz(ModelMap model) {
         model.addAttribute(BUZZ_PINNED_LIST_ATTR_NAME, buzzService.getLatestPinnedBuzz());
         model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzService.getLatestBuzz());
 
@@ -98,7 +96,7 @@ public class BuzzController {
     }
 
     @GetMapping(BUZZ_SELECT_VIEW_URL)
-    public String viewBuzzByType(@PathVariable(BUZZ_TYPE_ATTR_NAME) String type, Model model) {
+    public String viewBuzzByType(@PathVariable(BUZZ_TYPE_ATTR_NAME) String type, ModelMap model) {
         if (sessionHelper.getAuthUserFromSession().isAdmin()) {
             model.addAttribute(BUZZ_LIST_ATTR_NAME, buzzHelper.getListByType(type));
         } else {
@@ -115,7 +113,7 @@ public class BuzzController {
 
     @PostMapping(BUZZ_CREATE_URL)
     public String sendBuzz(@ModelAttribute(BUZZ_NEW_ATTR_NAME) @Valid Buzz newBuzz, BindingResult result,
-                           RedirectAttributes redirectAttributes, HttpSession session, Model model) {
+                           RedirectAttributes redirectAttributes, ModelMap model) {
 
         if (result.hasErrors()) {
             log.debug(BUZZ_ERROR_LOG);
@@ -138,7 +136,7 @@ public class BuzzController {
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
-    @GetMapping(BUZZ_FLAG_URL)
+    @PostMapping(BUZZ_FLAG_URL)
     public String flagBuzz(int id) {
         Buzz flagBuzz = buzzService.flagBuzz(buzzService.getBuzzById(id));
         log.debug(BUZZ_FLAG_LOG, id);
@@ -146,7 +144,7 @@ public class BuzzController {
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
-    @GetMapping(BUZZ_DEACTIVATE_URL)
+    @PostMapping(BUZZ_DEACTIVATE_URL)
     public String deactivateBuzz(int id) {
         Buzz deactivateBuzz = buzzService.deactivateBuzz(buzzService.getBuzzById(id));
         log.debug(BUZZ_REMOVE_LOG, id);
@@ -154,7 +152,7 @@ public class BuzzController {
         return Utils.redirectTo(USER_DASHBOARD_URL);
     }
 
-    @GetMapping(BUZZ_PIN_URL)
+    @PostMapping(BUZZ_PIN_URL)
     public String pinBuzz(int id) {
         Buzz pinBuzz = buzzService.pinBuzz(buzzService.getBuzzById(id));
         log.debug(BUZZ_PIN_LOG, id);
@@ -164,7 +162,7 @@ public class BuzzController {
 
     @GetMapping(BUZZ_HISTORY_URL)
     public String viewBuzzHistory(@RequestParam(BUZZ_PREV_ATTR_NAME) int prev,
-                                  @RequestParam(BUZZ_NEXT_ATTR_NAME) int next, Model model) {
+                                  @RequestParam(BUZZ_NEXT_ATTR_NAME) int next, ModelMap model) {
 
         List<Buzz> buzzList = buzzService.getAllBuzz();
         model.addAttribute(BUZZ_LIST_SIZE_ATTR_NAME, buzzList.size());
